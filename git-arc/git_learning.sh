@@ -628,8 +628,14 @@ history
 
 
 ##============================================
+## Turn on the credential helper so that Git will save your password in memory for some time. By default, Git will cache your password for 15 minutes.
 
-
+## Set git to use the credential memory cache
+git config --global credential.helper cache
+## Set the cache to timeout after 1 hour (setting is in seconds)
+git config --global credential.helper 'cache --timeout=3600'
+## Set the cache to timeout after 10 hours
+git config --global credential.helper 'cache --timeout=36000'
 ##============================================
 
 
