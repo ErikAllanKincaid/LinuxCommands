@@ -3389,7 +3389,7 @@ $> | sed -n -e :a -e '1,10!{P;N;D;};N;ba'  # method 2
 $> | gsed '0~8d'                           # GNU sed only
 $> | sed 'n;n;n;n;n;n;n;d;'                # other seds
 ##------------------------------------------
-## From 
+## From
 $> | tr ' ' '\n' | awk '{ n = split($NF, arr, ","); print arr[n] }'
 ##------------------------------------------
 
@@ -8794,7 +8794,7 @@ $> gsettings set org.gnome.settings-daemon.plugins.media-keys max-screencast-len
 $> Ctrl + Alt + Shift + R
 ##==========================================
 ## Copy archival mode, preserves permissions, owner, etc
-cp -a 
+cp -a
 ##==========================================
 ## #######################################################
 ## ##             Chromecast
@@ -8885,94 +8885,53 @@ $> Win+L                        ## Toggle looking glass debugging tool
 $> Ctrl+Alt+Backspace           ## Restart the X server (WARNING: this will close all running applications!)
 ## 8. Accessibility
 $> Alt+Win+=/- or Alt+Mousewheel        ## Zoom desktop in or out (Note: Zoom must be enabled in Universal Access settings)
-
-##==========================================
 ##==========================================
 https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
 ## The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. pdsh is a variant of the rsh(1) command. Unlike rsh(1), which runs commands on a single remote host, pdsh can run multiple remote commands in parallel. pdsh uses a "sliding window" (or fanout) of threads to conserve resources on the initiating host while allowing some connections to time out.
 ## Make ssh the default protocol by putting this in .bashrc
 $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
-## Run command aon a list of servers 
+## Run command aon a list of servers
 $> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
 ## Or from a nested command
 pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
 ## General form
 $> pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
-
 ##==========================================
 ## Re: Mint 19 Upgrade - Vino gone?
-## Quote
-## Post  by smurphos » Sun Jul 08, 2018 5:07 am
-
-## darkstrike wrote: ↑Sat Jul 07, 2018 12:56 pm
 ## You can install Vino on LM19, I did it, but the vino-server command to start the server wouldnt work - just told me the command didn't exist? Also couldn't figure out what file I had to edit or what to do in the command line to set up the settings the way I wanted them either...
 $> sudo apt-get install vino
 ## Use dconf-editor to manage the settings
-
 ## Under dconf-editor the schema you need to navigate to is org.gnome.desktop.remote-access
-
 $> apt install dconf-editor
-
 ## Alternative you can use gsettings set in the command line
-
-
-
-
-## Alternative you can use gsettings set in the command line
-
 ## With gsettings the schema is accessed via org.gnome.Vino
-
 ## For the list of keys...
 ## CODE: SELECT ALL
-
-steve@HP-Pavilion-g6-Notebook-PC:~$ gsettings list-recursively org.gnome.Vino
-org.gnome.Vino notify-on-connect true
-org.gnome.Vino alternative-port uint16 5900
-org.gnome.Vino disable-background false
-org.gnome.Vino use-alternative-port false
-org.gnome.Vino icon-visibility 'always'
-org.gnome.Vino use-upnp false
-org.gnome.Vino view-only false
-org.gnome.Vino prompt-enabled false
-org.gnome.Vino disable-xdamage true
-org.gnome.Vino authentication-methods ['vnc']
-org.gnome.Vino network-interface ''
-org.gnome.Vino require-encryption false
-org.gnome.Vino mailto ''
-org.gnome.Vino lock-screen-on-disconnect false
-org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
+$> gsettings list-recursively org.gnome.Vino
+@#    org.gnome.Vino notify-on-connect true
+@#    org.gnome.Vino alternative-port uint16 5900
+@#    org.gnome.Vino disable-background false
+@#    org.gnome.Vino use-alternative-port false
+@#    org.gnome.Vino icon-visibility 'always'
+@#    org.gnome.Vino use-upnp false
+@#    org.gnome.Vino view-only false
+@#    org.gnome.Vino prompt-enabled false
+@#    org.gnome.Vino disable-xdamage true
+@#    org.gnome.Vino authentication-methods ['vnc']
+@#    org.gnome.Vino network-interface ''
+@#    org.gnome.Vino require-encryption false
+@#    org.gnome.Vino mailto ''
+@#    org.gnome.Vino lock-screen-on-disconnect false
+@#    org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
 ## The password key is not stored in plain text its hashed. To generate the hash from the plaintext password 'pa55w0rd' (do use something more secure!)
 ## CODE: SELECT ALL
 $> echo -n 'pa55w0rd' | base64
 cGE1NXcwcmQ=
 ## To start the server
-
 $> /usr/lib/vino/vino-server --sm-disable
-
 ## If you have UFW enabled ensure there is an appropriate rule to allow access in on port 5900.
-
 ## Connect from the client.
-
 ## This is me connecting from my phone (with the settings as listed above).
-
-
-
-
-##==========================================
-https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
-## The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. pdsh is a variant of the rsh(1) command. Unlike rsh(1), which runs commands on a single remote host, pdsh can run multiple remote commands in parallel. pdsh uses a "sliding window" (or fanout) of threads to conserve resources on the initiating host while allowing some connections to time out.
-## Make ssh the default protocol by putting this in .bashrc
-echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
-## Run command aon a list of servers 
-pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
-## Or from a nested command
-rtilder@bastion0001:~$ pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
-
-pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
-
-##==========================================
-
-bespoke
 ##==========================================
 ## Install phabricator howto
 https://www.youtube.com/watch?v=yX3us669EvY
@@ -8999,16 +8958,16 @@ $> sudo x11vnc --storepasswd /etc/x11vnc/vncpwd
 ## Create the systemd service file for the x11vnc service:
 $> sudo nano /lib/systemd/system/x11vnc.service
 ## Copy/Paste this code into the empty file:
-[Unit]
-Description=Start x11vnc at startup.
-After=multi-user.target
+    [Unit]
+    Description=Start x11vnc at startup.
+    After=multi-user.target
 
-[Service]
-Type=simple
-ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
+    [Service]
+    Type=simple
+    ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
 
-[Install]
-WantedBy=multi-user.target
+    [Install]
+    WantedBy=multi-user.target
 
 ## Reload the services:
 $> sudo systemctl daemon-reload
@@ -9017,8 +8976,6 @@ $> sudo systemctl enable x11vnc.service
 ## Start the service:
 ## Either reboot or
 $> sudo systemctl start x11vnc.service
-
-
 ##==========================================
 ## Boot code will be zerod but the partition table remains intact :
 $> dd if=/dev/zero of=/dev/sdb bs=446 count=1
@@ -9031,15 +8988,13 @@ $> prename 's/THIS/THAT/g' *.pdf
 sudo apt-get install htop
 sudo apt-get install linux-tools-generic
 ##==========================================
-bespoke
-##==========================================
 ## Install phabricator howto
 https://www.youtube.com/watch?v=yX3us669EvY
 ##==========================================
 ## How to get into github
 https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-github-username-and-password
 ##==========================================
-## 
+##
 
 ##==========================================
 
