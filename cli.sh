@@ -8891,13 +8891,13 @@ $> Alt+Win+=/- or Alt+Mousewheel        ## Zoom desktop in or out (Note: Zoom mu
 https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
 ## The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. pdsh is a variant of the rsh(1) command. Unlike rsh(1), which runs commands on a single remote host, pdsh can run multiple remote commands in parallel. pdsh uses a "sliding window" (or fanout) of threads to conserve resources on the initiating host while allowing some connections to time out.
 ## Make ssh the default protocol by putting this in .bashrc
-echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
+$> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
 ## Run command aon a list of servers 
-pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
+$> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
 ## Or from a nested command
-rtilder@bastion0001:~$ pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
-
-pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
+pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
+## General form
+$> pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
 
 ##==========================================
 ## Re: Mint 19 Upgrade - Vino gone?
@@ -9039,7 +9039,7 @@ https://www.youtube.com/watch?v=yX3us669EvY
 ## How to get into github
 https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-github-username-and-password
 ##==========================================
-
+## 
 
 ##==========================================
 
