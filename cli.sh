@@ -9037,7 +9037,7 @@ bespoke
 https://www.youtube.com/watch?v=yX3us669EvY
 ##==========================================
 ## How to get into github
-
+https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-github-username-and-password
 ##==========================================
 
 
