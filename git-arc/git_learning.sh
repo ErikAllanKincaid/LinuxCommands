@@ -637,7 +637,7 @@ git config --global credential.helper 'cache --timeout=3600'
 ## Set the cache to timeout after 10 hours
 git config --global credential.helper 'cache --timeout=36000'
 ##============================================
-
+## Double check
 
 ##============================================
 
