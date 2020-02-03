@@ -8100,9 +8100,9 @@ $> GIT_SSH_COMMAND="ssh -i /home/me/.ssh/id_rsa.pub"
 ## If gnome-keyring is interfereing can set ssh socks to 0.
 ## If this works problem is prob the key-ring saving old configs
 ## This worked on xps15-7590
-$> SSH_AUTH_SOCK=0 ssh -v erik@192.168.1.57
+$> SSH_AUTH_SOCK=0 ssh -v $USER@192.168.1.57
 ## Add key to remote server
-$> cat ~/.ssh/id_rsa.pub | ssh erik@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
+$> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
 ##==========================================
 ## ###############################################
 ## #               RAID Array                    #
@@ -8300,7 +8300,7 @@ $> sed "s/dog/cat/" < dog.txt
 ##==========================================
 ## add keys to authorized_keys
 $> cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
-$> cat ~/.ssh/id_rsa.pub | ssh erik@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
+$> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
 ##==========================================
 ## Download all images from a site
 ## This recursively downloads all images from a given website to your /tmp directory. The -nH and -nd switches disable downloading of the directory structure.
@@ -8891,9 +8891,9 @@ https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
 ## Make ssh the default protocol by putting this in .bashrc
 $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
 ## Run command aon a list of servers
-$> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
+$> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.url.ai 'date +%s'
 ## Or from a nested command
-$> pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
+$> pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.url.ai' 0 7) | tr ' ' ,) 'date +%s'
 ## General form
 $> pdsh -R ssh -w $USER@machine[0-5].url.com "<command>"
 ##==========================================
