@@ -8893,13 +8893,9 @@ $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
 ## Run command aon a list of servers
 $> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
 ## Or from a nested command
-pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
+$> pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
 ## General form
-<<<<<<< HEAD
 $> pdsh -R ssh -w $USER@machine[0-5].url.com "<command>"
-=======
-$> pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
->>>>>>> 4b7a587ba9a3d95d71b02e2bdb8283b9d7b7b994
 ##==========================================
 ## Re: Mint 19 Upgrade - Vino gone?
 ## You can install Vino on LM19, I did it, but the vino-server command to start the server wouldnt work - just told me the command didn't exist? Also couldn't figure out what file I had to edit or what to do in the command line to set up the settings the way I wanted them either...
