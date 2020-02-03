@@ -8893,7 +8893,7 @@ $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
 ## Run command aon a list of servers
 $> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
 ## Or from a nested command
-pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
+$> pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
 ## General form
 $> pdsh -R ssh -w $USER@machine[0-5].url.com "<command>"
 ##==========================================
