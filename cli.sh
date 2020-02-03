@@ -8897,8 +8897,7 @@ $> pdsh -w ops@srv000[0-2].s0004.sfo.stcg.nonstandard.ai 'date +%s'
 ## Or from a nested command
 pdsh -w $(echo $(seq -f 'ops@srv%04g.s0003.sfo.stcg.nonstandard.ai' 0 7) | tr ' ' ,) 'date +%s'
 ## General form
-$> pdsh -w ops@srv000[0-4].s0000.iah.cmps.nonstandard.ai 'COMAND'
-
+$> pdsh -R ssh -w $USER@machine[0-5].url.com "<command>"
 ##==========================================
 ## Re: Mint 19 Upgrade - Vino gone?
 ## Quote
