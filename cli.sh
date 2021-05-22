@@ -185,7 +185,7 @@ $> kill -9 `lsof -t -u USERNAME`
 ##==========================================
 ## print the directory structure from the current directory in tree format.
 $> tree
-$> find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+$> find ./ -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
 ##==========================================
 ## Print sorted list of all installed packages (Debian)
 $> dpkg -l | grep '^i' | awk '{print $2}' | sort
@@ -264,6 +264,7 @@ $> sudo apt-get install --reinstall bcmwl-kernel-source
 ##----------------------------------------------
 ### Facetime camera
 ## Multimedia controller: Broadcom Corporation 720p FaceTime HD Camera
+## https://forums.linuxmint.com/viewtopic.php?t=263871
 ## https://gist.github.com/Stono/990ea9f0b3c41606c292f00382d421bf
 ## https://github.com/patjak/bcwc_pcie/wiki/Get-Started#get-started-on-debian
 ## https://karlstoney.com/2017/02/27/facetimehd-camera-on-linux/
@@ -1825,7 +1826,38 @@ $> git status
 $> git reset hello.html
 ## keep track of log as you work
 $> while :; do clr;  git --no-pager log -33 --graph --all --date=short --pretty=oneline --abbrev-commit --decorate $*;    sleep 1; done
-
+## Git log
+Useful specifiers for git log --pretty=format
+## Specifier       Description of Output
+%H              ## Commit hash
+%h              ## Abbreviated commit hash
+%T              ## Tree hash
+%t              ## Abbreviated tree hash
+%P              ## Parent hashes
+%p              ## Abbreviated parent hashes
+%an             ## Author name
+%ae             ## Author email
+%ad             ## Author date (format respects the --date=option)
+%ar             ## Author date, relative
+%cn             ## Committer name
+%ce             ## Committer email
+%cd             ## Committer date
+%cr             ## Committer date, relative
+%s              ## Subject
+## Example
+git log --pretty=format:"%h %s" --graph
+## Option              Description
+-p                  ## Show the patch introduced with each commit.
+--stat              ## Show statistics for files modified in each commit.
+--shortstat         ## Display only the changed/insertions/deletions line from the --stat command.
+--name-only         ## Show the list of files modified after the commit information.
+--name-status       ## Show the list of files affected with added/modified/deleted information as well.
+--abbrev-commit     ## Show only the first few characters of the SHA-1 checksum instead of all 40.
+--relative-date     ## Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
+--graph             ## Display an ASCII graph of the branch and merge history beside the log output.
+--pretty            ## Show commits in an alternate format. Option values include oneline, short, full, fuller, and format (where you specify your own format).
+--oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
+##==========================================
 
 
 
@@ -3392,9 +3424,11 @@ $> | sed 'n;n;n;n;n;n;n;d;'                # other seds
 ## From
 $> | tr ' ' '\n' | awk '{ n = split($NF, arr, ","); print arr[n] }'
 ##------------------------------------------
-
+## remove any line that has YOURWORDHERE in it.
+$> | sed -i "/^.*YOURWORDHERE.*$/d"
 ##------------------------------------------
-
+## Print first and last column in text
+$> | awk -F ' ' '{print $1, $NF}'
 ##------------------------------------------
 
 ##------------------------------------------
@@ -3910,6 +3944,45 @@ function aes256crypt() { echo "Encrypting $1..."; openssl enc -aes-256-cbc -salt
 ## uses openssl aes 256 cbc encryption decrypt file
 function aes256decrypt() { echo "Decrypting $1..."; openssl enc -aes-256-cbc -d -a -in $1 -out $2 || { echo "File not found"; return 1; }; echo "Successfully decrypted"; }
 ##==========================================
+## Print a grid of colors
+function colorgrid( )
+{
+    iter=16
+    while [ $iter -lt 52 ]
+    do
+        second=$[$iter+36]
+        third=$[$second+36]
+        four=$[$third+36]
+        five=$[$four+36]
+        six=$[$five+36]
+        seven=$[$six+36]
+        if [ $seven -gt 250 ];then seven=$[$seven-251]; fi
+
+        echo -en "\033[38;5;$(echo $iter)m█ "
+        printf "%03d" $iter
+        echo -en "   \033[38;5;$(echo $second)m█ "
+        printf "%03d" $second
+        echo -en "   \033[38;5;$(echo $third)m█ "
+        printf "%03d" $third
+        echo -en "   \033[38;5;$(echo $four)m█ "
+        printf "%03d" $four
+        echo -en "   \033[38;5;$(echo $five)m█ "
+        printf "%03d" $five
+        echo -en "   \033[38;5;$(echo $six)m█ "
+        printf "%03d" $six
+        echo -en "   \033[38;5;$(echo $seven)m█ "
+        printf "%03d" $seven
+
+        iter=$[$iter+1]
+        printf '\r\n'
+    done
+}
+##==========================================
+## Put git branch in prompt
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
 ## ######################
 ## #  Other Functions   #
 ## ######################
@@ -4012,6 +4085,20 @@ alias move="mv -iv"
 alias rename="mv -iv"
 alias type="cat"
 alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd'"
+##==========================================
+# Git aliases
+alias giti="git init"
+alias gits="git status -sbu"
+alias gitco="git checkout"
+alias gitcob="git checkout -b"
+alias gitp="git push"
+alias gitm="git merge"
+alias gita="git add ."
+alias gitcm="git commit -m"
+alias gitpl="git pull"
+alias gitst="git stash"
+alias gitstl="git stash list"
+alias gitlg='git log --graph --oneline --decorate --all'
 ##==========================================
 alias mplay='mplayer -vo caca'
 alias mplayerfb='sudo mplayer -vo fbdev2 -fs -zoom -x 1024 -y 600'
@@ -4575,14 +4662,32 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ☗ ♠ ♣ ♦ ♥ ❤ ❥ ♡ ♢ ♤ ♧ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ⚇ ⚆ ⚈ ⚉ ♨ ♩ ♪ ♫ ♬ ♭ ♮ ♯ ⌨ ⏏ ⎗ ⎘ ⎙ ⎚ ⌥ ⎇ ⌘ ⌦ ⌫ ⌧ ♲ ♳ ♴ ♵ ♶ ♷ ♸ ♹
 ♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇ ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⏚ ⏛
 ┊ ○ ● ⚠ ✡ °
-😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰
+😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡
 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚ ⚫ ⚓ 🐰 🕳
+ ✦ ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦
+❤️
 ⌽⌇ ⌍ ⌎⎌ ⌏ ⌐ ⌑ ⌔
 ⌙ ⌢ ⌣ ⌯ ⌬
 ⍙Δ
-𓆏
+𓆏⚪⚫
 ᛉ卐
 ☭💰
+🚺🍤🦐🐠🦀🐙🐡
+✌😊💚💖😊💜🥀🌭⛺
+😡
+🏴󠁧󠁢󠁳󠁣󠁴󠁿
+👹🤢🤮⛺🤣
+🤔🔥
+🦇
+👦👧👅
+💘 😁 💯
+🖥 💋
+☠️ ⚠️ 🎉 🐢
+🐈 😠 💩 💨
+🐟
+
+
+¯\_(ツ)_/¯
 
 Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟̥̤̗͇͂̿̎̂̿̓́̃͜͠͝E̸̢͕̯̞̻̓ ̶̡̫̘̣̼͕̠͙̺͌Ŗ̶̪̖͗̃̈́͗͛̉͑̆͠͠͝I̴̧̡͉̗̠̤̳̼̼͌̂͌̔̑̀̃̒̔͂̈͘ͅT̷̠̫̭̽̇̿̑̉̋̈́͆̔͝Ȕ̶̢̦͉̱̟̳̣̌̄̌͛͒̄ͅA̷̢̺̖͓̟͚̠̻͌̐͑̑̔͋̊̽͌͂͘͝Ļ̷̡̪̼̹͇̫̬͂̓͒́ ̶̞̬̮̰̓͘H̷̢̛̗͇̯̦̘̠̟̳͈͍̗̐̇̚A̵̬̤͐͛̈́͘Ș̶̛͔̞̹͚͚͕̞͆̉̈́̋͌͋̽̓͝͠ ̸͇̪̙̥̯͇̒̆̏̈́͝͝B̶̠̖̟͍̣͙̬͋͗͛̒̇͒̈̕Ḙ̴̡̼͂́͐G̸͔̟͆̏̿͋͆̌̀̚̚͜Ö̶̧̪̮̤̤̀̈̎̀͗̉̏͝Ṇ̷̢̮̦͉̝͖̽̑̏̇̈́̓̕̕͜͝͝Ẻ̶̢͍͇̞̩̆̑̕͘̚͝͝ ̸͇̼̓́̉͂̎͐̿͊͂͝Å̵̙̗̣͍̎̈̚͠͝͝ͅN̷̛͍̞̰͌O̴̩̪̺͍͉͗͆́N̵̮͖̙͓͔̤͉̘̱͈̰̈́͌̄͊͜ ̴͉͓̖̺̬͐̈́̂̒̓̋T̴̤̙̩̳͖̗̗̼̗͎̽̽̾̊̿̄͜͝ͅH̶̨̀͋͋͒͒̐̽̋̀͐̉̀͜Ē̸̢̛̟̤͌͆̊͊̿́̏̍̚͠R̶̮̙͍͔̠͉̟̳̠̫̪̾͆͜͝E̵̞̥̻̹̫̽̀̑̊̿̑̉͝ ̸͔̭̪͙̠͙̹͖͊̐͜I̵̡̧̛̫͍͓͈̻̩͙̳̿̈́̎̾͋̀S̵̩͂͆̈̽̃̆ ̵̧͙̱̼̞̮̩̯̘̞̼͊̄̄̊͐͗͐͛̈́͂Ņ̸̩̝͈͕̯̟̟̰̈́̉̐͑͘͜ͅȌ̶̙̩̀̈̈́̀͐͠ ̸̨̙̞̣̤̥̮̻̌̑̃̃͠͝E̸̤͌̔̔͝S̵̡̫͕͓͕̪̆̃̈̇̔̓C̶̨͍͔̫͔͚̗̈́̎̿̃͘A̶͚̩͉̭͙̘̟̤̙͔̣͂̄͑̊̆͘͝ͅP̷̟͕͉̼̙̻͎̈̓͌͛͜Ē̸͉͔͓̈́̀͂̈́̌͒̑̚͝ ̶̧̛̞̣̤̞͌̐̆͂̎͒̓F̸̨͕̹͔͉̯̜̺͎̱͛̈̃͊͂̀̐̂̍̚͘R̸͙̠̯̈̂͊̃͗̍O̶̪̹̝̭͔̻̣͖̻̗̔̌͠M̴͔̜͓̗̣̞̩͉̮̈́̽͋͗̌̒͘͜͝ͅ ̸̛̬̫̝̻͚̗͉̺̋̀͊̐͆̍̄̉̈́͘͝Y̶͉̊͒̋̈́́́́̃̾Ŏ̸̟̞͖͍̐̓͐͊̿̆̔̓̈̌͠Ǘ̴̱̤͍͙̖̃̃̄̌̊̏͝͠R̷̼̥̳̙̓̈͜͝ ̴̢̺̗̘̪̰͖̜͖͙͙̽̆͜͝Ṡ̷̳͉͖̞̻̑͛̐̃Ỉ̴̡̡̖̦̳̩͈̭̝͖͋̎̑̔Ñ̵̡͎̥̈̌̑̈́̔̇͜͝S̴̢̡̬̝̪̪̪̪͓͇̟̔͂͑̈́͗͑͛͛͊͜͝
 ▄█▀ █▬█ █ █ █ █▀█▀
@@ -4861,6 +4966,9 @@ $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efa
 ##==========================================
 ## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
 $> sudo apt-get install dconf-editor
+$> org > nemo > desktop
+## untick the option
+"use-desktop-grid"
 ##==========================================
 ## Disable updates for installed Chrome plugins
 ## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
@@ -5376,7 +5484,7 @@ $> ASN=32934; for s in $(whois -H -h riswhois.ripe.net -- -F -K -i $ASN | grep -
 ##==========================================
 ## Embed next line on the end of current line using sed (where X is the current line)
 ## Convert all flac files in dir to mp3 320kbps using ffmpeg
-$> $ for FILE in *.flac; do ffmpeg -i "$FILE" -b:a 320k "${FILE[@]/%flac/mp3}"; done;
+$> for FILE in *.flac; do ffmpeg -i "$FILE" -b:a 320k "${FILE[@]/%flac/mp3}"; done;
 ##==========================================
 $> sed 'X{N;s/\n//;}' file.txt
 ## Embed next line on the end of current line using sed (where X is the current line)
@@ -6833,6 +6941,8 @@ $> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ## Finally, add the repository to your system typing following in the terminal, "lsb_release -cs" does not work in mint:
 $> sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 $> sudo apt install docker-ce
+## Or for bionic
+$> sudo apt install docker.io
 $> docker --version
 $> sudo systemctl status docker
 $> sudo usermod -aG docker $USER
@@ -7537,12 +7647,12 @@ $> ctrl+b set mouse off
 $> ctrl+b set mouse on
 ##-----------------------------------------
 ## Session Control (from the command line)
-$@ tmux                                     ## Start a new session
-$@ tmux new -s <session-name>               ## Start a new session with the name chosen
-$@ tmux ls                                  ## List all sessions
-$@ tmux attach -t <target-session>          ## Re-attach a detached session
-$@ tmux attach -d -t <target-session>       ## Re-attach a detached session (and detach it from elsewhere)
-$@ tmux kill-session -t <target-session>    ## Delete session
+$> tmux                                     ## Start a new session
+$> tmux new -s <session-name>               ## Start a new session with the name chosen
+$> tmux ls                                  ## List all sessions
+$> tmux attach -t <target-session>          ## Re-attach a detached session
+$> tmux attach -d -t <target-session>       ## Re-attach a detached session (and detach it from elsewhere)
+$> tmux kill-session -t <target-session>    ## Delete session
 ## Pane Control
 $@ Ctrl b, "          " ## Split pane horizontally
 $@ Ctrl b, %          ## Split pane vertically
@@ -7817,44 +7927,44 @@ $> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
-@# #!/bin/bash
-@# echo -n "Enter a number: "
-@# read VAR
-@# if [[ $VAR -gt 10 ]]
-@# then
-@#   echo "Variable is greater than 10."
-@# elif [[ $VAR -eq 10 ]]
-@# then
-@#   echo "Variable is equal to 10."
-@# else
-@#   echo "Variable is less than 10."
-@# fi
+# #!/bin/bash
+# echo -n "Enter a number: "
+# read VAR
+# if [[ $VAR -gt 10 ]]
+# then
+#   echo "Variable is greater than 10."
+# elif [[ $VAR -eq 10 ]]
+# then
+#   echo "Variable is equal to 10."
+# else
+#   echo "Variable is less than 10."
+# fi
 ##---------------------------------------
 ## Sample script with nested; var if then else fi
-@# #!/bin/bash
-@# echo -n "Enter the first number: "
-@# read VAR1
-@# echo -n "Enter the second number: "
-@# read VAR2
-@# echo -n "Enter the third number: "
-@# read VAR3
-@#
-@# if [[ $VAR1 -ge $VAR2 ]]
-@# then
-@#   if [[ $VAR1 -ge $VAR3 ]]
-@#   then
-@#     echo "$VAR1 is the largest number"
-@#   else
-@#     echo "$VAR3 is the largest number"
-@#   fi
-@# else
-@#   if [[ $VAR2 -ge $VAR3 ]]
-@#   then
-@#     echo "$VAR2 is the largest number"
-@#   else
-@#     echo "$VAR3 is the largest number"
-@#   fi
-@# fi
+# #!/bin/bash
+# echo -n "Enter the first number: "
+# read VAR1
+# echo -n "Enter the second number: "
+# read VAR2
+# echo -n "Enter the third number: "
+# read VAR3
+#
+# if [[ $VAR1 -ge $VAR2 ]]
+# then
+#   if [[ $VAR1 -ge $VAR3 ]]
+#   then
+#     echo "$VAR1 is the largest number"
+#   else
+#     echo "$VAR3 is the largest number"
+#   fi
+# else
+#   if [[ $VAR2 -ge $VAR3 ]]
+#   then
+#     echo "$VAR2 is the largest number"
+#   else
+#     echo "$VAR3 is the largest number"
+#   fi
+# fi
 ##==========================================
 ## Make backup while using sed on file
 $> sed -i.bak '/pattern to match/d' ./infile
@@ -7903,71 +8013,51 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ## press Ctrl+Shift+R in your browser to force a refresh of your local cache
 ##==========================================
 ### Unity3d
-Step 1: Installing Unity3d
-To install UnityHub go to this link
+## Step 1: Installing Unity3d
+## To install UnityHub go to this link
 https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-download.650455/
-Scroll down to download the latest version.
+## Scroll down to download the latest version.
 
-after downloading right-click on the file and go to properties and then permissions and then make executable.
-now just run it and use it.
+## after downloading right-click on the file and go to properties and then permissions and then make executable.
+## now just run it and use it.
 
-You may need to install this additional dependency:
-
-sudo apt install libgconf-2-4
-
-To install Unity3d without UnityHub go to this link
-Scroll down to download the latest version.
+## You may need to install this additional dependency:
+$> sudo apt install libgconf-2-4
+## To install Unity3d without UnityHub go to this link
+## Scroll down to download the latest version.
 https://forum.unity.com/threads/unity-on-linux-release-notes-and-known-issues.350256/page-2
-after downloading right-click on the file and go to properties and then permissions and then make executable.
+## after downloading right-click on the file and go to properties and then permissions and then make executable.
 now just run it and use it.
-
-You may need to install this additional dependency:
-
-sudo apt install libgconf-2-4
-
-
-Step 2: Installing Visual studio Code (VSCODE)
-
-To install VSCode go to this link
+## You may need to install this additional dependency:
+$> sudo apt install libgconf-2-4
+## Step 2: Installing Visual studio Code (VSCODE)
+## To install VSCode go to this link
 https://code.visualstudio.com/
-after installing
-
-go to mono project and install mono for VSCode in this link
-https://www.mono-project.com/download/vs/
-sudo apt install mono-devel
-sudo apt install mono-xsp4
-sudo apt install ca-certificates-mono
-sudo apt install referenceassemblies-pcl
-sudo apt install mono-complete
-sudo apt install mono-dbg
-
-this will fix not auto-completing in unity.
-
-
-Step 2: Adding unity3D addons in Vscode
-
-First downlad dotnet addon in this link
-https://dotnet.microsoft.com/download
-Second open VSCode and add these extensions that mentioned here
-https://code.visualstudio.com/docs/other/unity
-Debugger for Unity, Unity Tools, Unity Code Snippets, Unity Snippets
-
-
-Step 3: Connect Unity3D Editor to VSCode.
-
-open unity and go to file -> preferences and change external script editor to Browse and then go to
-/usr/bin/code or /usr/bin/vscode
-
-
-if you got any problems with that try
-
-sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
-
-
-Step 4: Enjoy
-
-Now you are ready to use Unity3d without any problems
-
+## after installing
+## go to mono project and install mono for VSCode in this link
+$> firefox https://www.mono-project.com/download/vs/
+$> sudo apt install mono-devel
+$> sudo apt install mono-xsp4
+$> sudo apt install ca-certificates-mono
+$> sudo apt install referenceassemblies-pcl
+$> sudo apt install mono-complete
+$> sudo apt install mono-dbg
+## this will fix not auto-completing in unity.
+## Step 2: Adding unity3D addons in Vscode
+## First downlad dotnet addon in this link
+$> firefox https://dotnet.microsoft.com/download
+## Second open VSCode and add these extensions that mentioned here
+$> firefox https://code.visualstudio.com/docs/other/unity
+## Debugger for Unity, Unity Tools, Unity Code Snippets, Unity Snippets
+## Step 3: Connect Unity3D Editor to VSCode.
+## open unity and go to file -> preferences and change external script editor to Browse and then go to
+$> /usr/bin/code
+## or
+$> /usr/bin/vscode
+## if you got any problems with that try
+$> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
+## Step 4: Enjoy
+## Now you are ready to use Unity3d without any problems
 ##==========================================
 ## Get Your IP Geographic Location with curl and jq
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
@@ -8013,11 +8103,9 @@ $> echo 'net.core.netdev_max_backlog = 5000' >> /etc/sysctl.conf
 $> sysctl -p
 ## Use tcpdump to view changes for eth0:
 $> tcpdump -ni eth0
-
 ##==========================================
 ## Cool monitoring
-http://devconnected.com/monitoring-linux-logs-with-kibana-and-rsyslog/
-
+$> firefox http://devconnected.com/monitoring-linux-logs-with-kibana-and-rsyslog/
 ##==========================================
 ### dd
 ## copy MBR, partition tables and boot records.
@@ -8028,15 +8116,11 @@ $> dd if=mbr-parttable.img of=/dev/sda bs=512 count=1
 $> dd if=/dev/zero of=/dev/hda bs=446 count=1
 ## zero everything including the partition table record.
 $> dd if=/dev/zero of=/dev/hda bs=512 count=1
-
-
 ##==========================================
-ArUco
-https://www.youtube.com/watch?v=XjJ7ujKjQQc&list=PL7EOs-8ZXfMb2qRog9wOa3Ar-EyvRYdrp&index=2&t=0s
-http://miloq.blogspot.com/2012/12/install-aruco-ubuntu-linux.html
-http://milq.github.io/install-opencv-ubuntu-debian/
-
-
+## ArUco
+$> firefox https://www.youtube.com/watch?v=XjJ7ujKjQQc&list=PL7EOs-8ZXfMb2qRog9wOa3Ar-EyvRYdrp&index=2&t=0s
+$> firefox http://miloq.blogspot.com/2012/12/install-aruco-ubuntu-linux.html
+$> firefox http://milq.github.io/install-opencv-ubuntu-debian/
 ##==========================================
 ## Compress an exact copy of your entire Linux file system into a TAR archive.
 ## cd to the / directory (or root).
@@ -8087,10 +8171,10 @@ $> sudo checkinstall
 ## If you add the --install=no option to checkinstall, the program will generate a .deb package without installing it. For example:
 $> checkinstall --install=no
 ##==========================================
-https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key
+$> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key
 ## sign_and_send_pubkey: signing failed:
 ## agent refused operation when logging into several servers,
-https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key,
+$> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key,
 ## solution for me was to remove gnome-keyring, deleting identities from ssh-agent and reboot.
 $> sudo apt-get autoremove gnome-keyring
 $> ssh-add -D
@@ -8109,27 +8193,27 @@ $> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys
 ## ###############################################
 ### RAID arrays
 ## RAID types raid0, raid1, raid5, raid6,  raid10 or raid1+0,
-  raid0, Striped drive, high speed
-  raid1, Striped both drives in redundant
-  raid5, Striped both drives in redundant with parity info, minimum of 3 storage devices
-  raid6, Striped both drives in redundant with double parity info to allow two drive failures, minimum of 4 storage devices
-  raid10 or raid1+0 nested array, two raid1 in a raid0
+##  raid0, Striped drive, high speed
+##  raid1, Striped both drives in redundant
+##  raid5, Striped both drives in redundant with parity info, minimum of 3 storage devices
+##  raid6, Striped both drives in redundant with double parity info to allow two drive failures, minimum of 4 storage devices
+##  raid10 or raid1+0 nested array, two raid1 in a raid0
 ## Software raid
 ## Create software raid arrays with mdadm
-https://www.digitalocean.com/community/tutorials/how-to-create-raid-arrays-with-mdadm-on-ubuntu-16-04
+$> firefox https://www.digitalocean.com/community/tutorials/how-to-create-raid-arrays-with-mdadm-on-ubuntu-16-04
 ## Has software raid
 ## Find the active arrays in the /proc/mdstat
-ops@stcg-us-0006-01:~$ cat /proc/mdstat
-    Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10]
-    md0 : active raid6 sdc1[1] sdd1[2] sdh1[6] sdf1[4] sde1[3] sdb1[0] sdg1[5]
-      48831521280 blocks super 1.2 level 6, 512k chunk, algorithm 2 [7/7] [UUUUUUU]
-      bitmap: 2/73 pages [8KB], 65536KB chunk
+$> cat /proc/mdstat
+##    Personalities : [raid6] [raid5] [raid4] [linear] [multipath] [raid0] [raid1] [raid10]
+##    md0 : active raid6 sdc1[1] sdd1[2] sdh1[6] sdf1[4] sde1[3] sdb1[0] sdg1[5]
+##      48831521280 blocks super 1.2 level 6, 512k chunk, algorithm 2 [7/7] [UUUUUUU]
+##      bitmap: 2/73 pages [8KB], 65536KB chunk
 ## NO software raid, has raid controller
-ops@stcg-us-0006-01:~$ cat /proc/mdstat
-    Personalities : [raid0] [linear] [multipath] [raid1] [raid6] [raid5] [raid4] [raid10]
-    md0 : active raid0 sdc[1] sdd[0]
-          209584128 blocks super 1.2 512k chunks
-    unused devices: <none>
+$> cat /proc/mdstat
+##    Personalities : [raid0] [linear] [multipath] [raid1] [raid6] [raid5] [raid4] [raid10]
+##   md0 : active raid0 sdc[1] sdd[0]
+##         209584128 blocks super 1.2 512k chunks
+##    unused devices: <none>
 ##--------------------------------------
 ### Resetting Existing RAID Devices
 ## Unmount the array from the filesystem:
@@ -8274,6 +8358,26 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 │                               │
 └───────────────────────────────┘
 |
+╢
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+╟──────────────────────────────────────────────────────────────────────╢
+║                                                                      ║
+╟─────────────┬──────────────┬───────────┬─────────────┬───────────────╢
+║             │              │           │             │               ║
+╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+║             │              │           │             │               ║
+╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+║             │              │           │             │               ║
+╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+║             │              │           │             │               ║
+╟─────────────┴──────────────┴───────────┴─────────────┴───────────────╢
+║                                                                      ║
+╟──────────────────────────────────────────────────────────────────────╢
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
 
 ##==========================================
 ## Dump network connections
@@ -8466,13 +8570,9 @@ $> sudo grep -H '^psk=' /etc/NetworkManager/system-connections/*
 ## Stage only portions of the changes to a file.
 $> git add --patch <filename>
 ##==========================================
-
-create ext4 filesystem with big count of inodes
-
-XX is your device partition number like /dev/sdc1 . to see how many inodes your partition have type: df --inodes (or df -i) Default formatting with ext4 would create small inode count for the new partition if you need big count of inodes is the fstype news the correct one. in debian you can see which fstype exists as template in: vim /etc/mke2fs.conf if you format default ext for a partition size with 1TB you would get 1 Million inodes (not enough for backupStorages) but if you format with fstype news you would get hunderd of millions of inodes for the partition. you have tune /etc/sysctl.conf also with following sysconfig parameters fs.file-max = XXX fs.nr_open = XXX where XXX is the count of max inodes for whole system
+## create ext4 filesystem with big count of inodes
+## XX is your device partition number like /dev/sdc1 . to see how many inodes your partition have type: df --inodes (or df -i) Default formatting with ext4 would create small inode count for the new partition if you need big count of inodes is the fstype news the correct one. in debian you can see which fstype exists as template in: vim /etc/mke2fs.conf if you format default ext for a partition size with 1TB you would get 1 Million inodes (not enough for backupStorages) but if you format with fstype news you would get hunderd of millions of inodes for the partition. you have tune /etc/sysctl.conf also with following sysconfig parameters fs.file-max = XXX fs.nr_open = XXX where XXX is the count of max inodes for whole system
 mkfs.ext4 -T news /dev/sdcXX
-
-
 ##==========================================
 ## Generate a Google maps URL for GPS location data from digital photo
 ## This command uses the "exiftool" command which is available here: http://www.sno.phy.queensu.ca/~phil/exiftool/ NB, there should be a degree symbol right after the first "%d" NOT a question mark. For some unknown reason, commandlinefu is not able to handle degree symbol correctly ("?")? Show Sample Output
@@ -8514,20 +8614,18 @@ $> function copy2mp4() { avconv -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
 ## not working
 $> function vid2mp4() { avconv -i  "$1" -vf format=yuv420p10le -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> function vid2mp4() { ffmpeg -i  "$1" -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
-
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 ##==========================================
 ## Define a word from Linux Terminal
 ## The link gets the definition from vocabulary.com. In case you are behind firewall, use --proxy URL in the curl option. Show Sample Output
-function define() { curl -s https://www.vocabulary.com/dictionary/$1 | grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}' }; define welcome
-
+$> function define() { curl -s https://www.vocabulary.com/dictionary/$1 | grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}' }; define welcome
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 ##==========================================
 ## get a rough estimate about how much disk space is used by all the currently installed debian packages
 ## The vaule is expressed in megabytes Show Sample Output
 echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
 ##============================================
-
+## Transcode video
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 $> function vid2mp4() { ffmpeg -i "$1" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
@@ -8536,15 +8634,9 @@ $> function transcode2mp4() { avconv -i  "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ## Convert matroska mkv video files to mp4 by changing container without reencoding.
 $> function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ##==========================================
-
 ## get the full description of a randomly selected package from the list of installed packages on a debian system
-
 ## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
-
-1
-dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
-
-
+$> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
 ## vid options
 $> --input-depth 16 --output-depth 10 --ref 5 --qcomp 0.7 --no-fast-intra --no-cu-lossless --no-tskip-fast --no-pme --no-rd-refine --no-lossless --ctu 32 --max-tu-size 32 --no-strong-intra-smoothing --no-sao --no-sao-non-deblock --no-early-skip --no-rskip
@@ -8689,17 +8781,14 @@ $> for file in *.txt; do mv "$file" "${file%.txt}.xml"; done
 $> wget -c --recursive --no-clobber --page-requisites --convert-links --restrict-file-names=windows http://website.com
 ##==========================================
 ## Convert tab separate file (TSV) to JSON with jq
-
 ## With this command you can convert a tab separate file (TSV) into a JSON file with jq. For example, this input.tsv i-0b9adca882e5e6326 172.16.0.188 i-088dd69e5c3624888 172.16.0.102 i-0e70eac180537d4aa 172.16.0.85 will produce the showed output. Show Sample Output
 $> cat input.tsv | jq --raw-input --slurp 'split("\n") | map(split("\t")) | .[0:-1] | map( { "id": .[0], "ip": .[1] } )'
 ##------------------------
 ##==========================================
 ## Write a bootable Linux .iso file directly to a USB-stick
-
 ## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
 $> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
 ##==========================================
-
 ## Check difference between two file directories recursively
 $> diff <(tree /dir/one) <(tree /dir/two)
 ##==========================================
@@ -8741,42 +8830,30 @@ $> git log
 https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
 ##==========================================
 ## General, you can always do:
-<command> | ssh user@remote-server "cat > output.txt"
+$> <command> | ssh user@remote-server "cat > output.txt"
 ## It saves output of <command> to output.txt file in remote server.
 ## In your case, on Server-1:
-echo "qwerty" | ssh user@Server-2 "cat > output.txt"
+$> echo "qwerty" | ssh user@Server-2 "cat > output.txt"
 ## If two servers have no connectivity, but you can ssh to both servers, then from local machine, you can do:
-ssh user@Server-1 "<command>" | ssh user@Server-2 "cat > output.txt"
-
-for ip in {192.168.1.123,192.168.1.124,192.168.1.125,192.168.1.127,192.168.1.128}; do
-    echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHgEteaGIZtKPo/vKfc4NSuYU2/9+AwRDA1uWWYR9BNCNL8SBHdEzBDXMbUw9wsF0JRimclU1+fke6d7h5R8hJJQyl5sdKk8pDjjZbvcWahnI03nPjNupr03WrHBUzclNAyQjSeZTz7yK7UorV9oCLOLZEJ+S82bJsypqaA2xZdApSUFRxCUShqp4rTpW51xKi7nG4dIHT5l0YRVtZ4aztuMbIPy/GtkFZEgTgYcsK4uJZcNKI9Ne0AMFOcQTDzf3IatWdDY6O8i1z66uuOOHtt9mdv1o1zTHupHbu4r8qOm9PMPzyUOrwb980WTDECxxpbK5v+Xls+4CPlxTanHWr  \
-    | ssh -p 101 $ip 'cat >> .ssh/authorized_keys'
-    ssh -p 101 $ip 'tail .ssh/authorized_keys'
-done
-
+$> ssh user@Server-1 "<command>" | ssh user@Server-2 "cat > output.txt"
+$> for ip in {192.168.1.123,192.168.1.124,192.168.1.125,192.168.1.127,192.168.1.128}; do
+$>     echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHgEteaGIZtKPo/vKfc4NSuYU2/9+AwRDA1uWWYR9BNCNL8SBHdEzBDXMbUw9wsF0JRimclU1+fke6d7h5R8hJJQyl5sdKk8pDjjZbvcWahnI03nPjNupr03WrHBUzclNAyQjSeZTz7yK7UorV9oCLOLZEJ+S82bJsypqaA2xZdApSUFRxCUShqp4rTpW51xKi7nG4dIHT5l0YRVtZ4aztuMbIPy/GtkFZEgTgYcsK4uJZcNKI9Ne0AMFOcQTDzf3IatWdDY6O8i1z66uuOOHtt9mdv1o1zTHupHbu4r8qOm9PMPzyUOrwb980WTDECxxpbK5v+Xls+4CPlxTanHWr  \
+$>     | ssh -p 101 $ip 'cat >> .ssh/authorized_keys'
+$>     ssh -p 101 $ip 'tail .ssh/authorized_keys'
+$> done
 ##==========================================
 ## encode images to webm
-mkdir out
-for f in *.{png,jpg,jpeg}; do ffmpeg -loop 1 -i "$f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "out/${f%.*}.webm"; done
-
-
-
+$> mkdir out
+$> for f in *.{png,jpg,jpeg}; do ffmpeg -loop 1 -i "$f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "out/${f%.*}.webm"; done
 $> for %%f IN (*.png, *.jpg, *.jpeg) do (
-ffmpeg -loop 1 -i "%%f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "%%~nf.webm"
-)
-
-
-
+$> ffmpeg -loop 1 -i "%%f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "%%~nf.webm"
 ## If you want to encode transparent images the only thing that worked for me is deleting
-
--qmin 22
-
+$> -qmin 22
 ## and replacing it with
-
--auto-alt-ref 0
+$> -auto-alt-ref 0
 ##==========================================
 ## Make multiple directories all at once
-mkdir -p roles/pipeline/{tasks,handlers,files,defaults,templates}
+$> mkdir -p roles/pipeline/{tasks,handlers,files,defaults,templates}
 ##==========================================
 ## Turn on and off caplock LED
 $> sudo su -c 'setleds -L +caps < /dev/tty7'
@@ -8794,7 +8871,7 @@ $> gsettings set org.gnome.settings-daemon.plugins.media-keys max-screencast-len
 $> Ctrl + Alt + Shift + R
 ##==========================================
 ## Copy archival mode, preserves permissions, owner, etc
-cp -a
+$> cp -a
 ##==========================================
 ## #######################################################
 ## ##             Chromecast
@@ -8849,7 +8926,7 @@ $> Ctrl+C                       ## Copy selected item
 $> Ctrl+V                       ## Paste
 ## 3. Manage Windows and Workspaces
 $> Alt+Tab                      ## Cycle through open windows on current Workspace
-$> Alt+`                        ## Cycle through open windows of the same application on ANY Workspace
+$> Alt+`                      ` ## Cycle through open windows of the same application on ANY Workspace
 $> Ctrl+Alt+ ↓ /Alt+Esc         ## Toggle Scale view (display all windows on current Workspace)
 $> Ctrl+Alt+ ↑                  ## Toggle Expo view (display all Workspaces)
 $> Ctrl+Alt+ ←/→                ## Move to left / right workspace
@@ -8908,25 +8985,24 @@ $> apt install dconf-editor
 ## For the list of keys...
 ## CODE: SELECT ALL
 $> gsettings list-recursively org.gnome.Vino
-@#    org.gnome.Vino notify-on-connect true
-@#    org.gnome.Vino alternative-port uint16 5900
-@#    org.gnome.Vino disable-background false
-@#    org.gnome.Vino use-alternative-port false
-@#    org.gnome.Vino icon-visibility 'always'
-@#    org.gnome.Vino use-upnp false
-@#    org.gnome.Vino view-only false
-@#    org.gnome.Vino prompt-enabled false
-@#    org.gnome.Vino disable-xdamage true
-@#    org.gnome.Vino authentication-methods ['vnc']
-@#    org.gnome.Vino network-interface ''
-@#    org.gnome.Vino require-encryption false
-@#    org.gnome.Vino mailto ''
-@#    org.gnome.Vino lock-screen-on-disconnect false
-@#    org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
+$@    org.gnome.Vino notify-on-connect true
+$@    org.gnome.Vino alternative-port uint16 5900
+$@    org.gnome.Vino disable-background false
+$@    org.gnome.Vino use-alternative-port false
+$@    org.gnome.Vino icon-visibility 'always'
+$@    org.gnome.Vino use-upnp false
+$@    org.gnome.Vino view-only false
+$@    org.gnome.Vino prompt-enabled false
+$@    org.gnome.Vino disable-xdamage true
+$@    org.gnome.Vino authentication-methods ['vnc']
+$@    org.gnome.Vino network-interface ''
+$@    org.gnome.Vino require-encryption false
+$@    org.gnome.Vino mailto ''
+$@    org.gnome.Vino lock-screen-on-disconnect false
+$@    org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
 ## The password key is not stored in plain text its hashed. To generate the hash from the plaintext password 'pa55w0rd' (do use something more secure!)
 ## CODE: SELECT ALL
-$> echo -n 'pa55w0rd' | base64
-cGE1NXcwcmQ=
+$> echo -n 'pa55w0rd' | base64 cGE1NXcwcmQ=
 ## To start the server
 $> /usr/lib/vino/vino-server --sm-disable
 ## If you have UFW enabled ensure there is an appropriate rule to allow access in on port 5900.
@@ -8935,18 +9011,6 @@ $> /usr/lib/vino/vino-server --sm-disable
 ##==========================================
 ## Install phabricator howto
 https://www.youtube.com/watch?v=yX3us669EvY
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
 ##==========================================
 ## Install x11vnc:
 $> sudo apt-get -y install x11vnc
@@ -8958,17 +9022,17 @@ $> sudo x11vnc --storepasswd /etc/x11vnc/vncpwd
 ## Create the systemd service file for the x11vnc service:
 $> sudo nano /lib/systemd/system/x11vnc.service
 ## Copy/Paste this code into the empty file:
-    [Unit]
-    Description=Start x11vnc at startup.
-    After=multi-user.target
-
-    [Service]
-    Type=simple
-    ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
-
-    [Install]
-    WantedBy=multi-user.target
-
+$#    [Unit]
+$#    Description=Start x11vnc at startup.
+$#    After=multi-user.target
+$#
+$#    [Service]
+$#    Type=simple
+$#    ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
+$#
+$#    [Install]
+$#    WantedBy=multi-user.target
+$#
 ## Reload the services:
 $> sudo systemctl daemon-reload
 ## Enable the x11vnc service at boot time:
@@ -8985,16 +9049,867 @@ $> dd if=/dev/zero of=/dev/sdb bs=512 count=1
 ## Batch change file names. Like sed for files.
 $> prename 's/THIS/THAT/g' *.pdf
 ##==========================================
-sudo apt-get install htop
-sudo apt-get install linux-tools-generic
+$> sudo apt-get install htop
+$> sudo apt-get install linux-tools-generic
 ##==========================================
 ## Install phabricator howto
-https://www.youtube.com/watch?v=yX3us669EvY
+$> firefox https://www.youtube.com/watch?v=yX3us669EvY
 ##==========================================
 ## How to get into github
-https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-github-username-and-password
+$> firefox https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-github-username-and-password
+##==========================================
+## Print file hightlighted with search terms.
+$> grep -e "^" -e "SEARCHTERM" FILE.txt
+##==========================================
+## Color for manpages in less makes manpages a little easier to read:
+$> export LESS_TERMCAP_mb=$'\E[01;31m'
+$> export LESS_TERMCAP_md=$'\E[01;31m'
+$> export LESS_TERMCAP_me=$'\E[0m'
+$> export LESS_TERMCAP_se=$'\E[0m'
+$> export LESS_TERMCAP_so=$'\E[01;44;33m'
+$> export LESS_TERMCAP_ue=$'\E[0m'
+$> export LESS_TERMCAP_us=$'\E[01;32m'
+##==========================================
+## Size totals of all dir in current dir
+$> du -sh ./*
+##==========================================
+## Hardened Firefox config or use the relaxed branch
+$> firefox https://github.com/pyllyukko/user.js
+$> cp ./user.js ~/.mozilla/firefox/XXXXXXXX.your_profile_name/user.js
+##==========================================
+## Prints directory structure like tree command
+$> find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+##==========================================
+## Quick info on commands. ## Usage: cheat <command>, exp: cheat ls
+$> curl cheat.sh/<command>
+## Add to .bashrc
+$> echo 'function cheat() { curl cheat.sh\/"$1"; }' >> ~/.bashrc
+##==========================================
+# Launch a specific X application over SSH on local computer from remote.
+$> ssh -X -t user@example.com 'chromium-browser'
+##==========================================
+## Terminal image viewer
+$> firefox https://github.com/eddieantonio/imgcat
+## Clone
+$> git clone https://github.com/eddieantonio/imgcat.git
+## Make sure software building installed
+$> sudo apt-get install autoconf libncurses-dev build-essential gcc linux-tools-generic
+## Build the imgcat software
+$> autoconf
+$> ./configure
+$> make
+## Put it in /usr/local/bin
+$> sudo make install
+#@    install -d /usr/local/bin /usr/local/share/man/man1
+#@    install -s imgcat /usr/local/bin
+#@    install -m 644 docs/imgcat.1 /usr/local/share/man/man1
+## Try it out, super cool
+$> imgcat face.png
+$> imgcat -H face.png
+##==========================================
+## Parse json
+$> https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/
+##==========================================
+## #############################################
+## ##    zsh
+## #############################################
+## Install zsh
+$> sudo apt-get install git-core zsh
+##-----------------------------------------
+## Autosugestions in terminal using zsh
+$> https://www.dev-diaries.com/blog/terminal-history-auto-suggestions-as-you-type/
+## Install zsh
+$> sudo apt-get install git-core zsh
+## Get zsh auto suggest deb
+$> wget https://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosuggestions/xUbuntu_18.04/amd64/zsh-autosuggestions_0.5.0+1.1_amd64.deb
+$> ## Install it
+##--------------------
+## Install Oh My zsh
+$> wget --no-check-certificate http://install.ohmyz.sh -O - | sh
+## Add autosuggestion
+$> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+## Add to ~/.zshrc
+#@ plugins=(git zsh-autosuggestions)
+#@ source $ZSH/oh-my-zsh.sh
+##--------------------
+## OR
+## Manual (Git Clone)
+## Make a zsh config directory
+$> mkdir ~./.zsh
+## Clone this repository somewhere on your machine. This guide will assume ~/.zsh/zsh-autosuggestions.
+$> git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+## Add to your .zshrc:
+$> echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+##------------------------------------------
+## Install Oh My zsh
+$> wget --no-check-certificate http://install.ohmyz.sh -O - | sh.zshrc
+## Add autosuggestion
+$> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+## Add to ~/.zshrc
+@> plugins=(git zsh-autosuggestions)
+@> source $ZSH/oh-my-zsh.sh
+##--------------------
+## Get zsh auto suggest deb
+$> wget https://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosuggestions/xUbuntu_18.04/amd64/zsh-autosuggestions_0.5.0+1.1_amd64.deb
+## Install it
+##--------------------
+## Check current shell
+$> echo $0
+## Check available shells
+$> cat /etc/shells
+## Choose default shell, must sign back
+##--------------------
+## Install Oh My zsh
+$> wget --no-check-certificate http://install.ohmyz.sh -O - | sh
+## Add autosuggestion
+$> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+## Add to ~/.zshrc
+#@ plugins=(git zsh-autosuggestions)
+#@ source $ZSH/oh-my-zsh.sh
+##--------------------in to get new shell
+## Make zsh default shell: need password
+$> chsh -s $(which zsh)
+$> chsh -s /bin/zsh
+## Make bash default shell:
+$> chsh -s $(which bash)
+##------------------------------------------
+## Add ohmy to .*rc
+$> cat ~/.zshrc.ohmy > ~/.zshrc
+$> cat ~/.zshrc.zsh > ~/.zshrc
+##------------------------------------------
+### Prompt
+http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+
+##-----------------------------------------
+## syntax-highlighting
+## Simply clone this repository and source the script:
+$> cd ~/.zsh
+$> git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+$> echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+or
+$> echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+## Then, enable syntax highlighting in the current interactive shell:
+$> source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh=
+##==========================================
+## Remove git tags
+git tag -d $(git for-each-ref --format='%(refname:short)' 'refs/tags/phabricator')
+## Or nuke all tags then re-pull.
+git tag -l | xargs git tag -d; git pull --tags
+##==========================================
+## Change functions of mouse buttons
+$> firefox http://xahlee.info/linux/linux_swap_mouse_buttons.html
+## get mouse name
+$> xinput --list
+## set the side buttons of "mouse name" to be same as the left click, and scroll push
+$> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 2 1
+## put back to normal
+$> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 8 9
+## disable side buttons
+$> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 0 0
+##==========================================
+## This Does not work as tty is not correct in this case.
+$> ssh ops@mgmt0000.s0004.sfo.stcg.nonstandard.ai 'sudo tcam-gigetool "list --format %m%s%i%g%M%r" | tee /dev/tty | grep DFK | wc -l'
+##=========================================
+## In order to get absolute directory name with ls, enter in the terminal command shell:
+$> ls -d $PWD/*
+##==========================================
+## Instead of overwriting the “clear” command, its probably a better idea to have a new one. “cls” is a good choice and the same as on Windows.
+$> alias cls="printf \"\e[H\e[2J\e[3J\""
+## You can also bind it to C-l.
+$> bind -x '"\C-l": cls';
+As the clear command does clear everything in my case, I have this on my .bashrc to have Control-L do exactly the same:
+$> bind -x '"\C-l"':clear
+##==========================================
+## ways to shutdown a server
+$> systemctl kexec/reboot
+$> sudo shutdown -r now
+$> sudo poweroff
+$> reboot -p
+$> halt
+$> hold down Alt + Print Screen, then the R E I S U B keys in that order
+$> sudo init 0
+$> sudo journalctl -u systemd-shutdownd
+##==========================================
+$> firefox https://github.com/kellyjonbrazil/jtbl
+##==========================================
+## check the dependencies of packages in the repository:
+$> apt-cache depends package-name
+## Shows package origin and versions available
+$> apt-cache policy <searchterm>
+## display the complete details of the package version along with all dependencies.
+$> apt-cache showpkg chromium-browser
+## displays the package version from Ubuntu repositories.
+$ apt-cache madison chromium-browser
+## Downgrade chromium
+$> sudo apt-get install chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-browser=65.0.3325.181-0ubuntu1 -V
+##==========================================
+## https://wiki.archlinux.org/index.php/Bash/Prompt_customization
+$@ txtblk='\e[0;30m' ## Black - Regular
+$@ txtred='\e[0;31m' ## Red
+$@ txtgrn='\e[0;32m' ## Green
+$@ txtylw='\e[0;33m' ## Yellow
+$@ txtblu='\e[0;34m' ## Blue
+$@ txtpur='\e[0;35m' ## Purple
+$@ txtcyn='\e[0;36m' ## Cyan
+$@ txtwht='\e[0;37m' ## White
+$@ bldblk='\e[1;30m' ## Black - Bold
+$@ bldred='\e[1;31m' ## Red
+$@ bldgrn='\e[1;32m' ## Green
+$@ bldylw='\e[1;33m' ## Yellow
+$@ bldblu='\e[1;34m' ## Blue
+$@ bldpur='\e[1;35m' ## Purple
+$@ bldcyn='\e[1;36m' ## Cyan
+$@ bldwht='\e[1;37m' ## White
+$@ unkblk='\e[4;30m' ## Black - Underline
+$@ undred='\e[4;31m' ## Red
+$@ undgrn='\e[4;32m' ## Green
+$@ undylw='\e[4;33m' ## Yellow
+$@ undblu='\e[4;34m' ## Blue
+$@ undpur='\e[4;35m' ## Purple
+$@ undcyn='\e[4;36m' ## Cyan
+$@ undwht='\e[4;37m' ## White
+$@ bakblk='\e[40m'   ## Black - Background
+$@ bakred='\e[41m'   ## Red
+$@ bakgrn='\e[42m'   ## Green
+$@ bakylw='\e[43m'   ## Yellow
+$@ bakblu='\e[44m'   ## Blue
+$@ bakpur='\e[45m'   ## Purple
+$@ bakcyn='\e[46m'   ## Cyan
+$@ bakwht='\e[47m'   ## White
+$@ txtrst='\e[0m'    ## Text Reset
+## Available control commands for PS1 string:
+$@ d     ## the date in "Weekday Month Date" format (e.g., "Tue May 26")
+$@ e     ## an ASCII escape character (033)
+$@ h     ## the hostname up to the first .
+$@ H     ## the full hostname
+$@ j     ## the number of jobs currently run in background
+$@ l     ## the basename of the shells terminal device name
+$@ n     ## newline
+$@ r     ## carriage return
+$@ s     ## the name of the shell, the basename of $0 (the portion following the final slash)
+$@ t     ## the current time in 24-hour HH:MM:SS format
+$@ T     ## the current time in 12-hour HH:MM:SS format
+$@ @     ## the current time in 12-hour am/pm format
+$@ A     ## the current time in 24-hour HH:MM format
+$@ u     ## the username of the current user
+$@ v     ## the version of bash (e.g., 4.00)
+$@ V     ## the release of bash, version + patch level (e.g., 4.00.0)
+$@ w     ## Complete path of current working directory
+$@ W     ## the basename of the current working directory
+$@ !     ## the history number of this command
+$@ #     ## the command number of this command
+$@ $     ## if the effective UID is 0, a #, otherwise a $
+$@ nnn   ## the character corresponding to the octal number nnn
+$@ \     ## a backslash
+$@ [     ## begin a sequence of non-printing characters, which could be used to embed a terminal control sequence into the prompt
+$@ ]     ## end a sequence of non-printing characters
+##==========================================
+## ###########################################################
+## ##             Git
+## ###########################################################
+## correct an unpushed commit message
+$> git commit --amend -m "New message"
+
+##==========================================
+## Bluetooth pair your phone to your computer, play audio from your phone on computer speakers
+## If you add the pulseaudio-bluetooth package
+$> sudo apt-get install pulseaudio-bluetooth
+## add the following two lines to /etc/pulse/system.pa and
+$> sudo echo "load-module module-bluetooth-policy
+load-module module-bluetooth-discover" >> /etc/pulse/system.pa
+
+##==========================================
+### Redirects
+#          || visible in terminal ||   visible in file   || existing
+#  Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file
+#==========++==========+==========++==========+==========++===========
+#    >     ||    no    |   yes    ||   yes    |    no    || overwrite
+#    >>    ||    no    |   yes    ||   yes    |    no    ||  append
+#          ||          |          ||          |          ||
+#   2>     ||   yes    |    no    ||    no    |   yes    || overwrite
+#   2>>    ||   yes    |    no    ||    no    |   yes    ||  append
+#          ||          |          ||          |          ||
+#   &>     ||    no    |    no    ||   yes    |   yes    || overwrite
+#   &>>    ||    no    |    no    ||   yes    |   yes    ||  append
+#          ||          |          ||          |          ||
+# | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
+# | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
+#          ||          |          ||          |          ||
+# n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
+# n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
+#          ||          |          ||          |          ||
+#|& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
+#|& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
+## Continuous gpu usage info, refresh interval of 1 second
+$> nvidia-smi -l 1
+##==========================================
+## similar to top and htop, but specifically for the Intel GPU
+## from http://intellinuxgraphics.org/ project
+$> sudo apt-get install intel-gpu-tools
+$> intel_gpu_top
+##==========================================
+😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚
+⚫ ⚓ 🐰 🕳 ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦 ❤️
+⚪ ⚫ 💰 🚺 🍤 🦐 🐠 🦀 🐙 🐡 🔊
+♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
+1  😞 ￼😐 ￼😃
+##==========================================
+$> firefox https://www.tabnine.com/install/sublime/
+## Type TabNine::config in your editor to control TabNine settings.
+## Vim
+#    Add Plugin 'zxqfl/tabnine-vim' to your .vimrc.
+#    Type :PluginInstall and press Enter.
+## Without Vundle
+## Run
+$> git clone --depth 1 https://github.com/zxqfl/tabnine-vim in your terminal.
+## Add
+$> set rtp+=~/tabnine-vim to your .vimrc (replacing ~/tabnine-vim with the path you cloned it to).
+##==========================================
+##Quick ref for
+$> for i in {01..10}; do <BLA>$i <COMMAND>; done
 ##==========================================
 ##
+## install gimp-webp on your Debian-based Linux machine.
+$ sudo apt-add-repository ppa:george-edison55/webp
+$ sudo apt-get update
+$ apt-get install gimp-webp
+##==========================================
+## check the dependencies of packages in the repository:
+$> apt-cache depends package-name
+##==========================================
+## git prompt, not as good
+$> firefox https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+##==========================================
+## Set the nvidia fan speed:
+$> firefox https://devtalk.nvidia.com/default/topic/789888/set-fan-speed-without-an-x-server-solved-/ 2
+## It works, one can set the fan speed as desired, and then kill the X server again.
+## Recommended to run this one first:
+$> nvidia-xconfig --enable-all-gpus --separate-x-screens --allow-empty-initial-configuration
+## All in one script:
+#X :0 &
+#sleep 5
+#nvidia-settings -a “[gpu:0]/GPUFanControlState=1”
+#nvidia-settings -a “[gpu:1]/GPUFanControlState=1”
+#nvidia-settings -a “[gpu:2]/GPUFanControlState=1”
+#nvidia-settings -a “[gpu:3]/GPUFanControlState=1”
+#nvidia-settings -a “[fan:0]/GPUTargetFanSpeed=100”
+#nvidia-settings -a “[fan:1]/GPUTargetFanSpeed=100”
+#nvidia-settings -a “[fan:2]/GPUTargetFanSpeed=100”
+#nvidia-settings -a “[fan:3]/GPUTargetFanSpeed=100”
+#killall Xorg
+##==========================================
+## git branch
+#parse_git_branch() {
+#     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+#}
+#setopt PROMPT_SUBST ; PS1='%F{green}%B%m:%F{blue}%~%f%b$(parse_git_branch)⚡'
+##==========================================
+## tell me when the servers are back up after reboot/reinstall, not working
+$> notify-send 'Subject.' 'This is my message.'
+$> at now + 0.5 min < ping -c1 192.168.1.154 && notify-send 'Subject.' 'This is my message.'
+##==========================================
+## shell default parameters
+$$          ## The PID of the current process.
+$?          ## The return code of the last executed command.
+$*          ## The list of arguments passed to the current process
+$#          ## The number of arguments in $*
+$_          ## The default parameter for a lot of functions.
+$.          ## Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
+$/          ## Holds the input record separator. The record separator is usually the newline character. However, if $/ is set to an empty string, two or more newlines in the input file will be treated as one.
+$,          ## The output separator for the print() function. Nor-mally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
+$\          ## Added as an invisible last element to the parameters passed to the print() function. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to $.
+$#          ## The default format for printed numbers. Normally, its set to %.20g, but you can use the format specifiers covered in the section "Example: Printing Revisited" in Chapter 9to specify your own default format.
+$%          ## Holds the current page number for the default file handle. If you use select() to change the default file handle, $% will change to reflect the page number of the newly selected file handle.
+$=          ## Holds the current page length for the default file handle. Changing the default file handle will change $= to reflect the page length of the new file handle.
+$-          ## Holds the number of lines left to print for the default file handle. Changing the default file handle will change $- to reflect the number of lines left to print for the new file handle.
+$~          ## Holds the name of the default line format for the default file handle. Normally, it is equal to the file handles name.
+$^          ## Holds the name of the default heading format for the default file handle. Normally, it is equal to the file handles name with _TOP appended to it.
+$|--        ## If nonzero, will flush the output buffer after every write() or print() function. Normally, it is set to 0.
+$$--        ## This UNIX-based variable holds the process number of the process running the Perl interpreter.
+$?--        ## Holds the status of the last pipe close, back-quote string, or system() function.
+$&--        ## Holds the string that was matched by the last successful pattern match.
+$`-         ## Holds the string that preceded whatever was matched by the last successful pattern match.
+$'--      ' ## Holds the string that followed whatever was matched by the last successful pattern match.
+$+--        ## Holds the string matched by the last bracket in the last successful pattern match. For example, the statement /Fieldname: (.*)|Fldname: (.*)/ && ($fName = $+); will find the name of a field even if you dont know which of the two possible spellings will be used.
+$*--        ## Changes the interpretation of the ^ and $ pattern anchors. Setting $* to 1 is the same as using the /m option with the regular expression matching and substitution operators. Normally, $* is equal to 0.
+$0--        ## Holds the name of the file containing the Perl script being executed.
+$<number>-- ## This group of variables ($1, $2, $3, and so on) holds the regular expression pattern memory. Each set of parentheses in a pattern stores the string that match the components surrounded by the parentheses into one of the $<number> variables.
+$[--        ## Holds the base array index. Normally, its set to 0. Most Perl authors recommend against changing it without a very good reason.
+$]--        ## Holds a string that identifies which version of Perl you are using. When used in a numeric context, it will be equal to the version number plus the patch level divided by 1000.
+$"--      " ## This is the separator used between list elements when an array variable is interpolated into a double-quoted string. Normally, its value is a space character.
+$;--        ## Holds the subscript separator for multidimensional array emulation. Its use is beyond the scope of this book.
+$!--        ## When used in a numeric context, holds the current value of errno. If used in a string context, will hold the error string associated with errno.
+$@--        ## Holds the syntax error message, if any, from the last eval() function call.
+$<-         ## This UNIX-based variable holds the read uid of the current process.
+$>--        ## This UNIX-based variable holds the effective uid of the current process.
+$)--        ## This UNIX-based variable holds the read gid of the current process. If the process belongs to multiple groups, then $) will hold a string consisting of the group names separated by spaces.
+$:--        ## Holds a string that consists of the characters that can be used to end a word when word-wrapping is performed by the ^ report formatting character. Normally, the string consists of the space, newline, and dash characters.
+$^D--       ## Holds the current value of the debugging flags. For more information.
+$^F--       ## Holds the value of the maximum system file description. Normally, its set to 2. The use of this variable is beyond the scope of this book.
+$^I--       ## Holds the file extension used to create a backup file for the in-place editing specified by the -i command line option. For example, it could be equal to ".bak."
+$^L--       ## Holds the string used to eject a page for report printing.
+$^P-        ## This variable is an internal flag that the debugger clears so it will not debug itself.
+$^T--       ## Holds the time, in seconds, at which the script begins running.
+$^W--       ## Holds the current value of the -w command line option.
+$^X--       ## Holds the full pathname of the Perl interpreter being used to run the current script.
+
+##==========================================
+## Accessing an iPads file system from Linux
+## Despite using Linux on pretty much every computer I’ve owned for the last 20 years I’ve made an exception when it comes to tablet devices and adopted an iPad into my life as commute friendly “source of all books.” Overtime it’s been occasionally pressed into service as a camera and I recently realised I’ve never backed any of those photos up. “That’s something easy to remedy” I naively thought as I plugged my iPad into a laptop and watched as it didn’t appear as a block device.
+## While there are many pages on the internet that explain parts of the process of accessing your iPad file system from Linux it was awkward enough to piece together that I decided to summarise my own commands in this post for future me. I used the following commands on a Fedora 28 install to access an iPad Air 2.
+## First add the software needed to make the connection work:
+## install the required packages (on fedora)
+$> sudo apt-get install ifuse libimobiledevice-utils
+Once this is installed unlock the iPad and run idevicepair pair to pair the iPad with your Linux host. You should see a message saying that pairing was successful. Now we have access to the device let’s access its file system. Create the mount point and make the current user the owner:
+$> sudo install -d /mnt/ipad -o $USER
+Finally, mount the iPad so we can access its file system:
+$> ifuse /mnt/ipad
+$> ls -alh /mnt/ipad/
+## If this fails ensure the ifuse module is loaded by running lsmod, and run modprobe ifuse if it isn’t. Once you’ve finished exploring don’t forget to release the iPad.
+$> umount /mnt/ipad
+##==========================================
+$> firefox https://sanctum.geek.nz/arabesque/vim-koans/
+$> firefox https://stevelosh.com/blog/2013/04/git-koans/
+##==========================================
+## transcoding
+$> ffmpeg -i input.mkv -c:a libvorbis -c:v libvpx -b:a 80k -b:v 500k output.webm
+## average bitrate is _exactly_ 2x more than specified same but with halving framerate
+$> ffmpeg -i input.mkv -c:a libvorbis -c:v libvpx -b:a 80k -b:v 500k -r 30 output.webm
+## average bitrate is 250k higher
+## halving framerate first then transcoding
+$> ffmpeg -i input.mkv -r 30 30fps_output.mkv
+## audio gets transcoded for some reason
+$> ffmpeg -i input.mkv -r 30 -c:a copy 30fps_output.mkv
+## filesize is 1,5x the original size but whatever, it worked
+$> ffmpeg -i 30fps_output.mkv -c:a libvorbis -c:v libvpx -b:a 80k -b:v 500k output.webm
+## average bitrate is 250k higher
+$> -i your_input -c:v encoderlib -b:v bitrate -vf "filter options" "output"
+## set bitrate, minrate and maxrate (in bits)
+$> ffmpeg -i my_video.mkv -vcodec x264 -minrate 1400000 -b:v 1500000 -maxrate 1600000 my_output.mkv
+## 1400000 = 1.4M
+$> ffmpeg -i input.mkv -filter:v "fps=fps=30" -c:v libvpx -b:v 500k -c:a libvorbis -b:a 80k output.webm
+## it brings the output rate down to about 650k or so according to mpv. I think the -r option just sets the framerate on the container file but doesnt actually drop frames to get it. I may be wrong on that though.
+##==========================================
+
+$> firefox https://samrowe.com/wordpress/advancing-in-the-bash-shell/
+##==========================================
+## Remap Keyboard And Mouse Buttons On Linux With The New Key Mapper GUI
+$> firefox https://github.com/sezanzeb/key-mapper/releases
+##==========================================
+## download music from youtube
+$> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
+
+##==========================================
+##    1) learn what is Dockerfile
+##    2) add some apps on top of base image with dockerfile
+##    3) learn to mount volumes when docker run
+##    4) learn to bind ports when docker run
+##    5) learn to tag image
+##    6) learn to attach shell to running container
+##    7) learn to stop container
+##    8) learn to delete image
+##    9) learn to delete volume
+##    10) learn to delete container
+##    11) manually add nginx to ubuntu image
+##    12) add index.html and ngonx.conf to image in 11) using dockerfile
+##    13) when running 11) attach it to a specific network
+##    14) leave the container running
+##    15) create a new container ubuntu+telnet
+##    16) start it in a different network
+##    17) try curl to 11)
+##    18) stop the container 15)
+##    19) run container in same network as 11)
+##    20) try curl to 11)
+##    21) understand what happened
+##    22) recreate the two apps with docker compose and figure out what you need to define
+##==========================================
+## ##########################################
+## ##   Screen HOWTO
+## ##########################################
+## start a screens session
+$> screen -S YOURSESSIONNAME
+## reattach to screen session
+$> screen -ls
+$>screen -r YOURSESSIONNAME
+## You can quit that screen without attaching to it. First, find its session:
+$> screen -ls
+## "detach" your screen session but leave your processes running.
+$> Ctrl - A
+$> Ctrl - D
+## You can now log out of the remote box. If you want to come back later, log on again and type  This will "resume" your screen session, and you can see the output of your process.
+$> screen -r
+## This will "resume" your screen session, and you can see the output of your process.
+## and then quit it:(-X = Execute command, -S session PID to execute on)
+$> screen -XS YOURSESSIONNAME quit
+
+## ##########################################
+## ##########################################
+##==========================================
+## Shell script
+## An if statement in bash just runs some program and checks if the return code was zero. The '!' operator will negate the return code. So when you type something like this
+$# if ! some_program; then
+$#     some_operation;
+$# fi
+## Bash will execute "some_program" and get its return code, it will then negate it and conditionally execute the program. So in this example, if "some_program" returned 1, the ! would turn it to a 0 and the if condition would be true.
+## When you use the brackets what youre actually doing is calling a program called "test" that does a conditional comparison and returns 0 if it's true and 1 if it's false.
+$# if test "1" -eq "1"; then
+$#     some_operation;
+$# fi
+## or
+$# if [ "1" -eq "1" ]; then
+$#     some_operation;
+$# fi
+## These do the same thing. The double brackets [[..]] are a Bash extension that is built into the language itself. Its less portable but often easier.
+## Yes, you could also do this
+$#    if [ ! -f "file.txt" ]; then
+$#       some_operation;
+$#    fi
+## or even this if you really want to.
+$> [ ! -f "file.txt" ] && some_operation;
+##  create a file only if it doesnt already exist.
+$#    if ! test -f "/file" ;
+$#    then
+$#      sudo touch "/file"
+$#    fi
+##==========================================
+## Make timestamped output file
+$> outputfile="output_$(date --utc +"%y_%m_%d_%H%M%S").mp4"
+##==========================================
+## Build kernel
+$> firefox https://github.com/sn99/Optimizing-linux
+##==========================================
+## ripgrep is a line-oriented search tool that recursively searches your current directory for a regex pattern.
+$> curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+$> sudo dpkg -i ripgrep_12.1.1_amd64.deb
+##==========================================
+## script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
+$> sudo apt-get install v4l2loopback-utils
+## creates fake camera input
+$> sudo modprobe v4l2loopback
+## all your video devices can be listed with
+$> v4l2-ctl --list-device
+## Make a gif out of a video
+$> ffmpeg -hide_banner -loglevel panic -i video.webm -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 video.gif
+## sends looped gif into it
+$> ffmpeg -re -stream_loop -1 -i video.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p  /dev/video2
+## In zoom settings>Video pick correct
+##------------------------------------------
+## Script
+## You need those packages: (names are for void, on other disros they may differ)
+$> sudo apt-get install v4l2loopback-utils
+$> sudo apt-get install v4l-utils
+$> sudo apt-get install gstreamer1
+$> sudo apt-get install gst-plugins-base1
+$> sudo apt-get install gst-plugins-good1
+## Preparation
+## First, you need to create two loopback cameras. To do so, execute as root:
+$> modprobe v4l2loopback devices=2 card_label="Real","Fake"
+
+## Here I create cameras "Real" for primary usage and "Fake" for gif broadcast. The reason we have "Real" is that on linux you can't access one camera from two programs, but you can access one loopback device from two programs.
+
+## all your video devices can be listed with
+v4l2-ctl --list-device
+## Now execute following command to make "Real" work (note that this command should work in background):
+gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
+## Can make script
+echo '#/bin/sh
+
+# Usage
+# ./fake_cam.sh <dur>, where <dur> is the
+#                      duration of a gif.
+#                      Can be omitted.
+
+
+# Parameters
+SOURCE="/dev/video3"
+TARGET="/dev/video4"
+
+# Get time parameter
+DURATION=5
+[ $# -gt 0 ] && DURATION=$1
+
+# Generate name
+IMG=$(mktemp -u)
+
+# Record from webcam
+echo "Recording $DURATION seconds"
+gst-launch-1.0 -v v4l2src device=$SOURCE ! jpegenc ! avimux ! filesink location=$IMG.avi >/dev/null &
+PID=$!
+sleep $DURATION
+kill -9 $PID
+
+# Create endless gif
+echo "Generating GIF"
+ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $IMG.gif
+
+# Broadcast gif to the webcam
+echo "Broadcasting"
+ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET' > ./fake_cam.sh
+
+chmod +x ./fake_cam.sh
+
+intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
+##==========================================
+##------------------------------------------
+## Use OBS to stream to video
+$> firefox https://obsproject.com/wiki/install-instructions#linux
+$> firefox https://www.youtube.com/watch?v=Eca509IDLdM
+$> sudo add-apt-repository ppa:obsproject/obs-studio
+$> sudo apt-get update
+$> sudo apt-get install obs-studio
+$> firefox https://github.com/CatxFish/obs-v4l2sink/releases
+## in obs go to tools pick
+$> v4l2sink
+##==========================================
+## Data recovery
+$> firefox https://behind.pretix.eu/2020/11/28/undelete-flv-file/
+##==========================================
+## Download vids from private channel
+## Go to youtube page to be dl
+## create cookiesfile.txt
+$> firefox https://chrome.google.com/webstore/detail/get-cookiestxt/bgaddhkoddajcdgocldbbfleckgcbcid/related?hl=en
+## Download
+$> youtube-dl --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
+##==========================================
+## Collect audio from youtube
+$> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
+##==========================================
+I have marked with a * those which I think are absolutely essential
+Items for each section are sorted by oldest to newest. Come back soon for more!
+
+BASH
+* In bash, 'ctrl-r' searches your command history as you type
+- Input from the commandline as if it were a file by replacing
+  'command < file.in' with 'command <<< "some input text"'
+- '^' is a sed-like operator to replace chars from last command
+  'ls docs; ^docs^web^' is equal to 'ls web'. The second argument can be empty.
+* '!!' expands to the last typed command. Useful for root commands:
+  'cat /etc/...' [permission denied] 'sudo !!'
+* '!!:n' selects the nth argument of the last command, and '!$' the last arg
+  'ls file1 file2 file3; cat !!:1-2' shows all files and cats only 1 and 2
+- 'ESC-.' fetches the last parameter of the previous command
+* Related, include 'shopt -s histverify histreedit' on your .bashrc to
+  double-check all expansions before submitting a command
+- 'nohup ./long_script &' to leave stuff in background even if you logout
+- 'cd -' change to the previous directory you were working on
+- 'ctrl-x ctrl-e' opens an editor to work with long or complex command lines
+* Use traps for cleaning up bash scripts on exit
+  http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html
+* 'shopt -s cdspell' automatically fixes your 'cd folder' spelling mistakes
+* Add 'set editing-mode vi' in your ~/.inputrc to use the vi keybindings
+  for bash and all readline-enabled applications (python, mysql, etc)
+- Aggregate history of all terminals in the same .history. On your .bashrc:
+      shopt -s histappend
+      export HISTSIZE=100000
+      export HISTFILESIZE=100000
+      export HISTCONTROL=ignoredups:erasedups
+      export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+- Pressed 'Ctrl-s' by accident and the terminal is frozen? Unfreeze: 'Ctrl-Q'
+
+
+
+PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
+- function lt() { ls -ltrsa "$@" | tail; }
+- function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+- function fname() { find . -iname "*$@*"; }
+- function remove_lines_from() { grep -F -x -v -f $2 $1; }
+  removes lines from $1 if they appear in $2
+- alias pp="ps axuf | pager"
+- alias sum="xargs | tr ' ' '+' | bc" ## Usage: echo 1 2 3 | sum
+- function mcd() { mkdir $1 && cd $1; }
+
+
+VIM
+- ':set spell' activates vim spellchecker. Use ']s' and '[s' to move between
+  mistakes, 'zg' adds to the dictionary, 'z=' suggests correctly spelled words
+- check my .vimrc https://github.com/cfenollosa/dotfiles/blob/master/.vimrc
+
+
+TOOLS
+* 'htop' instead of 'top'
+- 'ranger' is a nice console file manager for vi fans
+- Use 'apt-file' to see which package provides that file you're missing
+- 'dict' is a commandline dictionary
+- Learn to use 'find' and 'locate' to look for files
+- Compile your own version of 'screen' from the git sources. Most versions
+  have a slow scrolling on a vertical split or even no vertical split at all.
+  Alternatively, use 'tmux', though it is not as ubiquitous as 'screen'.
+* 'trash-cli' sends files to the trash instead of deleting them forever.
+  Be very careful with 'rm' or maybe make a wrapper to avoid deleting '*' by
+  accident (e.g. you want to type 'rm tmp*' but type 'rm tmp *')
+- 'file' gives information about a file, as image dimensions or text encoding
+- 'sort -u' to check for duplicate lines
+- 'echo start_backup.sh | at midnight' starts a command at the specified time
+- Pipe any command over 'column -t' to nicely align the columns
+* Google 'magic sysrq' to bring a Linux machine back from the dead
+- 'diff --side-by-side fileA.txt fileB.txt | pager' to see a nice diff
+* 'j.py' https://github.com/rupa/j2 remembers your most used folders and is an
+  incredible substitute to browse directories by name instead of 'cd'
+- 'dropbox_uploader.sh' lets you upload by commandline via Dropbox's API
+  without the official client https://github.com/andreafabrizi/Dropbox-Uploader
+- learn to use 'pushd' to save time navigating folders (j.py is better though)
+- if you liked the 'psgrep' alias, check 'pgrep' as it is far more powerful
+* never run 'chmod o+x * -R', capitalize the X to avoid executable files. If
+  you want _only_ executable folders: 'find . -type d -exec chmod g+x {} \;'
+- 'xargs' gets its input from a pipe and runs some command for each argument
+* run jobs in parallel easily: 'ls *.png | parallel -j4 convert {} {.}.jpg'
+- grep has a '-c' switch that counts occurences. Don't pipe grep to 'wc -l'.
+- 'man hier' explains the filesystem folders for new users
+- 'tree' instead of 'ls -R'
+* Recover corrupt zip files: First, make copies and **ALWAYS WORK ON A COPY**
+    First: 'zip -F  corrupt_copy1.zip --out recover1.zip'
+    Then:  'zip -FF corrupt_copy2.zip --out recover2.zip'
+    Last:  'ditto -x -k corrupt_copy3.zip --out out_folder/'
+  Merge the contents of the two recovered zipfiles and the out_folder. You
+  will be able to recover most of the data.
+* Use GNU datamash for basic numerical, textual and statistical operations
+  on text files: 'seq 10 | datamash sum 1 mean 1'
+
+
+NETWORKING
+- Don't know where to start? SMB is usually better than NFS for newbies.
+  If really you know what you are doing, then NFS is the way to go.
+* If you use 'sshfs_mount' and suffer from disconnects, use
+  '-o reconnect,workaround=truncate:rename'
+- 'python -m SimpleHTTPServer 8080' or 'python3 -mhttp.server localhost 8080'
+  shares all the files in the current folder over HTTP.
+* 'ssh -R 12345:localhost:22 -N server.com' forwards server.com's port 12345
+  to your local ssh port, even if you machine is behind a firewall/NAT.
+  'ssh localhost -p 12345' from server.com will get you in your machine.
+* Read on 'ssh-agent' to strenghten your ssh connections using private keys,
+  while avoiding typing passwords every time you ssh.
+- 'socat TCP4-LISTEN:1234,fork TCP4:192.168.1.1:22' forwards your port
+  1234 to another machine's port 22. Very useful for quick NAT redirection.
+- Some tools to monitor network connections and bandwith:
+  'lsof -i' monitors network connections in real time
+  'iftop' shows bandwith usage per *connection*
+  'nethogs' shows the bandwith usage per *process*
+* Use this trick on .ssh/config to directly access 'host2' which is on a private
+  network, and must be accessed by ssh-ing into 'host1' first
+  Host host2
+      ProxyCommand ssh -T host1 'nc %h %p'
+      HostName host2
+* Pipe a compressed file over ssh to avoid creating large temporary .tgz files
+  'tar cz folder/ | ssh server "tar xz"' or even better, use 'rsync'
+* ssmtp can use a Gmail account as SMTP and send emails from the command line.
+  'echo "Hello, User!" | mail user@domain.com' ## Thanks to Adam Ziaja.
+  Configure your /etc/ssmtp/ssmtp.conf:
+      root=***E-MAIL***
+      mailhub=smtp.gmail.com:587
+      rewriteDomain=
+      hostname=smtp.gmail.com:587
+      UseSTARTTLS=YES
+      UseTLS=YES
+      AuthUser=***E-MAIL***
+      AuthPass=***PASSWORD***
+      AuthMethod=LOGIN
+      FromLineOverride=YES
+
+                                     -~-
+
+(CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
+Retrieved from http://cfenollosa.com/misc/tricks.txt
+Last modified: Mon 13 Feb 2017 09:31:38 CET
+
+##==========================================
+diff --side-by-side test.txt test2.txt | pager
+
+##==========================================
+mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
+
+##==========================================
+## Remove unused kernels
+apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+##==========================================
+## Youtube search and play
+$> cat > shell.txt << EOF
+$> ## Youtube search and play
+$> #Usage: ytfzf <search query>
+$> #     -h                    Show this help text
+$> #     -H                    Choose from history
+$> #     -D                    Delete history
+$> #     -m  <search query>    Audio only (for listening to music)
+$> #     -d  <search query>    Download to current directory
+$> #     -f  <search query>    Show available formats before proceeding
+$> #!/bin/sh
+$> [ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
+$> EOF
+EOF
+##==========================================
+## Clear the MBR
+$> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
+##==========================================
+## Software to look at
+## amass, dirsearch, and nmap
+## Browser: Firefox ESR
+## Email Client: Claws Mail
+## Media Player: VLC Media Player
+## Image viewer: Nomacs
+## Note Taking app: Zim
+## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
+## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
+## Misc: Pulse Effects,
+## CopyQ Clipboard Manager with Advanced Features
+## , Virtual box, GNOME Screenshot,
+##
+## ## Flameshot
+## https://github.com/flameshot-org/flameshot/releases,
+##
+## Recoll and Video Trimme
+##==========================================
+## Pulse Effects large array of audio effects and filters to apply to input and output audio streams
+$> sudo add-apt-repository ppa:mikhailnov/pulseeffects
+$> sudo apt update
+$> sudo apt install pulseeffects pulseaudio --install-recommends
+##==========================================
+## CADin wine
+$> firefox https://www.babacad.com/linux_install_howto.html
+##==========================================
+## VM Win10
+## IEUser:Passwr0rd!
+$> firefox https://isoriver.com
+$> wget https://az792536.vo.msecnd.net/vms/VMBuild_20190311/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip
+## Also see
+$> firefox https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/
+##==========================================
+## Find me a Linux Distro
+## Discover new Linux distribution with a single click
+$> firefox https://www.fmald.net/
+##==========================================
+## rembg removes backgrounds from images
+$> firefox https://github.com/danielgatis/rembg
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
 
 ##==========================================
 
@@ -9028,22 +9943,6 @@ https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask-me-for-my-
 
 ##==========================================
 
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
 
 ##==========================================
 
