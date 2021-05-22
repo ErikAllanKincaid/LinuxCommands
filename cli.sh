@@ -9684,7 +9684,7 @@ $> diff --side-by-side test.txt test2.txt | pager
 $> mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
 ##==========================================
 ## Remove unused kernels
-apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+$> apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
 ##==========================================
 ## Youtube search and play
 $> cat > shell.txt << EOF
