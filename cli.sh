@@ -1845,7 +1845,7 @@ Useful specifiers for git log --pretty=format
 %cr             ## Committer date, relative
 %s              ## Subject
 ## Example
-git log --pretty=format:"%h %s" --graph             
+git log --pretty=format:"%h %s" --graph
 ## Option              Description
 -p                  ## Show the patch introduced with each commit.
 --stat              ## Show statistics for files modified in each commit.
@@ -4967,8 +4967,8 @@ $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efa
 ## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
 $> sudo apt-get install dconf-editor
 $> org > nemo > desktop
-## untick the option 
-"use-desktop-grid" 
+## untick the option
+"use-desktop-grid"
 ##==========================================
 ## Disable updates for installed Chrome plugins
 ## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
@@ -8051,8 +8051,8 @@ $> firefox https://code.visualstudio.com/docs/other/unity
 ## Debugger for Unity, Unity Tools, Unity Code Snippets, Unity Snippets
 ## Step 3: Connect Unity3D Editor to VSCode.
 ## open unity and go to file -> preferences and change external script editor to Browse and then go to
-$> /usr/bin/code 
-## or 
+$> /usr/bin/code
+## or
 $> /usr/bin/vscode
 ## if you got any problems with that try
 $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
@@ -8357,7 +8357,7 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ┌───────────────────────────────┐
 │                               │
 └───────────────────────────────┘
-| 
+|
 ╢
 
 ╔══════════════════════════════════════════════════════════════════════╗
@@ -8377,7 +8377,7 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ╟──────────────────────────────────────────────────────────────────────╢
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
-                                                                         
+
 
 ##==========================================
 ## Dump network connections
@@ -9157,7 +9157,7 @@ $> wget https://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosu
 $> echo $0
 ## Check available shells
 $> cat /etc/shells
-## Choose default shell, must sign back 
+## Choose default shell, must sign back
 ##--------------------
 ## Install Oh My zsh
 $> wget --no-check-certificate http://install.ohmyz.sh -O - | sh
@@ -9186,7 +9186,7 @@ http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 $> cd ~/.zsh
 $> git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 $> echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-or 
+or
 $> echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ## Then, enable syntax highlighting in the current interactive shell:
 $> source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh=
@@ -9345,7 +9345,7 @@ $> nvidia-smi -l 1
 ##==========================================
 ## similar to top and htop, but specifically for the Intel GPU
 ## from http://intellinuxgraphics.org/ project
-$> sudo apt-get install intel-gpu-tools 
+$> sudo apt-get install intel-gpu-tools
 $> intel_gpu_top
 ##==========================================
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚
@@ -9360,12 +9360,12 @@ $> firefox https://www.tabnine.com/install/sublime/
 #    Add Plugin 'zxqfl/tabnine-vim' to your .vimrc.
 #    Type :PluginInstall and press Enter.
 ## Without Vundle
-## Run 
+## Run
 $> git clone --depth 1 https://github.com/zxqfl/tabnine-vim in your terminal.
 ## Add
 $> set rtp+=~/tabnine-vim to your .vimrc (replacing ~/tabnine-vim with the path you cloned it to).
 ##==========================================
-##Quick ref for 
+##Quick ref for
 $> for i in {01..10}; do <BLA>$i <COMMAND>; done
 ##==========================================
 ##
@@ -9533,11 +9533,11 @@ $> screen -ls
 $>screen -r YOURSESSIONNAME
 ## You can quit that screen without attaching to it. First, find its session:
 $> screen -ls
-## "detach" your screen session but leave your processes running. 
+## "detach" your screen session but leave your processes running.
 $> Ctrl - A
 $> Ctrl - D
 ## You can now log out of the remote box. If you want to come back later, log on again and type  This will "resume" your screen session, and you can see the output of your process.
-$> screen -r 
+$> screen -r
 ## This will "resume" your screen session, and you can see the output of your process.
 ## and then quit it:(-X = Execute command, -S session PID to execute on)
 $> screen -XS YOURSESSIONNAME quit
@@ -9572,7 +9572,7 @@ $#    then
 $#      sudo touch "/file"
 $#    fi
 ##==========================================
-## Make timestamped output file 
+## Make timestamped output file
 $> outputfile="output_$(date --utc +"%y_%m_%d_%H%M%S").mp4"
 ##==========================================
 ## Build kernel
@@ -9585,7 +9585,7 @@ $> sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ## script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
 $> sudo apt-get install v4l2loopback-utils
 ## creates fake camera input
-$> sudo modprobe v4l2loopback 
+$> sudo modprobe v4l2loopback
 ## all your video devices can be listed with
 $> v4l2-ctl --list-device
 ## Make a gif out of a video
@@ -9613,35 +9613,35 @@ v4l2-ctl --list-device
 gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
 ## Can make script
 echo '#/bin/sh
- 
+
 # Usage
 # ./fake_cam.sh <dur>, where <dur> is the
 #                      duration of a gif.
 #                      Can be omitted.
- 
- 
+
+
 # Parameters
 SOURCE="/dev/video3"
 TARGET="/dev/video4"
- 
+
 # Get time parameter
 DURATION=5
 [ $# -gt 0 ] && DURATION=$1
- 
+
 # Generate name
 IMG=$(mktemp -u)
- 
+
 # Record from webcam
 echo "Recording $DURATION seconds"
 gst-launch-1.0 -v v4l2src device=$SOURCE ! jpegenc ! avimux ! filesink location=$IMG.avi >/dev/null &
 PID=$!
 sleep $DURATION
 kill -9 $PID
- 
+
 # Create endless gif
 echo "Generating GIF"
 ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $IMG.gif
- 
+
 # Broadcast gif to the webcam
 echo "Broadcasting"
 ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET' > ./fake_cam.sh
@@ -9658,7 +9658,7 @@ $> sudo add-apt-repository ppa:obsproject/obs-studio
 $> sudo apt-get update
 $> sudo apt-get install obs-studio
 $> firefox https://github.com/CatxFish/obs-v4l2sink/releases
-## in obs go to tools pick 
+## in obs go to tools pick
 $> v4l2sink
 ##==========================================
 ## Data recovery
@@ -9834,6 +9834,7 @@ $> #     -f  <search query>    Show available formats before proceeding
 $> #!/bin/sh
 $> [ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
 $> EOF
+EOF
 ##==========================================
 ## Clear the MBR
 $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
@@ -9850,10 +9851,10 @@ $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
 ## Misc: Pulse Effects,
 ## CopyQ Clipboard Manager with Advanced Features
 ## , Virtual box, GNOME Screenshot,
-## 
+##
 ## ## Flameshot
 ## https://github.com/flameshot-org/flameshot/releases,
-## 
+##
 ## Recoll and Video Trimme
 ##==========================================
 ## Pulse Effects large array of audio effects and filters to apply to input and output audio streams
@@ -9864,7 +9865,7 @@ $> sudo apt install pulseeffects pulseaudio --install-recommends
 ## CADin wine
 $> firefox https://www.babacad.com/linux_install_howto.html
 ##==========================================
-## VM Win10 
+## VM Win10
 ## IEUser:Passwr0rd!
 $> firefox https://isoriver.com
 $> wget https://az792536.vo.msecnd.net/vms/VMBuild_20190311/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip
