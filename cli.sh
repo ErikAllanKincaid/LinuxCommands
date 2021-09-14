@@ -122,7 +122,7 @@ $> dpkg -S boing.wav                                ## See what package a file b
 $> cat /proc/sys/vm/swappiness                      ## Check how much swapping data RAM to swap partition, 1-100; 1-preferRAM to 100-preferDisk
 $> uname -p                                         ## 32 bits or 64 bits?
 $> inxi -F                                          ## Outputs an assortment of system information# Get full from half remembered commands
-$> apropos <part_rember> | less                     ## Searches through man pages
+$> apropos <part_remember> | less                   ## Searches through man pages
 $> apt-show-versions                                ## Show version of installed applications
 $> dpkg -l | grep '^i' | awk '{print $2}' | sort    ## Print sorted list of all installed packages (Debian)
 $> systemctl status                                 ## Treeview of systemd system service
@@ -135,10 +135,10 @@ $> e4defrag / -c                                    ## Check fragmentation of ex
 $> sensors                                          ## Temp of sensors on motherboard
 $> ldd /usr/bin/mc                                  ## Show shared library dependencies
 $> upower -i /org/freedesktop/UPower/devices/battery_BAT0     ## Check battery health
-$> xrandr --verbose
+$> xrandr --verbose                                 ## Information on the display
 $> acpitool -e
 $> lsscsi
-$> glxinfo
+$> glxinfo                                          ## information about the OpenGL and GLX implementations running on a given X display.
 $> sudo cat /var/log/syslog                         ## Display the system log
 ##==========================================
 ##==========================================
@@ -2727,7 +2727,7 @@ $@  if [ -d /tmp/mydir ]         ## use  [ -d /path ]to test if dir exists
 $@  [ ! -f /tmp/testfile ] && touch /tmp/testfile          ## For File
 $@  [ ! -d /tmp/mydir ] && mkdir -p /tmp/mydir             ## For Directory
 $@  -f                           ## look for file test if it is a file
-$@  -e                           ## checks for existance
+$@  -e                           ## checks for existence
 $@  -z -n                        ## is null, is not null
 $@  -r -w -x                     ## checks for read write execute permissions
 $@  -eq                          ## equality test
@@ -2814,16 +2814,13 @@ $> reset                        ## Resets the terminal and removes all text
 $> echo -ne '\033c'             ## Removes all text
 ##==========================================
 ## Brace expansion.
-$> echo \"{These,words,are,quoted}\"   # " prefix and suffix
-# "These" "words" "are" "quoted"
-$> cat {file1,file2,file3} > combined_file
-# Concatenates the files file1, file2, and file3 into combined_file.
-$> cp file22.{txt,backup}
-# Copies "file22.txt" to "file22.backup"
+$> echo \"{These,words,are,quoted}\"        ## " prefix and suffix # "These" "words" "are" "quoted"
+$> cat {file1,file2,file3} > combined_file  ## Concatenates the files file1, file2, and file3 into combined_file.
+$> cp file22.{txt,backup}                   ## Copies "file22.txt" to "file22.backup"
 ##==========================================
 ## Colour text variables to output colored text
 ## tput controls the look of output
-## set the attributes you wat to use
+## set the attributes you want to use
 $@ bold=$(tput bold)
 $@ under=$(tput smul)
 $@ reverse=$(tput rev)
@@ -3009,6 +3006,11 @@ $> cat <<UNTILHERE
 All of this printed,
 since all of this is going into cat on STDIN.
 UNTILHERE
+## Redirect STADIN to a file
+$> cat > file.txt << EOF
+All of this printed,
+since all of this is going into cat on STDIN.
+EOF
 ## STDIN is channel 0, STDOUT is channel 1, while STDERR is channel 2.
 ## To redirect error output (STDERR), use the operator 2>
 $> httpd 2> error.log                      ## writes errors from web daemon start-up to an error log
@@ -3025,8 +3027,12 @@ $> du -cks * | sort -rn | head             ## prints files in current dir in ord
 $> cat <(uptime) <(date) <(tail -1 event.log) >> main.log  ## appends uptime, date and last line of event.log onto main.log:
 ## Execute a command in the background
 $> time-consuming-command &                ## Put command in background with &
+## $! is last process pid
 $> pid=$!                                  ## $! is last process pid
+## wait for pid to finish then run command
 $> wait $pid ; echo "Process $pid finished." ## wait for pid to finish then run command
+## Execute a command, then if successful execute another with &&
+$> first-command && command-dependent-on-first-command
 ## Globs and patterns * matches any string. ? matches a single character. [chars] matches any character in chars. [a-b] matches any character between a and b.
 $> echo {0,2}{0,2}                         ## print 00 02 20 22
 ## fuction sub-routine. Syntax; function name() { command ; command ; }
@@ -4376,6 +4382,21 @@ $> alias treeview='pwd;find . -path ./node_modules -prune -o -print | sort | sed
 ## Create an extra simple html framework
 $> function htmlindex() { echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html ; }
 ##==========================================
+## shopt is a builtin command that enables or disables options for the current shell session.
+## Correct dir spellings
+$> shopt -q -s cdspell
+## Make sure display get updated when terminal window get resized
+$> shopt -q -s checkwinsize
+## Turn on the extended pattern matching features
+$> shopt -q -s extglob
+## Append rather than overwrite history on exit
+$> shopt -s histappend
+## Make multi-line commandsline in history
+$> shopt -q -s cmdhist
+## Get immediate notification of bacground job termination
+$> set -o notify
+## Disable [CTRL-D] which is used to exit the shell
+$> set -o ignoreeof
 ##==========================================
 ##==========================================
 ##==========================================
@@ -4471,6 +4492,15 @@ $> omxplayer -o hdmi video.h264
 ## $> chmod +x /bin/stream.bash
 ## $> ENTRYPOINT ["/bin/stream.bash"]
 ##==========================================
+## Fork bomb (dont actually execute)
+## “$0” is a variable returning the name of the script that you call it in — so running “./$0&” twice amounts to the script running itself in a separate process twice. Show Sample Output
+## $> echo -e “\x23\x21/bin/bash\n\.\/\$\0\&\n\.\/\$\0\&” > bomb.sh && ./bomb.sh
+##==========================================
+
+##==========================================
+
+##==========================================
+
 ##==========================================
 ## ####################################################
 ## #                   END DANGER                     #
@@ -4661,13 +4691,13 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ✹ ✺ ✻ ✼ ✽ ✾ ❀ ✿ ❁ ❃ ❇ ❈ ❉ ❊ ❋ ⁕ ☘ ❦ ❧ ☙ ❢ ❣ ♀ ♂ ⚲ ⚢ ⚣ ⚤ ⚥ ⚦ ⚧ ⚨ ⚩ ☿ ♁ ⚯ ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟ ☖
 ☗ ♠ ♣ ♦ ♥ ❤ ❥ ♡ ♢ ♤ ♧ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ⚇ ⚆ ⚈ ⚉ ♨ ♩ ♪ ♫ ♬ ♭ ♮ ♯ ⌨ ⏏ ⎗ ⎘ ⎙ ⎚ ⌥ ⎇ ⌘ ⌦ ⌫ ⌧ ♲ ♳ ♴ ♵ ♶ ♷ ♸ ♹
 ♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇ ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⏚ ⏛
-┊ ○ ● ⚠ ✡ °
+┊ ○ ● ⚠ ✡ ° ⁂
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡
 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚ ⚫ ⚓ 🐰 🕳
  ✦ ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦
 ❤️
 ⌽⌇ ⌍ ⌎⎌ ⌏ ⌐ ⌑ ⌔
-⌙ ⌢ ⌣ ⌯ ⌬
+⌙ ⌢ ⌣ ⌯ ⌬�
 ⍙Δ
 𓆏⚪⚫
 ᛉ卐
@@ -4685,7 +4715,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ☠️ ⚠️ 🎉 🐢
 🐈 😠 💩 💨
 🐟
-
+壁紙はんぱねぇ。
 
 ¯\_(ツ)_/¯
 
@@ -4897,6 +4927,20 @@ $> function iconcolors () { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$
 ##------------------------------------------
 $> function iconcolors () { cp -r /usr/share/icons/Mint-X      ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#aacb7d" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/5e8048/888889/g" -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ; }
 ##==========================================
+## Resize icons on desktop
+## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
+$> gsettings set org.nemo.desktop use-desktop-grid false
+## Or GUI
+## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
+$> sudo apt-get install dconf-editor
+$> org > nemo > desktop
+## untick the option
+$> "use-desktop-grid"
+##==========================================
+## Disable updates for installed Chrome plugins
+## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
+$> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_url\": \"hxxp/g' -i.bak '{}' \;
+##==========================================
 
 ##==========================================
 
@@ -4964,25 +5008,12 @@ $> sqlite3 ~/.mozilla/firefox/*.[dD]efault/places.sqlite "SELECT strftime('%d.%m
 ## Show Firefox Addons
 $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efault/extensions.json
 ##==========================================
-## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
-$> sudo apt-get install dconf-editor
-$> org > nemo > desktop
-## untick the option
-"use-desktop-grid"
-##==========================================
-## Disable updates for installed Chrome plugins
-## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
-$> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_url\": \"hxxp/g' -i.bak '{}' \;
-##==========================================
 ## Convert libreoffice files : .odt .odg and other to .pdf
 ## Find and Convert all libre office files to PDF without libreoffice GUI Show Sample Output
 $> find /home/foo/Documents/ -type f -iname "*.odt" -exec libreoffice --headless --convert-to pdf '{}' \;
 ##==========================================
 ## Adminer. SQL GUI. The whole application is in one PHP file, which means that the deployment is as easy as it can get. It's more powerful than phpMyAdmin; it can edit views, procedures, triggers, etc.
 $> sudo apt-get install adminer
-##==========================================
-## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
-$> gsettings set org.nemo.desktop use-desktop-grid false
 ##==========================================
 ## Replace all instances of "A" with "B" in file "source" saved as file "destination"
 $> xxd -p source | fold -w2 | paste -sd' ' | sed "s/A/B/g" | xxd -p -r > destination
@@ -5027,6 +5058,7 @@ $> sudo mlabel -i /dev/sdb1 ::
 $> sudo mlabel -i /dev/sdb1 ::NEWLABEL
 ##==========================================
 ## Search the internet
+## Written by Julian Assange
 $> man surfraw # -elvi list of search engines, -dump,
 $> sudo mcedit /etc/xdg/surfraw/conf
 ## man
@@ -5603,7 +5635,6 @@ $> ix() { local opts; local OPTIND; [ -f "$HOME/.netrc" ] && opts='-n'; while ge
 ## Clear filesystem memory cache
 $> sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 ## Found here: http://ubuntuforums.org/showthread.php?t=589975
-##==========================================
 ##==========================================
 ## Get a qrcode for a given string from qrenco.de
 $> echo "http://commandlinefu.com" | curl -F-=\<- qrenco.de
@@ -9416,7 +9447,7 @@ $#          ## The number of arguments in $*
 $_          ## The default parameter for a lot of functions.
 $.          ## Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
 $/          ## Holds the input record separator. The record separator is usually the newline character. However, if $/ is set to an empty string, two or more newlines in the input file will be treated as one.
-$,          ## The output separator for the print() function. Nor-mally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
+$,          ## The output separator for the print() function. Normally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
 $\          ## Added as an invisible last element to the parameters passed to the print() function. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to $.
 $#          ## The default format for printed numbers. Normally, its set to %.20g, but you can use the format specifiers covered in the section "Example: Printing Revisited" in Chapter 9to specify your own default format.
 $%          ## Holds the current page number for the default file handle. If you use select() to change the default file handle, $% will change to reflect the page number of the newly selected file handle.
@@ -9452,7 +9483,9 @@ $^P-        ## This variable is an internal flag that the debugger clears so it 
 $^T--       ## Holds the time, in seconds, at which the script begins running.
 $^W--       ## Holds the current value of the -w command line option.
 $^X--       ## Holds the full pathname of the Perl interpreter being used to run the current script.
-
+## redirect
+$>  2<&-       ## closes stderr,
+$>  >&-        ## closes stdout
 ##==========================================
 ## Accessing an iPads file system from Linux
 ## Despite using Linux on pretty much every computer I’ve owned for the last 20 years I’ve made an exception when it comes to tablet devices and adopted an iPad into my life as commute friendly “source of all books.” Overtime it’s been occasionally pressed into service as a camera and I recently realised I’ve never backed any of those photos up. “That’s something easy to remedy” I naively thought as I plugged my iPad into a laptop and watched as it didn’t appear as a block device.
@@ -9612,7 +9645,8 @@ v4l2-ctl --list-device
 ## Now execute following command to make "Real" work (note that this command should work in background):
 gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
 ## Can make script
-echo '#/bin/sh
+cat > ./fake_cam.sh << EOF
+#/bin/sh
 
 # Usage
 # ./fake_cam.sh <dur>, where <dur> is the
@@ -9644,10 +9678,12 @@ ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=l
 
 # Broadcast gif to the webcam
 echo "Broadcasting"
-ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET' > ./fake_cam.sh
+ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET
+EOF
 
 chmod +x ./fake_cam.sh
-
+##==========================================
+## google search
 intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
 ##==========================================
 ##------------------------------------------
@@ -9687,47 +9723,29 @@ $> mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
 $> apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
 ##==========================================
 ## Youtube search and play
-$> cat > shell.txt << EOF
-$> ## Youtube search and play
-$> #Usage: ytfzf <search query>
-$> #     -h                    Show this help text
-$> #     -H                    Choose from history
-$> #     -D                    Delete history
-$> #     -m  <search query>    Audio only (for listening to music)
-$> #     -d  <search query>    Download to current directory
-$> #     -f  <search query>    Show available formats before proceeding
-$> #!/bin/sh
-$> [ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
-$> EOF
+$> cat > ytfzf.sh << EOF
+## Youtube search and play
+#Usage: ./ytfzf.sh <search query>
+#     -h                    Show this help text
+#     -H                    Choose from history
+#     -D                    Delete history
+#     -m  <search query>    Audio only (for listening to music)
+#     -d  <search query>    Download to current directory
+#     -f  <search query>    Show available formats before proceeding
+#!/bin/sh
+[ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
 EOF
 ##==========================================
 ## Clear the MBR
 $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
 ##==========================================
-## Software to look at
-## amass, dirsearch, and nmap
-## Browser: Firefox ESR
-## Email Client: Claws Mail
-## Media Player: VLC Media Player
-## Image viewer: Nomacs
-## Note Taking app: Zim
-## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
-## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
-## Misc: Pulse Effects,
-## CopyQ Clipboard Manager with Advanced Features
-## , Virtual box, GNOME Screenshot,
-##
-## ## Flameshot
-## https://github.com/flameshot-org/flameshot/releases,
-##
-## Recoll and Video Trimme
-##==========================================
 ## Pulse Effects large array of audio effects and filters to apply to input and output audio streams
+$> firefox https://github.com/wwmm/pulseeffects
 $> sudo add-apt-repository ppa:mikhailnov/pulseeffects
 $> sudo apt update
 $> sudo apt install pulseeffects pulseaudio --install-recommends
 ##==========================================
-## CADin wine
+## CAD in wine
 $> firefox https://www.babacad.com/linux_install_howto.html
 ##==========================================
 ## VM Win10
@@ -9749,7 +9767,299 @@ $> firefox https://github.com/danielgatis/rembg
 $> git remote set-url <remote_name> <remote_url>
 ## For example, let’s say that you want to change the URL of your Git origin remote.
 ## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
-$> git remote set-url origin git@github.com:ErikAllanKincaid/LinuxCommands.git
+$> git remote set-url origin git@github.com:$USER/LinuxCommands.git
+##==========================================
+## Cut
+$> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "[YURI] School Days  S01E01 (BD 1080p x264 10bit Flac).mkv" -vf "subtitles=\[YURI\]\ School\ Days\ \ S01E01\ \(BD\ 1080p\ x264\ 10bit\ Flac\).mkv" -c:v libx264 -c:a aac endings/1.mp4
+##==========================================
+## linux on floppy
+$> firefox https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/
+## ploterific is a command line program meant for a quick and easy way to plot tabular data from the command line.
+$> firefox https://github.com/GregorySchwartz/ploterific
+## Lightning fast Linux init
+$> firefox https://github.com/Sweets/hummingbird/
+##==========================================
+## youtube-dl gui
+$> sudo add-apt-repository ppa:mordec13/youtubedl-gui
+$> sudo apt-get update && sudo apt-get install youtubedl-gui
+##==========================================
+## Sublime text editor
+## Sublime Text is a proprietary cross-platform source code editor with a Python application programming interface. It natively supports many programming languages and markup languages, and functions can be added by users with plugins, typically community-built and maintained under free-software licenses.
+$> wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+$> echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+$> sudo apt-get update
+$> sudo apt-get install sublime-text
+##==========================================
+## macos-big-sur
+$> firefox https://apps.apple.com/us/app/macos-big-sur/id1526878132?mt=12%3Fmt%3D12
+$> firefox https://macdaddy.io/install-disk-creator/
+$> firefox https://www.macworld.com/article/234409/how-to-create-a-bootable-macos-big-sur-installer-drive.html
+##==========================================
+## onedrive
+$> firefox https://www.linuxuprising.com/2020/02/how-to-keep-onedrive-in-sync-with.html
+$> sudo add-apt-repository ppa:yann1ck/onedrive
+$> sudo apt-get update
+$> sudo apt-get install onedrive
+$> onedrive
+$> onedrive --synchronize --verbose --dry-run
+$> onedrive --synchronize
+##==========================================
+$> firefox https://github.com/fangfufu/Linux-Fake-Background-Webcam
+##==========================================
+## make iso image
+$> mkisofs -o movies.iso /home/username/folder-name
+##==========================================
+## Compare hex dumps
+$> diff <(xxd file1) <(xxd file2)
+##==========================================
+## Batch-Convert text file containing youtube links to mp3
+$> cat playlist.txt | while read line; do youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" ytsearch:"$line" ;done
+##==========================================
+## Show current network interface in use
+$> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
+##==========================================
+## scan multiple log subdirectories for the latest log files and tail them
+$> ls /var/log/* -ld | tr -s " " | cut -d" " -f9 | xargs -i{} sh -c 'echo "\n---{}---\n"; tail -n50 {}/ ls -tr {} | tail -n1'
+##==========================================
+## Finding the fingerprint of a given certificate
+$> openssl x509 -in cert.pem -fingerprint -noout
+##==========================================
+## Compute newest kernel version from Makefile on Torvalds git repository
+## Get newest kernel version by parsing the most bleeding-edge Makefile possible. Useful for doing things like writing live ebuilds and/or self-updating PKGBUILDs for testing purposes. Breakdown: * wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile — retrieve Makefile and pipe to stdout * head -n5 — only the first 5 lines are relevant, thats where all the version variables are grep -E '\ \=\ [0-9]{1,}' — version variables always have an equals sign followed by a number * cut -d' ' -f3 — extract the individual numbers from the version variables * tr '\n' '.' — replace newlines with periods * sed -e "s/\.$//" — remove trailing period Show Sample Output
+$> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile | head -n5 | grep -E '\ \=\ [0-9]{1,}' | cut -d' ' -f3 | tr '\n' '.' | sed -e "s/\.$//"
+##==========================================
+## Run entire shell script as root
+## Placing sudo in the shebang line of a shell script runs the entire thing as root.
+$> echo '#!/usr/bin/sudo /bin/bash' > script.sh
+##------------------------------------------
+## Run entire shell script as root
+## Placing sudo in the shebang line of a shell script runs the entire thing as root.
+$> sed "1i\
+$> #!/usr/bin/sudo /bin/bash" file_name.sh > new_filename.sh
+##==========================================
+## Save a copy of all debian packages in the form in which they are installed and configured on your system
+## A copy of all installed debian packages on your system will be put back together, with all changes in configuration files you made and placed in the current directory. Make sure you have enough disk space (say 2-3 GB). Break any time with Ctrl+C. Show Sample Output
+$> for a in $(sudo dpkg --get-selections|cut -f1); do dpkg-repack $a|awk '{if (system("sleep .5 && exit 2") != 2) exit; print}';done
+##==========================================
+## Code to check if a module is used in python code
+$> find . -name "*.ipynb" -exec grep -l "symspellpy" {} \;
+##==========================================
+## Individually 7zip all files in current directory
+$> for i in *.*; do 7z a "$i".7z "$i"; done
+##==========================================
+## Moving large number of files
+## if you want to move with command mv large list of files than you would get following error /bin/mv: Argument list too long alternavite with exec: find /source/directory -mindepth 1 -maxdepth 1 -name '*' -exec mv {} /target/directory \; Show Sample Output
+$> find /source/directory -mindepth 1 -maxdepth 1 -name '*' -print0 | xargs -0 mv -t /target/directory;
+##==========================================
+## Rename all subtitles files with the same name of mp4 files in same folder
+## Use this command if you want to rename all subtitles for them to have the same name as the mp4 files. NOTE: The order of "ls -1 *.mp4" must match the order of "ls -1 *.srt", run the command bellow to make sure the *.srt files will really match the movies after run this command: paste -d:
+$> paste -d: <(ls -1 *.mp4) <(ls -1 *.srt) | while read line; do movie="${line%%:*}"; subtitle="${line##*:}"; mv "${subtitle}" "${movie%.*}.srt"; done
+##==========================================
+## tree command limit depth for recursive directory list
+## sometimes I need list from path with max limit for recursive depth directory listing
+$> tree -L 2 -u -g -p -d
+##==========================================
+## Find out how much ram memory has your video (graphic) card
+$> glxinfo |grep -i -o 'device|memory\|[0-9]\{1,12\} MB'|head -n 1
+##==========================================
+## List all accessed configuration files while executing a program in linux terminal (improved version)
+## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
+$> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
+##==========================================
+## Boooted as EFI/UEFI or BIOS
+$> [[ -d "/sys/firmware/efi" ]] && echo "UEFI" || echo "BIOS"
+##==========================================
+## Delete all local git branches that have been merged and deleted from remote
+$> git branch -d $( git branch -vv | grep '\[[^:]\+: gone\]' | awk '{print $1}' | xargs )
+##==========================================
+## Get all upgradable deb packages in a single line
+## Works for debian and ubuntu based distros. Show Sample Output
+$> apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
+##==========================================
+## Get info about a gui window
+$> xwininfo
+## Make window transparent (50% opacity) in Gnome shell
+## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+##------------------------------------------
+## Make window transparent (50% opacity) in Gnome shell
+##     0x7FFFFFFF - 50% opacity
+##     0xFFFFFFFF - 100% opacity
+## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+## Set opacity via providing window id (obtained from xwininfo):
+$> xprop -id 0x3a00006 -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+##==========================================
+## Countdown Clock
+## I find the other timers are inaccurate. It takes some microseconds to perform the date function. Therefore, using date/time math to calculate the time for us results in millisecond accuracy. This is tailored to the BusyBox date function. May need to change things around for GNU date function. Show Sample Output
+$> let T=$(date +%s)+3*60;while [ $(date +%s) -le $T ]; do let i=$T-$(date +%s); echo -ne "\r$(date -d"0:0:$i" +%H:%M:%S)"; sleep 0.3; done
+##==========================================
+## Write a bootable Linux .iso file directly to a USB-stick
+## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
+$> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
+##==========================================
+## Check difference between two file directories recursively
+$> diff <(tree /dir/one) <(tree /dir/two)
+##==========================================
+## Rotate a video file by 90 degrees CW
+## Change video orientation in metadata only
+$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
+## Rotate a video file by 90 degrees CW
+## Transpose parameter: 0 = 90CounterCLockwise and Vertical Flip (default) 1 = 90Clockwise 2 = 90CounterClockwise 3 = 90Clockwise and Vertical Flip
+$> ffmpeg -i in.mov -vf "transpose=1" out.mov
+##==========================================
+## SSH connection through host in the middle
+$> ssh -J user@reachable_host user@unreacheable_host
+##==========================================
+## Using a single sudo to run multiple && arguments
+## Bash here string
+$> sudo -s <<< 'apt update -y && apt upgrade -y'
+##==========================================
+## bash test check validate if variable is number
+## to test check if given variable is a digit / number Show Sample Output
+$> varNUM=12345; re='^[0-9]+$'; if ! [[ $varNUM =~ $re ]] ; then echo "error: Not a number"; fi
+##==========================================
+## iso to USB with dd and show progress status
+## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
+$> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
+##==========================================
+## Trim disk image for best compression before distributing
+## fstrim is usually used on SSDs but can also be used to remove useless bits from file system images. This is most helpful if the compressed disk image is intended to be distributed, since it will be smaller than an untrimmed compressed image. Show Sample Output
+$> kpartx -av disk.img && mkdir disk && mount /dev/mapper/loop0p1 disk && fstrim -v disk && umount disk && kpartx -d disk.img
+##==========================================
+## Visual alert with keyboard LEDs
+$> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
+##==========================================
+## draw line separator (using knoppix5 idea)
+## No need to fork off a process.
+$> printf "%.s*" {1..40}; printf "\n"
+##==========================================
+## Listing today’s files only
+$> find directory_path -maxdepth 1 -daystart -mtime -1
+## or
+$> ls -al --time-style=+%D| grep `date +%D`
+##==========================================
+## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
+## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
+$> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
+##==========================================
+## List wifi passwords that has been stored as plain text in NetworkManager
+$> sudo grep -H '^psk=' /etc/NetworkManager/system-connections/*
+##==========================================
+## Factory reset your harddrive. (BE CAREFUL!)
+$> hdparm --yes-i-know-what-i-am-doing --dco-restore /dev/sdX
+##==========================================
+## extract column from csv file
+$> cut -d"," -f9
+##==========================================
+## colorize sequences numbers
+## Credits go to Flatcap https://www.commandlinefu.com/commands/by/flatcap
+$> echo abcd89efghij340.20kl|grep --color -e "[0-9]\+" -e "$"
+##==========================================
+## rough estimate about how much disk space is used by all the currently installed debian packages
+## The vaule is expressed in megabytes Show Sample Output
+$> echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
+##==========================================
+## get the full description of a randomly selected package from the list of installed packages on a debian system
+## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
+$> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
+##==========================================
+## Download all recently uploaded pastes on pastebin.com
+$> elinks -dump https://pastebin.com/archive|grep https|cut -c 7-|sed 's/com/com\/raw/g'|awk 'length($0)>32 && length($0)<35'|grep -v 'messages\|settings\|languages\|archive\|facebook\|scraping'|xargs wget
+##==========================================
+## Remove scripts tags from *.html and *.htm files under the current directory
+$> find ./ -type f \( -iname '*.html' -or -iname '*.htm' \) -exec sed -i '/<script/,/<\/script>/d' '{}' \;
+##==========================================
+## Listen YouTube radios streaming
+## Listen YouTube radios streaming. I use it on an alias to easily enter kinda flow state for study/programming. Show Sample Output
+$> streamlink --player="cvlc --no-video" "https://www.youtube.com/freecodecamp/live" 144p | & tee /dev/null
+##==========================================
+## Network Discover in a one liner
+$> nmap -sn 192.168.1.0/24 -oG - | awk '$4=="Status:" && $5=="Up" {print $0}'|column -t
+##==========================================
+## SSH Copy ed25519 key into your host
+$> ssh-copy-id -i your-ed25519-key user@host
+##==========================================
+## //Youtube URL
+$> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
+##==========================================
+
+
+##==========================================
+$> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
+
+##==========================================
+## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
+## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
+$> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
+
+##==========================================
+## allows you to run any command without having to sudo
+$> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+##==========================================
+## appimage is a standalone package format "one app = one file"
+https://appimage.github.io/
+##==========================================
+## Vagrant
+## Install virtualbox, vagrant, and ansible
+## OSX
+brew cask install virtualbox vagrant
+brew install ansible
+## Linux
+sudo apt-get install vagrant ansible virtualbox
+## Create a vagrant vm configuration file
+cat > Vagrantfile << EOF
+dev = [
+    {'name' => 'server0001.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.101' },
+    {'name' => 'server0002.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.102' },
+]
+
+os = 'generic/ubuntu1804'
+
+Vagrant.configure("2") do |config|
+    dev.each do |host|
+        config.vm.define host['name'] do |t|
+            t.vm.box = os
+            t.vm.hostname = host['name']
+            t.vm.network(:private_network, ip: host['ip'])
+        end
+    end
+    config.ssh.insert_key = false
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+end
+EOF
+## Start all the VMs
+vagrant up
+## Start one vm
+vagrant up server0001.dev.sfo.stcg.standard.ai
+## Check
+vagrant status
+## Run a command to verify
+vagrant ssh server0001.dev.sfo.stcg.standard.ai -c 'echo hello world'
+## ssh into vm
+ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
+## Copy over a file, in this case a linux learning file
+scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
+## Do the learning in the file
+## Make a directory
+vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
+## To stop the VM
+## shut it down forcefully
+vagrant halt
+## suspend the virtual machine
+vagrant suspend
+## restart it again,
+vagrant up
+## Remove the vm completely
+vagrant destroy
+## Or
+vagrant -f destroy
+
+##==========================================
+## Use vagrant to test ansible
+
 ##==========================================
 
 
@@ -9848,6 +10158,593 @@ $> git remote set-url origin git@github.com:ErikAllanKincaid/LinuxCommands.git
 
 ##==========================================
 
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## Software to look at
+## amass, dirsearch, and nmap
+## Browser: Firefox ESR
+## Email Client: Claws Mail
+## Media Player: VLC Media Player
+## Image viewer: Nomacs
+## Note Taking app: Zim
+## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
+## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
+## Misc: Pulse Effects,
+## CopyQ Clipboard Manager with Advanced Features
+## , Virtual box, GNOME Screenshot,
+##
+## ## Flameshot
+## https://github.com/flameshot-org/flameshot/releases,
+##
+## Recoll and Video Trimme
+## Emba, an open source firmware analyzer,
+## https://github.com/andreafabrizi/Dropbox-Uploader
+
+## CudaText - An open source alternative to SublimeText
+https://cudatext.github.io/
+
+
+
+https://github.com/arindas/mac-on-linux-with-qemu
+
+
+
+
+
+
+
+
+
+##==========================================
 
 ##==========================================
 ## Remove the $> to activate the commands

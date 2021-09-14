@@ -1,0 +1,545 @@
+#!/bin/bash
+## HowtoUseTheCommandLineInterface.txt
+## Hi username! This is a copy-paste guide to introduce the command line linux shell. Read the guide and paste the commands into a terminal.
+
+
+##    Table of contents
+
+##    Computer Hardware Information Setup
+##      List hardware - lscpu, lspci, lsusb, lshw
+##      Drives partitions and filesystems - lsblk, df
+
+##    Navigate
+##      Filesystem overview
+##      Move around - pwd, cd, ls
+##      Create files - cat, echo
+##      Search for files - find
+##      Search inside files - grep
+##      Manipulate files - cat, echo, sed
+
+##    Networking
+##      Configuration - ifconfig, iwconfig
+##      Downloading - curl, wget
+##      Web - curl, elinks
+##      Surfing - elinks, lynx
+##      Bittorent - bittorent, youtube
+##      Chat - 
+
+##    Control and Setup
+##      Combining commands - >, >>, |
+##      Install - apt-cache, apt-get
+##      Configure - sudo, mc
+##      Web Surfing - curl, elinks
+
+##    Use
+##      Web - w3m, elinks
+##      Music - cmus, vlc 
+##      Video - mplayer
+##      Pictures - caca
+##      Spreadsheet - csv, sc
+
+##    Develop
+##      html
+##      server - apache, php, mysql
+
+##    Security
+##    
+
+## You have a working GNU linux debian ubuntu based system, which is connected to the internet, and you are wondering what you can do with the old fashioned looking, scrolling letters on a black screen, the terminal. You can do a great deal with the terminal. First we will gather information about the computer, learn to navigate the computer, setup the command line, use the network, use a host of programs to create and play, and develop some of your own files and functions.  Open a terminal on your computer and follow along. Open a dialog with alt+F2 and enter "gnome-terminal" or start a Terminal from the GUI Menu. Copy and paste the commands given into the terminal window and press enter to run the command.
+
+## username@computer ~ $ 
+
+## This is the command line interface to the computer. The initial words and symbols presented are referred to as the prompt and include your name, computer name and the directory you are in. Copy and paste or type the commands given into the terminal and enter to run the command. If at any point there is a command you want to stop you can use ^c or cntl+c to kill the command. The command "exit" will close the terminal session when you are finished.
+
+## Each command in linux has a corresponding manual page explaining the function of the command. The program "man" accesses the manuals. 
+## Open a the manual or man page of the program ls to see what it does (ls - list directory contents) then return to the prompt with the letter q.  
+$> man ls
+$> q # to quit the man page and return to the terminal.
+## Each command is given with a short version of the man page with pertinent options displayed, followed by the command to enter.
+
+############
+# hardware #
+############
+## In this section 
+
+## Gather information about your computer hardware, 
+
+## Get computer hardware information.
+## Gather information about the computer hardware. We will find out information about the CPU, audio card, video controller, network controllers, wifi, and the hard drive.
+ 
+## Find out what cpu you have, list devices on the pci bus. Note the Audio device, VGA compatible controller, and Network Controller, Ethernet controller, list devices on the usb bus. Note wifi, webcam.
+$> lscpu && lspci && lsusb
+
+## For a very detailed view of hardware information.
+$> lshw
+
+## We now know what hardware is on the computer and we can find out what is happening on it right now. Find out what processes are running, how much room is left on the drives, what network devices are configured and control the hardware.
+
+## List tree of the processes running to show the present programs you are run.
+$> pstree
+
+## Get a snapshot of running processes and the resources the processes are using.
+$-> man top # display Linux processes. top has many options -n number of times to refresh.
+$> top -n 1
+
+## Get a live view of running processes, CPU and RAM usage. Press q when finished.
+$-> man top # display Linux processes. 
+$> top # q when finished
+
+## Get the drive partition tree and the mount point directories drives are on.
+$> lsblk -f
+
+## Find out how much space is on the drives and where they are mounted.
+$-> man df # file system disk space usage. df [OPTION], -h --human-readable
+$> df -h
+
+############################
+# Navigate the file system #
+############################
+
+## Find out where you are in the file system using pwd, ls, cd, tree, and learn the directory structure. Just like on an internet address URLs the directories are denoted by a "/" as in /home/username/Documents. Your Documents folder, inside home folder, as in /home/username/, which is the top or root directory /, with a directory called /home in it, with a directory called /home/username in that, and finally a directory called /home/username/Documents. 
+
+## Basic linux file structure tree.
+##  /
+##  ├── /boot
+##  │    ├── Files needed to boot the kernel
+##  │    └── /boot/grub
+##  ├── /etc
+##  │    └── Configuration Files
+##  ├── /sbin
+##  │    └── Administrative programs
+##  ├── /proc
+##  │    └── Each process as a file
+##  ├── /dev
+##  │    ├── Device files such as hard drives
+##  │    └── /dev/sda1
+##  ├── /bin
+##  │    └── System programs
+##  ├── /var 
+##  │    ├── /var/mail
+##  │    ├── /var/log
+##  │    └── /var/www
+##  ├── /media
+##  │    ├── Mounting point for removable file systems like DVDs and USB drives
+##  │    └── /media/username
+##  ├── /mnt
+##  │    └── Mounting point
+##  ├── /opt
+##  │    ├── Some applications install here
+##  │    ├── /opt/google
+##  │    └── /opt/firefox
+##  ├── /tmp
+##  │    └── Temporary storage for temporary files temporarily
+##  ├── /usr
+##  │    ├── /usr/bin
+##  │    │    └── Programs
+##  │    ├── /usr/local
+##  │    │    ├── /usr/local/bin
+##  │    │    │    └── Most user programs
+##  │    │    └── /usr/local/share
+##  │    │         └── Files needed by programs, sounds, icons, wallpaper etc
+##  │    └── /usr/src
+##  │         └──Source files
+##  └── /home
+##       ├── Personal files and settings for each user in a different directory
+##       ├── /home/otheruser
+##       └── /home/username
+##            ├── /home/username/Documents
+##            ├── /home/username/Downloads
+##            ├── /home/username/Musics
+##            ├── /home/username/Pictures
+##            ├── /home/username/Public
+##            └── /home/username/Videos
+
+## Now run some commands to move around and list directories.
+$-> man pwd # print name of current/working directory, -L follow symlinks, -P avoid symlinks
+## username@computer $> 
+$> pwd
+#> /home/username
+
+## Now that we know what folder we are in /home/, we can find out what is in it.
+
+$-> man ls # list directory contents. -l with information, -a list .hidden files
+$> ls
+#> Documents     Documents   Downloads
+#> Music         Pictures    Public 
+#> Templates     Videos
+
+## In tree form you can see the directory structure of your home folder
+
+##          /home/username
+##            ├── /home/username/Documents
+##            ├── /home/username/Downloads
+##            ├── /home/username/Music
+##            ├── /home/username/Pictures
+##            ├── /home/username/Public
+##            └── /home/username/Videos
+
+## Now try the options or switches of the program ls, -l, and -a. Switches alter the output or function of the application.
+## Show a long list of files and attributes.
+$> ls -l
+
+## Show the .hidden files in your home directory.
+$> ls -a
+
+## Change directory into your Documents folder. 
+#man cd - change directory to target, cd <target>, without target will change to your home directory.
+$> cd ~/Documents
+
+## Check your working directory.
+$> pwd
+## Should be /home/username/Documents
+
+## List contents of /Documents
+$> ls -l 
+
+## Make a file and write in it with cat, list the directory to see it there with ls, look at the file with cat, add another line to the file with the echo command, check the file again with cat, copy the files contents to another file named name.sh, copy the file to another directory with cp, erase the original file with rm to clean up the Documents, and finally make the new file executable and run it as a program. Use cd, cat, ls, cat, rm and chmod. 
+
+## Make a script which will run the commands you enter. Make a file, run the cat command to concatenate input text into a new file, write a couple of script lines, press enter, then cntl+d to commit the text to the file.
+$-> man cat # concatenate files and print. cat [OPTIONS] FILE, the ">" redirects the output to a file, >> appends the output to a file. 
+$> cat > file.txt
+## Write exactly what is below and follow the instruction after
+$> echo "My name is,"
+#> push enter for a new line, and then cntl+d to commit.
+
+## List the content of /home/username/Documents should have a new file.txt.
+$> ls
+
+## Look at the content of the file.txt to see what you wrote.
+$> cat file.txt
+
+## Find out your username
+man whoami # print effective userid
+$> whoami
+
+## Add a new line with your username, to the file.txt. The ">>" appends the output to the bottom of a file.
+$-> man echo # display a line of text, use echo 'YOUR MESSAGE HERE.' -n no new line at end, -e interpret backslash escapes
+$> echo 'whoami ' >> file.txt
+
+## Look at the content of the file.txt again, what you wrote before, plus the new line.
+$> cat file.txt
+
+## Redirect the content of the file.txt to another file name.sh, a shell script you can run as a program.
+$> cat file.txt > name.sh
+
+## Copy the original file to another directory, the /tmp directory, used for putting things temporarily.
+$-> man cp # copy files and directories. cp <source> <destination>, -a archive only newer -r recursive 
+$> cp ~/Documents/file.txt /tmp/
+
+## Verify the file was copied to /tmp/file.txt, which was just copied there.
+$> ls /tmp
+
+## Delete the temporary file.txt
+$-> man rm # remove files or directories. rm [OPTION]... FILE, -i interactive
+$> rm -i /tmp/file.txt
+
+## Look at the content of name.sh, make it executable and run the new command you created.
+## Look at the content of name.sh.
+$> cat name.sh
+
+## Change the new name.sh into an executable. The 0755 is octal permissions giving everyone permission to execute this file.
+$-> man chmod # change file mode bits, chmod [OPTION] MODE FILE, -R --recursive, -v --verbose, 0700(rwx------), 0755(rwxr-xr-x), 0777(rwxrwxrwx) 
+$> chmod -v 0755 name.sh
+
+## Run the shell script name.sh as a program which tells you your username. The "./" means in the current directory.
+$> ./name.sh
+
+## Find the file you made, file.txt that you moved to ~/Documents.
+$-> man find # search for files. find /startpath/ -name SEACHTERM, find can be very slow, so be patient
+$> find ~/ -name file.txt
+#> /home/username/Documents/file.txt
+
+## Find where in the filesystem this file, HowtoUseCommandLineInterface.txt, which you are reading, is.
+$-> man find # search for files. 2>/dev/null suppresses errors, -readable limits to files which are readable
+$> find / 2>/dev/null -readable -name HowtoUseCommandLineInterface.txt
+
+## Copy HowtoUseCommandLineInterface.txt to your ~/Documents folder using one command find, nested inside another command cp, with command $(command) syntax. Commands inside $() will be evaluated first, just like when doing math, and the output will be used by the original command outside the parentheses.
+$> cp $(find / 2>/dev/null -readable -name HowtoUseCommandLineInterface.txt) ~/Documents
+
+## Look at the content of HowtoUseCommandLineInterface.txt.
+$> cat HowtoUseCommandLineInterface.txt
+#> See this text scroll by and you can see the end of this file where it says, "Thank you. What is your name?".
+
+## Look at the content of HowtoUseCommandLineInterface.txt to see this text page by page, by piping the output of cat to the program less using "|". The pipe command "|" connects programs, sending data from one program to another. Like the ">", which redirected data to a file, and ">>", which appends data to a file, pipe "|" sends data to a program.
+$-> man less # page by page file reader. Use arrow keys to scroll up and down, q to quit.
+$> cat HowtoUseCommandLineInterface.txt | less
+
+## Copy the file HowtoUseCommandLineInterface.txt save as a backup file called HowtoUseCommandLineInterface.txt.backup.
+$> cp HowtoUseCommandLineInterface.txt HowtoUseCommandLineInterface.txt.backup
+
+## Append your name message from the name.sh program you created to the end of HowtoUseCommandLineInterface.txt.
+$> echo $(./name.sh) >> HowtoUseCommandLineInterface.txt
+
+## Look at the content of HowtoUseCommandLineInterface.txt to see you have answered the question at the bottom.
+$> cat HowtoUseCommandLineInterface.txt
+
+## Output the differences between HowtoUseCommandLineInterface.txt.backup and HowtoUseCommandLineInterface.txt using the program diff. 
+$-> man diff # diff [OPTION]... FILE1 FILE2, 
+$> diff HowtoUseCommandLineInterface.txt HowtoUseCommandLineInterface.txt.backup
+#> Shows the added line "My name is, name" printed by the program you made called name.sh
+
+## Search through the file HowtoUseCommandLineInterface.txt using the program grep by piping the cat data to grep. Search for the term "Linux is Cool" and print the lines containing that pattern. grep is a powerful tool to search text and optput the line of text containing the search term or pattern.
+$-> man grep # print lines matching a pattern. grep [OPTIONS] PATTERN FILE. -v --invert-match, -o, --only-matching part of a line,  
+$> cat HowtoUseCommandLineInterface.txt | grep "Linux is Cool"
+#> You should see the previous two lines.
+
+## Search through the file HowtoUseCommandLineInterface.txt using the program grep to find references to "username".
+$> cat HowtoUseCommandLineInterface.txt | grep "username"
+
+## Personalize the file HowtoUseCommandLineInterface.txt by substituting your name for each reference using the stream editor program sed. sed manipulates data streams and can be used to substitute patterns. First check if the substitution works.
+$> man sed # stream editor for filtering and transforming text. sed [OPTION]...[input-file], -i write back to input file, sed "s/TEXT/NEW TEXT/g". s- substitute, /OLD/NEW/, g- global all instances.
+$> cat HowtoUseCommandLineInterface.txt | sed "s/username/$(whoami)/g"
+
+## Then commit with the sed option -i, putting your name in place where it belongs in the explanations of directory structure in this file.
+$> sed -i "s/username/$(whoami)/g" HowtoUseCommandLineInterface.txt
+
+## username, the text viewer you are using to look at this file may complain about needing to reload, if so, do so.
+
+## Search through the file HowtoUseCommandLineInterface.txt using the program grep to find references to "username".
+$> cat HowtoUseCommandLineInterface.txt | grep $(whoami)
+
+## Re-output the differences between HowtoUseCommandLineInterface.txt.backup and HowtoUseCommandLineInterface.txt using the program diff, to show the changes the sed substitution made to the files.
+$> diff HowtoUseCommandLineInterface.txt HowtoUseCommandLineInterface.txt.backup
+
+## Look at all the commands you have run using the command "history" or cat .bash_history.
+$-> man history # shows a list of commands that the user has run, read from ~/.bash_history.
+$> history
+
+################
+#  networking  #
+################
+
+## Show the network hardware
+$> lspci | grep 'Network\|Ethernet' && lsusb | grep 'Network\|Ethernet'
+
+## Find out what networking devices you have configured and the IP addresses assigned to them. Eth refers to ethernet card, wlan to the wifi card, and lo to local.
+$-> man ifconfig # configure a network interface. ifconfig [-a] [interface], -a display all interfaces even if down
+$> ifconfig -a
+#> Should see eth and/or wlan as well as dummy lo.
+
+## Display your local IP address
+#-> man ip # show/manipulate routing. ip [OPTIONS] OBJECT COMMAND, -r resolve DNS names instead of IP, 
+$> ip address | grep 'inet '
+
+## Display your outside IP address which the servers see and respond to.
+$> nslookup myip.opendns.com resolver1.opendns.com
+
+## Find the IP of your gateway router and display the route to your network cards IP address using the program ip.
+#-> man ip # show/manipulate routing. ip [OPTIONS] OBJECT COMMAND, 
+$> ip route show
+
+## Use the program ping to send a packet of internet data requesting a reply from your gateway router.
+$-> man ping # send ECHO_REQUEST. ping [OPTIONS] destination, -c count, -I interface
+$> ping -c 3 $(echo "$(ip route show | grep -i 'default via'| awk '{print $3 }')")
+
+## Use the program ping to send a packet of internet data requesting a reply from yahoo.com. 
+$> ping -c 1 yahoo.com
+
+## Display your outside IP address from the web site ipecho.net by using the output of wget as input for echo.
+$> echo $(wget http://ipecho.net/plain -q -O -)
+
+## Display a text page from the internet using curl.
+$-> man curl # transfer a URL. curl [options] [URL...], many options
+$> curl http://tldp.yolinux.com/HOWTO/Unix-and-Internet-Fundamentals-HOWTO.html
+
+## Download a text file from the internet using wget. 
+$-> man wget # network downloader. wget [option]... [URL]..., many options, -i file URL list to download, -c Continue getting a partially-downloaded file, -nc --no-clobber, -e command execute
+$> wget http://tldp.yolinux.com/HOWTO/Unix-and-Internet-Fundamentals-HOWTO.html
+
+## Check that the file was downloaded
+$> ls
+
+## Check out the text file downloaded, "Unix-and-Internet-Fundamentals-HOWTO", by using cat.
+$> cat Unix-and-Internet-Fundamentals-HOWTO.html
+
+##==========================================
+## There are many ways to do the same thing. It is possible to edit text with cat, echo, grep, sed, and redirects like > and >> and | but, it is great to have a text editor to use. Start by trying a text editor, nano, to open, edit and save a text file.
+
+## One can look through the file structure with pwd, ls, cd, cat, and find, but it is good to have a File Browser. One can edit text with cat, echo, grep, sed, and redirects like > and >> and | but, it is great to have a text editor to use. There are many ways to do the same thing. Start by trying a text editor nano, then install a file browser called mc, installing with sudo and apt.
+
+## Look at and edit Unix-and-Internet-Fundamentals-HOWTO in a text editor program, nano. 
+$-> man nano # Nano ANOther editor. nano [OPTION] line,column FILE, -m use mouse, ^o output save, ^x exit.
+$> nano -m Unix-and-Internet-Fundamentals-HOWTO.html
+#> Try using the arrow buttons to navigate to the bottom of the document and add a period after your name at the bottom. Save the file and close, cntl+o enter to save the changes, then cntl+x to exit the nano editor back to the commandline.
+
+## Using a text editor is an easy way to navigate and write a text file. A file browser makes looking through the file system easy as well. Midnight Commander or mc is a file browser with a great deal of powerful features. Getting mc requires downloading the mc package into your computer.
+
+## To install a new program from the internet, one must have administrative or root privileges and put in a password. To get administrative privileges you can use the program sudo. Superuser Do will let you do anything on your computer, including mess it up by changing important OS files. As long as we use care, there is no problem using sudo. Add sudo before any command to run it as root.
+$-> man sudo # execute a command as another user. sudo COMMAND. This will allow installing software which requires you run as root and put in a password.
+
+## One can download and install a package from the repositories using the program apt. apt comes as a set of programs, apt-cache and apt-get. 
+## Use apt-get to update the apt package cache from servers on the internet. These servers are defined in /etc/apt/sources.list or /etc/apt/sources.listd.
+$-> man apt-get # APT package handling utility. apt-get OPTION PACKAGE, update, install, remove,
+$> sudo apt-get update
+#> apt will download and update the cache list of available packages.
+
+## Check the availability of Midnight Commander in the database cache of the packages available using apt-cache.
+$-> man apt-cache # Advanced Package Query Tool. apt-cache search PATTERN.
+$> apt-cache search 'Midnight Commander'
+#> Shows a list of applications available matching the search pattern, including, mc - Midnight Commander - a powerful file manager. 
+
+## Download and install mc Midnight Commander using apt-get.
+$-> man apt-get # APT package handling utility. apt-get OPTION PACKAGE, update, install, remove,
+$> sudo apt-get install mc
+
+## Open mc to see the bright blue, dual paned, file browser Midnight Commander. Look at all the same files we see using the ls command earlier. mc is very powerful and we will go over just few capabilities. Documentation of mc is available on the web.
+$-> man mc # Midnight Commander a powerful file manager. mc /PATH, -c --colors, -S skin
+$> mc
+#> Use mc with the mouse or the keyboard. Tab between the two panes. At the top of the list of files is "/.." which goes up one directory to the parent directory. Go up one directory to /home and you can see your what is in your /username directory, then go up one more to /home. Click back into /username and into /Documents to return to the beginning. Highlight Unix-and-Internet-Fundamentals-HOWTO and press F3 to view the file, F10 to close.
+
+#> mc comes with a built-in text editor mcedit. It can be invoked from within mc with F4 or run separately. Highlight Unix-and-Internet-Fundamentals-HOWTO and press F4 to edit the file scroll to the end of the file and replace the period after username with an exclamation "!", and F2 to save the file. F10 to close mcedit and return to mc. F10 and yes to quit mc.
+
+## mcedit can also be used as a stand alone editor. 
+$> mcedit Unix-and-Internet-Fundamentals-HOWTO
+#> F10 to quit mcedit.
+
+## mc has skins which use different color scheme. Skins live in /usr/share/mc/skins.
+$> ls /usr/share/mc/skins
+## Pick a skin and use -S switch in mc to load the skin no .ini after just the name.
+$> mc -S gotar
+#> F10 to quit mc.
+
+## Make a directory structure tree like the ones in the beginning of the guide, with the program tree. Install tree using sudo and apt-get.
+$> sudo apt-get install tree
+## Use tree to look at the structure of your /home/username folder.
+$-> man tree # list contents of directories in a tree-like format. -L NUMBER only go this deep into the directory. -I /PATH/ do not include, 
+$> tree -L 2 ~/
+$> tree ~/
+
+## Installing tree and mc with apt-get used the internet to get the packages. Other parts of the vast internet are also accessible through the commandline. The web is made mostly of linux computers running server programs. These computers run html web servers, ftp file servers, or a host of others. We can use the tools of the commandline to surf, download and upload files. 
+
+## Simple primavive commandline web search.
+## Search for the term "username" with google.com using the programs curl, grep and sed. curl is a feature rich program to transfer data from or to a server in many different protocols. curl submits the search and outputs the google.com search results as URLs, grep picks out the URLs from the search results, sed trims off the extra code for easy reading. Change where it says username in the code to search for other terms.
+$-> man curl # Transfer URLs over network. curl [options] URL, -s no progress or error messages, -L --location follow redirect, -m, --max-time <seconds>,
+$-> man grep # print lines matching a pattern. grep [OPTIONS] PATTERN FILE. -v --invert-match, -o, --only-matching part of a line, 
+$>  curl -A "Mozilla/4.0" -skLm 10  "https://www.google.com/search?tbs=li:1&q=$(whoami)(w//\/+" | grep -o "href=\"/url[^\&]*&amp;" | sed 's/href=".url.q=\([^\&]*\).*/\1/'
+
+## Visual surfing of the web.
+## Install the program elinks from servers on the internet using sudo and apt-get.
+$> sudo apt-get install elinks
+## Surf the web using the html browser program elinks. elinks can print out a website with the links printed at the bottom or surf live. Surf to google.com
+$-> man elinks # WWW browser. -dump Print plain-text versions of given URLs, 
+$> elinks -dump google.com
+#> Shows a screenshot of the google.com search page with the links on the page at the bottom.
+
+## Open a live version of google.com in the html browser program elinks and do a search. Click on the search entry area, press enter, put in a search term, press enter again to have google.com search the web for you.
+$> elinks google.com
+#> q, yes to quit.
+
+## Surfing of the web with images using w3m and w3m-img.
+$> sudo apt-get install w3m w3m-img 
+$-> man w3m  # a text based Web browser and pager.
+$> w3m http://google.com
+#> Shows a live webpage google.com search page. Press q the y to quit.
+
+## Surfing the web can lead to finding text files to read, pictures to look at, vidoes to watch, or music to listen to. All of this can be done on the command line to various degrees.
+## Download a .mp3 and listen to it.
+
+
+## Play the video in the framebuffer
+mplayer -vo fbdev2 -fs -zoom -x 1024 -y 768 FILENAME.avi
+
+
+
+#################
+#  Downloading  #
+#################
+
+
+##===============================
+## Scan the wifi network for other hosts and the assigned IP addresses on wlan card.
+$> sudo apt-get install arp-scan
+## The ARP scanner arp-scan [options] [hosts...]
+$-> man arp-scan
+$> sudo arp-scan --interface=$(ifconfig -a | grep -o wlan.) --localnet
+## Scan the ethernet network for other hosts and the assigned IP addresses on eth card.
+$> sudo arp-scan --interface=$(ifconfig -a | grep -o eth.) --localnet
+##===============================
+## find all active IP addresses in a network
+$> sudo apt-get install nmap
+$> nmap -sP 192.168.*.*
+##===============================
+
+## Speak out fortunes
+$> fortune | espeak -s 135
+##==========================================
+## Create banner from output
+$> figlet
+##==========================================
+## Screenshot
+$> import -window root -delay 40 ~/Pictures/screenshot`date +"%Y%m%d-%H:%M.%S"`.png
+## Can make a launcher to run it.
+##==========================================
+## Color ascii video from webcam;
+$> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10:outfmt=rgb16 -vo caca tv://
+##==========================================
+##==========================================
+##==========================================
+
+<<COMMENT1
+
+$> sudo apt-get install mc cmus gpm elinks imagemagick iotop caca-utils mplayer openssh-server openssh-sftp-server arp-scan nmap curl dstat
+
+
+go over:
+nano
+apt mc
+mc and mcedit
+
+apt tree
+tree
+
+using knowledge for setup of computer
+useradd
+groups
+permissions
+
+backup
+
+networking
+ifconfig
+ping
+
+web browsing
+wget 
+curl
+
+elinks
+
+audio
+video
+
+webserver
+COMMENT1
+
+
+
+##==========================================
+## Run every script in folder
+$> run-parts --report /path/to/folderfullofcommands
+##==========================================
+
+
+##==========================================
+## Copy -u only newer and updated files, -R recursively, -v verbose, -i interactive
+$> cp -uRvi /path/to/source/copy /path/to/desination
+##==========================================
+
+
+##==========================================
+## turn off the laptop display
+$> xset dpms force off 
+##==========================================
+## Suspend computer
+$> dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+##==========================================
+## batery check
+$> cat /sys/class/power_supply/BAT0/status
+$> upower -i $(upower -e | grep 'BAT') | grep -E "state|time\ to|percentage"
+##==========================================
+## Power off computer
+$> sudo poweroff
+##==========================================
+
+
+Thank you. What is your name?
