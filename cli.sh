@@ -9238,9 +9238,6 @@ $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 8 9
 ## disable side buttons
 $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 0 0
 ##==========================================
-## This Does not work as tty is not correct in this case.
-$> ssh ops@mgmt0000.s0004.sfo.stcg.nonstandard.ai 'sudo tcam-gigetool "list --format %m%s%i%g%M%r" | tee /dev/tty | grep DFK | wc -l'
-##=========================================
 ## In order to get absolute directory name with ls, enter in the terminal command shell:
 $> ls -d $PWD/*
 ##==========================================
