@@ -10215,6 +10215,7 @@ Vagrant.configure("2") do |config|
             t.vm.network(:private_network, ip: host['ip'])
         end
     end
+    config.disksize.size = '15GB'
     config.ssh.insert_key = false
     config.vm.provider "virtualbox" do |v|
       v.memory = 1024
