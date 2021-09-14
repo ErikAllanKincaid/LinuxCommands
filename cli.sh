@@ -10201,8 +10201,8 @@ sudo apt-get install vagrant ansible virtualbox
 ## Create a vagrant vm configuration file
 cat > Vagrantfile << EOF
 dev = [
-    {'name' => 'server0001.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.101' },
-    {'name' => 'server0002.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.102' },
+    {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
+    {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
 ]
 
 os = 'generic/ubuntu1804'
@@ -10215,6 +10215,7 @@ Vagrant.configure("2") do |config|
             t.vm.network(:private_network, ip: host['ip'])
         end
     end
+    config.disksize.size = '15GB'
     config.ssh.insert_key = false
     config.vm.provider "virtualbox" do |v|
       v.memory = 1024
