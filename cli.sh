@@ -4382,6 +4382,21 @@ $> alias treeview='pwd;find . -path ./node_modules -prune -o -print | sort | sed
 ## Create an extra simple html framework
 $> function htmlindex() { echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html ; }
 ##==========================================
+## shopt is a builtin command that enables or disables options for the current shell session.
+## Correct dir spellings
+$> shopt -q -s cdspell
+## Make sure display get updated when terminal window get resized
+$> shopt -q -s checkwinsize
+## Turn on the extended pattern matching features
+$> shopt -q -s extglob
+## Append rather than overwrite history on exit
+$> shopt -s histappend
+## Make multi-line commandsline in history
+$> shopt -q -s cmdhist
+## Get immediate notification of bacground job termination
+$> set -o notify
+## Disable [CTRL-D] which is used to exit the shell
+$> set -o ignoreeof
 ##==========================================
 ##==========================================
 ##==========================================
@@ -9754,7 +9769,7 @@ $> git remote set-url <remote_name> <remote_url>
 ## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
 $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 ##==========================================
-
+## Cut
 $> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "[YURI] School Days  S01E01 (BD 1080p x264 10bit Flac).mkv" -vf "subtitles=\[YURI\]\ School\ Days\ \ S01E01\ \(BD\ 1080p\ x264\ 10bit\ Flac\).mkv" -c:v libx264 -c:a aac endings/1.mp4
 ##==========================================
 ## linux on floppy
@@ -9819,172 +9834,231 @@ $> echo '#!/usr/bin/sudo /bin/bash' > script.sh
 ##------------------------------------------
 ## Run entire shell script as root
 ## Placing sudo in the shebang line of a shell script runs the entire thing as root.
-sed "1i\
-#!/usr/bin/sudo /bin/bash" file_name.sh > new_filename.sh
+$> sed "1i\
+$> #!/usr/bin/sudo /bin/bash" file_name.sh > new_filename.sh
 ##==========================================
 ## Save a copy of all debian packages in the form in which they are installed and configured on your system
 ## A copy of all installed debian packages on your system will be put back together, with all changes in configuration files you made and placed in the current directory. Make sure you have enough disk space (say 2-3 GB). Break any time with Ctrl+C. Show Sample Output
-for a in $(sudo dpkg --get-selections|cut -f1); do dpkg-repack $a|awk '{if (system("sleep .5 && exit 2") != 2) exit; print}';done
+$> for a in $(sudo dpkg --get-selections|cut -f1); do dpkg-repack $a|awk '{if (system("sleep .5 && exit 2") != 2) exit; print}';done
 ##==========================================
 ## Code to check if a module is used in python code
-find . -name "*.ipynb" -exec grep -l "symspellpy" {} \;
+$> find . -name "*.ipynb" -exec grep -l "symspellpy" {} \;
 ##==========================================
 ## Individually 7zip all files in current directory
-for i in *.*; do 7z a "$i".7z "$i"; done
+$> for i in *.*; do 7z a "$i".7z "$i"; done
 ##==========================================
 ## Moving large number of files
 ## if you want to move with command mv large list of files than you would get following error /bin/mv: Argument list too long alternavite with exec: find /source/directory -mindepth 1 -maxdepth 1 -name '*' -exec mv {} /target/directory \; Show Sample Output
-find /source/directory -mindepth 1 -maxdepth 1 -name '*' -print0 | xargs -0 mv -t /target/directory;
+$> find /source/directory -mindepth 1 -maxdepth 1 -name '*' -print0 | xargs -0 mv -t /target/directory;
 ##==========================================
 ## Rename all subtitles files with the same name of mp4 files in same folder
 ## Use this command if you want to rename all subtitles for them to have the same name as the mp4 files. NOTE: The order of "ls -1 *.mp4" must match the order of "ls -1 *.srt", run the command bellow to make sure the *.srt files will really match the movies after run this command: paste -d:
-paste -d: <(ls -1 *.mp4) <(ls -1 *.srt) | while read line; do movie="${line%%:*}"; subtitle="${line##*:}"; mv "${subtitle}" "${movie%.*}.srt"; done
+$> paste -d: <(ls -1 *.mp4) <(ls -1 *.srt) | while read line; do movie="${line%%:*}"; subtitle="${line##*:}"; mv "${subtitle}" "${movie%.*}.srt"; done
 ##==========================================
-## tree command limit depth for recusive directory list
+## tree command limit depth for recursive directory list
 ## sometimes I need list from path with max limit for recursive depth directory listing
-tree -L 2 -u -g -p -d
+$> tree -L 2 -u -g -p -d
 ##==========================================
 ## Find out how much ram memory has your video (graphic) card
-glxinfo |grep -i -o 'device|memory\|[0-9]\{1,12\} MB'|head -n 1
+$> glxinfo |grep -i -o 'device|memory\|[0-9]\{1,12\} MB'|head -n 1
 ##==========================================
 ## List all accessed configuration files while executing a program in linux terminal (improved version)
 ## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
-strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
+$> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
 ##==========================================
 ## Boooted as EFI/UEFI or BIOS
-[[ -d "/sys/firmware/efi" ]] && echo "UEFI" || echo "BIOS"
+$> [[ -d "/sys/firmware/efi" ]] && echo "UEFI" || echo "BIOS"
 ##==========================================
 ## Delete all local git branches that have been merged and deleted from remote
-git branch -d $( git branch -vv | grep '\[[^:]\+: gone\]' | awk '{print $1}' | xargs )
+$> git branch -d $( git branch -vv | grep '\[[^:]\+: gone\]' | awk '{print $1}' | xargs )
 ##==========================================
 ## Get all upgradable deb packages in a single line
 ## Works for debian and ubuntu based distros. Show Sample Output
-apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
+$> apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
 ##==========================================
+## Get info about a gui window
+$> xwininfo
 ## Make window transparent (50% opacity) in Gnome shell
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
-xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
-##==========================================
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+##------------------------------------------
 ## Make window transparent (50% opacity) in Gnome shell
 ##     0x7FFFFFFF - 50% opacity
 ##     0xFFFFFFFF - 100% opacity
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
-xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ## Set opacity via providing window id (obtained from xwininfo):
-xprop -id 0x3a00006 -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+$> xprop -id 0x3a00006 -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ##==========================================
 ## Countdown Clock
 ## I find the other timers are inaccurate. It takes some microseconds to perform the date function. Therefore, using date/time math to calculate the time for us results in millisecond accuracy. This is tailored to the BusyBox date function. May need to change things around for GNU date function. Show Sample Output
-let T=$(date +%s)+3*60;while [ $(date +%s) -le $T ]; do let i=$T-$(date +%s); echo -ne "\r$(date -d"0:0:$i" +%H:%M:%S)"; sleep 0.3; done
+$> let T=$(date +%s)+3*60;while [ $(date +%s) -le $T ]; do let i=$T-$(date +%s); echo -ne "\r$(date -d"0:0:$i" +%H:%M:%S)"; sleep 0.3; done
 ##==========================================
 ## Write a bootable Linux .iso file directly to a USB-stick
 ## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
-wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
+$> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
 ##==========================================
 ## Check difference between two file directories recursively
-diff <(tree /dir/one) <(tree /dir/two)
+$> diff <(tree /dir/one) <(tree /dir/two)
 ##==========================================
 ## Rotate a video file by 90 degrees CW
 ## Change video orientation in metadata only
-ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
+$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
 ## Rotate a video file by 90 degrees CW
 ## Transpose parameter: 0 = 90CounterCLockwise and Vertical Flip (default) 1 = 90Clockwise 2 = 90CounterClockwise 3 = 90Clockwise and Vertical Flip
-ffmpeg -i in.mov -vf "transpose=1" out.mov
+$> ffmpeg -i in.mov -vf "transpose=1" out.mov
 ##==========================================
 ## SSH connection through host in the middle
-ssh -J user@reachable_host user@unreacheable_host
+$> ssh -J user@reachable_host user@unreacheable_host
 ##==========================================
 ## Using a single sudo to run multiple && arguments
 ## Bash here string
-sudo -s <<< 'apt update -y && apt upgrade -y'
+$> sudo -s <<< 'apt update -y && apt upgrade -y'
 ##==========================================
 ## bash test check validate if variable is number
 ## to test check if given variable is a digit / number Show Sample Output
-varNUM=12345; re='^[0-9]+$'; if ! [[ $varNUM =~ $re ]] ; then echo "error: Not a number"; fi
+$> varNUM=12345; re='^[0-9]+$'; if ! [[ $varNUM =~ $re ]] ; then echo "error: Not a number"; fi
 ##==========================================
 ## iso to USB with dd and show progress status
 ## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
-image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
+$> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
 ##==========================================
 ## Trim disk image for best compression before distributing
 ## fstrim is usually used on SSDs but can also be used to remove useless bits from file system images. This is most helpful if the compressed disk image is intended to be distributed, since it will be smaller than an untrimmed compressed image. Show Sample Output
-kpartx -av disk.img && mkdir disk && mount /dev/mapper/loop0p1 disk && fstrim -v disk && umount disk && kpartx -d disk.img
+$> kpartx -av disk.img && mkdir disk && mount /dev/mapper/loop0p1 disk && fstrim -v disk && umount disk && kpartx -d disk.img
 ##==========================================
 ## Visual alert with keyboard LEDs
-for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
+$> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
 ##==========================================
 ## draw line separator (using knoppix5 idea)
 ## No need to fork off a process.
-printf "%.s*" {1..40}; printf "\n"
+$> printf "%.s*" {1..40}; printf "\n"
 ##==========================================
 ## Listing today’s files only
-find directory_path -maxdepth 1 -daystart -mtime -1
+$> find directory_path -maxdepth 1 -daystart -mtime -1
 ## or
-ls -al --time-style=+%D| grep `date +%D`
+$> ls -al --time-style=+%D| grep `date +%D`
 ##==========================================
 ## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
 ## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
-find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
+$> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
 ##==========================================
 ## List wifi passwords that has been stored as plain text in NetworkManager
 $> sudo grep -H '^psk=' /etc/NetworkManager/system-connections/*
 ##==========================================
 ## Factory reset your harddrive. (BE CAREFUL!)
-hdparm --yes-i-know-what-i-am-doing --dco-restore /dev/sdX
+$> hdparm --yes-i-know-what-i-am-doing --dco-restore /dev/sdX
 ##==========================================
 ## extract column from csv file
-cut -d"," -f9
+$> cut -d"," -f9
 ##==========================================
 ## colorize sequences numbers
 ## Credits go to Flatcap https://www.commandlinefu.com/commands/by/flatcap
-echo abcd89efghij340.20kl|grep --color -e "[0-9]\+" -e "$"
+$> echo abcd89efghij340.20kl|grep --color -e "[0-9]\+" -e "$"
 ##==========================================
 ## rough estimate about how much disk space is used by all the currently installed debian packages
 ## The vaule is expressed in megabytes Show Sample Output
-echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
+$> echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
 ##==========================================
 ## get the full description of a randomly selected package from the list of installed packages on a debian system
 ## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
-dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
+$> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
 ## Download all recently uploaded pastes on pastebin.com
-elinks -dump https://pastebin.com/archive|grep https|cut -c 7-|sed 's/com/com\/raw/g'|awk 'length($0)>32 && length($0)<35'|grep -v 'messages\|settings\|languages\|archive\|facebook\|scraping'|xargs wget
+$> elinks -dump https://pastebin.com/archive|grep https|cut -c 7-|sed 's/com/com\/raw/g'|awk 'length($0)>32 && length($0)<35'|grep -v 'messages\|settings\|languages\|archive\|facebook\|scraping'|xargs wget
 ##==========================================
 ## Remove scripts tags from *.html and *.htm files under the current directory
-find ./ -type f \( -iname '*.html' -or -iname '*.htm' \) -exec sed -i '/<script/,/<\/script>/d' '{}' \;
+$> find ./ -type f \( -iname '*.html' -or -iname '*.htm' \) -exec sed -i '/<script/,/<\/script>/d' '{}' \;
 ##==========================================
 ## Listen YouTube radios streaming
 ## Listen YouTube radios streaming. I use it on an alias to easily enter kinda flow state for study/programming. Show Sample Output
-streamlink --player="cvlc --no-video" "https://www.youtube.com/freecodecamp/live" 144p | & tee /dev/null
+$> streamlink --player="cvlc --no-video" "https://www.youtube.com/freecodecamp/live" 144p | & tee /dev/null
 ##==========================================
 ## Network Discover in a one liner
-nmap -sn 192.168.1.0/24 -oG - | awk '$4=="Status:" && $5=="Up" {print $0}'|column -t
+$> nmap -sn 192.168.1.0/24 -oG - | awk '$4=="Status:" && $5=="Up" {print $0}'|column -t
 ##==========================================
 ## SSH Copy ed25519 key into your host
-ssh-copy-id -i your-ed25519-key user@host
+$> ssh-copy-id -i your-ed25519-key user@host
 ##==========================================
 ## //Youtube URL
-/\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
+$> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
 ##==========================================
 
 
 ##==========================================
-ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
+$> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
+## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
+## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
+$> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
 
 ##==========================================
+## allows you to run any command without having to sudo
+$> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+##==========================================
+## appimage is a standalone package format "one app = one file"
+https://appimage.github.io/
+##==========================================
+## Vagrant
+## Install virtualbox, vagrant, and ansible
+## OSX
+brew cask install virtualbox vagrant
+brew install ansible
+## Linux
+sudo apt-get install vagrant ansible virtualbox
+## Create a vagrant vm configuration file
+cat > Vagrantfile << EOF
+dev = [
+    {'name' => 'server0001.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.101' },
+    {'name' => 'server0002.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.102' },
+]
 
+os = 'generic/ubuntu1804'
+
+Vagrant.configure("2") do |config|
+    dev.each do |host|
+        config.vm.define host['name'] do |t|
+            t.vm.box = os
+            t.vm.hostname = host['name']
+            t.vm.network(:private_network, ip: host['ip'])
+        end
+    end
+    config.ssh.insert_key = false
+    config.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+end
+EOF
+## Start all the VMs
+vagrant up
+## Start one vm
+vagrant up server0001.dev.sfo.stcg.standard.ai
+## Check
+vagrant status
+## Run a command to verify
+vagrant ssh server0001.dev.sfo.stcg.standard.ai -c 'echo hello world'
+## ssh into vm
+ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
+## Copy over a file, in this case a linux learning file
+scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
+## Do the learning in the file
+## Make a directory
+vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
+## To stop the VM
+## shut it down forcefully
+vagrant halt
+## suspend the virtual machine
+vagrant suspend
+## restart it again,
+vagrant up
+## Remove the vm completely
+vagrant destroy
+## Or
+vagrant -f destroy
 
 ##==========================================
-
+## Use vagrant to test ansible
 
 ##==========================================
 
