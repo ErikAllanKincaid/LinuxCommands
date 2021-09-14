@@ -2814,9 +2814,12 @@ $> reset                        ## Resets the terminal and removes all text
 $> echo -ne '\033c'             ## Removes all text
 ##==========================================
 ## Brace expansion.
-$> echo \"{These,words,are,quoted}\"        ## " prefix and suffix # "These" "words" "are" "quoted"
-$> cat {file1,file2,file3} > combined_file  ## Concatenates the files file1, file2, and file3 into combined_file.
-$> cp file22.{txt,backup}                   ## Copies "file22.txt" to "file22.backup"
+$> echo \"{These,words,are,quoted}\"   # " prefix and suffix
+# "These" "words" "are" "quoted"
+$> cat {file1,file2,file3} > combined_file
+# Concatenates the files file1, file2, and file3 into combined_file.
+$> cp file22.{txt,backup}
+# Copies "file22.txt" to "file22.backup"
 ##==========================================
 ## Colour text variables to output colored text
 ## tput controls the look of output
@@ -5008,12 +5011,25 @@ $> sqlite3 ~/.mozilla/firefox/*.[dD]efault/places.sqlite "SELECT strftime('%d.%m
 ## Show Firefox Addons
 $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efault/extensions.json
 ##==========================================
+## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
+$> sudo apt-get install dconf-editor
+$> org > nemo > desktop
+## untick the option 
+"use-desktop-grid" 
+##==========================================
+## Disable updates for installed Chrome plugins
+## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
+$> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_url\": \"hxxp/g' -i.bak '{}' \;
+##==========================================
 ## Convert libreoffice files : .odt .odg and other to .pdf
 ## Find and Convert all libre office files to PDF without libreoffice GUI Show Sample Output
 $> find /home/foo/Documents/ -type f -iname "*.odt" -exec libreoffice --headless --convert-to pdf '{}' \;
 ##==========================================
 ## Adminer. SQL GUI. The whole application is in one PHP file, which means that the deployment is as easy as it can get. It's more powerful than phpMyAdmin; it can edit views, procedures, triggers, etc.
 $> sudo apt-get install adminer
+##==========================================
+## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
+$> gsettings set org.nemo.desktop use-desktop-grid false
 ##==========================================
 ## Replace all instances of "A" with "B" in file "source" saved as file "destination"
 $> xxd -p source | fold -w2 | paste -sd' ' | sed "s/A/B/g" | xxd -p -r > destination
@@ -8654,7 +8670,7 @@ $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x26
 ##==========================================
 ## get a rough estimate about how much disk space is used by all the currently installed debian packages
 ## The vaule is expressed in megabytes Show Sample Output
-echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
+$> echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
 ##============================================
 ## Transcode video
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
@@ -9217,7 +9233,7 @@ http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 $> cd ~/.zsh
 $> git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 $> echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-or
+## or
 $> echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ## Then, enable syntax highlighting in the current interactive shell:
 $> source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh=
@@ -9238,6 +9254,9 @@ $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 8 9
 ## disable side buttons
 $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 0 0
 ##==========================================
+## This Does not work as tty is not correct in this case.
+$> ssh ops@mgmt0000.s0004.sfo.stcg.nonstandard.ai 'sudo tcam-gigetool "list --format %m%s%i%g%M%r" | tee /dev/tty | grep DFK | wc -l'
+##=========================================
 ## In order to get absolute directory name with ls, enter in the terminal command shell:
 $> ls -d $PWD/*
 ##==========================================
@@ -9348,26 +9367,26 @@ load-module module-bluetooth-discover" >> /etc/pulse/system.pa
 
 ##==========================================
 ### Redirects
-#          || visible in terminal ||   visible in file   || existing
-#  Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file
+##           || visible in terminal ||   visible in file   || existing
+##   Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file
 #==========++==========+==========++==========+==========++===========
-#    >     ||    no    |   yes    ||   yes    |    no    || overwrite
-#    >>    ||    no    |   yes    ||   yes    |    no    ||  append
-#          ||          |          ||          |          ||
-#   2>     ||   yes    |    no    ||    no    |   yes    || overwrite
-#   2>>    ||   yes    |    no    ||    no    |   yes    ||  append
-#          ||          |          ||          |          ||
-#   &>     ||    no    |    no    ||   yes    |   yes    || overwrite
-#   &>>    ||    no    |    no    ||   yes    |   yes    ||  append
-#          ||          |          ||          |          ||
-# | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
-# | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
-#          ||          |          ||          |          ||
-# n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
-# n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
-#          ||          |          ||          |          ||
-#|& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
-#|& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
+$>     >     ||    no    |   yes    ||   yes    |    no    || overwrite
+$>     >>    ||    no    |   yes    ||   yes    |    no    ||  append
+$>           ||          |          ||          |          ||
+$>    2>     ||   yes    |    no    ||    no    |   yes    || overwrite
+$>    2>>    ||   yes    |    no    ||    no    |   yes    ||  append
+$>           ||          |          ||          |          ||
+$>    &>     ||    no    |    no    ||   yes    |   yes    || overwrite
+$>    &>>    ||    no    |    no    ||   yes    |   yes    ||  append
+$>           ||          |          ||          |          ||
+$>  | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
+$>  | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
+$>           ||          |          ||          |          ||
+$>  n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
+$>  n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
+$>           ||          |          ||          |          ||
+$> |& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
+$> |& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
 ## Continuous gpu usage info, refresh interval of 1 second
 $> nvidia-smi -l 1
 ##==========================================
@@ -9393,7 +9412,7 @@ $> git clone --depth 1 https://github.com/zxqfl/tabnine-vim in your terminal.
 ## Add
 $> set rtp+=~/tabnine-vim to your .vimrc (replacing ~/tabnine-vim with the path you cloned it to).
 ##==========================================
-##Quick ref for
+## Quick ref for
 $> for i in {01..10}; do <BLA>$i <COMMAND>; done
 ##==========================================
 ##
@@ -9444,7 +9463,7 @@ $#          ## The number of arguments in $*
 $_          ## The default parameter for a lot of functions.
 $.          ## Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
 $/          ## Holds the input record separator. The record separator is usually the newline character. However, if $/ is set to an empty string, two or more newlines in the input file will be treated as one.
-$,          ## The output separator for the print() function. Normally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
+$,          ## The output separator for the print() function. Nor-mally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
 $\          ## Added as an invisible last element to the parameters passed to the print() function. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to $.
 $#          ## The default format for printed numbers. Normally, its set to %.20g, but you can use the format specifiers covered in the section "Example: Printing Revisited" in Chapter 9to specify your own default format.
 $%          ## Holds the current page number for the default file handle. If you use select() to change the default file handle, $% will change to reflect the page number of the newly selected file handle.
@@ -9634,54 +9653,45 @@ $> sudo apt-get install gst-plugins-good1
 ## Preparation
 ## First, you need to create two loopback cameras. To do so, execute as root:
 $> modprobe v4l2loopback devices=2 card_label="Real","Fake"
-
 ## Here I create cameras "Real" for primary usage and "Fake" for gif broadcast. The reason we have "Real" is that on linux you can't access one camera from two programs, but you can access one loopback device from two programs.
-
 ## all your video devices can be listed with
-v4l2-ctl --list-device
+$> v4l2-ctl --list-device
 ## Now execute following command to make "Real" work (note that this command should work in background):
-gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
+$> gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
 ## Can make script
-cat > ./fake_cam.sh << EOF
+$> cat > fake_cam.sh << EOF
 #/bin/sh
-
-# Usage
-# ./fake_cam.sh <dur>, where <dur> is the
-#                      duration of a gif.
-#                      Can be omitted.
-
-
-# Parameters
+## Usage
+## ./fake_cam.sh <dur>, where <dur> is the
+##                      duration of a gif.
+##                      Can be omitted.
+## Parameters
 SOURCE="/dev/video3"
 TARGET="/dev/video4"
-
 # Get time parameter
 DURATION=5
 [ $# -gt 0 ] && DURATION=$1
-
-# Generate name
+## Generate name
 IMG=$(mktemp -u)
-
 # Record from webcam
 echo "Recording $DURATION seconds"
 gst-launch-1.0 -v v4l2src device=$SOURCE ! jpegenc ! avimux ! filesink location=$IMG.avi >/dev/null &
 PID=$!
 sleep $DURATION
 kill -9 $PID
-
-# Create endless gif
+## Create endless gif
 echo "Generating GIF"
-ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $IMG.gif
-
-# Broadcast gif to the webcam
+$> ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $IMG.gif
+## Broadcast gif to the webcam
 echo "Broadcasting"
 ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET
 EOF
-
-chmod +x ./fake_cam.sh
+## Make executable
+$> chmod +x ./fake_cam.sh
+$> ./fake_cam.sh 5
 ##==========================================
-## google search
-intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
+## Search with arameters
+$> intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
 ##==========================================
 ##------------------------------------------
 ## Use OBS to stream to video
@@ -9707,6 +9717,143 @@ $> youtube-dl --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ## Collect audio from youtube
 $> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
+I have marked with a * those which I think are absolutely essential
+Items for each section are sorted by oldest to newest. Come back soon for more!
+
+BASH
+* In bash, 'ctrl-r' searches your command history as you type
+- Input from the commandline as if it were a file by replacing
+  'command < file.in' with 'command <<< "some input text"'
+- '^' is a sed-like operator to replace chars from last command
+  'ls docs; ^docs^web^' is equal to 'ls web'. The second argument can be empty.
+* '!!' expands to the last typed command. Useful for root commands:
+  'cat /etc/...' [permission denied] 'sudo !!'
+* '!!:n' selects the nth argument of the last command, and '!$' the last arg
+  'ls file1 file2 file3; cat !!:1-2' shows all files and cats only 1 and 2
+- 'ESC-.' fetches the last parameter of the previous command
+* Related, include 'shopt -s histverify histreedit' on your .bashrc to
+  double-check all expansions before submitting a command
+- 'nohup ./long_script &' to leave stuff in background even if you logout
+- 'cd -' change to the previous directory you were working on
+- 'ctrl-x ctrl-e' opens an editor to work with long or complex command lines
+* Use traps for cleaning up bash scripts on exit
+  http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html
+* 'shopt -s cdspell' automatically fixes your 'cd folder' spelling mistakes
+* Add 'set editing-mode vi' in your ~/.inputrc to use the vi keybindings
+  for bash and all readline-enabled applications (python, mysql, etc)
+- Aggregate history of all terminals in the same .history. On your .bashrc:
+      shopt -s histappend
+      export HISTSIZE=100000
+      export HISTFILESIZE=100000
+      export HISTCONTROL=ignoredups:erasedups
+      export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+- Pressed 'Ctrl-s' by accident and the terminal is frozen? Unfreeze: 'Ctrl-Q'
+
+
+
+PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
+- function lt() { ls -ltrsa "$@" | tail; }
+- function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+- function fname() { find . -iname "*$@*"; }
+- function remove_lines_from() { grep -F -x -v -f $2 $1; }
+  removes lines from $1 if they appear in $2
+- alias pp="ps axuf | pager"
+- alias sum="xargs | tr ' ' '+' | bc" ## Usage: echo 1 2 3 | sum
+- function mcd() { mkdir $1 && cd $1; }
+
+
+VIM
+- ':set spell' activates vim spellchecker. Use ']s' and '[s' to move between
+  mistakes, 'zg' adds to the dictionary, 'z=' suggests correctly spelled words
+- check my .vimrc https://github.com/cfenollosa/dotfiles/blob/master/.vimrc
+
+
+TOOLS
+* 'htop' instead of 'top'
+- 'ranger' is a nice console file manager for vi fans
+- Use 'apt-file' to see which package provides that file you're missing
+- 'dict' is a commandline dictionary
+- Learn to use 'find' and 'locate' to look for files
+- Compile your own version of 'screen' from the git sources. Most versions
+  have a slow scrolling on a vertical split or even no vertical split at all.
+  Alternatively, use 'tmux', though it is not as ubiquitous as 'screen'.
+* 'trash-cli' sends files to the trash instead of deleting them forever.
+  Be very careful with 'rm' or maybe make a wrapper to avoid deleting '*' by
+  accident (e.g. you want to type 'rm tmp*' but type 'rm tmp *')
+- 'file' gives information about a file, as image dimensions or text encoding
+- 'sort -u' to check for duplicate lines
+- 'echo start_backup.sh | at midnight' starts a command at the specified time
+- Pipe any command over 'column -t' to nicely align the columns
+* Google 'magic sysrq' to bring a Linux machine back from the dead
+- 'diff --side-by-side fileA.txt fileB.txt | pager' to see a nice diff
+* 'j.py' https://github.com/rupa/j2 remembers your most used folders and is an
+  incredible substitute to browse directories by name instead of 'cd'
+- 'dropbox_uploader.sh' lets you upload by commandline via Dropbox's API
+  without the official client https://github.com/andreafabrizi/Dropbox-Uploader
+- learn to use 'pushd' to save time navigating folders (j.py is better though)
+- if you liked the 'psgrep' alias, check 'pgrep' as it is far more powerful
+* never run 'chmod o+x * -R', capitalize the X to avoid executable files. If
+  you want _only_ executable folders: 'find . -type d -exec chmod g+x {} \;'
+- 'xargs' gets its input from a pipe and runs some command for each argument
+* run jobs in parallel easily: 'ls *.png | parallel -j4 convert {} {.}.jpg'
+- grep has a '-c' switch that counts occurences. Don't pipe grep to 'wc -l'.
+- 'man hier' explains the filesystem folders for new users
+- 'tree' instead of 'ls -R'
+* Recover corrupt zip files: First, make copies and **ALWAYS WORK ON A COPY**
+    First: 'zip -F  corrupt_copy1.zip --out recover1.zip'
+    Then:  'zip -FF corrupt_copy2.zip --out recover2.zip'
+    Last:  'ditto -x -k corrupt_copy3.zip --out out_folder/'
+  Merge the contents of the two recovered zipfiles and the out_folder. You
+  will be able to recover most of the data.
+* Use GNU datamash for basic numerical, textual and statistical operations
+  on text files: 'seq 10 | datamash sum 1 mean 1'
+
+
+NETWORKING
+- Don't know where to start? SMB is usually better than NFS for newbies.
+  If really you know what you are doing, then NFS is the way to go.
+* If you use 'sshfs_mount' and suffer from disconnects, use
+  '-o reconnect,workaround=truncate:rename'
+- 'python -m SimpleHTTPServer 8080' or 'python3 -mhttp.server localhost 8080'
+  shares all the files in the current folder over HTTP.
+* 'ssh -R 12345:localhost:22 -N server.com' forwards server.com's port 12345
+  to your local ssh port, even if you machine is behind a firewall/NAT.
+  'ssh localhost -p 12345' from server.com will get you in your machine.
+* Read on 'ssh-agent' to strenghten your ssh connections using private keys,
+  while avoiding typing passwords every time you ssh.
+- 'socat TCP4-LISTEN:1234,fork TCP4:192.168.1.1:22' forwards your port
+  1234 to another machine's port 22. Very useful for quick NAT redirection.
+- Some tools to monitor network connections and bandwith:
+  'lsof -i' monitors network connections in real time
+  'iftop' shows bandwith usage per *connection*
+  'nethogs' shows the bandwith usage per *process*
+* Use this trick on .ssh/config to directly access 'host2' which is on a private
+  network, and must be accessed by ssh-ing into 'host1' first
+  Host host2
+      ProxyCommand ssh -T host1 'nc %h %p'
+      HostName host2
+* Pipe a compressed file over ssh to avoid creating large temporary .tgz files
+  'tar cz folder/ | ssh server "tar xz"' or even better, use 'rsync'
+* ssmtp can use a Gmail account as SMTP and send emails from the command line.
+  'echo "Hello, User!" | mail user@domain.com' ## Thanks to Adam Ziaja.
+  Configure your /etc/ssmtp/ssmtp.conf:
+      root=***E-MAIL***
+      mailhub=smtp.gmail.com:587
+      rewriteDomain=
+      hostname=smtp.gmail.com:587
+      UseSTARTTLS=YES
+      UseTLS=YES
+      AuthUser=***E-MAIL***
+      AuthPass=***PASSWORD***
+      AuthMethod=LOGIN
+      FromLineOverride=YES
+
+                                     -~-
+
+(CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
+Retrieved from http://cfenollosa.com/misc/tricks.txt
+Last modified: Mon 13 Feb 2017 09:31:38 CET
+##==========================================
 ## BASH tricks
 $> w3m -dump http://cfenollosa.com/misc/tricks.txt
 ##==========================================
@@ -9719,10 +9866,16 @@ $> mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
 ## Remove unused kernels
 $> apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
 ##==========================================
+## Write to file without echo to avoid "" and '' problems
+$> cat > shell.txt << EOF
+$> Your test with imbedded "" and ''
+$> EOF
+EOF
+##-----------------------------------------
 ## Youtube search and play
 $> cat > ytfzf.sh << EOF
 ## Youtube search and play
-#Usage: ./ytfzf.sh <search query>
+#Usage: ytfzf.sh <search query>
 #     -h                    Show this help text
 #     -H                    Choose from history
 #     -D                    Delete history
@@ -9735,6 +9888,24 @@ EOF
 ##==========================================
 ## Clear the MBR
 $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
+##==========================================
+## Software to look at
+## amass, dirsearch, and nmap
+## Browser: Firefox ESR
+## Email Client: Claws Mail
+## Media Player: VLC Media Player
+## Image viewer: Nomacs
+## Note Taking app: Zim
+## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
+## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
+## Misc: Pulse Effects,
+## CopyQ Clipboard Manager with Advanced Features
+## , Virtual box, GNOME Screenshot,
+##
+## ## Flameshot
+## https://github.com/flameshot-org/flameshot/releases,
+##
+## Recoll and Video Trimme
 ##==========================================
 ## Pulse Effects large array of audio effects and filters to apply to input and output audio streams
 $> firefox https://github.com/wwmm/pulseeffects
@@ -9766,8 +9937,15 @@ $> git remote set-url <remote_name> <remote_url>
 ## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
 $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 ##==========================================
+## Get the path without the name of the program. Terraform as an example.
+$> tfPath=$(which terraform | rev | cut -d'/' -f2- | rev)
+$> echo $tfPath
+##==========================================
 ## Cut
 $> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "[YURI] School Days  S01E01 (BD 1080p x264 10bit Flac).mkv" -vf "subtitles=\[YURI\]\ School\ Days\ \ S01E01\ \(BD\ 1080p\ x264\ 10bit\ Flac\).mkv" -c:v libx264 -c:a aac endings/1.mp4
+##==========================================
+## Quick ref for for/do/done commands 
+$> for i in {01..10}; do <COMMAND> <BLA>$i; done
 ##==========================================
 ## linux on floppy
 $> firefox https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/
@@ -9775,6 +9953,22 @@ $> firefox https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/
 $> firefox https://github.com/GregorySchwartz/ploterific
 ## Lightning fast Linux init
 $> firefox https://github.com/Sweets/hummingbird/
+##==========================================
+## Replacement of reserved charactors in html URLs
+<< comment3
+#Character   Percent encoding
+blank space   %20
+"             %22
+#             %23
+%             %25
+&             %26
+,             %2C
+/             %2F
+:             %3A
+=             %3D
+?             %3F
+\             %5C
+comment3
 ##==========================================
 ## youtube-dl gui
 $> sudo add-apt-repository ppa:mordec13/youtubedl-gui
@@ -10007,8 +10201,8 @@ sudo apt-get install vagrant ansible virtualbox
 ## Create a vagrant vm configuration file
 cat > Vagrantfile << EOF
 dev = [
-    {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
-    {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
+    {'name' => 'server0001.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.101' },
+    {'name' => 'server0002.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.102' },
 ]
 
 os = 'generic/ubuntu1804'
@@ -10030,11 +10224,11 @@ EOF
 ## Start all the VMs
 vagrant up
 ## Start one vm
-vagrant up server0001.dev.commandline.fun
+vagrant up server0001.dev.sfo.stcg.standard.ai
 ## Check
 vagrant status
 ## Run a command to verify
-vagrant ssh server0001.dev.commandline.fun -c 'echo hello world'
+vagrant ssh server0001.dev.sfo.stcg.standard.ai -c 'echo hello world'
 ## ssh into vm
 ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
 ## Copy over a file, in this case a linux learning file

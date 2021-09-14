@@ -521,6 +521,7 @@ audio
 video
 
 webserver
+youtube-dl
 COMMENT1
 
 
