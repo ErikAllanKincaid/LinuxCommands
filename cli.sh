@@ -10010,8 +10010,8 @@ sudo apt-get install vagrant ansible virtualbox
 ## Create a vagrant vm configuration file
 cat > Vagrantfile << EOF
 dev = [
-    {'name' => 'server0001.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.101' },
-    {'name' => 'server0002.dev.sfo.stcg.standard.ai', 'ip' => '192.168.42.102' },
+    {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
+    {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
 ]
 
 os = 'generic/ubuntu1804'
@@ -10033,11 +10033,11 @@ EOF
 ## Start all the VMs
 vagrant up
 ## Start one vm
-vagrant up server0001.dev.sfo.stcg.standard.ai
+vagrant up server0001.dev.commandline.fun
 ## Check
 vagrant status
 ## Run a command to verify
-vagrant ssh server0001.dev.sfo.stcg.standard.ai -c 'echo hello world'
+vagrant ssh server0001.dev.commandline.fun -c 'echo hello world'
 ## ssh into vm
 ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
 ## Copy over a file, in this case a linux learning file
