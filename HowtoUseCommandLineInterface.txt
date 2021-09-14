@@ -2,6 +2,8 @@
 ## HowtoUseTheCommandLineInterface.txt
 ## Hi username! This is a copy-paste guide to introduce the command line linux shell. Read the guide and paste the commands into a terminal.
 
+## Open a terminal and download this file
+wget https://raw.githubusercontent.com/ErikAllanKincaid/LinuxCommands/master/HowtoUseCommandLineInterface.txt
 
 ##    Table of contents
 
@@ -267,6 +269,9 @@ $> cat HowtoUseCommandLineInterface.txt | less
 ## Copy the file HowtoUseCommandLineInterface.txt save as a backup file called HowtoUseCommandLineInterface.txt.backup.
 $> cp HowtoUseCommandLineInterface.txt HowtoUseCommandLineInterface.txt.backup
 
+## Save a copy of this file HowtoUseCommandLineInterface.txt to a temporary directory.
+$> cp HowtoUseCommandLineInterface.txt /tmp/HowtoUseCommandLineInterface.txt
+
 ## Append your name message from the name.sh program you created to the end of HowtoUseCommandLineInterface.txt.
 $> echo $(./name.sh) >> HowtoUseCommandLineInterface.txt
 
@@ -338,28 +343,29 @@ $> ping -c 1 yahoo.com
 ## Display your outside IP address from the web site ipecho.net by using the output of wget as input for echo.
 $> echo $(wget http://ipecho.net/plain -q -O -)
 
+## You can also use the web form the commandline.
 ## Display a text page from the internet using curl.
 $-> man curl # transfer a URL. curl [options] [URL...], many options
-$> curl http://tldp.yolinux.com/HOWTO/Unix-and-Internet-Fundamentals-HOWTO.html
+$> curl https://raw.githubusercontent.com/ErikAllanKincaid/LinuxCommands/master/cli.sh
 
 ## Download a text file from the internet using wget. 
 $-> man wget # network downloader. wget [option]... [URL]..., many options, -i file URL list to download, -c Continue getting a partially-downloaded file, -nc --no-clobber, -e command execute
-$> wget http://tldp.yolinux.com/HOWTO/Unix-and-Internet-Fundamentals-HOWTO.html
+$> wget https://raw.githubusercontent.com/ErikAllanKincaid/LinuxCommands/master/cli.sh
 
 ## Check that the file was downloaded
 $> ls
 
-## Check out the text file downloaded, "Unix-and-Internet-Fundamentals-HOWTO", by using cat.
-$> cat Unix-and-Internet-Fundamentals-HOWTO.html
+## Check out the text file downloaded, "cli.sh", by using cat.
+$> cat https://raw.githubusercontent.com/ErikAllanKincaid/LinuxCommands/master/cli.sh
 
 ##==========================================
 ## There are many ways to do the same thing. It is possible to edit text with cat, echo, grep, sed, and redirects like > and >> and | but, it is great to have a text editor to use. Start by trying a text editor, nano, to open, edit and save a text file.
 
-## One can look through the file structure with pwd, ls, cd, cat, and find, but it is good to have a File Browser. One can edit text with cat, echo, grep, sed, and redirects like > and >> and | but, it is great to have a text editor to use. There are many ways to do the same thing. Start by trying a text editor nano, then install a file browser called mc, installing with sudo and apt.
+## One can look through the file structure with pwd, ls, cd, cat, find, but it is good to have a File Browser. One can edit text with cat, echo, grep, sed, and redirects like > and >> and | but, it is great to have a text editor to use. There are many ways to do the same thing. Start by trying a text editor nano, then install a file browser called mc, installing with sudo and apt.
 
-## Look at and edit Unix-and-Internet-Fundamentals-HOWTO in a text editor program, nano. 
+## Look at and edit HowtoUseCommandLineInterface.txt in a text editor program, nano.
 $-> man nano # Nano ANOther editor. nano [OPTION] line,column FILE, -m use mouse, ^o output save, ^x exit.
-$> nano -m Unix-and-Internet-Fundamentals-HOWTO.html
+$> nano -m /tmp/HowtoUseCommandLineInterface.txt
 #> Try using the arrow buttons to navigate to the bottom of the document and add a period after your name at the bottom. Save the file and close, cntl+o enter to save the changes, then cntl+x to exit the nano editor back to the commandline.
 
 ## Using a text editor is an easy way to navigate and write a text file. A file browser makes looking through the file system easy as well. Midnight Commander or mc is a file browser with a great deal of powerful features. Getting mc requires downloading the mc package into your computer.
@@ -390,7 +396,7 @@ $> mc
 #> mc comes with a built-in text editor mcedit. It can be invoked from within mc with F4 or run separately. Highlight Unix-and-Internet-Fundamentals-HOWTO and press F4 to edit the file scroll to the end of the file and replace the period after username with an exclamation "!", and F2 to save the file. F10 to close mcedit and return to mc. F10 and yes to quit mc.
 
 ## mcedit can also be used as a stand alone editor. 
-$> mcedit Unix-and-Internet-Fundamentals-HOWTO
+$> mcedit /tmp/HowtoUseCommandLineInterface.txt
 #> F10 to quit mcedit.
 
 ## mc has skins which use different color scheme. Skins live in /usr/share/mc/skins.
@@ -408,7 +414,7 @@ $> tree ~/
 
 ## Installing tree and mc with apt-get used the internet to get the packages. Other parts of the vast internet are also accessible through the commandline. The web is made mostly of linux computers running server programs. These computers run html web servers, ftp file servers, or a host of others. We can use the tools of the commandline to surf, download and upload files. 
 
-## Simple primavive commandline web search.
+## Simple primitive commandline web search.
 ## Search for the term "username" with google.com using the programs curl, grep and sed. curl is a feature rich program to transfer data from or to a server in many different protocols. curl submits the search and outputs the google.com search results as URLs, grep picks out the URLs from the search results, sed trims off the extra code for easy reading. Change where it says username in the code to search for other terms.
 $-> man curl # Transfer URLs over network. curl [options] URL, -s no progress or error messages, -L --location follow redirect, -m, --max-time <seconds>,
 $-> man grep # print lines matching a pattern. grep [OPTIONS] PATTERN FILE. -v --invert-match, -o, --only-matching part of a line, 
@@ -434,6 +440,11 @@ $> w3m http://google.com
 
 ## Surfing the web can lead to finding text files to read, pictures to look at, vidoes to watch, or music to listen to. All of this can be done on the command line to various degrees.
 ## Download a .mp3 and listen to it.
+
+
+## #######################################
+## ##    TODO
+## #######################################
 
 
 ## Play the video in the framebuffer
@@ -510,6 +521,7 @@ audio
 video
 
 webserver
+youtube-dl
 COMMENT1
 
 
@@ -533,7 +545,7 @@ $> xset dpms force off
 ## Suspend computer
 $> dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend
 ##==========================================
-## batery check
+## battery check
 $> cat /sys/class/power_supply/BAT0/status
 $> upower -i $(upower -e | grep 'BAT') | grep -E "state|time\ to|percentage"
 ##==========================================
