@@ -3171,6 +3171,8 @@ $> | awk 'length < 80'
 $> | perl -MList::Util=shuffle -e 'print shuffle <>;'
 ## or
 $> | shuf
+## or random sort
+$> | sort -R
 ##------------------------------------------
 ## Print it out to default printer
 $> | lp
@@ -3439,7 +3441,8 @@ $> | sed -i "/^.*YOURWORDHERE.*$/d"
 ## Print first and last column in text
 $> | awk -F ' ' '{print $1, $NF}'
 ##------------------------------------------
-
+## extract column from csv file
+$> | cut -d"," -f9
 ##------------------------------------------
 
 ##------------------------------------------
@@ -9717,6 +9720,8 @@ $> youtube-dl --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ## Collect audio from youtube
 $> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
+## Tips and tricks from web
+<<Comment5
 I have marked with a * those which I think are absolutely essential
 Items for each section are sorted by oldest to newest. Come back soon for more!
 
@@ -9749,24 +9754,20 @@ BASH
       export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 - Pressed 'Ctrl-s' by accident and the terminal is frozen? Unfreeze: 'Ctrl-Q'
 
-
-
 PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
 - function lt() { ls -ltrsa "$@" | tail; }
 - function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
-- function fname() { find . -iname "*$@*"; }
+- function findn() { find . -iname "*$@*"; }
 - function remove_lines_from() { grep -F -x -v -f $2 $1; }
   removes lines from $1 if they appear in $2
 - alias pp="ps axuf | pager"
 - alias sum="xargs | tr ' ' '+' | bc" ## Usage: echo 1 2 3 | sum
 - function mcd() { mkdir $1 && cd $1; }
 
-
 VIM
 - ':set spell' activates vim spellchecker. Use ']s' and '[s' to move between
   mistakes, 'zg' adds to the dictionary, 'z=' suggests correctly spelled words
 - check my .vimrc https://github.com/cfenollosa/dotfiles/blob/master/.vimrc
-
 
 TOOLS
 * 'htop' instead of 'top'
@@ -9808,7 +9809,6 @@ TOOLS
 * Use GNU datamash for basic numerical, textual and statistical operations
   on text files: 'seq 10 | datamash sum 1 mean 1'
 
-
 NETWORKING
 - Don't know where to start? SMB is usually better than NFS for newbies.
   If really you know what you are doing, then NFS is the way to go.
@@ -9848,11 +9848,10 @@ NETWORKING
       AuthMethod=LOGIN
       FromLineOverride=YES
 
-                                     -~-
-
 (CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
 Retrieved from http://cfenollosa.com/misc/tricks.txt
 Last modified: Mon 13 Feb 2017 09:31:38 CET
+Comment5
 ##==========================================
 ## BASH tricks
 $> w3m -dump http://cfenollosa.com/misc/tricks.txt
@@ -9957,17 +9956,17 @@ $> firefox https://github.com/Sweets/hummingbird/
 ## Replacement of reserved charactors in html URLs
 << comment3
 #Character   Percent encoding
-blank space   %20
-"             %22
-#             %23
-%             %25
-&             %26
-,             %2C
-/             %2F
-:             %3A
-=             %3D
-?             %3F
-\             %5C
+    blank space   %20
+    "             %22
+    #             %23
+    %             %25
+    &             %26
+    ,             %2C
+    /             %2F
+    :             %3A
+    =             %3D
+    ?             %3F
+    \             %5C
 comment3
 ##==========================================
 ## youtube-dl gui
@@ -10131,7 +10130,6 @@ $> find directory_path -maxdepth 1 -daystart -mtime -1
 $> ls -al --time-style=+%D| grep `date +%D`
 ##==========================================
 ## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
-## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
 $> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
 ##==========================================
 ## List wifi passwords that has been stored as plain text in NetworkManager
@@ -10174,16 +10172,12 @@ $> ssh-copy-id -i your-ed25519-key user@host
 ## //Youtube URL
 $> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
 ##==========================================
-
-
-##==========================================
 $> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
 
 ##==========================================
 ## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
 ## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
 $> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
-
 ##==========================================
 ## allows you to run any command without having to sudo
 $> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
@@ -10235,7 +10229,7 @@ ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192
 ## Copy over a file, in this case a linux learning file
 scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
 ## Do the learning in the file
-## Make a directory
+## Make a directory on the vm
 vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
 ## To stop the VM
 ## shut it down forcefully
@@ -10253,10 +10247,9 @@ vagrant -f destroy
 ## Use vagrant to test ansible
 
 ##==========================================
-
-
+## install and aсtivate a clean copy of Windows on any PC.
+https://rentry.org/installwindows
 ##==========================================
-
 
 ##==========================================
 
