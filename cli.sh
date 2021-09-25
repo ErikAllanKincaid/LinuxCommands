@@ -2968,7 +2968,7 @@ $> echo ${name}                            ## prints admin
 $> echo ${name-test}                       ## Test if var has data if it does print data, if not print what in after operand "-". prints admin
 $> unset name                              ## removes data from var foo
 $> echo ${name-test}                       ## Test if var has data, if it does, print data, if not, print what in after operand "-". prints test
-$> echo ${name:=admin2}                    ## Test if var has data, if it does, print data, if not, sets it to what is after operand ":="  prints admin
+$> echo ${name:=admin2}                    ## Test if var has data, if it does, print data, if not, sets it to what is after operand ":="  prints admin2
 ### Indirect look-up
 $> alpha=(a b c d e f g h i j k l m n)     ## Set an array
 $> char=alpha[12]                          ## Set var to element in array alpha
@@ -4727,6 +4727,26 @@ Extra Characters to cut and paste. Some do not work in HTML.
 
 Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟̥̤̗͇͂̿̎̂̿̓́̃͜͠͝E̸̢͕̯̞̻̓ ̶̡̫̘̣̼͕̠͙̺͌Ŗ̶̪̖͗̃̈́͗͛̉͑̆͠͠͝I̴̧̡͉̗̠̤̳̼̼͌̂͌̔̑̀̃̒̔͂̈͘ͅT̷̠̫̭̽̇̿̑̉̋̈́͆̔͝Ȕ̶̢̦͉̱̟̳̣̌̄̌͛͒̄ͅA̷̢̺̖͓̟͚̠̻͌̐͑̑̔͋̊̽͌͂͘͝Ļ̷̡̪̼̹͇̫̬͂̓͒́ ̶̞̬̮̰̓͘H̷̢̛̗͇̯̦̘̠̟̳͈͍̗̐̇̚A̵̬̤͐͛̈́͘Ș̶̛͔̞̹͚͚͕̞͆̉̈́̋͌͋̽̓͝͠ ̸͇̪̙̥̯͇̒̆̏̈́͝͝B̶̠̖̟͍̣͙̬͋͗͛̒̇͒̈̕Ḙ̴̡̼͂́͐G̸͔̟͆̏̿͋͆̌̀̚̚͜Ö̶̧̪̮̤̤̀̈̎̀͗̉̏͝Ṇ̷̢̮̦͉̝͖̽̑̏̇̈́̓̕̕͜͝͝Ẻ̶̢͍͇̞̩̆̑̕͘̚͝͝ ̸͇̼̓́̉͂̎͐̿͊͂͝Å̵̙̗̣͍̎̈̚͠͝͝ͅN̷̛͍̞̰͌O̴̩̪̺͍͉͗͆́N̵̮͖̙͓͔̤͉̘̱͈̰̈́͌̄͊͜ ̴͉͓̖̺̬͐̈́̂̒̓̋T̴̤̙̩̳͖̗̗̼̗͎̽̽̾̊̿̄͜͝ͅH̶̨̀͋͋͒͒̐̽̋̀͐̉̀͜Ē̸̢̛̟̤͌͆̊͊̿́̏̍̚͠R̶̮̙͍͔̠͉̟̳̠̫̪̾͆͜͝E̵̞̥̻̹̫̽̀̑̊̿̑̉͝ ̸͔̭̪͙̠͙̹͖͊̐͜I̵̡̧̛̫͍͓͈̻̩͙̳̿̈́̎̾͋̀S̵̩͂͆̈̽̃̆ ̵̧͙̱̼̞̮̩̯̘̞̼͊̄̄̊͐͗͐͛̈́͂Ņ̸̩̝͈͕̯̟̟̰̈́̉̐͑͘͜ͅȌ̶̙̩̀̈̈́̀͐͠ ̸̨̙̞̣̤̥̮̻̌̑̃̃͠͝E̸̤͌̔̔͝S̵̡̫͕͓͕̪̆̃̈̇̔̓C̶̨͍͔̫͔͚̗̈́̎̿̃͘A̶͚̩͉̭͙̘̟̤̙͔̣͂̄͑̊̆͘͝ͅP̷̟͕͉̼̙̻͎̈̓͌͛͜Ē̸͉͔͓̈́̀͂̈́̌͒̑̚͝ ̶̧̛̞̣̤̞͌̐̆͂̎͒̓F̸̨͕̹͔͉̯̜̺͎̱͛̈̃͊͂̀̐̂̍̚͘R̸͙̠̯̈̂͊̃͗̍O̶̪̹̝̭͔̻̣͖̻̗̔̌͠M̴͔̜͓̗̣̞̩͉̮̈́̽͋͗̌̒͘͜͝ͅ ̸̛̬̫̝̻͚̗͉̺̋̀͊̐͆̍̄̉̈́͘͝Y̶͉̊͒̋̈́́́́̃̾Ŏ̸̟̞͖͍̐̓͐͊̿̆̔̓̈̌͠Ǘ̴̱̤͍͙̖̃̃̄̌̊̏͝͠R̷̼̥̳̙̓̈͜͝ ̴̢̺̗̘̪̰͖̜͖͙͙̽̆͜͝Ṡ̷̳͉͖̞̻̑͛̐̃Ỉ̴̡̡̖̦̳̩͈̭̝͖͋̎̑̔Ñ̵̡͎̥̈̌̑̈́̔̇͜͝S̴̢̡̬̝̪̪̪̪͓͇̟̔͂͑̈́͗͑͛͛͊͜͝
 ▄█▀ █▬█ █ █ █ █▀█▀
+
+## Programming Languages
+🅒   ## C/C++
+🦀   ## Rust
+🐹   ## Go
+☕   ## Java
+🔰   ## JS
+🔻   ## Ruby
+🐍   ## Python
+🐘   ## PHP
+🐪   ## Perl
+🐫   ## OCaml
+👑   ## Nim
+🍏   ## Apple
+🐳   ## Docker
+💻   ## Shell
+
+ 🍃🌼🌺🍃🌸🍃🤎🙏🏽👵🏽👋🏾🇨🇦❤️🇺🇸🇺❤️🇨🇦
+😳😥🤣🤣🌄
+
 COMMENT1
 ## #################################################
 ## #          END Extra Characters                 #
@@ -5737,16 +5757,16 @@ $> mplayer http://pub7.di.fm/di_ambient_aac?1 -user-agent "AudioAddict-di/3.2.0.
 ## Look for the list of stations here: http://pub7.di.fm
 ## Or here: https://goo.gl/pdhhpQ
 ##==========================================
-$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## convert video to gif by ffmpeg and imagemagick
+$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
 ##==========================================
 $> for y in {1..12}; do for x in {1..12}; do echo -n "| $x*$y=$((y*x)) "; done; echo; done|column -t
 ## Multiplication table The multiplication table for math study
 ##==========================================
-$> bashrc-reload() { builtin exec bash ; }
 # Make changes in .bashrc immediately available
+$> bashrc-reload() { builtin exec bash ; }
 ##==========================================
 ## Block all FaceBook traffic
 $> ASN=32934; for s in $(whois -H -h riswhois.ripe.net -- -F -K -i $ASN | grep -v "^$" | grep -v "^%" | awk '{ print $2 }' ); do echo " blocking $s"; sudo iptables -A INPUT -s $s -j REJECT &> /dev/null || sudo ip6tables -A INPUT -s $s -j REJECT; done
@@ -10250,7 +10270,8 @@ vagrant -f destroy
 ## install and aсtivate a clean copy of Windows on any PC.
 https://rentry.org/installwindows
 ##==========================================
-
+## Static linked-terminal editor
+https://micro-editor.github.io/
 ##==========================================
 
 
