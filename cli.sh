@@ -415,6 +415,27 @@ $> sudo service mdm start
 $> sudo systemctl stop mdm
 ## Start gui
 $> sudo systemctl start mdm
+##------------------------------------------
+## Command line only login system service
+## Boot to text mode.  Stop mdm service from starting automatically on systemd
+## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
+$> sudo systemctl disable mdm
+## Start gui
+$> sudo systemctl start mdm
+## boot to gui by default
+$> sudo systemctl enable mdm
+##------------------------------------------
+## Drop into command line only environment lightdm
+$> sudo service lightdm stop
+## To get back into the gui
+$> sudo service lightdm start
+##------------------------------------------
+## Systemd
+## Stop gui
+$> sudo systemctl stop lightdm
+## Start gui
+$> sudo systemctl start lightdm
+##------------------------------------------
 ##==========================================
 ## To disable a listed service from starting at boot try:
 $> sudo update-rc.d <service name> disable
@@ -447,14 +468,15 @@ $> sudo sed -i 's:quiet text:quiet splash:' /etc/default/grub
 $> sudo update-grub
 $> sudo reboot
 ##------------------------------------------
-## Command line only login system service
-## Boot to text mode.  Stop mdm service from starting automatically on systemd
-## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
-$> sudo systemctl disable mdm
-## Start gui
-$> sudo systemctl start mdm
-## boot to gui by default
-$> sudo systemctl enable mdm
+## Boot into command line only environment
+## Press at grub for edit
+e
+## Change from init 5 gui mode
+$vt_handoff 5
+## to init 3 multi user terminal mode
+$vt_handoff 3
+## Start back into gui
+sudo init 5
 ##==========================================
 ## Update ppa repository
 $> sudo add-apt-repository ppa:<repository-name>
