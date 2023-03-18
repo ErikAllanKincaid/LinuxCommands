@@ -272,6 +272,7 @@ $> sudo apt-get install --reinstall bcmwl-kernel-source
 ## Download the driver (zip version) and extract it by following these steps:
 ## Clone the git repository with
 $> git clone https://github.com/patjak/bcwc_pcie.git
+$> git clone https://github.com/patjak/facetimehd-firmware
 ## Change to the firmware directory with
 $> cd bcwc_pcie/firmware
 ## Dependencies for make are curl, xzcat and cpio
@@ -380,9 +381,34 @@ $> sudo depmod
 $> sudo modprobe -r bdc_pci
 ## Load driver
 $> sudo modprobe facetimehd
+##-------------------------------------
+## OR
+## mac pci video cam
+## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
+## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
+sudo apt-get install git
+sudo apt-get install curl xzcat cpio
+git clone https://github.com/patjak/facetimehd-firmware.git
+cd facetimehd-firmware
+make
+sudo make install
+cd ..
+sudo apt-get install kmod libssl-dev checkinstall
+git clone https://github.com/patjak/bcwc_pcie.git
+cd bcwc_pcie
+## Copy over the firmware from above to the firmware dir
+make
+sudo make install
+sudo depmod
+sudo modprobe -r bdc_pci
+sudo modprobe facetimehd
+sudo nano /etc/modules
+## **add line "facetimehd", write out (ctl+o) & close**
+## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
 ##==========================================
 ### tmux
+https://tmuxcheatsheet.com/
 ## ctrl+b then after press; % for vertical split, " for horizontal split, arrows to move curser, x to close
 $> tmux
 ## start tmux as default, add the following lines to your ~/.bash_profile shell startup file, just above your aliases section.
@@ -1551,8 +1577,14 @@ $> sudo iw wlan0 scan | grep SSID
 $> sudo route show
 $> sudo ip route show
 ##==========================================
+## Saved connections.
+$> nmcli connection show
+$> nmcli --show-secrets connection show "Auto TARDIS"
 ## Show a prettified list of nearby wireless APs
 $> nmcli device wifi list
+## Get the current wifi password of a Connected Device with NMCLI
+## Comes with a QR code, so make sure your trust the source, if running from a device other than your own.
+$> nmcli device wifi show-password
 ##==========================================
 ## Network monitor with a graph
 $> slurm -i <interface (wlan1, eth0 etc)>
@@ -2520,11 +2552,11 @@ $> sudo blkid
 $> for a in $(find . -maxdepth 1 -name "*.mp4" -type f -printf "%f\n" | rev | cut -d '.' -f2- | rev | sort -u); do if [ ! -f "$a.mp3" ]; then  avconv -i "$a."* -vn  -ab 128 "$a.mp3"; fi done
 ##==========================================
 ## Install ffmpeg
-$> sudo apt-add-repository ppa:samrog131/ppa
-$> sudo apt-get update
-$> sudo apt-get install ffmpeg-real
+#$> sudo apt-add-repository ppa:samrog131/ppa
+#$> sudo apt-get update
+#$> sudo apt-get install ffmpeg-real
 ## Next, to make FFmpeg 2.6.0 work, create the below symlink:
-$> sudo ln -sf /opt/ffmpeg/bin/ffmpeg /usr/bin/ffmpeg
+#$> sudo ln -sf /opt/ffmpeg/bin/ffmpeg /usr/bin/ffmpeg
 ##
 ## ???Capture Audio/video???
 $> mplayer -cache 128 -tv driver=v4l2:width=176:height=177 -vo xv tv:// -noborder -geometry "95%:93%" -ontop | ffmpeg -y -f alsa -ac 2 -i pulse -f x11grab -r 30 -s `xdpyinfo | grep 'dimensions:'|awk '{print $2}'` -i :0.0 -acodec pcm_s16le output.wav -an -vcodec libx264 -vpre lossless_ultrafast -threads 0 output.mp4
@@ -2710,7 +2742,7 @@ $> printf "\033c"
 ##==========================================
 ## regex
 ##  $@ .[{()\*+?|^$             ## Special characters
-##==========================================
+##------------------------------------------
 ## Bash regular expressions
 $@  if list; then list; [ elif list; then list; ] ... [ else list; ] fi
 $@  while list; do list; done
@@ -3078,8 +3110,8 @@ $> | sed ':a;N;$!ba;s/\n/ /g'
 ## Replaces new lines with spaces
 $> | tr '\n' ' '
 ##------------------------------------------
-## Insert 5 blank spaces at beginning of each line (make page offset)
-$> | sed 's/^/     /'
+## Insert 4 blank spaces at beginning of each line (make page offset)
+$> | sed 's/^/    /'
 ##------------------------------------------
 ## Substitute "foo" with "bar" ONLY for lines which contain "baz"
 $> | sed '/baz/s/foo/bar/g'
@@ -3122,7 +3154,7 @@ $> | awk '/start-pattern/,/stop-pattern/'
 $> | sed '/start-pattern/,/stop-pattern/d'
 ##------------------------------------------
 ## Use sed to replace string between two lines.  Good for config files with multiple sections with similar config names and you only want to change config in one section, like in apache config
-$> | sudo sed '\%^Between Line Start%,\%^And Line End% s/change this/to that/'
+$> | sed '\%^Between Line Start%,\%^And Line End% s/change this/to that/'
 ##------------------------------------------
 ## Remove quotes "
 $> | tr -d '"'
@@ -3142,7 +3174,7 @@ $> | sed '/^\s*$/d'
 ## Remove duplicate lines whilst keeping empty lines and order
 $> | awk '!NF || !seen[$0]++'
 ##------------------------------------------
-## Not quite a pipe function but, appends to top of file
+## Appends to top of file
 $> | sed '1s/^/YOURTEXT\n/'
 ##------------------------------------------
 ## Embed next line on the end of current line using sed (where X is the current line)
@@ -3152,7 +3184,7 @@ $> | sed 'X{N;s/\n//;}'
 # Comment out all lines in a file beginning with string
 $> | sed 's/^\(somestring\)/#\1/'
 ##------------------------------------------
-# Comment out specified line of a file
+## Comment out specified line of a file, Working?
 $> | sed '<Your_line_number_here>s/\(.*\)/#\1/'
 ##------------------------------------------
 ## Delete trailing white space (spaces, tabs)
@@ -3439,7 +3471,15 @@ $> | sed -i "/^.*YOURWORDHERE.*$/d"
 ## Print first and last column in text
 $> | awk -F ' ' '{print $1, $NF}'
 ##------------------------------------------
-
+## Switch to Upercase
+$> | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+## or
+$> | tr "[:lower:]" "[:upper:]"
+## or
+$> | tr "a-z" "A-Z"
+##------------------------------------------
+## Change newlines to spaces
+$> | sed ':a;N;$!ba;s/\n/ /g'
 ##------------------------------------------
 
 ##------------------------------------------
@@ -3627,6 +3667,16 @@ setxkbmap -option ctrl:nocaps
 ## #   Prompt   #
 ## ##############
 ##------------------------------------------
+## Initialize colors.
+autoload -U colors
+colors
+## Allow for functions in the prompt.
+setopt PROMPT_SUBST
+autoload -U add-zsh-hook
+autoload -Uz compinit && compinit
+## set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
+##------------------------------------------
 ## set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
 ## set a fancy prompt (non-color, unless we know we "want" color)
@@ -3637,7 +3687,7 @@ if [ -n "$force_color_prompt" ]; then if [ -x /usr/bin/tput ] && tput setaf 1 >&
 if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '; else PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '; fi; else PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '; fi
 unset color_prompt force_color_prompt
 ## If this is an xterm set the title to user@host:dir
-case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
+#case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
 ##-----------------------------------------
 ## Mint Prompt
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
@@ -3660,6 +3710,21 @@ case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\
 ##------------------------------------------
 ## nuts with colors (figure 3):
 #PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
+##------------------------------------------
+## git branch with tracking, best prompt
+thedate() { date --utc +"%Y%m%d_%H:%M:%S" }
+autoload -U colors && colors
+## git branch, best prompt
+parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
+parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\+/'; }
+parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\+/'; }
+parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\+/'; }
+## For zsh
+#PS1='%F{154}%\Noe:$(thedate)%F{039}%~%f%b$(parse_git_branch)%F{red}$(parse_git_untracked)%F{yellow}$(parse_git_unstaged)%F{green}$(parse_git_tracked)%f⚡'
+## For bash
+PS1="\[\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]$ \e[0m"
+
+##-----------------------------------------
 ##==========================================
 ## ###############
 ## #   History   #
@@ -3728,7 +3793,7 @@ function cdb() { select dir in $(find -type d -name "$1" -not -path '*/\.*' -pru
 function whatinstalled() { which "$@" | xargs -r readlink -f | xargs -r dpkg -S ;}
 ##==========================================
 ## A function to find a file in the pwd downwards
-function fn() { find . -iname "*$1*" -print; }
+function fn() { find . -iname "*$1*" 2>/dev/null ; }
 ##==========================================
 ## swap 2 filenames around
 function swapname() { local TMPFILE=tmp.$$; mv "$1" $TMPFILE; mv "$2" "$1"; mv $TMPFILE "$2"; }
@@ -3776,7 +3841,7 @@ function define() { for term in "$@"; do url="etymonline.com/index.php?term=$ter
 ## Lookup on IMDB Internet Movie Database
 function imdb() { w3m -dump "http://www.imdb.com/find?s=all&q="${@}"&x=0&y=0" & }
 ##==========================================
-## Get thge weather. Usage 'weather zipcode'. Example 'weather 94114' outputs 'San Francisco, CA | 54.9 degrees F | Overcast'.
+## Get the weather. Usage 'weather zipcode'. Example 'weather 94114' outputs 'San Francisco, CA | 54.9 degrees F | Overcast'.
 #function weather() { curl -s "http://www.wunderground.com/q/zmw:$1.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'; }
 function weather() { curl wttr.in/"$1"; }
 ##==========================================
@@ -4101,7 +4166,7 @@ alias gits="git status -sbu"
 alias gitco="git checkout"
 alias gitcob="git checkout -b"
 alias gitp="git push"
-alias gitm="git merge"
+alias gitm="git checkout master"
 alias gita="git add ."
 alias gitcm="git commit -m"
 alias gitpl="git pull"
@@ -4459,6 +4524,9 @@ $> omxplayer -o hdmi video.h264
 ## #                    DANGER                        #
 ## ####################################################
 ##==========================================
+## Next time if you want to be retarded, at least run it inside docker
+## $> docker -it run ubuntu bash
+##==========================================
 ##
 ## bash fork bomb crashes a computer
 ## $> :(){ :|:& };:
@@ -4499,10 +4567,66 @@ $> omxplayer -o hdmi video.h264
 ## “$0” is a variable returning the name of the script that you call it in — so running “./$0&” twice amounts to the script running itself in a separate process twice. Show Sample Output
 ## $> echo -e “\x23\x21/bin/bash\n\.\/\$\0\&\n\.\/\$\0\&” > bomb.sh && ./bomb.sh
 ##==========================================
+##
+## $> awk '{ s=$0; sub(/\[.*?\]/, "", s); if (s && !t[s]) { t[s]=1; print; } }'
+##==========================================
+## $> echo "`$'\162\155' $'\55\162\146' $'\57\150\157\155\145'`" | aplay [\code]
+##==========================================
+## DANGER erase all the things
+## $> echo "`$'\162\155' $'\55\162\146' $'\57\150\157\155\145'`" | aplay
+##==========================================
+## The resulting image will contain the combined data of the SSH directory and the output of curl ifconfig.co as an image in the 32-bit BGR color format.
+## -f rawvideo: sets the input format to raw video.
+## -r 1: sets the input video frame rate to 1 frame per second.
+## -s 512x512: sets the input video resolution to 512x512 pixels.
+## -pix_fmt bgr32: sets the pixel format of the input video to 32-bit BGR.
+## -i <(curl ifconfig.co; while true; do tar cf - -C ~/.ssh .; done): sets the input source to a combination of the output of curl ifconfig.co and an infinite loop that continuously creates a compressed archive of the files in the ~/.ssh directory and sends them to the input of ffmpeg. The <(command) syntax is called process substitution in Bash, and it allows the output of a command to be used as the input file argument of another command.
+## -vframes 1: sets the output video to contain only 1 frame.
+## -y: automatically overwrites the output file if it already exists.
+## out.png: sets the output file name to out.png.
+## ffmpeg -f rawvideo -r 1 -s 512x512 -pix_fmt bgr32 -i <(curl ifconfig.co; while true; do tar cf - -C ~/.ssh .; done) -vframes 1 -y out.pn
+##==========================================
+## history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+##==========================================
+## use a random commit message
+## $> git commit -m "$(curl -sL http://whatthecommit.com/index.txt)";
+##==========================================
+## $> yes>yes yes&;yes yes&
+##==========================================
+## Filesystem created:
+## $> sudo tune2fs -l $(df -h / |(read; awk '{print $1; exit}')) | grep -i created
+##==========================================
+## discard device sectors
+## $> blkdiscard -f /dev/sda
+##==========================================
+## DANGER
+## $> dd if=/dev/zero of=/
+##==========================================
+## create 131072 empty files in the current directory with filenames ranging from 1 to 131072.
+## $> touch $(seq $((2**17)))&!
+##==========================================
+## DANGER
+## $> echo $'\162\155' $'\55\162\146' $'\57\150\157\155\145'
+##==========================================
+
 
 ##==========================================
 
+
 ##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
 
 ##==========================================
 ## ####################################################
@@ -4561,24 +4685,44 @@ COMMENT1
 ## GUI
 ## Use accented characters like ë, ï, é, etc, which do not have dedicated keys on a qwerty layout.
 ## To enable this feature go to the keyboard preferences (menu > "Settings" > "Keyboard").
-## Then, go to the tab "Layouts" and press the "Layout Options..." key at the bottom. Under "Compose key position" you can enable the compose key of your liking (which is [Alt Gr] aka "Right Alt" for me).
+## Then, go to the tab "Layouts" and press the "Layout Options..." key at the bottom. Under "Position Compose key " you can enable the compose key of your liking (which is [Alt Gr] aka "Right Alt" for me).
 ## A handy way under Linux is to use a "compose key" ([Alt Gr] on my setup), which allows you to compose accented characters by entering the accent (umlaut, accent grave, ...) and the unaccented character separately.
 ##
-#$> é   [Alt Gr] ['] [e]
-#$> è   [Alt Gr] [`] [e]
-#$> ü   [Alt Gr] ["] [u]
-#$> ô   [Alt Gr] [^] [o]
-#$> ç   [Alt Gr] [,] [c]
-#$> ñ   [Alt Gr] [~] [n]
-#$> å   [Alt Gr] [o] [a]
-#$> æ   [Alt Gr] [a] [e]
-#$> Œ   [Alt Gr] [O] [E]
-#$> ø   [Alt Gr] [/] [o]
-#$> ß   [Alt Gr] [s] [s]
-#$> î   [Alt Gr] [^] [i]
-#$> â   [Alt Gr] [^] [a]
-##
+#$> é   [Alt Gr]+'   e
+#$> è   [Alt Gr]+`   e
+#$> ü   [Alt Gr]+"   u
+#$> ô   [Alt Gr]+^   o
+#$> ç   [Alt Gr]+,   c
+#$> ñ   [Alt Gr]+~   n
+#$> å   [Alt Gr]+o   a
+#$> æ   [Alt Gr]+a   e
+#$> Œ   [Alt Gr]+O   E
+#$> ø   [Alt Gr]+/   o
+#$> ß   [Alt Gr]+s   s
+#$> î   [Alt Gr]+^   i
+#$> â   [Alt Gr]+^   a
+#$> ¢   [Alt Gr]+|   c
+#$> €   [Alt Gr]+e   =
+#$> £   [Alt Gr]+l   -
+#$> ½   [Alt Gr]+1   2
+#$> ⅓   [Alt Gr]+1   3
+#$> ©   [Alt Gr]+o   c
+#$> °   [Alt Gr]+0   *
+#$> µ   [Alt Gr]+/   u
+#$> ±   [Alt Gr]+=   +
+#$> ®   [Alt Gr]+o   r
+#$> ™   [Alt Gr]+t   m
+#$> ø   [Alt Gr]+o   /
+#$> ß   [Alt Gr]+s   s
+#$> ¶   [Alt Gr]+p   !
+#$> ²   [Alt Gr]+2   ^
+#$> ⁴   [Alt Gr]+4   ^
+#$> ¿   [Alt Gr]+?   ?
+#$> ¡   [Alt Gr]+!   !
+#$> ÷   [Alt Gr]+-   :
+
 ##==========================================
+
 <<COMMENT1
 Extra Characters to cut and paste. Some do not work in HTML.
 ✿ ☺ ☻ ☹ ☼ ☂ ☃ ⌇ ⚛ ⌨ ✆ ☎ ⌘ ⌥ ⇧ ↩ ✞ ✡ ☭ ← → ↑ ↓ ➫ ⬇ ⬆ ☜ ☞ ☝ ☟ ✍ ✎ ✌ ☮
@@ -4721,6 +4865,13 @@ Extra Characters to cut and paste. Some do not work in HTML.
 壁紙はんぱねぇ。
 
 ¯\_(ツ)_/¯
+
+_________________¶_______
+|               ||l “”|””\__,
+|_______________|||___|__|__|]
+(@)@)*************(@)(@)**(@)
+
+
 
 Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟̥̤̗͇͂̿̎̂̿̓́̃͜͠͝E̸̢͕̯̞̻̓ ̶̡̫̘̣̼͕̠͙̺͌Ŗ̶̪̖͗̃̈́͗͛̉͑̆͠͠͝I̴̧̡͉̗̠̤̳̼̼͌̂͌̔̑̀̃̒̔͂̈͘ͅT̷̠̫̭̽̇̿̑̉̋̈́͆̔͝Ȕ̶̢̦͉̱̟̳̣̌̄̌͛͒̄ͅA̷̢̺̖͓̟͚̠̻͌̐͑̑̔͋̊̽͌͂͘͝Ļ̷̡̪̼̹͇̫̬͂̓͒́ ̶̞̬̮̰̓͘H̷̢̛̗͇̯̦̘̠̟̳͈͍̗̐̇̚A̵̬̤͐͛̈́͘Ș̶̛͔̞̹͚͚͕̞͆̉̈́̋͌͋̽̓͝͠ ̸͇̪̙̥̯͇̒̆̏̈́͝͝B̶̠̖̟͍̣͙̬͋͗͛̒̇͒̈̕Ḙ̴̡̼͂́͐G̸͔̟͆̏̿͋͆̌̀̚̚͜Ö̶̧̪̮̤̤̀̈̎̀͗̉̏͝Ṇ̷̢̮̦͉̝͖̽̑̏̇̈́̓̕̕͜͝͝Ẻ̶̢͍͇̞̩̆̑̕͘̚͝͝ ̸͇̼̓́̉͂̎͐̿͊͂͝Å̵̙̗̣͍̎̈̚͠͝͝ͅN̷̛͍̞̰͌O̴̩̪̺͍͉͗͆́N̵̮͖̙͓͔̤͉̘̱͈̰̈́͌̄͊͜ ̴͉͓̖̺̬͐̈́̂̒̓̋T̴̤̙̩̳͖̗̗̼̗͎̽̽̾̊̿̄͜͝ͅH̶̨̀͋͋͒͒̐̽̋̀͐̉̀͜Ē̸̢̛̟̤͌͆̊͊̿́̏̍̚͠R̶̮̙͍͔̠͉̟̳̠̫̪̾͆͜͝E̵̞̥̻̹̫̽̀̑̊̿̑̉͝ ̸͔̭̪͙̠͙̹͖͊̐͜I̵̡̧̛̫͍͓͈̻̩͙̳̿̈́̎̾͋̀S̵̩͂͆̈̽̃̆ ̵̧͙̱̼̞̮̩̯̘̞̼͊̄̄̊͐͗͐͛̈́͂Ņ̸̩̝͈͕̯̟̟̰̈́̉̐͑͘͜ͅȌ̶̙̩̀̈̈́̀͐͠ ̸̨̙̞̣̤̥̮̻̌̑̃̃͠͝E̸̤͌̔̔͝S̵̡̫͕͓͕̪̆̃̈̇̔̓C̶̨͍͔̫͔͚̗̈́̎̿̃͘A̶͚̩͉̭͙̘̟̤̙͔̣͂̄͑̊̆͘͝ͅP̷̟͕͉̼̙̻͎̈̓͌͛͜Ē̸͉͔͓̈́̀͂̈́̌͒̑̚͝ ̶̧̛̞̣̤̞͌̐̆͂̎͒̓F̸̨͕̹͔͉̯̜̺͎̱͛̈̃͊͂̀̐̂̍̚͘R̸͙̠̯̈̂͊̃͗̍O̶̪̹̝̭͔̻̣͖̻̗̔̌͠M̴͔̜͓̗̣̞̩͉̮̈́̽͋͗̌̒͘͜͝ͅ ̸̛̬̫̝̻͚̗͉̺̋̀͊̐͆̍̄̉̈́͘͝Y̶͉̊͒̋̈́́́́̃̾Ŏ̸̟̞͖͍̐̓͐͊̿̆̔̓̈̌͠Ǘ̴̱̤͍͙̖̃̃̄̌̊̏͝͠R̷̼̥̳̙̓̈͜͝ ̴̢̺̗̘̪̰͖̜͖͙͙̽̆͜͝Ṡ̷̳͉͖̞̻̑͛̐̃Ỉ̴̡̡̖̦̳̩͈̭̝͖͋̎̑̔Ñ̵̡͎̥̈̌̑̈́̔̇͜͝S̴̢̡̬̝̪̪̪̪͓͇̟̔͂͑̈́͗͑͛͛͊͜͝
 ▄█▀ █▬█ █ █ █ █▀█▀
@@ -5739,11 +5890,12 @@ $> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | conv
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
 ##==========================================
+## Multiplication table The multiplication table for math study
 $> for y in {1..12}; do for x in {1..12}; do echo -n "| $x*$y=$((y*x)) "; done; echo; done|column -t
 ## Multiplication table The multiplication table for math study
 ##==========================================
-$> bashrc-reload() { builtin exec bash ; }
 # Make changes in .bashrc immediately available
+$> bashrc-reload() { builtin exec bash ; }
 ##==========================================
 ## Block all FaceBook traffic
 $> ASN=32934; for s in $(whois -H -h riswhois.ripe.net -- -F -K -i $ASN | grep -v "^$" | grep -v "^%" | awk '{ print $2 }' ); do echo " blocking $s"; sudo iptables -A INPUT -s $s -j REJECT &> /dev/null || sudo ip6tables -A INPUT -s $s -j REJECT; done
@@ -5772,7 +5924,7 @@ $> netstat -np | grep -v ^unix
 ## I often have to google this so I put it here for quick reference.
 ##==========================================
 ## Replace all spaces with underscore in all files in current folder
-$> rename 's/ /_/g' *
+#$> rename 's/ /_/g' *
 ##==========================================
 # Take screenshot of Android device using adb and save to filesystem
 $> adb shell screencap -p | sed 's/\r$//' > FILENAME.PNG
@@ -9264,7 +9416,7 @@ $> ls -d $PWD/*
 $> alias cls="printf \"\e[H\e[2J\e[3J\""
 ## You can also bind it to C-l.
 $> bind -x '"\C-l": cls';
-As the clear command does clear everything in my case, I have this on my .bashrc to have Control-L do exactly the same:
+## As the clear command does clear everything in my case, I have this on my .bashrc to have Control-L do exactly the same:
 $> bind -x '"\C-l"':clear
 ##==========================================
 ## ways to shutdown a server
@@ -9401,6 +9553,7 @@ $> intel_gpu_top
 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
 1  😞 ￼😐 ￼😃
 ##==========================================
+## tabnine. Not great
 $> firefox https://www.tabnine.com/install/sublime/
 ## Type TabNine::config in your editor to control TabNine settings.
 ## Vim
@@ -9701,6 +9854,15 @@ $> sudo add-apt-repository ppa:obsproject/obs-studio
 $> sudo apt-get update
 $> sudo apt-get install obs-studio
 $> firefox https://github.com/CatxFish/obs-v4l2sink/releases
+## Make new video device, TAB for list
+$> ls /dev/vid <TAB>
+## OR
+$> ls /dev/ | grep video
+## Start fake video device
+$> sudo modprobe v4l2loopback
+## Check it for the new one created
+$> ls /dev/ | grep video
+## in obs choose the new v4l2 device
 ## in obs go to tools pick
 $> v4l2sink
 ##==========================================
@@ -10187,6 +10349,7 @@ $> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xar
 ##==========================================
 ## allows you to run any command without having to sudo
 $> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+
 ##==========================================
 ## appimage is a standalone package format "one app = one file"
 https://appimage.github.io/
@@ -10253,14 +10416,191 @@ vagrant -f destroy
 ## Use vagrant to test ansible
 
 ##==========================================
-
-
+## Download Large Google Drive files with Wget in Terminal
+## Replace FILEID and FILENAME in the command below:
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
+
+##==========================================
+## use ffmpeg to record a smooth, reasonably sized screencast:
+
+screenRecord.sh ~/demo.mkv
+
+#! /bin/bash
+
+if [ -z "$1" ]
+  then
+    echo "Please specify a valid destination:  screenRecord.sh ~/videos/cast.mkv"
+    exit
+fi
+
+ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
+
+##==========================================
+## jq is fucking insane, only webfags would use shit like jq
+yt-dlp -J URL >> playlist.json
+perl -Mdd -MJSON::XS -E '$json=decode_json(do{local $/; <>}); say join "\n", map { $_->[0] } sort { $a->[1] <=> $b->[1] } map { [$_->{playlist_autonumber}." ".$_->{title}, $_->{upload_date} ] } $json->{entries}->@*' playlist.json
+
+
+
+##==========================================
+## use zfs to encrypt.
+## create a dataset called "tank" for /dev/sdb
+zpool create tank sdb
+## create a key
+openssl rand -out /media/poolkey 32
+## create an pool called "encrypted" in dataset "tank"
+zfs create -o encryption=on -o keyformat=raw -o keylocation=file:///media/poolkey tank/encrypted
+## setting the mountpoint
+mkdir -p /mnt/tank
+zfs set mountpoint=/mnt/tank second
+zfs set mountpoint=/mnt/tank/encrypted tank/encrypted
+## mount everything
+zfs mount -a -l
+## helpful zfs commands
+zfs get mountpoint
+zfs list
+zpool status
+
+##==========================================
+## 2 minutes of 30fps video (3,600 frames), gop set to 30*30 (each 30 seconds), you can see the video change slightly at each 30 second mark (new i-frame), but otherwise its perfectly still
+
+ffmpeg -loop 1 -r 30 -i b10cac207d27ccaf0a2a4d25803c5626.jpg -t 120 -map 0:v:0 -threads 0 -cpu-used 1 -g "30*30" -c:v libvpx -b:v 2M -crf 35 -qmin 25 -qmax 63 -y /tmp/a.webm
+
+##==========================================
+## tmux Sessions
+## -------------------------------------
+## Misc
+Ctrl + b :          ## enter command mode
+: set -g OPTION     ## set OPTION for all sessions
+: setw -g OPTION    ## set OPTION for all windows
+: set mouse on      ## enable mouse mode
+## Help
+$ tmux list-keys    ## list key bindings(shortcuts)
+: list-keys         ## list key bindings(shortcuts)
+Ctrl + b ?          ## list key bindings(shortcuts)
+tmux info           ## show every session, window, pane, etc...
+## -------------------------------------
+$ tmux                                ## start a new session
+$ tmux new                            ## start a new session
+$ tmux new-session                    ## start a new session
+: new                                 ## start a new session
+$ tmux new -s mysession               ## start a new session with the name mysession
+: new -s mysession                    ## start a new session with the name mysession
+$ tmux kill-ses -t mysession          ## kill/delete session mysession
+$ tmux kill-session -t mysession      ## kill/delete session mysession
+$ tmux kill-session -a                ## kill/delete all sessions but the current
+Ctrl + b $                            ## rename session
+Ctrl + b d                            ## detach from session
+: attach -d                           ## detach others on the session (Maximize window by detach other clients)
+$ tmux ls                             ## show all sessions
+$ tmux list-sessions                  ## show all sessions
+Ctrl + b s                            ## show all sessions
+$ tmux a -t mysession                 ## attach to a session with the name mysession
+$ tmux at -t mysession                ## attach to a session with the name mysession
+$ tmux attach -t mysession            ## attach to a session with the name mysession
+$ tmux attach-session -t mysession    ## attach to a session with the name mysession
+Ctrl + b w                            ## preview session and window
+Ctrl + b (                            ## move to previous session
+Ctrl + b )                            ## move to next session
+## -------------------------------------
+## Windows
+Ctrl + b c                 ## preview session and window
+Ctrl + b ,                 ## rename current window
+Ctrl + b &                 ## close current window
+Ctrl + b p                 ## go to previous window
+Ctrl + b n                 ## go to next window
+Ctrl + b 0 ... 9           ## switch/select window by number
+: swap-window -s 2 -t 1    ## reorder window, swap window number 2 (src) and 1 (dst)
+: swap-window -t -1        ## move current window to the left by one position
+## -------------------------------------
+## Panes
+Ctrl + b ;                     ## toggle last active pane
+Ctrl + b %                     ## split pane horizontally
+Ctrl + b "                     "## split pane vertically
+Ctrl + b {                     ## move the current pane left
+Ctrl + b }                     ## move the current pane right
+Ctrl + b up-arrow              ## switch to pane to the direction
+Ctrl + b down-arrow            ## switch to pane to the direction
+Ctrl + b right-arrow           ## switch to pane to the direction
+Ctrl + b left-arrow            ## switch to pane to the direction
+: setw synchronize-panes       ## toggle synchronize-panes (send command to all panes)
+Ctrl + b Spacebar              ## toggle between pane layouts
+Ctrl + b o                     ## switch to next pane
+Ctrl + b q                     ## show pane numbers
+Ctrl + b q 0 ... 9             ## switch/select pane by number
+Ctrl + b z                     ## toggle pane zoom
+Ctrl + b !                     ## convert pane into a window
+Ctrl + b + up-arrow            ## resize current pane height (holding second key is optional)
+Ctrl + b Ctrl + up-arrow       ## resize current pane height (holding second key is optional)
+Ctrl + b + down-arrow          ## resize current pane height (holding second key is optional)
+Ctrl + b Ctrl + down-arrow     ## resize current pane height (holding second key is optional)
+Ctrl + b + right-arrow         ## resize current pane width (holding second key is optional)
+Ctrl + b Ctrl + right-arrow    ## resize current pane width (holding second key is optional)
+Ctrl + b + left-arrow          ## resize current pane width (holding second key is optional)
+Ctrl + b Ctrl + left-arrow     ## resize current pane width (holding second key is optional)
+Ctrl + b x                     ## close current pane
+## -------------------------------------
+## Copy mode (vi mode)
+: setw -g mode-keys vi   ## use vi keys in buffer
+Ctrl + b [               ## enter copy mode
+Ctrl + b PgUp            ## enter copy mode and scroll one page up
+q                        ## quit mode
+g                        ## go to top line
+G                        ## go to bottom line
+up-arrow                 ## scroll up
+down-arrow               ## scroll down
+h                        ## move cursor left
+j                        ## move cursor down
+k                        ## move cursor up
+l                        ## move cursor right
+w                        ## move cursor forward one word at a time
+b                        ## move cursor backward one word at a time
+/                        ## search forward
+?                        ## search backward
+n                        ## next keyword occurance
+N                        ## previous keyword occurance
+Spacebar                 ## start selection
+Esc                      ## clear selection
+Enter                    ## copy selection
+Ctrl + v                 ## toggle selection mode: line <-> rectangle
+Ctrl + b ]               ## paste contents of buffer_0
+: show-buffer            ## display buffer_0 contents
+: capture-pane           ## copy entire visible contents of pane to a buffer
+: list-buffers           ## show all buffers
+: choose-buffer          ## show all buffers and paste selected
+: save-buffer buf.txt    ## save buffer contents to buf.txt
+: delete-buffer -b 1     ## delete buffer_1
+## -------------------------------------
 ##==========================================
-
-
+## minimize button
+## for the icons on the right side
+gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+## for the icons on the left side
+gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
 ##==========================================
+## mac pci video cam
+## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
 
+## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
+sudo apt-get install git
+sudo apt-get install curl xzcat cpio
+git clone https://github.com/patjak/facetimehd-firmware.git
+cd facetimehd-firmware
+make
+sudo make install
+cd ..
+sudo apt-get install kmod libssl-dev checkinstall
+git clone https://github.com/patjak/bcwc_pcie.git
+cd bcwc_pcie
+make
+sudo make install
+sudo depmod
+sudo modprobe -r bdc_pci
+sudo modprobe facetimehd
+sudo nano /etc/modules
+## **add line "facetimehd", write out (ctl+o) & close**
 
+## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
 
 
@@ -10688,142 +11028,463 @@ vagrant -f destroy
 
 
 ##==========================================
+## Write udev rule to run on AC/Battery plug/unplug:
+https://superuser.com/questions/1417292/udev-rule-to-start-a-command-on-ac-battery-plug-unplug-event
+https://opensource.com/article/18/11/udev
+https://wiki.archlinux.org/title/udev
 
+## create file /etc/udev/rules.d/60-onbattery.rules:
 
-##==========================================
+## Also, if you'd like to know the attributes for your own rules, monitor what the
+udev udevadm monitor --environment
 
+##
+🍎:20230109_02:38:56~⚡sudo udevadm monitor --environment
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+KERNEL - the kernel uevent
 
-##==========================================
+KERNEL[516.019344] change   /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1 (power_supply)
+ACTION=change
+DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
+SUBSYSTEM=power_supply
+POWER_SUPPLY_NAME=ADP1
+POWER_SUPPLY_TYPE=Mains
+POWER_SUPPLY_ONLINE=0
+SEQNUM=3869
 
+🍎:20230109_02:55:23~⚡sudo udevadm info --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
+P: /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
+L: 0
+E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
+E: POWER_SUPPLY_NAME=ADP1
+E: POWER_SUPPLY_TYPE=Mains
+E: POWER_SUPPLY_ONLINE=1
+E: SUBSYSTEM=power_supply
 
-##==========================================
 
+## Check info
+## Plugged in
+sudo udevadm info --attribute-walk --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
 
-##==========================================
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
 
+  looking at device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1':
+    KERNEL=="ADP1"
+    SUBSYSTEM=="power_supply"
+    DRIVER==""
+    ATTR{online}=="1"
+    ATTR{type}=="Mains"
 
-##==========================================
+  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00':
+    KERNELS=="ACPI0003:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS=="ac"
+    ATTRS{hid}=="ACPI0003"
+    ATTRS{path}=="\_SB_.ADP1"
 
+  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00':
+    KERNELS=="LNXSYBUS:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS==""
+    ATTRS{hid}=="LNXSYBUS"
+    ATTRS{path}=="\_SB_"
 
-##==========================================
+  looking at parent device '/devices/LNXSYSTM:00':
+    KERNELS=="LNXSYSTM:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS==""
+    ATTRS{hid}=="LNXSYSTM"
+    ATTRS{path}=="\ "
 
+## unplugged
+sudo udevadm info --attribute-walk --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
 
-##==========================================
+Udevadm info starts with the device specified by the devpath and then
+walks up the chain of parent devices. It prints for every device
+found, all possible attributes in the udev rules key format.
+A rule to match, can be composed by the attributes of the device
+and the attributes from one single parent device.
 
+  looking at device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1':
+    KERNEL=="ADP1"
+    SUBSYSTEM=="power_supply"
+    DRIVER==""
+    ATTR{type}=="Mains"
+    ATTR{online}=="0"
 
-##==========================================
+  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00':
+    KERNELS=="ACPI0003:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS=="ac"
+    ATTRS{path}=="\_SB_.ADP1"
+    ATTRS{hid}=="ACPI0003"
 
+  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00':
+    KERNELS=="LNXSYBUS:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS==""
+    ATTRS{path}=="\_SB_"
+    ATTRS{hid}=="LNXSYBUS"
 
-##==========================================
+  looking at parent device '/devices/LNXSYSTM:00':
+    KERNELS=="LNXSYSTM:00"
+    SUBSYSTEMS=="acpi"
+    DRIVERS==""
+    ATTRS{path}=="\ "
 
 
-##==========================================
+# Rule for when switching to battery.
+SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/local/bin/unplug.sh"
+## or
+ACTION=change, SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/local/bin/unplug.sh"
 
+## Make a rule for switching to battery.
+sudo su
+echo '# Rule for when switching to battery
+SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/local/bin/unplug.sh"' > /etc/udev/rules.d/60-onbattery.rules
 
-##==========================================
+## Make a script to run on battery unplug.
+sudo su
+echo "cvlc --play-and-exit ~/.local/share/sounds/bell.oga && notify-send 'Using Battery.' 'Power supply unplugged.'" > /usr/local/bin/unplug.sh
+chmod +x /usr/local/bin/unplug.sh
 
+## To test your udev rules, use
+sudo udevadm control --reload
+sudo udevadm control --reload-rules && udevadm trigger
 
 ##==========================================
-
-
+## Change MAC
+ip link show
+sudo ip link set dev <Device> down
+sudo ip link set dev wlp3s0 down
+## Now, you can assign a new MAC address to your device by executing the command below, where <Device> must be replaced with your network device, and <New MAC address> must be replaced with the new MAC address you want to assign to your device.
+sudo ip link set dev <Device> address <New mac address>
+sudo ip link set dev wlp3s0 address 12:34:56:78:90:ab
+ip link show
+## Finally, set your network card up again by running the following command, where <Device> must be replaced with your network card.
+sudo ip link set dev <Device> up
+sudo ip link set dev wlp3s0 up
 ##==========================================
+ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null /dev/null && \
+ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -c:a libopus output.webm
 
-
 ##==========================================
+ssh ubuntu@192.168.0.190
 
 
 ##==========================================
 
 
-##==========================================
+sudo userdel -r henrytl
 
+sudo useradd -m -d /home/henrytl henrytl
 
+sudo useradd -m henrytl
 ##==========================================
+## Get the current wifi password of a Connected Device with NMCLI
+$> nmcli device wifi show-password
+## Comes with a QR code, so make sure your trust the source, if running from a device other than your own.
 
-
 ##==========================================
+## Text Editor
+## Sublime
+## Adding a Line
+Alt+Shift+⬆  ## To add the line above to the selection:
+Alt+Shift+⬇ ## To add the line below to the selection:
+Ctrl+U ## If you go too far, use Undo Selection to step backwards:
+## Splitting the Selection into Lines
+Ctrl+Shift+L ## Select a block of lines, and then split it into many selections, one per line:
+## Quick Add Next
+Ctrl+D ## To add the next occurrence of the current word to the selection, use Quick Add Next, which is bound to:
+Ctrl+U ## Again, if you go too far, use Undo Selection to step backwards:
+Ctrl+K, Ctrl+D ## Individual occurrences can be skipped via Quick Skip Next, which is bound to:
+## Find All
+Alt+F3 ## To add all occurrences of the current word to the selection, use Find All:
+## Single Selection
+Esc ## To go from multiple selections to a single selection, press
+##------------------------------
+## VS Code
+## Basic editing
+Ctrl+X ## Cut line (empty selection)
+Ctrl+C ## Copy line (empty selection)
+Alt+ ↓ / ↑ ## Move line down/up
+Ctrl+Shift+K ## Delete line
+Ctrl+Enter / ## Insert line below
+Ctrl+Shift+Enter  ## Insert line above
+Ctrl+Shift+\  ## Jump to matching bracket
+Ctrl+]   ## Indent line
+Ctrl+[  ## Outdent line
+Home /   ## End Go to beginning/end of line
+Ctrl+ Home / End  ## Go to beginning/end of file
+Ctrl+ ↑ / ↓  ## Scroll line up/down
+Alt+ PgUp / PgDn  ## Scroll page up/down
+Ctrl+Shift+ [ / ]  ## Fold/unfold region
+Ctrl+K Ctrl+ [ / ]  ## Fold/unfold all subregions
+Ctrl+K Ctrl+0 /  ## Fold all regions
+Ctrl+K Ctrl+J  ## Unfold all regions
+Ctrl+K Ctrl+C  ## Add line comment
+Ctrl+K Ctrl+U  ## Remove line comment
+Ctrl+/  ## Toggle line comment
+Ctrl+Shift+A  ## Toggle block comment
+Alt+Z   ##Toggle word wra
+##Search and replace
+Ctrl+F  ## Find
+Ctrl+H  ## Replace
+F3 / Shift+F3  ## Find next/previous
+Alt+Enter  ## Select all occurrences of Find match
+Ctrl+D  ## Add selection to next Find match
+Ctrl+K Ctrl+D  ## Move last selection to next Find match
 
-
 ##==========================================
-
-
+## Factory reset your android device via commandline.
+$> am broadcast -a android.intent.action.MASTER_CLEAR
 ##==========================================
-
-
+## Uninstall bloatware on your android device without root.
+## List all packages with: pm list packages|cut -d: -f2 Show Sample Output
+$> pm uninstall --user 0 com.package.name
 ##==========================================
-
-
+## Rename all files in lower case
+## rename is a really powerfull to, as its name suggests, rename files Show Sample Output
+$> rename 'y/A-Z/a-z/'
+## or
+$> for f in 'find'; do mv -v "$f" "'echo $f | tr '[A-Z]' '[a-z]''"; done
 ##==========================================
-
-
+## Start a game on the discrete GPU (hybrid graphics)
+## On laptops featuring hybrid graphics and using the free X drivers, the DRI_PRIME variable indicates which GPU to run on. This alias allows to utilize the faster discrete GPU without installing proprietary drivers. Show Sample Output
+$> alias game='DRI_PRIME=1'
 ##==========================================
-
-
+## Replacement of tree command (ignore node_modules)
+$> alias tree='pwd;find . -path ./node_modules -prune -o -print | sort | sed '\''1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/| /g'\'''
 ##==========================================
-
-
+## Recursive search and replace (with bash only)
+## Replaces a string matching a pattern in one or several files found recursively in a particular folder.
+$> find ./ -type f -name "somefile.txt" -exec sed -i -e 's/foo/bar/g' {} \;
 ##==========================================
-
-
+## Remove multiple entries of the same command in .bash_history with preserving the chronological order
+## Only the first appearance of a repeated command in the history will be kept. Otherwise, if you prefer to keep last occurrence of a repeated command then maybe you can achieve that by including reverse input/output i.e with 'tac' command in expression above.
+$> cp -a ~/.bash_history ~/.bash_history.bak && perl -ne 'print unless $seen{$_}++' ~/.bash_history.bak >~/.bash_history
+## To see statistics of removed repeated commands:
+$> diff --suppress-common-lines -y ~/.bash_history.bak ~/.bash_history|uniq -c|sort -n|tr -s " "|sed '/^ 1/d'|grep '<'
 ##==========================================
-
-
+## Switch all connected PulseAudio bluetooth devices to A2DP profile
+## Tries to switch all audio devices to the A2DP profile for optimal sound quality. Useful for bluetooth speakers and headphones that always power up in HSP/HFP mode. Note however that this command is only a shorthand for the GUI, so it cannot fix stubborn BT controllers that leave your device stuck in HSP mode until a manual re-coupling.
+$> for card in $(pacmd list-cards | grep 'name: ' | sed 's/.*<\(.*\)>.*/\1/'); do pacmd set-card-profile $card a2dp_sink; done
+##==========================================
+## Scan all open ports without any required program
+$> for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] Open Port at\n: \t%d\n" "$i" || printf "."; done
+##==========================================
+## Visual alert with keyboard LEDs
+$> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
+##==========================================
+## Convert & rename all filenames to lower case
+$> convmv --lower --notest FILE
+##==========================================
+## delete at start of each line until character
+## Delete the beginning of each line until first match of given character, in this case it's ":" Does it on all lines. The given character is deleted also, and can be a space.
+$> sed 's/^[^:]*://g'
+##==========================================
+## List all ubuntu installed packages in a single line
+## Use xargs command to make one line.
+$> dpkg --get-selections | grep -Evw 'deinstall$' | cut -f1 | sort -u | xargs
+##==========================================
+## Rotate a video file by 90 degrees CW
+## Change video orientation in metadata only
+$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
+##==========================================
+## Make window transparent (50% opacity) in Gnome shell
+## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ##==========================================
+## Show top 50 running processes ordered by highest memory/cpu usage refreshing every 1s
+## http://alvinalexander.com/linux/unix-linux-process-memory-sort-ps-command-cpu for an overview of --sort available values
+$> watch -n1 "ps aux --sort=-%mem,-%cpu | head -n 50"
+##==========================================
+## Show all current listening programs by port and pid with SS instead of netstat
+$> ss -plunt
+##==========================================
+## Get all upgradable deb packages in a single line
+## Works for debian and ubuntu based distros.
+$> apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
+##==========================================
+## rsync should continue even if connection lost
+## Manage partial uploads using append option.
+$> rsync --archive --recursive --compress --partial --progress --append root@123.123.123.123:/backup/somefile.txt.bz2 /home/ubuntu/
+##==========================================
+## Print sensors data for your hardware
+$> paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -s $'\t' -t | sed 's/\(.\)..$/.\1°C/'
+##==========================================
+## Print interface that is up and running
+$> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
+##==========================================
+## Quickly run any gif as a ASCII animation in a terminal window
+## A python3 tool that can be installed with the following command
+$> pip3 install gif-for-cli --user
+$> gif-for-cli /path/to/gif_file.gif
+##==========================================
+## Use chrome to dump html
+$> google-chrome-stable --headless --dump-dom --disable-gpu "https://commandlinefu.com" | html2text
+##==========================================
+## List all packages in Ubuntu/Debian that no package depends on
+$> dpkg-query --show --showformat='${Package}\t${Status}\n' | tac | awk '/installed$/ {print $1}' | xargs apt-cache rdepends --installed | tac | awk '{ if (/^ /) ++deps; else if (!/:$/) { if (!deps) print; deps = 0 } }'
+##==========================================
+## show a zoomable world map
+$> telnet mapscii.me
+##==========================================
+## Easily convert webp image to
+$> sudo apt install webp
+## The webp install comes with a utility called dwebp which is a WebP “decoder”.
+$> dwebp toConvert.webp -o toSave.png
+## convert image
+$> gm mogrify -format webp -define webp:lossless=true -quality 100 *.png
+##==========================================
+## Power savings  BAD!!!!!
+sudo apt-get install tlp
 
+cat /etc/tlp.d/00-custom.conf
 
-##==========================================
+TLP_ENABLE=1
 
+RADEON_DPM_PERF_LEVEL_ON_AC=high
+RADEON_DPM_PERF_LEVEL_ON_BAT=low
 
-##==========================================
+RADEON_DPM_STATE_ON_AC=performance
+RADEON_DPM_STATE_ON_BAT=battery
 
+RADEON_POWER_PROFILE_ON_AC=high
+RADEON_POWER_PROFILE_ON_BAT=low
 
-##==========================================
+PCIE_ASPM_ON_AC=performance
+PCIE_ASPM_ON_BAT=powersupersave
 
+DEVICES_TO_ENABLE_ON_STARTUP="wifi"
+DEVICES_TO_DISABLE_ON_STARTUP="bluetooth nfc wwan"
+DEVICES_TO_DISABLE_ON_SHUTDOWN="bluetooth nfc wifi wwan"
+DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth nfc wifi wwan"
 
-##==========================================
+START_CHARGE_THRESH_BAT0=94
+STOP_CHARGE_THRESH_BAT0=98
 
+DEVICES_TO_DISABLE_ON_WIFI_CONNECT="wwan"
+DEVICES_TO_DISABLE_ON_WWAN_CONNECT="wifi"
 
-##==========================================
+/etc/auto-cpufreq.conf
 
+[charger]
+governor = performance
+scaling_min_freq = 1700000
+scaling_max_freq = 1700000
+turbo = auto
 
-##==========================================
+[battery]
+governor = powersave
+scaling_min_freq = 1400000
+scaling_max_freq = 1600000
+turbo = never
 
+##------------------------------
+https://github.com/AdnanHodzic/auto-cpufreq
 
 ##==========================================
 
+## On a Linux Mint 20.x release (20, 20.1 and 20.2), /etc/apt/preferences.d/nosnap.pref needs to be either removed or moved before Snap can be installed. This can be accomplished from the command line, and the following command (for example) moves nosnap.pref to a renamed nosnap.backup file in your Documents directory:
 
-##==========================================
+$ sudo mv /etc/apt/preferences.d/nosnap.pref ~/Documents/nosnap.backup
+$ sudo apt update
+## Reverse
+$> sudo mv ~/Documents/nosnap.backup /etc/apt/preferences.d/nosnap.pref
 
+$> sudo apt-get install snapd
 
-##==========================================
+$> sudo snap install auto-cpufreq
 
 
-##==========================================
+$> sudo auto-cpufreq --install
+----------------- auto-cpufreq daemon installed and running -----------------
 
+## To view live stats, run:
+$> auto-cpufreq --stats
 
-##==========================================
+## To disable and remove auto-cpufreq daemon, run:
+$> sudo auto-cpufreq --remove
 
+##-----------------------------
+Add to /etc/default/grub, Line starting with GRUB_CMDLINE_LINUX_DEFAULT="quiet splash pcie_aspm i915.i915_enable_rc6=1 i915.lvds_downclock=1"
+after editing...
+$> sudo update-grub
 
-##==========================================
+##-----------------------------
+https://wiki.ubuntu.com/Kernel/PowerManagement/PowerSavingTweaks
 
 
-##==========================================
+##-----------------------------
+$> sudo auto-cpufreq --remove
+$> sudo apt-get purge snapd
+$> sudo mv ~/Documents/nosnap.backup /etc/apt/preferences.d/nosnap.pref
 
 
 ##==========================================
 
+##-----------------------------
+powertop
 
 ##==========================================
 
 
+##==========================================
+## Kill webcam
+$> sudo echo 0 > /sys/class/video4linux/video0/shield/state
 ##==========================================
+## reset your swap space
+$> sudo swapoff -a && sudo swapon -a
+##==========================================
+## ??????????
+$> alias gayscrotum='scrot -u poop.png && convert poop.png \( +clone -background black -shadow 50x50x50x50+10+10+10+10 \) +swap -background none -layers merge +repage poopy.png && rm poop.png'
+##==========================================
+[alias]
+    a = commit --amend
+    allfiles = "!f() { git log --name-only --diff-filter=A --pretty=format: | sort -u; }; f"
+    cfg = config --list
+    changedfiles = "diff-tree --no-commit-id -r --name-only"
+    cam = commit -am
+    cm = commit -m
+    co = checkout
+    cob = checkout -b
+    discard = reset HEAD --hard
+    discardchunk = checkout -p
+    ol = "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    others = "ls-files --others --ignored --exclude-from=.gitignore"
+    rmuntracked = clean -df
+    root = rev-parse --show-toplevel
+    s = status
+    searchfiles = "log --name-status --source --all -S"
+    searchtext = "!f() { git grep \"$*\" $(git rev-list --all); }; f"
+    uncommit = reset --soft HEAD^
+    unstage = reset HEAD --
+    wip = "!f() { git add . && git commit -m 'Work in progress'; }; f"
+diff-all = !"for name in $(git diff --name-only $1); do git difftool -y $1 $name & done"
+diff-changes = diff --name-status -r
+diff-stat = diff --stat --ignore-space-change -r
+diff-staged = diff --cached
+diff-upstream = !git fetch origin && git diff master origin/master
 
 
 ##==========================================
 
 
 ##==========================================
+docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/html:rw -d nginx
 
+##==========================================
+## Screen reader
+## Pressing AltSuperS will disable or enable speech dispatcher.
+Alt+Super+S
+## The last thing you should hear is
+"screen reader off"
 
 ##==========================================
 
@@ -10832,67 +11493,214 @@ vagrant -f destroy
 
 
 ##==========================================
+## Fix bluetooth stutter caused by low amount of buffer
+$> sudo apt-get remove blueberry
+## And
+$> sudo apt-get install blueman
 
+## This was only partly effective.
+https://wiki.archlinux.org/title/bluetooth_headset
+## Find necessary info about the bluetooth device (while it is connected!)
+$> pactl list | grep -Pzo '.*bluez_card(.*\n)*'
+## Use field "Name:: and "Ports:"  headset-output. Set to 50000 - 70000 buffer
+$> pactl set-port-latency-offset bluez_card.7D_4D_C1_D8_F1_AA headset-output 64448
+$> pactl set-port-latency-offset bluez_card.7D_4D_C1_D8_F1_AA headset-output 125000
 
-##==========================================
+## restart bluetooth
+$> sudo service bluetooth restart
 
 
 ##==========================================
 
 
 ##==========================================
+## How to open DMG file in Linux [Ubuntu , Linux Mint , Kali Linux]
+1. sudo apt update
+2. sudo apt-get install p7zip-full
+3. 7z x [image].dmg
+4. mkdir ftmount
+5. sudo mount -t hfsplus 5.hfsx ftmount
+## *************
+## for umount
+6. sudo umount ftmount
 
-
+##==========================================
+## PDF fill out anotate
+https://www.sejda.com/desktop
 ##==========================================
+https://github.com/jpbruinsslot/slack-term
 
+## Cool stuff to read and use
+https://www.marcobehler.com/guides/ssh-cheat-sheet
+https://termshark.io/
+https://github.com/markqvist/nomadnet
 
 ##==========================================
 
+https://github.com/Samyak2/gosling/
 
-##==========================================
+https://github.com/pystardust/ytfzf
+https://github.com/keepcosmos/terjira
 
+https://gitlab.com/ajak/tuir
+https://github.com/m4tt72/terminal
 
-##==========================================
+https://github.com/file-acomplaint/kakikun
 
+##================================
+## Awesome git tui
+https://github.com/jesseduffield/lazygit
+## Ubuntu
+$> LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+$> curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+$> tar xf lazygit.tar.gz lazygit
+$> sudo install lazygit /usr/local/bin
+## Verify the correct installation of lazygit:
+$> lazygit --version
 
 ##==========================================
+##
+    >git add -A
+    >git commit -F <(git diff --cached --compact-summary)
 
+$> git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
+$> git push origin HEAD:master
+##==========================================
+##
+https://lock.cmpxchg8b.com/linux123.html
+$> sudo apt-get install build-essential gcc-multilib lib32ncurses-dev
 
 ##==========================================
+epy-reader for ebooks
 
+##==========================================
+## Raspberrypi headless with raspberrian OS
+## Create some files on the root / of the sd card
+## Username password
+echo "$USER:$(echo 'mypassword' | openssl passwd -6 -stdin)" > mount/path/userconf.txt
+## Enable ssh
+touch mount/path/ssh
+## WiFi network info
+echo 'country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid="NETWORK-NAME"
+    psk="NETWORK-PASSWORD"
+}' > mount/path/wpa_supplicant.conf
+## Now availible on network
+## Remove old known hosts
+$> ssh-keygen -R raspberrypi.local
+## Sign on
+$> ssh $USER@raspberrypi.local
+##==========================================
+## extract the audio;
+$> ffmpeg -i source.mp4 -map 0:a:0 audio.wav
+## edit audio.wav to suit
+## mux the audio into a new video;
+$> ffmpeg -i source.mp4 -i audio_edited.wav -map 0 -map -0:a:0 -map 1 -c copy -c:a aac -b:a 128k source_fixedaudio.mp4
 
+##==========================================
+## Image viewer
+$> feh -r -F -Y "$(ls -d -1 ~/Pictures/* | shuf | head -1)"
+$> feh -m --thumb-width 800 ~/Pictures/*
+$> feh ~/Pictures/*
+$> feh --info "exifgrep '(Model|DateTimeOriginal|FNumber|ISO|Flash)' %F | cut -d . -f 4-" ~/Pictures/*
 ##==========================================
+## The VirtualBox documentation says it now only auto assigns IP addresses in the 192.68.56.0/21 range.
+## temp fix
+$> sudo ip link set dev vboxnet0 up
+$> sudo ip address add 192.168.42.1/24 dev vboxnet0
 
+## To auto assign the 192.168.10.10/24 range, a networks.conf file needs to be created.
+## Create /etc/vbox/networks.conf on the host with the following contents:
+$> * 192.168.42.0/24
 
+$> echo '* 192.168.42.0/24' > /etc/vbox/networks.conf
 ##==========================================
+#!/bin/sh
 
+if [ "$1" == "install" ] then;
+        # Second argument == package name
+        (do install stuff) $2;
+fi
 
-##==========================================
 
+##==========================================
+## mount, copy files to partition, unmount
+$> install udisks2
+## mount, notice the sdb1, select the partition
+$> udisksctl mount -b /dev/sdb1
+## copy files to partition
+$> udisksctl unmount -b /dev/sdb1
+## unmount, you must enter the device sdb not the partition
+$> udisksctl power-off -b /dev/sdb
 
+##==========================================
+## download all images in a thread
+wget -nd -r -H -l1 -D4cdn.org -A gif,webm,jpeg,jpg,png 4channel.org/{thread}
 ##==========================================
+## Desktop:
+$> sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
 
+## Server:
+$> tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
 
 ##==========================================
+## sed command "cheat-sheet"
+:  # label
+=  # line_number
+a  # append_text_to_stdout_after_flush
+b  # branch_unconditional             
+c  # range_change                     
+d  # pattern_delete_top/cycle          
+D  # pattern_ltrunc(line+nl)_top/cycle 
+g  # pattern=hold                      
+G  # pattern+=nl+hold                  
+h  # hold=pattern                      
+H  # hold+=nl+pattern                  
+i  # insert_text_to_stdout_now         
+l  # pattern_list                       
+n  # pattern_flush=nextline_continue   
+N  # pattern+=nl+nextline              
+p  # pattern_print                     
+P  # pattern_first_line_print          
+q  # flush_quit                        
+r  # append_file_to_stdout_after_flush 
+s  # substitute                                          
+t  # branch_on_substitute              
+w  # append_pattern_to_file_now         
+x  # swap_pattern_and_hold             
+y  # transform_chars   
 
-
 ##==========================================
+## NEW STUFF TO ADD TO FILE
+## Cool pipes
+## Switch to Upercase
+$> | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+## or
+$> | tr "[:lower:]" "[:upper:]"
+## or
+$> | tr "a-z" "A-Z"
+## Change newlines to spaces
+$> | sed ':a;N;$!ba;s/\n/ /g'
+## Explanation:
+## Create a label via :a.
+## Append the current and next line to the pattern space via N.
+## If we are before the last line, branch to the created label $!ba ($! means not to do it on the last line as there should be one final newline).
+## Finally the substitution replaces every newline with a space on the pattern space (which is the whole file).
 
 
-##==========================================
 
 
-##==========================================
 
 
-##==========================================
 
 
-##==========================================
 
 
 ##==========================================
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sMkIrrv-c5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ##==========================================
 
@@ -10929,15 +11737,37 @@ https://cudatext.github.io/
 https://github.com/arindas/mac-on-linux-with-qemu
 
 
+Desktop: sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
+
+Server: sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
 
 
-
-
+if (condition) {
+} else {
+}
 
 
 
 ##==========================================
+
 
 ##==========================================
 ## Remove the $> to activate the commands
 $> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================

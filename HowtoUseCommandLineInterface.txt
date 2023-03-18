@@ -475,7 +475,7 @@ $> nmap -sP 192.168.*.*
 $> fortune | espeak -s 135
 ##==========================================
 ## Create banner from output
-$> figlet
+$> | figlet
 ##==========================================
 ## Screenshot
 $> import -window root -delay 40 ~/Pictures/screenshot`date +"%Y%m%d-%H:%M.%S"`.png
@@ -484,6 +484,8 @@ $> import -window root -delay 40 ~/Pictures/screenshot`date +"%Y%m%d-%H:%M.%S"`.
 ## Color ascii video from webcam;
 $> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10:outfmt=rgb16 -vo caca tv://
 ##==========================================
+## Make links
+ln -s /path/target /path/linkname
 ##==========================================
 ##==========================================
 
