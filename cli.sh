@@ -441,6 +441,27 @@ $> sudo service mdm start
 $> sudo systemctl stop mdm
 ## Start gui
 $> sudo systemctl start mdm
+##------------------------------------------
+## Command line only login system service
+## Boot to text mode.  Stop mdm service from starting automatically on systemd
+## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
+$> sudo systemctl disable mdm
+## Start gui
+$> sudo systemctl start mdm
+## boot to gui by default
+$> sudo systemctl enable mdm
+##------------------------------------------
+## Drop into command line only environment lightdm
+$> sudo service lightdm stop
+## To get back into the gui
+$> sudo service lightdm start
+##------------------------------------------
+## Systemd
+## Stop gui
+$> sudo systemctl stop lightdm
+## Start gui
+$> sudo systemctl start lightdm
+##------------------------------------------
 ##==========================================
 ## To disable a listed service from starting at boot try:
 $> sudo update-rc.d <service name> disable
@@ -473,14 +494,15 @@ $> sudo sed -i 's:quiet text:quiet splash:' /etc/default/grub
 $> sudo update-grub
 $> sudo reboot
 ##------------------------------------------
-## Command line only login system service
-## Boot to text mode.  Stop mdm service from starting automatically on systemd
-## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
-$> sudo systemctl disable mdm
-## Start gui
-$> sudo systemctl start mdm
-## boot to gui by default
-$> sudo systemctl enable mdm
+## Boot into command line only environment
+## Press at grub for edit
+e
+## Change from init 5 gui mode
+$vt_handoff 5
+## to init 3 multi user terminal mode
+$vt_handoff 3
+## Start back into gui
+sudo init 5
 ##==========================================
 ## Update ppa repository
 $> sudo add-apt-repository ppa:<repository-name>
@@ -3000,7 +3022,7 @@ $> echo ${name}                            ## prints admin
 $> echo ${name-test}                       ## Test if var has data if it does print data, if not print what in after operand "-". prints admin
 $> unset name                              ## removes data from var foo
 $> echo ${name-test}                       ## Test if var has data, if it does, print data, if not, print what in after operand "-". prints test
-$> echo ${name:=admin2}                    ## Test if var has data, if it does, print data, if not, sets it to what is after operand ":="  prints admin
+$> echo ${name:=admin2}                    ## Test if var has data, if it does, print data, if not, sets it to what is after operand ":="  prints admin2
 ### Indirect look-up
 $> alpha=(a b c d e f g h i j k l m n)     ## Set an array
 $> char=alpha[12]                          ## Set var to element in array alpha
@@ -3203,6 +3225,8 @@ $> | awk 'length < 80'
 $> | perl -MList::Util=shuffle -e 'print shuffle <>;'
 ## or
 $> | shuf
+## or random sort
+$> | sort -R
 ##------------------------------------------
 ## Print it out to default printer
 $> | lp
@@ -3480,6 +3504,8 @@ $> | tr "a-z" "A-Z"
 ##------------------------------------------
 ## Change newlines to spaces
 $> | sed ':a;N;$!ba;s/\n/ /g'
+## extract column from csv file
+$> | cut -d"," -f9
 ##------------------------------------------
 
 ##------------------------------------------
@@ -4875,6 +4901,26 @@ _________________¶_______
 
 Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟̥̤̗͇͂̿̎̂̿̓́̃͜͠͝E̸̢͕̯̞̻̓ ̶̡̫̘̣̼͕̠͙̺͌Ŗ̶̪̖͗̃̈́͗͛̉͑̆͠͠͝I̴̧̡͉̗̠̤̳̼̼͌̂͌̔̑̀̃̒̔͂̈͘ͅT̷̠̫̭̽̇̿̑̉̋̈́͆̔͝Ȕ̶̢̦͉̱̟̳̣̌̄̌͛͒̄ͅA̷̢̺̖͓̟͚̠̻͌̐͑̑̔͋̊̽͌͂͘͝Ļ̷̡̪̼̹͇̫̬͂̓͒́ ̶̞̬̮̰̓͘H̷̢̛̗͇̯̦̘̠̟̳͈͍̗̐̇̚A̵̬̤͐͛̈́͘Ș̶̛͔̞̹͚͚͕̞͆̉̈́̋͌͋̽̓͝͠ ̸͇̪̙̥̯͇̒̆̏̈́͝͝B̶̠̖̟͍̣͙̬͋͗͛̒̇͒̈̕Ḙ̴̡̼͂́͐G̸͔̟͆̏̿͋͆̌̀̚̚͜Ö̶̧̪̮̤̤̀̈̎̀͗̉̏͝Ṇ̷̢̮̦͉̝͖̽̑̏̇̈́̓̕̕͜͝͝Ẻ̶̢͍͇̞̩̆̑̕͘̚͝͝ ̸͇̼̓́̉͂̎͐̿͊͂͝Å̵̙̗̣͍̎̈̚͠͝͝ͅN̷̛͍̞̰͌O̴̩̪̺͍͉͗͆́N̵̮͖̙͓͔̤͉̘̱͈̰̈́͌̄͊͜ ̴͉͓̖̺̬͐̈́̂̒̓̋T̴̤̙̩̳͖̗̗̼̗͎̽̽̾̊̿̄͜͝ͅH̶̨̀͋͋͒͒̐̽̋̀͐̉̀͜Ē̸̢̛̟̤͌͆̊͊̿́̏̍̚͠R̶̮̙͍͔̠͉̟̳̠̫̪̾͆͜͝E̵̞̥̻̹̫̽̀̑̊̿̑̉͝ ̸͔̭̪͙̠͙̹͖͊̐͜I̵̡̧̛̫͍͓͈̻̩͙̳̿̈́̎̾͋̀S̵̩͂͆̈̽̃̆ ̵̧͙̱̼̞̮̩̯̘̞̼͊̄̄̊͐͗͐͛̈́͂Ņ̸̩̝͈͕̯̟̟̰̈́̉̐͑͘͜ͅȌ̶̙̩̀̈̈́̀͐͠ ̸̨̙̞̣̤̥̮̻̌̑̃̃͠͝E̸̤͌̔̔͝S̵̡̫͕͓͕̪̆̃̈̇̔̓C̶̨͍͔̫͔͚̗̈́̎̿̃͘A̶͚̩͉̭͙̘̟̤̙͔̣͂̄͑̊̆͘͝ͅP̷̟͕͉̼̙̻͎̈̓͌͛͜Ē̸͉͔͓̈́̀͂̈́̌͒̑̚͝ ̶̧̛̞̣̤̞͌̐̆͂̎͒̓F̸̨͕̹͔͉̯̜̺͎̱͛̈̃͊͂̀̐̂̍̚͘R̸͙̠̯̈̂͊̃͗̍O̶̪̹̝̭͔̻̣͖̻̗̔̌͠M̴͔̜͓̗̣̞̩͉̮̈́̽͋͗̌̒͘͜͝ͅ ̸̛̬̫̝̻͚̗͉̺̋̀͊̐͆̍̄̉̈́͘͝Y̶͉̊͒̋̈́́́́̃̾Ŏ̸̟̞͖͍̐̓͐͊̿̆̔̓̈̌͠Ǘ̴̱̤͍͙̖̃̃̄̌̊̏͝͠R̷̼̥̳̙̓̈͜͝ ̴̢̺̗̘̪̰͖̜͖͙͙̽̆͜͝Ṡ̷̳͉͖̞̻̑͛̐̃Ỉ̴̡̡̖̦̳̩͈̭̝͖͋̎̑̔Ñ̵̡͎̥̈̌̑̈́̔̇͜͝S̴̢̡̬̝̪̪̪̪͓͇̟̔͂͑̈́͗͑͛͛͊͜͝
 ▄█▀ █▬█ █ █ █ █▀█▀
+
+## Programming Languages
+🅒   ## C/C++
+🦀   ## Rust
+🐹   ## Go
+☕   ## Java
+🔰   ## JS
+🔻   ## Ruby
+🐍   ## Python
+🐘   ## PHP
+🐪   ## Perl
+🐫   ## OCaml
+👑   ## Nim
+🍏   ## Apple
+🐳   ## Docker
+💻   ## Shell
+
+ 🍃🌼🌺🍃🌸🍃🤎🙏🏽👵🏽👋🏾🇨🇦❤️🇺🇸🇺❤️🇨🇦
+😳😥🤣🤣🌄
+
 COMMENT1
 ## #################################################
 ## #          END Extra Characters                 #
@@ -5885,8 +5931,8 @@ $> mplayer http://pub7.di.fm/di_ambient_aac?1 -user-agent "AudioAddict-di/3.2.0.
 ## Look for the list of stations here: http://pub7.di.fm
 ## Or here: https://goo.gl/pdhhpQ
 ##==========================================
-$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## convert video to gif by ffmpeg and imagemagick
+$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
 ##==========================================
@@ -9879,6 +9925,8 @@ $> youtube-dl --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ## Collect audio from youtube
 $> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
+## Tips and tricks from web
+<<Comment5
 I have marked with a * those which I think are absolutely essential
 Items for each section are sorted by oldest to newest. Come back soon for more!
 
@@ -9911,24 +9959,20 @@ BASH
       export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 - Pressed 'Ctrl-s' by accident and the terminal is frozen? Unfreeze: 'Ctrl-Q'
 
-
-
 PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
 - function lt() { ls -ltrsa "$@" | tail; }
 - function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
-- function fname() { find . -iname "*$@*"; }
+- function findn() { find . -iname "*$@*"; }
 - function remove_lines_from() { grep -F -x -v -f $2 $1; }
   removes lines from $1 if they appear in $2
 - alias pp="ps axuf | pager"
 - alias sum="xargs | tr ' ' '+' | bc" ## Usage: echo 1 2 3 | sum
 - function mcd() { mkdir $1 && cd $1; }
 
-
 VIM
 - ':set spell' activates vim spellchecker. Use ']s' and '[s' to move between
   mistakes, 'zg' adds to the dictionary, 'z=' suggests correctly spelled words
 - check my .vimrc https://github.com/cfenollosa/dotfiles/blob/master/.vimrc
-
 
 TOOLS
 * 'htop' instead of 'top'
@@ -9970,7 +10014,6 @@ TOOLS
 * Use GNU datamash for basic numerical, textual and statistical operations
   on text files: 'seq 10 | datamash sum 1 mean 1'
 
-
 NETWORKING
 - Don't know where to start? SMB is usually better than NFS for newbies.
   If really you know what you are doing, then NFS is the way to go.
@@ -10010,11 +10053,10 @@ NETWORKING
       AuthMethod=LOGIN
       FromLineOverride=YES
 
-                                     -~-
-
 (CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
 Retrieved from http://cfenollosa.com/misc/tricks.txt
 Last modified: Mon 13 Feb 2017 09:31:38 CET
+Comment5
 ##==========================================
 ## BASH tricks
 $> w3m -dump http://cfenollosa.com/misc/tricks.txt
@@ -10119,17 +10161,17 @@ $> firefox https://github.com/Sweets/hummingbird/
 ## Replacement of reserved charactors in html URLs
 << comment3
 #Character   Percent encoding
-blank space   %20
-"             %22
-#             %23
-%             %25
-&             %26
-,             %2C
-/             %2F
-:             %3A
-=             %3D
-?             %3F
-\             %5C
+    blank space   %20
+    "             %22
+    #             %23
+    %             %25
+    &             %26
+    ,             %2C
+    /             %2F
+    :             %3A
+    =             %3D
+    ?             %3F
+    \             %5C
 comment3
 ##==========================================
 ## youtube-dl gui
@@ -10293,7 +10335,6 @@ $> find directory_path -maxdepth 1 -daystart -mtime -1
 $> ls -al --time-style=+%D| grep `date +%D`
 ##==========================================
 ## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
-## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
 $> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
 ##==========================================
 ## List wifi passwords that has been stored as plain text in NetworkManager
@@ -10336,16 +10377,12 @@ $> ssh-copy-id -i your-ed25519-key user@host
 ## //Youtube URL
 $> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
 ##==========================================
-
-
-##==========================================
 $> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
 
 ##==========================================
 ## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
 ## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
 $> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
-
 ##==========================================
 ## allows you to run any command without having to sudo
 $> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
@@ -10398,7 +10435,7 @@ ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192
 ## Copy over a file, in this case a linux learning file
 scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
 ## Do the learning in the file
-## Make a directory
+## Make a directory on the vm
 vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
 ## To stop the VM
 ## shut it down forcefully
@@ -10577,6 +10614,12 @@ Ctrl + b ]               ## paste contents of buffer_0
 gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
 ## for the icons on the left side
 gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
+=======
+## install and aсtivate a clean copy of Windows on any PC.
+https://rentry.org/installwindows
+##==========================================
+## Static linked-terminal editor
+https://micro-editor.github.io/
 ##==========================================
 ## mac pci video cam
 ## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
