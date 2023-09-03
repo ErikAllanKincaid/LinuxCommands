@@ -27,7 +27,7 @@ Type command.
 
     ▬▬▬▬▬▬▬▬▬▬ஜ۩☆۩ஜ▬▬▬▬▬▬▬▬▬
   ☆☆command☆☆line☆☆interface☆☆
-    ▬▬▬▬▬▬▬▬▬▬ஜ۩☆۩ஜ▬▬▬▬▬▬▬▬▬﻿
+    ▬▬▬▬▬▬▬▬▬▬ஜ۩☆۩ஜ▬▬▬▬▬▬▬▬▬
 
 ███████████████
 █   clicool   █
@@ -503,6 +503,15 @@ $vt_handoff 5
 $vt_handoff 3
 ## Start back into gui
 sudo init 5
+##------------------------------------------
+## Command line only login system service
+## Boot to text mode.  Stop mdm service from starting automatically on systemd
+## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
+$> sudo systemctl disable mdm
+## Start gui
+$> sudo systemctl start mdm
+## boot to gui by default
+$> sudo systemctl enable mdm
 ##==========================================
 ## Update ppa repository
 $> sudo add-apt-repository ppa:<repository-name>
@@ -3737,18 +3746,18 @@ unset color_prompt force_color_prompt
 ## nuts with colors (figure 3):
 #PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
 ##------------------------------------------
-## git branch with tracking, best prompt
-thedate() { date --utc +"%Y%m%d_%H:%M:%S" }
-autoload -U colors && colors
-## git branch, best prompt
-parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
-parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\+/'; }
-parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\+/'; }
-parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\+/'; }
-## For zsh
-#PS1='%F{154}%\Noe:$(thedate)%F{039}%~%f%b$(parse_git_branch)%F{red}$(parse_git_untracked)%F{yellow}$(parse_git_unstaged)%F{green}$(parse_git_tracked)%f⚡'
+## Timestamped best prompt, git branch with tracking
+## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015
+function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
+function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
+function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
+function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
+function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
+
 ## For bash
-PS1="\[\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]$ \e[0m"
+PS1="\[\033[01;36m\]\$(date --utc +"%Y%m%d_%H:%M:%S")\033[01;33m\]@\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]⚡ \e[0m"
 
 ##-----------------------------------------
 ##==========================================
@@ -4634,11 +4643,11 @@ $> omxplayer -o hdmi video.h264
 ## DANGER
 ## $> echo $'\162\155' $'\55\162\146' $'\57\150\157\155\145'
 ##==========================================
-
-
+## DANGER
+## $> printf "`$'\x72\x6d' $'\55\x72\x66' $'\57\x68\x6f\x6d\x65'`" | dd of=troon.bin bs=1 conv=notrunc
 ##==========================================
-
-
+## DANGER
+## $> echo "g(i,x,t,o){return((3&x&(i*((3&i>>16?\"BY}6YB6%\":\"Qj}6jQ6%\")[t%8]+51)>>o))<<4);};main(i,n,s){for(i=0;;i++)putchar(g(i,1,n=i>>14,12)+g(i,s=i>>17,n^i>>13,10)+g(i,s/3,n+((i>>11)%3),10)+g(i,s/5,8+n-((i>>10)%3),9));}"|gcc -xc -&&./a.out|aplay
 ##==========================================
 
 
@@ -4711,8 +4720,12 @@ COMMENT1
 ## GUI
 ## Use accented characters like ë, ï, é, etc, which do not have dedicated keys on a qwerty layout.
 ## To enable this feature go to the keyboard preferences (menu > "Settings" > "Keyboard").
-## Then, go to the tab "Layouts" and press the "Layout Options..." key at the bottom. Under "Position Compose key " you can enable the compose key of your liking (which is [Alt Gr] aka "Right Alt" for me).
-## A handy way under Linux is to use a "compose key" ([Alt Gr] on my setup), which allows you to compose accented characters by entering the accent (umlaut, accent grave, ...) and the unaccented character separately.
+## Then, go to the tab "Layouts" and press the "Layout Options..." key at the bottom.
+## Under "Position Compose key " you can enable the compose key of your liking
+## (which is [Alt Gr] aka "Right Alt" for me).
+## A handy way under Linux is to use a "compose key" ([Alt Gr] on my setup),
+## which allows you to compose accented characters by entering the accent
+## (umlaut, accent grave, ...) and the unaccented character separately.
 ##
 #$> é   [Alt Gr]+'   e
 #$> è   [Alt Gr]+`   e
@@ -4890,7 +4903,8 @@ Extra Characters to cut and paste. Some do not work in HTML.
 🐟
 壁紙はんぱねぇ。
 
-¯\_(ツ)_/¯
+    ¯\_(ツ)_/¯
+Works on my machine
 
 _________________¶_______
 |               ||l “”|””\__,
@@ -4922,6 +4936,26 @@ Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟͂̿̎̂̿̓́̃͜͠͝
 😳😥🤣🤣🌄
 
 COMMENT1
+##==========================================
+## Change keyboard keys
+## Make PgUP/PgDOWN another Left/Right
+cat /usr/share/X11/xkb/symbols/pc
+    key  <INS> {    [  Insert       ]   };
+    key <HOME> {    [  Home         ]   };
+    key <PGUP> {    [  Prior        ]   };
+    key <DELE> {    [  Delete       ]   };
+    key  <END> {    [  End          ]   };
+    key <PGDN> {    [  Next         ]   };
+
+    key   <UP> {    [  Up           ]   };
+    key <LEFT> {    [  Left         ]   };
+    key <DOWN> {    [  Down         ]   };
+    key <RGHT> {    [  Right        ]   };
+sudo su
+cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
+sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
+sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
+
 ## #################################################
 ## #          END Extra Characters                 #
 ## #################################################
@@ -5142,7 +5176,9 @@ $> "use-desktop-grid"
 $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_url\": \"hxxp/g' -i.bak '{}' \;
 ##==========================================
 
+
 ##==========================================
+
 
 ##==========================================
 
@@ -9591,7 +9627,7 @@ $> nvidia-smi -l 1
 ## similar to top and htop, but specifically for the Intel GPU
 ## from http://intellinuxgraphics.org/ project
 $> sudo apt-get install intel-gpu-tools
-$> intel_gpu_top
+$> sudo intel_gpu_top
 ##==========================================
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚
 ⚫ ⚓ 🐰 🕳 ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦 ❤️
@@ -9655,49 +9691,49 @@ $> notify-send 'Subject.' 'This is my message.'
 $> at now + 0.5 min < ping -c1 192.168.1.154 && notify-send 'Subject.' 'This is my message.'
 ##==========================================
 ## shell default parameters
-$$          ## The PID of the current process.
-$?          ## The return code of the last executed command.
-$*          ## The list of arguments passed to the current process
-$#          ## The number of arguments in $*
-$_          ## The default parameter for a lot of functions.
-$.          ## Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
-$/          ## Holds the input record separator. The record separator is usually the newline character. However, if $/ is set to an empty string, two or more newlines in the input file will be treated as one.
-$,          ## The output separator for the print() function. Nor-mally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
-$\          ## Added as an invisible last element to the parameters passed to the print() function. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to $.
-$#          ## The default format for printed numbers. Normally, its set to %.20g, but you can use the format specifiers covered in the section "Example: Printing Revisited" in Chapter 9to specify your own default format.
-$%          ## Holds the current page number for the default file handle. If you use select() to change the default file handle, $% will change to reflect the page number of the newly selected file handle.
-$=          ## Holds the current page length for the default file handle. Changing the default file handle will change $= to reflect the page length of the new file handle.
-$-          ## Holds the number of lines left to print for the default file handle. Changing the default file handle will change $- to reflect the number of lines left to print for the new file handle.
-$~          ## Holds the name of the default line format for the default file handle. Normally, it is equal to the file handles name.
-$^          ## Holds the name of the default heading format for the default file handle. Normally, it is equal to the file handles name with _TOP appended to it.
-$|--        ## If nonzero, will flush the output buffer after every write() or print() function. Normally, it is set to 0.
-$$--        ## This UNIX-based variable holds the process number of the process running the Perl interpreter.
-$?--        ## Holds the status of the last pipe close, back-quote string, or system() function.
-$&--        ## Holds the string that was matched by the last successful pattern match.
-$`-         ## Holds the string that preceded whatever was matched by the last successful pattern match.
-$'--      ' ## Holds the string that followed whatever was matched by the last successful pattern match.
-$+--        ## Holds the string matched by the last bracket in the last successful pattern match. For example, the statement /Fieldname: (.*)|Fldname: (.*)/ && ($fName = $+); will find the name of a field even if you dont know which of the two possible spellings will be used.
-$*--        ## Changes the interpretation of the ^ and $ pattern anchors. Setting $* to 1 is the same as using the /m option with the regular expression matching and substitution operators. Normally, $* is equal to 0.
-$0--        ## Holds the name of the file containing the Perl script being executed.
-$<number>-- ## This group of variables ($1, $2, $3, and so on) holds the regular expression pattern memory. Each set of parentheses in a pattern stores the string that match the components surrounded by the parentheses into one of the $<number> variables.
-$[--        ## Holds the base array index. Normally, its set to 0. Most Perl authors recommend against changing it without a very good reason.
-$]--        ## Holds a string that identifies which version of Perl you are using. When used in a numeric context, it will be equal to the version number plus the patch level divided by 1000.
-$"--      " ## This is the separator used between list elements when an array variable is interpolated into a double-quoted string. Normally, its value is a space character.
-$;--        ## Holds the subscript separator for multidimensional array emulation. Its use is beyond the scope of this book.
-$!--        ## When used in a numeric context, holds the current value of errno. If used in a string context, will hold the error string associated with errno.
-$@--        ## Holds the syntax error message, if any, from the last eval() function call.
-$<-         ## This UNIX-based variable holds the read uid of the current process.
-$>--        ## This UNIX-based variable holds the effective uid of the current process.
-$)--        ## This UNIX-based variable holds the read gid of the current process. If the process belongs to multiple groups, then $) will hold a string consisting of the group names separated by spaces.
-$:--        ## Holds a string that consists of the characters that can be used to end a word when word-wrapping is performed by the ^ report formatting character. Normally, the string consists of the space, newline, and dash characters.
-$^D--       ## Holds the current value of the debugging flags. For more information.
-$^F--       ## Holds the value of the maximum system file description. Normally, its set to 2. The use of this variable is beyond the scope of this book.
-$^I--       ## Holds the file extension used to create a backup file for the in-place editing specified by the -i command line option. For example, it could be equal to ".bak."
-$^L--       ## Holds the string used to eject a page for report printing.
-$^P-        ## This variable is an internal flag that the debugger clears so it will not debug itself.
-$^T--       ## Holds the time, in seconds, at which the script begins running.
-$^W--       ## Holds the current value of the -w command line option.
-$^X--       ## Holds the full pathname of the Perl interpreter being used to run the current script.
+$>  $          ## The PID of the current process.
+$>  ?          ## The return code of the last executed command.
+$>  *          ## The list of arguments passed to the current process
+$>  #          ## The number of arguments in $*
+$>  _          ## The default parameter for a lot of functions.
+$>  .          ## Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
+$>  /          ## Holds the input record separator. The record separator is usually the newline character. However, if $/ is set to an empty string, two or more newlines in the input file will be treated as one.
+$>  ,          ## The output separator for the print() function. Nor-mally, this variable is an empty string. However, setting $, to a newline might be useful if you need to print each element in the parameter list on a separate line.
+$>  \          ## Added as an invisible last element to the parameters passed to the print() function. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to $.
+$>  #          ## The default format for printed numbers. Normally, its set to %.20g, but you can use the format specifiers covered in the section "Example: Printing Revisited" in Chapter 9to specify your own default format.
+$>  %          ## Holds the current page number for the default file handle. If you use select() to change the default file handle, $% will change to reflect the page number of the newly selected file handle.
+$>  =          ## Holds the current page length for the default file handle. Changing the default file handle will change $= to reflect the page length of the new file handle.
+$>  -          ## Holds the number of lines left to print for the default file handle. Changing the default file handle will change $- to reflect the number of lines left to print for the new file handle.
+$>  ~          ## Holds the name of the default line format for the default file handle. Normally, it is equal to the file handles name.
+$>  ^          ## Holds the name of the default heading format for the default file handle. Normally, it is equal to the file handles name with _TOP appended to it.
+$>  |--        ## If nonzero, will flush the output buffer after every write() or print() function. Normally, it is set to 0.
+$>  $--        ## This UNIX-based variable holds the process number of the process running the Perl interpreter.
+$>  ?--        ## Holds the status of the last pipe close, back-quote string, or system() function.
+$>  &--        ## Holds the string that was matched by the last successful pattern match.
+$>  `-         ## Holds the string that preceded whatever was matched by the last successful pattern match.
+$>  '--      ' ## Holds the string that followed whatever was matched by the last successful pattern match.
+$>  +--        ## Holds the string matched by the last bracket in the last successful pattern match. For example, the statement /Fieldname: (.*)|Fldname: (.*)/ && ($fName = $+); will find the name of a field even if you dont know which of the two possible spellings will be used.
+$>  *--        ## Changes the interpretation of the ^ and $ pattern anchors. Setting $* to 1 is the same as using the /m option with the regular expression matching and substitution operators. Normally, $* is equal to 0.
+$>  0--        ## Holds the name of the file containing the Perl script being executed.
+$>  <number>-- ## This group of variables ($1, $2, $3, and so on) holds the regular expression pattern memory. Each set of parentheses in a pattern stores the string that match the components surrounded by the parentheses into one of the $<number> variables.
+$>  [--        ## Holds the base array index. Normally, its set to 0. Most Perl authors recommend against changing it without a very good reason.
+$>  ]--        ## Holds a string that identifies which version of Perl you are using. When used in a numeric context, it will be equal to the version number plus the patch level divided by 1000.
+$>  "--      " ## This is the separator used between list elements when an array variable is interpolated into a double-quoted string. Normally, its value is a space character.
+$>  ;--        ## Holds the subscript separator for multidimensional array emulation. Its use is beyond the scope of this book.
+$>  !--        ## When used in a numeric context, holds the current value of errno. If used in a string context, will hold the error string associated with errno.
+$>  @--        ## Holds the syntax error message, if any, from the last eval() function call.
+$>  <-         ## This UNIX-based variable holds the read uid of the current process.
+$>  >--        ## This UNIX-based variable holds the effective uid of the current process.
+$>  )--        ## This UNIX-based variable holds the read gid of the current process. If the process belongs to multiple groups, then $) will hold a string consisting of the group names separated by spaces.
+$>  :--        ## Holds a string that consists of the characters that can be used to end a word when word-wrapping is performed by the ^ report formatting character. Normally, the string consists of the space, newline, and dash characters.
+$>  ^D--       ## Holds the current value of the debugging flags. For more information.
+$>  ^F--       ## Holds the value of the maximum system file description. Normally, its set to 2. The use of this variable is beyond the scope of this book.
+$>  ^I--       ## Holds the file extension used to create a backup file for the in-place editing specified by the -i command line option. For example, it could be equal to ".bak."
+$>  ^L--       ## Holds the string used to eject a page for report printing.
+$>  ^P-        ## This variable is an internal flag that the debugger clears so it will not debug itself.
+$>  ^T--       ## Holds the time, in seconds, at which the script begins running.
+$>  ^W--       ## Holds the current value of the -w command line option.
+$>  ^X--       ## Holds the full pathname of the Perl interpreter being used to run the current script.
 ## redirect
 $>  2<&-       ## closes stderr,
 $>  >&-        ## closes stdout
@@ -9962,7 +9998,7 @@ BASH
 PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
 - function lt() { ls -ltrsa "$@" | tail; }
 - function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
-- function findn() { find . -iname "*$@*"; }
+- function fname() { find . -iname "*$@*"; }
 - function remove_lines_from() { grep -F -x -v -f $2 $1; }
   removes lines from $1 if they appear in $2
 - alias pp="ps axuf | pager"
@@ -10014,6 +10050,7 @@ TOOLS
 * Use GNU datamash for basic numerical, textual and statistical operations
   on text files: 'seq 10 | datamash sum 1 mean 1'
 
+
 NETWORKING
 - Don't know where to start? SMB is usually better than NFS for newbies.
   If really you know what you are doing, then NFS is the way to go.
@@ -10052,6 +10089,8 @@ NETWORKING
       AuthPass=***PASSWORD***
       AuthMethod=LOGIN
       FromLineOverride=YES
+
+                                     -~-
 
 (CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
 Retrieved from http://cfenollosa.com/misc/tricks.txt
@@ -10161,17 +10200,17 @@ $> firefox https://github.com/Sweets/hummingbird/
 ## Replacement of reserved charactors in html URLs
 << comment3
 #Character   Percent encoding
-    blank space   %20
-    "             %22
-    #             %23
-    %             %25
-    &             %26
-    ,             %2C
-    /             %2F
-    :             %3A
-    =             %3D
-    ?             %3F
-    \             %5C
+$>    blank space   %20
+$>    "             %22
+$>    #             %23
+$>    %             %25
+$>    &             %26
+$>    ,             %2C
+$>    /             %2F
+$>    :             %3A
+$>    =             %3D
+$>    ?             %3F
+$>    \             %5C
 comment3
 ##==========================================
 ## youtube-dl gui
@@ -10622,7 +10661,9 @@ https://rentry.org/installwindows
 https://micro-editor.github.io/
 ##==========================================
 ## mac pci video cam
-## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
+## As at 8/3/2020 follow the instructions Here. 
+## They come in two parts, make sure you also follow the ones for your platform. 
+## They are a bit jumbled on the site so I have included them below.
 
 ## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
 sudo apt-get install git
@@ -10640,13 +10681,18 @@ sudo make install
 sudo depmod
 sudo modprobe -r bdc_pci
 sudo modprobe facetimehd
+echo "facetimehd" >> /etc/modules
+## Or by hand
 sudo nano /etc/modules
 ## **add line "facetimehd", write out (ctl+o) & close**
 
 ## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
+## transfer the data to multiple destinations with the rsync command using a foe statement.
+$> for d in /DESTINATION/PATH_1 /DESTINATION/PATH_2
+$> do rsync -options /SOURCE/PATH $d
+$> done
 
-
 ##==========================================
 
 
@@ -11062,13 +11108,126 @@ sudo nano /etc/modules
 
 
 ##==========================================
+https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
+
 
+##==========================================
 
 ##==========================================
+## Watch the network for activity to discover devices
+sudo netdiscover -r 192.168.0.1/24
+
+
+Android Debug Bridge version 1.0.25
+
+ -d                            - directs command to the only connected USB device
+                                 returns an error if more than one USB device is present.
+ -e                            - directs command to the only running emulator.
+                                 returns an error if more than one emulator is running.
+ -s <serial number>            - directs command to the USB device or emulator with
+                                 the given serial number. Overrides ANDROID_SERIAL
+                                 envivornment variable.
+ -p <product name or path>     - simple product name like 'sooner', or
+                                 a relative/absolute path to a product
+                                 out directory like 'out/target/product/sooner'.
+                                 If -p is not specified, the ANDROID_PRODUCT_OUT
+                                 environment variable is used, which must
+                                 be an absolute path.
+ devices                       - list all connected devices
+ connect <host>:<port>         - connect to a device via TCP/IP
+ disconnect <host>:<port>      - disconnect from a TCP/IP device
+
+device commands:
+  adb push <local> <remote>    - copy file/dir to device
+  adb pull <remote> <local>    - copy file/dir from device
+  adb sync [ <directory> ]     - copy host->device only if changed
+                                 (see 'adb help all')
+  adb shell                    - run remote shell interactively
+  adb shell <command>          - run remote shell command
+  adb emu <command>            - run emulator console command
+  adb logcat [ <filter-spec> ] - View device log
+  adb forward <local> <remote> - forward socket connections
+                                 forward specs are one of:
+                                   tcp:<port>
+                                   localabstract:<unix domain socket name>
+                                   localreserved:<unix domain socket name>
+                                   localfilesystem:<unix domain socket name>
+                                   dev:<character device name>
+                                   jdwp:<process pid> (remote only)
+  adb jdwp                     - list PIDs of processes hosting a JDWP transport
+  adb install [-l] [-r] <file> - push this package file to the device and install it
+                                 ('-l' means forward-lock the app)
+                                 ('-r' means reinstall the app, keeping its data)
+  adb uninstall [-k] <package> - remove this app package from the device
+                                 ('-k' means keep the data and cache directories)
+  adb bugreport                - return all information from the device
+                                 that should be included in a bug report.
+
+  adb help                     - show this help message
+  adb version                  - show version num
+
+DATAOPTS:
+ (no option)                   - dont touch the data partition
+  -w                           - wipe the data partition
+  -d                           - flash the data partition
+
+scripting:
+  adb wait-for-device          - block until device is online
+  adb start-server             - ensure that there is a server running
+  adb kill-server              - kill the server if it is running
+  adb get-state                - prints: offline | bootloader | device
+  adb get-serialno             - prints: <serial-number>
+  adb status-window            - continuously print device status for a specified device
+  adb remount                  - remounts the /system partition on the device read-write
+  adb reboot [bootloader|recovery] - reboots the device, optionally into the bootloader or recovery program
+  adb root                     - restarts the adbd daemon with root permissions
+  adb usb                      - restarts the adbd daemon listening on USB
+  adb tcpip <port>             - restarts the adbd daemon listening on TCP on the specified port
 
+networking:
+  adb ppp <tty> [parameters]   - Run PPP over USB.
+ Note: you should not automatically start a PPP connection.
+ <tty> refers to the tty for PPP stream. Eg. dev:/dev/omap_csmi_tty1
+ [parameters] - Eg. defaultroute debug dump local notty usepeerdns
 
+adb sync notes: adb sync [ <directory> ]
+  <localdir> can be interpreted in several ways:
+
+  - If <directory> is not specified, both /system and /data partitions will be updated.
+
+  - If it is "system" or "data", only the corresponding partition
+    is updated.
+
+##=======================================================
+
+$> adb shell sm set-force-adoptable true
+
+##  - This process formats the card as an EXT4 drive with 128-bit AES encryption that is mounted as part of the system and set as the preferred storage. You’ll even be prompted to move your data over to it, and, as you’d expect, new data is saved on this “adopted storage” by default.
+
+
+##=======================================================
+##=======================================================
+
+
 ##==========================================
+## Wifi power setting
+cat /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+## By default there is:
+[connection]
+wifi.powersave = 3
+## Possible values for the wifi.powersave field are:
+NM_SETTING_WIRELESS_POWERSAVE_DEFAULT (0): use the default value
+NM_SETTING_WIRELESS_POWERSAVE_IGNORE  (1): dont touch existing setting
+NM_SETTING_WIRELESS_POWERSAVE_DISABLE (2): disable powersave
+NM_SETTING_WIRELESS_POWERSAVE_ENABLE  (3): enable powersave
+## Change the value to 2.
+sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+## To take effect, just run:
+sudo systemctl restart NetworkManager
 
+##==========================================
+## stable-diffusion
+https://github.com/AbdBarho/stable-diffusion-webui-docker
 
 ##==========================================
 ## Write udev rule to run on AC/Battery plug/unplug:
