@@ -230,24 +230,24 @@ $> eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;p
 ##==========================================
 ##==========================================
 ## Configuration files and what they do
-$@ /etc/profile                         ## System wide environment variables for all users
-$@ /etc/fstab                           ## Drives and their associated mount points. Edit this file to add cdroms, DOS partitions and drives at startup.
-$@ /etc/rc.d/rc.local                   ## Bash script that is executed at the end of login process
-$@ /etc/hostname                        ## Conatains full hostname
-$@ /etc/cron.*                          ## There are 4 directories that automatically execute all scripts within the directory at intervals of hour, day, week or month
-$@ /etc/hosts                           ## List of know host names and IP addresses on the machine.
-$@ /etc/httpd/conf                      ## Paramters for the Apache web server
-$@ /etc/apache2/apache2.conf            ## Paramters for the Apache2 web server
-$@ /etc/inittab                         ## Specifies the run level that the machine should boot into
-$@ /etc/resolv.conf                     ## Defines IP addresses of DNS servers
-$@ /etc/smb.conf                        ## Config file for the SAMBA server. Allows file and print sharing with Microsoft clients
-$@ /etc/X11/XF86Config                  ## Config file for XWindows
-$@ ~/.xinitrc                           ## Defines the windows manager loaded by X
-$@ /etc/modules                         ## Kernel modules loaded at boot
-$@ /etc/lsb-release                     ## Distribution release information
-$@ /etc/bash.bashrc                     ## System wide bashrc
-$@ /etc/default/grub                    ## Configuration file, run update-grub after editing
-$@ /etc/X11/                            ## Config files for XWindows
+$>  /etc/profile                         ## System wide environment variables for all users
+$>  /etc/fstab                           ## Drives and their associated mount points. Edit this file to add cdroms, DOS partitions and drives at startup.
+$>  /etc/rc.d/rc.local                   ## Bash script that is executed at the end of login process
+$>  /etc/hostname                        ## Conatains full hostname
+$>  /etc/cron.*                          ## There are 4 directories that automatically execute all scripts within the directory at intervals of hour, day, week or month
+$>  /etc/hosts                           ## List of know host names and IP addresses on the machine.
+$>  /etc/httpd/conf                      ## Paramters for the Apache web server
+$>  /etc/apache2/apache2.conf            ## Paramters for the Apache2 web server
+$>  /etc/inittab                         ## Specifies the run level that the machine should boot into
+$>  /etc/resolv.conf                     ## Defines IP addresses of DNS servers
+$>  /etc/smb.conf                        ## Config file for the SAMBA server. Allows file and print sharing with Microsoft clients
+$>  /etc/X11/XF86Config                  ## Config file for XWindows
+$>  ~/.xinitrc                           ## Defines the windows manager loaded by X
+$>  /etc/modules                         ## Kernel modules loaded at boot
+$>  /etc/lsb-release                     ## Distribution release information
+$>  /etc/bash.bashrc                     ## System wide bashrc
+$>  /etc/default/grub                    ## Configuration file, run update-grub after editing
+$>  /etc/X11/                            ## Config files for XWindows
 ##==========================================
 ### Apple Macbook Air 2013
 ## Network controller: Broadcom Corporation BCM4360 802.11ac Wireless Network Adapter. https://askubuntu.com/questions/55868/installing-broadcom-wireless-drivers
@@ -386,23 +386,23 @@ $> sudo modprobe facetimehd
 ## mac pci video cam
 ## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
 ## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
-sudo apt-get install git
-sudo apt-get install curl xzcat cpio
-git clone https://github.com/patjak/facetimehd-firmware.git
-cd facetimehd-firmware
-make
-sudo make install
-cd ..
-sudo apt-get install kmod libssl-dev checkinstall
-git clone https://github.com/patjak/bcwc_pcie.git
-cd bcwc_pcie
-## Copy over the firmware from above to the firmware dir
-make
-sudo make install
-sudo depmod
-sudo modprobe -r bdc_pci
-sudo modprobe facetimehd
-sudo nano /etc/modules
+$> sudo apt-get install git
+$> sudo apt-get install curl xzcat cpio
+$> git clone https://github.com/patjak/facetimehd-firmware.git
+$> cd facetimehd-firmware
+$> make
+$> sudo make install
+$> cd ..
+$> sudo apt-get install kmod libssl-dev checkinstall
+$> git clone https://github.com/patjak/bcwc_pcie.git
+$> cd bcwc_pcie
+$> ## Copy over the firmware from above to the firmware dir
+$> make
+$> sudo make install
+$> sudo depmod
+$> sudo modprobe -r bdc_pci
+$> sudo modprobe facetimehd
+$> sudo nano /etc/modules
 ## **add line "facetimehd", write out (ctl+o) & close**
 ## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
@@ -641,6 +641,8 @@ $> date "+%F %H:%M.%S"
 $> date +%F.%T
 ## Take a nanosecond timestamp: YYYY-MM-DD HH:MM:SS.NNNNNNNNN
 $> date "+%F %T.%N"
+## UTC 24hr time.
+$> LC_TIME="C.UTF-8" ; date --utc +"%Y%m%d-%H:%M"
 ##==========================================
 ## If you have a AMD or Nvidia graphics card and can not see/boot.
 ## During boot hold down the left shift key to get the GRUB boot menu to show.
@@ -863,7 +865,7 @@ $> ssh-keygen -t rsa
 ## defaults to 2048 bits, can change to higher bits with -b 4096, and -C and put in a comment
 $> ssh-keygen -t rsa -b 4096 -C 'Passwd_hint'
 ## Available encryption; “dsa”, “ecdsa”, “ed25519”, “rsa”. Change the key names appropriately.
-$> ssh-keygen -t dsa
+$> ssh-keygen -t ed25519 -C 'Passwd_hint'
 ## This will place the private key in ~/.ssh/id_rsa and the public key in ~/.ssh/id_rsa.pub.
 ## Set permissions
 $> chmod 700 ~/.ssh
@@ -1476,7 +1478,7 @@ $> sudo sed -i 's/post_max_size = 8M/post_max_size = 2000M/' /etc/php/7.0/apache
 ## For php7.0
 $> sudo nano /etc/php/7.0/apache2/php.ini
 ##---------------------------------------------
-## Nextcloud Install, manual best way
+## Nextcloud Install, manual best way. snap is very invasive, do not use.
 $> sudo apt-get install snapd
 $> sudo snap install nextcloud
 ## OR
@@ -1892,39 +1894,35 @@ $> while :; do clr;  git --no-pager log -33 --graph --all --date=short --pretty=
 ## Git log
 Useful specifiers for git log --pretty=format
 ## Specifier       Description of Output
-%H              ## Commit hash
-%h              ## Abbreviated commit hash
-%T              ## Tree hash
-%t              ## Abbreviated tree hash
-%P              ## Parent hashes
-%p              ## Abbreviated parent hashes
-%an             ## Author name
-%ae             ## Author email
-%ad             ## Author date (format respects the --date=option)
-%ar             ## Author date, relative
-%cn             ## Committer name
-%ce             ## Committer email
-%cd             ## Committer date
-%cr             ## Committer date, relative
-%s              ## Subject
+$>  %H              ## Commit hash
+$>  %h              ## Abbreviated commit hash
+$>  %T              ## Tree hash
+$>  %t              ## Abbreviated tree hash
+$>  %P              ## Parent hashes
+$>  %p              ## Abbreviated parent hashes
+$>  %an             ## Author name
+$>  %ae             ## Author email
+$>  %ad             ## Author date (format respects the --date=option)
+$>  %ar             ## Author date, relative
+$>  %cn             ## Committer name
+$>  %ce             ## Committer email
+$>  %cd             ## Committer date
+$>  %cr             ## Committer date, relative
+$>  %s              ## Subject
 ## Example
 git log --pretty=format:"%h %s" --graph
 ## Option              Description
--p                  ## Show the patch introduced with each commit.
---stat              ## Show statistics for files modified in each commit.
---shortstat         ## Display only the changed/insertions/deletions line from the --stat command.
---name-only         ## Show the list of files modified after the commit information.
---name-status       ## Show the list of files affected with added/modified/deleted information as well.
---abbrev-commit     ## Show only the first few characters of the SHA-1 checksum instead of all 40.
---relative-date     ## Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
---graph             ## Display an ASCII graph of the branch and merge history beside the log output.
---pretty            ## Show commits in an alternate format. Option values include oneline, short, full, fuller, and format (where you specify your own format).
---oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
+$>  -p                  ## Show the patch introduced with each commit.
+$>  --stat              ## Show statistics for files modified in each commit.
+$>  --shortstat         ## Display only the changed/insertions/deletions line from the --stat command.
+$>  --name-only         ## Show the list of files modified after the commit information.
+$>  --name-status       ## Show the list of files affected with added/modified/deleted information as well.
+$>  --abbrev-commit     ## Show only the first few characters of the SHA-1 checksum instead of all 40.
+$>  --relative-date     ## Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
+$>  --graph             ## Display an ASCII graph of the branch and merge history beside the log output.
+$>  --pretty            ## Show commits in an alternate format. Option values include oneline, short, full, fuller, and format (where you specify your own format).
+$>  --oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
 ##==========================================
-
-
-
-
 ##  ###########################################
 ##  #                Files                    #
 ##  ###########################################
@@ -2732,144 +2730,146 @@ $> printf "\033c"
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
-@# #!/bin/bash
-@# echo -n "Enter a number: "
-@# read VAR
-@# if [[ $VAR -gt 10 ]]
-@# then
-@#   echo "Variable is greater than 10."
-@# elif [[ $VAR -eq 10 ]]
-@# then
-@#   echo "Variable is equal to 10."
-@# else
-@#   echo "Variable is less than 10."
-@# fi
+$> cat elseif.sh << EOF
+#!/bin/bash
+echo -n "Enter a number: "
+read VAR
+if [[ $VAR -gt 10 ]]
+then
+echo "Variable is greater than 10."
+elif [[ $VAR -eq 10 ]]
+then
+echo "Variable is equal to 10."
+else
+echo "Variable is less than 10."
+fi
+EOF
 ##---------------------------------------
 ## Sample script with nested; var if then else fi
-@# #!/bin/bash
-@# echo -n "Enter the first number: "
-@# read VAR1
-@# echo -n "Enter the second number: "
-@# read VAR2
-@# echo -n "Enter the third number: "
-@# read VAR3
-@#
-@# if [[ $VAR1 -ge $VAR2 ]]
-@# then
-@#   if [[ $VAR1 -ge $VAR3 ]]
-@#   then
-@#     echo "$VAR1 is the largest number"
-@#   else
-@#     echo "$VAR3 is the largest number"
-@#   fi
-@# else
-@#   if [[ $VAR2 -ge $VAR3 ]]
-@#   then
-@#     echo "$VAR2 is the largest number"
-@#   else
-@#     echo "$VAR3 is the largest number"
-@#   fi
-@# fi
+$> #!/bin/bash
+$> echo -n "Enter the first number: "
+$> read VAR1
+$> echo -n "Enter the second number: "
+$> read VAR2
+$> echo -n "Enter the third number: "
+$> read VAR3
+$>
+$> if [[ $VAR1 -ge $VAR2 ]]
+$> then
+$>   if [[ $VAR1 -ge $VAR3 ]]
+$>   then
+$>     echo "$VAR1 is the largest number"
+$>   else
+$>     echo "$VAR3 is the largest number"
+$>   fi
+$> else
+$>   if [[ $VAR2 -ge $VAR3 ]]
+$>   then
+$>     echo "$VAR2 is the largest number"
+$>   else
+$>     echo "$VAR3 is the largest number"
+$>   fi
+$> fi
 ##==========================================
 ## regex
 ##  $@ .[{()\*+?|^$             ## Special characters
 ##------------------------------------------
 ## Bash regular expressions
-$@  if list; then list; [ elif list; then list; ] ... [ else list; ] fi
-$@  while list; do list; done
-$@  until list; do list; done
-$@  test
-$@  for name [ in word ] ; do list ; done
-$@  for (( expr1 ; expr2 ; expr3 )) ; do list ; done
-$@  ( expression )               ## Returns  the  value  of  expression.  This may be used to override the normal precedence of operators.
-$@  ! expression                 ## True if expression is false.
-$@  -d                           ## look for directory test if it is a directory
-$@  if test -d /tmp/mydir        ## use test -d /path to test if dir exists
-$@  if [ -d /tmp/mydir ]         ## use  [ -d /path ]to test if dir exists
+$>  if list; then list; [ elif list; then list; ] ... [ else list; ] fi
+$>  while list; do list; done
+$>  until list; do list; done
+$>  test
+$>  for name [ in word ] ; do list ; done
+$>  for (( expr1 ; expr2 ; expr3 )) ; do list ; done
+$>  ( expression )               ## Returns  the  value  of  expression.  This may be used to override the normal precedence of operators.
+$>  ! expression                 ## True if expression is false.
+$>  -d                           ## look for directory test if it is a directory
+$>  if test -d /tmp/mydir        ## use test -d /path to test if dir exists
+$>  if [ -d /tmp/mydir ]         ## use  [ -d /path ]to test if dir exists
 ## best practice to check file existence before creating them
-$@  [ ! -f /tmp/testfile ] && touch /tmp/testfile          ## For File
-$@  [ ! -d /tmp/mydir ] && mkdir -p /tmp/mydir             ## For Directory
-$@  -f                           ## look for file test if it is a file
-$@  -e                           ## checks for existence
-$@  -z -n                        ## is null, is not null
-$@  -r -w -x                     ## checks for read write execute permissions
-$@  -eq                          ## equality test
-$@  -ge -le                      ## greater, less than or equal test
-$@  -h                           ## ?
-$@  ||                           ## previous expression false
-$@  &&                           ## previous expression true
-$@  expression1 && expression2   ## True if both expression1 and expression2 are true.
-$@  expression1 || expression2   ## True if either expression1 or expression2 is true.
-$@  &                            ## Sends process background (so we can run multiple process parallel)
-$@  ;                            ## Run multiple commands in one run, sequentially.
-$@  \                            ## To type larger command in multiple lines
-$@  &&                           ## Logical AND operator
-$@  ||                           ## Logical OR operator
-$@  !                            ## NOT operator ( Thanks for mgd@interbaun.com for giving good examples)
-$@  |                            ## PIPE operator
-$@  {}                           ## Command combination operator.
-$@  ()                           ## Precedence operator
+$>  [ ! -f /tmp/testfile ] && touch /tmp/testfile          ## For File
+$>  [ ! -d /tmp/mydir ] && mkdir -p /tmp/mydir             ## For Directory
+$>  -f                           ## look for file test if it is a file
+$>  -e                           ## checks for existence
+$>  -z -n                        ## is null, is not null
+$>  -r -w -x                     ## checks for read write execute permissions
+$>  -eq                          ## equality test
+$>  -ge -le                      ## greater, less than or equal test
+$>  -h                           ## ?
+$>  ||                           ## previous expression false
+$>  &&                           ## previous expression true
+$>  expression1 && expression2   ## True if both expression1 and expression2 are true.
+$>  expression1 || expression2   ## True if either expression1 or expression2 is true.
+$>  &                            ## Sends process background (so we can run multiple process parallel)
+$>  ;                            ## Run multiple commands in one run, sequentially.
+$>  \                            ## To type larger command in multiple lines
+$>  &&                           ## Logical AND operator
+$>  ||                           ## Logical OR operator
+$>  !                            ## NOT operator ( Thanks for mgd@interbaun.com for giving good examples)
+$>  |                            ## PIPE operator
+$>  {}                           ## Command combination operator.
+$>  ()                           ## Precedence operator
 ##==========================================
 ## operators:
-$@  -n VAR                    ## True if the length of VAR is greater than zero.
-$@  -z VAR                    ## True if the VAR is empty.
-$@  STRING1 = STRING2         ## True STRING1 and STRING2 are equal.
-$@  STRING1 != STRING2        ## True STRING1 and STRING2 are not equal.
-$@  INTEGER1 -eq INTEGER2     ## True INTEGER1 and INTEGER2 are equal.
-$@  INTEGER1 -gt INTEGER2     ## True INTEGER1 is greater than INTEGER2.
-$@  INTEGER1 -lt INTEGER2     ## True INTEGER1 is less than INTEGER2.
-$@  INTEGER1 -ge INTEGER2     ## True INTEGER1 is equal or greater than INTEGER2.
-$@  INTEGER1 -le INTEGER2     ## True INTEGER1 is equal or less than INTEGER2.
-$@  -h FILE                   ## True if the FILE exists and is a symbolic link.
-$@  -r FILE                   ## True if the FILE exists and is readable.
-$@  -w FILE                   ## True if the FILE exists and is writable.
-$@  -x FILE                   ## True if the FILE exists and is executable.
-$@  -d FILE                   ## True if the FILE exists and is a directory.
-$@  -e FILE                   ## True if the FILE exists and is a file, regardless of type (node, directory, socket, etc.).
-$@  -f FILE                   ## True if the FILE exists and is a regular file (not a directory or device).
+$>  -n VAR                    ## True if the length of VAR is greater than zero.
+$>  -z VAR                    ## True if the VAR is empty.
+$>  STRING1 = STRING2         ## True STRING1 and STRING2 are equal.
+$>  STRING1 != STRING2        ## True STRING1 and STRING2 are not equal.
+$>  INTEGER1 -eq INTEGER2     ## True INTEGER1 and INTEGER2 are equal.
+$>  INTEGER1 -gt INTEGER2     ## True INTEGER1 is greater than INTEGER2.
+$>  INTEGER1 -lt INTEGER2     ## True INTEGER1 is less than INTEGER2.
+$>  INTEGER1 -ge INTEGER2     ## True INTEGER1 is equal or greater than INTEGER2.
+$>  INTEGER1 -le INTEGER2     ## True INTEGER1 is equal or less than INTEGER2.
+$>  -h FILE                   ## True if the FILE exists and is a symbolic link.
+$>  -r FILE                   ## True if the FILE exists and is readable.
+$>  -w FILE                   ## True if the FILE exists and is writable.
+$>  -x FILE                   ## True if the FILE exists and is executable.
+$>  -d FILE                   ## True if the FILE exists and is a directory.
+$>  -e FILE                   ## True if the FILE exists and is a file, regardless of type (node, directory, socket, etc.).
+$>  -f FILE                   ## True if the FILE exists and is a regular file (not a directory or device).
 ## Use the = operator with the test [ command == operator with the [[ command for pattern matching.
-$@ test [var1 = var2]   [[var1 == var2]]
-$@ [[ $VAR == *"Linux"* ]]    ## True if Linux is in string var with anything before or after it
+$> test [var1 = var2]   [[var1 == var2]]
+$> [[ $VAR == *"Linux"* ]]    ## True if Linux is in string var with anything before or after it
 ##==========================================
 ## Character classes
-$@  .                            ## any character except newline
-$@  \w\d\s                       ## word, digit, whitespace
-$@  \W\D\S                       ## not word, digit, whitespace
-$@  [abc]                        ## any of a, b, or c
-$@  [^abc]                       ## not a, b, or c
-$@  [a-g]                        ## character between a & g
+$>  .                            ## any character except newline
+$>  \w\d\s                       ## word, digit, whitespace
+$>  \W\D\S                       ## not word, digit, whitespace
+$>  [abc]                        ## any of a, b, or c
+$>  [^abc]                       ## not a, b, or c
+$>  [a-g]                        ## character between a & g
 ## Anchors
-$@  ^abc$                        ## start / end of the string
-$@  \b\B                         ## word, not-word boundary
+$>  ^abc$                        ## start / end of the string
+$>  \b\B                         ## word, not-word boundary
 ## Escaped characters
-$@  \.\*\\                       ## escaped special characters
-$@  \t\n\r                       ## tab, linefeed, carriage return
+$>  \.\*\\                       ## escaped special characters
+$>  \t\n\r                       ## tab, linefeed, carriage return
 ## Groups & Lookaround
-$@  (abc)                        ## capture group
-$@  \1                           ## backreference to group #1
-$@  (?:abc)                      ## non-capturing group
-$@  (?=abc)                      ## positive lookahead
-$@  (?!abc)                      ## negative lookahead
+$>  (abc)                        ## capture group
+$>  \1                           ## backreference to group #1
+$>  (?:abc)                      ## non-capturing group
+$>  (?=abc)                      ## positive lookahead
+$>  (?!abc)                      ## negative lookahead
 ## Quantifiers & Alternation
-$@  a*a+a?                       ## 0 or more, 1 or more, 0 or 1
-$@  a{5}a{2,}                    ## exactly five, two or more
-$@  a{1,3}                       ## between one & three
-$@  a+?a{2,}?                    ## match as few as possible
-$@  ab|cd                        ## match ab or cd
+$>  a*a+a?                       ## 0 or more, 1 or more, 0 or 1
+$>  a{5}a{2,}                    ## exactly five, two or more
+$>  a{1,3}                       ## between one & three
+$>  a+?a{2,}?                    ## match as few as possible
+$>  ab|cd                        ## match ab or cd
 ##==========================================
 ## Selected Bash Keystrokes
-$@ Ctrl-U                       ## Cuts everything to the left
-$@ Ctrl-W                       ## Cuts the word to the left
-$@ Ctrl-Y                       ## Paste the last thing to be cut
-$@ Ctrl-A                       ## Go to beginning of line
-$@ Ctrl-E                       ## Go to end of line
-$@ Ctrl-T                       ## Reverses the position of the character the cursor is on with the previous character
-$@ Ctrl-R                       ## Search history
+$> Ctrl-U                       ## Cuts everything to the left
+$> Ctrl-W                       ## Cuts the word to the left
+$> Ctrl-Y                       ## Paste the last thing to be cut
+$> Ctrl-A                       ## Go to beginning of line
+$> Ctrl-E                       ## Go to end of line
+$> Ctrl-T                       ## Reverses the position of the character the cursor is on with the previous character
+$> Ctrl-R                       ## Search history
 ##==========================================
 ## History
-$@ !$                           ## Matches last string of previous command
-$@ !!                           ## Matches previous command
-$@ !10                          ## Matches 10 commands ago
+$> !$                           ## Matches last string of previous command
+$> !!                           ## Matches previous command
+$> !10                          ## Matches 10 commands ago
 ##==========================================
 ## Clear terminal
 $> clear                        ## Scrolls up till can not see current text
@@ -2887,22 +2887,22 @@ $> cp file22.{txt,backup}
 ## Colour text variables to output colored text
 ## tput controls the look of output
 ## set the attributes you want to use
-$@ bold=$(tput bold)
-$@ under=$(tput smul)
-$@ reverse=$(tput rev)
-$@ R=$(tput setaf 1)
-$@ G=$(tput setaf 2)
-$@ Y=$(tput setaf 3)
-$@ B=$(tput setaf 4)
-$@ P=$(tput setaf 5)
-$@ C=$(tput setaf 6)
-$@ backgR=$(tput setab 1)
-$@ backgG=$(tput setab 2)
-$@ backgY=$(tput setab 3)
-$@ backgB=$(tput setab 4)
-$@ backgP=$(tput setab 5)
-$@ backgC=$(tput setab 6)
-$@ D=$(tput sgr0)
+$>  bold=$(tput bold)
+$>  under=$(tput smul)
+$>  reverse=$(tput rev)
+$>  R=$(tput setaf 1)
+$>  G=$(tput setaf 2)
+$>  Y=$(tput setaf 3)
+$>  B=$(tput setaf 4)
+$>  P=$(tput setaf 5)
+$>  C=$(tput setaf 6)
+$>  backgR=$(tput setab 1)
+$>  backgG=$(tput setab 2)
+$>  backgY=$(tput setab 3)
+$>  backgB=$(tput setab 4)
+$>  backgP=$(tput setab 5)
+$>  backgC=$(tput setab 6)
+$>  D=$(tput sgr0)
 ## Check out the bold or colored text
 $> echo "${bold}Completed backup${D}! Continuing..."
 $> echo "${R}Completed backup${D}! Continuing..."
@@ -2913,77 +2913,77 @@ $> echo "${bold}${under}${R}Completed backup${D}! Continuing..."
 $> echo "${bold}${under}${backgR}${B}Completed backup${D}! Continuing..."
 ##==========================================
 ## Special Variables
-$@ $0                ## The name of the Bash script.
-$@ $1 - $9           ## The first 9 arguments to the Bash script. (10th must be ${10})
-$@ $#                ## How many arguments were passed to the Bash script.
-$@ $@                ## All the arguments supplied to the Bash script.
-$@ $?                ## The exit status of the most recently run process.
-$@ $$                ## The process ID of the current script.
-$@ $USER             ## The username of the user running the script.
-$@ $HOSTNAME         ## The hostname of the machine the script is running on.
-$@ $SECONDS          ## The number of seconds since the script was started.
-$@ $RANDOM           ## Returns a different random number each time is it referred to.
-$@ $LINENO           ## Returns the current line number in the Bash script.
+$>  $0                ## The name of the Bash script.
+$>  $1 - $9           ## The first 9 arguments to the Bash script. (10th must be ${10})
+$>  $#                ## How many arguments were passed to the Bash script.
+$>  $@                ## All the arguments supplied to the Bash script.
+$>  $?                ## The exit status of the most recently run process.
+$>  $$                ## The process ID of the current script.
+$>  $USER             ## The username of the user running the script.
+$>  $HOSTNAME         ## The hostname of the machine the script is running on.
+$>  $SECONDS          ## The number of seconds since the script was started.
+$>  $RANDOM           ## Returns a different random number each time is it referred to.
+$>  $LINENO           ## Returns the current line number in the Bash script.
 ##==========================================
 ## generic regular expression pattern language:
 ## Print regular expression patterns
 $> function regexpattern() { echo '
-$@ ##===================================
-$@ ##Pattern         Pattern meaning
-$@    no character    ## matches ""
-$@    .               ## matches any character
-$@    .*              ## matches any string
-$@    c               ## matches "c"
-$@    p1 p2           ## matches p1 then p2
-$@    p1|p2           ## matches p1 or p2
-$@    p*              ## matches "" or p repeated
-$@    p+              ## matches p repeated, but not ""
-$@    p?              ## matches p or ""
-$@    p{n}            ## matches p repeated n times
-$@    p{n,m}          ## matches p repeated n to m times
-$@    .               ## matches any character
-$@    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-$@    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-$@    (p)             ## matches p, remembers submatch
-$@    \n              ## matches string from nth submatch
-$@    \b              ## matches a word boundary
-$@    \w              ## matches a word character, e.g., alphanumeric
-$@    \W              ## matches a nonword character, e.g., punctuation
-$@    \s              ## matches a whitespace character, e.g., space, tab, return
-$@    \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
-$@    \d              ## matches a digit character, i.e., 0-9
-$@    \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
-$@    ^               ## matches start of line/string
-$@    $               ## matches end of line/string
-$@    [c1-c2]         ## matches $c_1$ through $c_2$
-$@ ##===================================
-$@ ## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
-$@ ##BRE Pattern     Pattern meaning
-$@    no character    ## matches ""
-$@    c               ## matches "c"
-$@    p1p2            ## matches p1 then p2
-$@    p1\|p2          ## matches p1 or p2
-$@    p*              ## matches "" or p repeated
-$@    p\+             ## matches p repeated, but not ""
-$@    p\?             ## matches p or ""
-$@    p\{n\}          ## matches p repeated n times
-$@    p\{n,m\}        ## matches p repeated n to m times
-$@    .               ## matches any character
-$@    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-$@    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-$@    \(p\)           ## matches p, remembers submatch
-$@    \n              ## matches string from nth submatch
-$@    \b              ## matches a word boundary
-$@    [[:word:]]      ## matches a word character, e.g., alphanumeric
-$@    [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
-$@    [[:digit:]]     ## matches a digit character, i.e., 0-9
-$@    [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
-$@    [[:upper:]]     ## matches a upperspaced character
-$@    [[:lower:]]     ## matches a lowerspaced character
-$@    ^               ## matches start of line/string
-$@    $               ## matches end of line/string
-$@    [c1-c2]         ## matches $c_1$ through $c_2$
-$@ ##=================================== ' ; }
+$> ##===================================
+$> ##Pattern         Pattern meaning
+$>    no character    ## matches ""
+$>    .               ## matches any character
+$>    .*              ## matches any string
+$>    c               ## matches "c"
+$>    p1 p2           ## matches p1 then p2
+$>    p1|p2           ## matches p1 or p2
+$>    p*              ## matches "" or p repeated
+$>    p+              ## matches p repeated, but not ""
+$>    p?              ## matches p or ""
+$>    p{n}            ## matches p repeated n times
+$>    p{n,m}          ## matches p repeated n to m times
+$>    .               ## matches any character
+$>    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+$>    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+$>    (p)             ## matches p, remembers submatch
+$>    \n              ## matches string from nth submatch
+$>    \b              ## matches a word boundary
+$>    \w              ## matches a word character, e.g., alphanumeric
+$>    \W              ## matches a nonword character, e.g., punctuation
+$>    \s              ## matches a whitespace character, e.g., space, tab, return
+$>    \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
+$>    \d              ## matches a digit character, i.e., 0-9
+$>    \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
+$>    ^               ## matches start of line/string
+$>    $               ## matches end of line/string
+$>    [c1-c2]         ## matches $c_1$ through $c_2$
+$> ##===================================
+$> ## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
+$> ##BRE Pattern     Pattern meaning
+$>    no character    ## matches ""
+$>    c               ## matches "c"
+$>    p1p2            ## matches p1 then p2
+$>    p1\|p2          ## matches p1 or p2
+$>    p*              ## matches "" or p repeated
+$>    p\+             ## matches p repeated, but not ""
+$>    p\?             ## matches p or ""
+$>    p\{n\}          ## matches p repeated n times
+$>    p\{n,m\}        ## matches p repeated n to m times
+$>    .               ## matches any character
+$>    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+$>    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+$>    \(p\)           ## matches p, remembers submatch
+$>    \n              ## matches string from nth submatch
+$>    \b              ## matches a word boundary
+$>    [[:word:]]      ## matches a word character, e.g., alphanumeric
+$>    [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
+$>    [[:digit:]]     ## matches a digit character, i.e., 0-9
+$>    [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
+$>    [[:upper:]]     ## matches a upperspaced character
+$>    [[:lower:]]     ## matches a lowerspaced character
+$>    ^               ## matches start of line/string
+$>    $               ## matches end of line/string
+$>    [c1-c2]         ## matches $c_1$ through $c_2$
+$> ##=================================== ' ; }
 ##==========================================
 ### Short course in BASH
 ## http://matt.might.net/articles/bash-by-example/
@@ -3723,6 +3723,9 @@ if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_ch
 unset color_prompt force_color_prompt
 ## If this is an xterm set the title to user@host:dir
 #case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
+## #####################################
+## ##    Prompt
+## #####################################
 ##-----------------------------------------
 ## Mint Prompt
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
@@ -3747,18 +3750,24 @@ unset color_prompt force_color_prompt
 #PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
 ##------------------------------------------
 ## Timestamped best prompt, git branch with tracking
+## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
 ## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 ## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015
 function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
 function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
 function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
 function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
-function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
-PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
-
+## BASH
+#> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+## BASH
+#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
+## ZSH
+#> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
+#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
 ## For bash
-PS1="\[\033[01;36m\]\$(date --utc +"%Y%m%d_%H:%M:%S")\033[01;33m\]@\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]⚡ \e[0m"
-
+#PS1="\[\033[01;36m\]\$(date --utc +"%Y%m%d_%H:%M:%S")\033[01;33m\]@\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]⚡ \e[0m"
+##-----------------------------------------
 ##-----------------------------------------
 ##==========================================
 ## ###############
@@ -4054,7 +4063,7 @@ function aes256crypt() { echo "Encrypting $1..."; openssl enc -aes-256-cbc -salt
 function aes256decrypt() { echo "Decrypting $1..."; openssl enc -aes-256-cbc -d -a -in $1 -out $2 || { echo "File not found"; return 1; }; echo "Successfully decrypted"; }
 ##==========================================
 ## Print a grid of colors
-function colorgrid( )
+function colorgrid() \
 {
     iter=16
     while [ $iter -lt 52 ]
@@ -4140,6 +4149,8 @@ alias :q='exit'
 ## !!!syntax error near unexpected token (
 ## du with colored bar graph with reversed order to put the focus in the big ones.
 #alias filesize='du -x --max-depth=1|sort -rn|awk -F / -v c=$COLUMNS 'NR==1{t=$1} NR>1{r=int($1/t*c+.5); b="\033[1;31m"; for (i=0; i<r; i++) b=b"#"; printf " %5.2f%% %s\033[0m %s\n", $1/t*100, b, $2}'|tac'
+## List available wifi
+alias lswifi='nmcli device wifi list'
 ##==========================================
 ## ######################
 ## # Command Parameters #
@@ -4240,9 +4251,75 @@ alias netlist='nmap -sn 192.168.1.0/24'
 ## #     added by echo     #
 ## #########################
 COMMENT1
+## #####################################
+## ##    Prompt
+## #####################################
+## Timestamped best prompt, git branch with tracking
+## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
+## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015
+$> function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
+$> function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
+$> function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
+$> function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
+$> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+## ZSH
+#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
+## BASH
+PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
+##-----------------------------------------
+## ##############
+## #   Prompt   #
+## ##############
+##------------------------------------------
+## Initialize colors.
+$> autoload -U colors
+$> colors
+## Allow for functions in the prompt.
+$> setopt PROMPT_SUBST
+$> autoload -U add-zsh-hook
+$> autoload -Uz compinit && compinit
+## set a fancy prompt (non-color, unless we know we "want" color)
+$> case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
+##------------------------------------------
+## set variable identifying the chroot you work in (used in the prompt below)
+$> if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
+## set a fancy prompt (non-color, unless we know we "want" color)
+$> case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
+## uncomment for a colored prompt, if the terminal has the capability.
+$> force_color_prompt=yes
+$> if [ -n "$force_color_prompt" ]; then if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then color_prompt=yes; else color_prompt=;     fi; fi
+$> if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '; else PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '; fi; else PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '; fi
+$> unset color_prompt force_color_prompt
+## If this is an xterm set the title to user@host:dir
+#case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
+##-----------------------------------------
+## Mint Prompt
+#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+##-----------------------------------------
+## Mint Prompt😆
+#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
+##-----------------------------------------
+### Prompt
+## set a fancy prompt (non-color, overwrite the one in /etc/profile)
+#PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$> '
+##------------------------------------------
+## Set a colorful red bash prompt
+#PS1='\[\e[1;31m\][\u@\h \W]\$>\[\e[0m\] '
+##------------------------------------------
+## Set a colorful green bash prompt
+#PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] '
+##------------------------------------------
+## Set a colorful green bash prompt
+#PS1='\[\e[1;32m\]\u@\h \W\$>\e[0m '
+##------------------------------------------
+## nuts with colors (figure 3):
+#PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
+##------------------------------------------
 ## ##########################
 ## #     More functions     #
 ## ##########################
+##==========================================
 ## Add an "alert" alias for long running commands.  Usage: sleep 10; alert
 $> alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 ##==========================================
@@ -4649,8 +4726,10 @@ $> omxplayer -o hdmi video.h264
 ## DANGER
 ## $> echo "g(i,x,t,o){return((3&x&(i*((3&i>>16?\"BY}6YB6%\":\"Qj}6jQ6%\")[t%8]+51)>>o))<<4);};main(i,n,s){for(i=0;;i++)putchar(g(i,1,n=i>>14,12)+g(i,s=i>>17,n^i>>13,10)+g(i,s/3,n+((i>>11)%3),10)+g(i,s/5,8+n-((i>>10)%3),9));}"|gcc -xc -&&./a.out|aplay
 ##==========================================
-
-
+## DANGER
+## Fork bomb (don't actually execute)
+## “$0” is a variable returning the name of the script that you call it in — so running “./$0&” twice amounts to the script running itself in a separate process twice. Show Sample Output
+## $> echo -e “\x23\x21/bin/bash\n\.\/\$\0\&\n\.\/\$\0\&” > bomb.sh && ./bomb.sh
 ##==========================================
 
 
@@ -4761,7 +4840,7 @@ COMMENT1
 #$> ÷   [Alt Gr]+-   :
 
 ##==========================================
-
+## Extra Characters
 <<COMMENT1
 Extra Characters to cut and paste. Some do not work in HTML.
 ✿ ☺ ☻ ☹ ☼ ☂ ☃ ⌇ ⚛ ⌨ ✆ ☎ ⌘ ⌥ ⇧ ↩ ✞ ✡ ☭ ← → ↑ ↓ ➫ ⬇ ⬆ ☜ ☞ ☝ ☟ ✍ ✎ ✌ ☮
@@ -6630,19 +6709,7 @@ $> mogrify -geometry x400 path/to/image.gif
 $> readlink a_symbolic_link_to_somewhere
 ##==========================================
 ## Read the first line from a file and put it in a variable
-$>  read -r line < file
-##==========================================
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
+$> read -r line < file
 ##==========================================
 ## Search through .doc files
 $> function docsearch() { find -name '*.doc' | while read -r file; do catdoc "$file" | grep -l --label="$file" "$1"; done ; }
@@ -7134,8 +7201,7 @@ $> for i in $(adb shell pm list packages | awk -F':' '{print $2}'); do adb pull 
 ## Toggle the Touchpad on or off
 $> tp=$(synclient -l | grep TouchpadOff | awk '{ print $3 }') && tp=$((tp==0)) && synclient TouchpadOff=$tp
 ##==========================================
-## https://www.maketecheasier.com/setup-wifi-on-raspberry-pi/
-
+$> firefox https://www.maketecheasier.com/setup-wifi-on-raspberry-pi/
 ##==========================================
 ## ################
 ## # sed awk grep #
@@ -7248,18 +7314,14 @@ $> docker container rm 748fh3304412
 ## List Docker CLI commands
 $> docker
 $> docker container --help
-
 ## Display Docker version and info
 $> docker --version
 $> docker version
 $> docker info
-
 ## Execute Docker image
 $> docker run hello-world
-
 ## List Docker images
 $> docker image ls
-
 ## List Docker containers (running, all, all in quiet mode)
 $> docker container ls
 $> docker container ls --all
@@ -7267,7 +7329,6 @@ $> docker container ls -aq
 ## Run Docker container
 $> docker pull hellow-world
 $> docker run hello-world
-
 ### building an app the Docker way
 ## portable images are defined by a Dockerfile
 ## Python app Docker build
@@ -7351,8 +7412,6 @@ $> docker container ls
 ## Stop by CONTAINER ID
 $> docker container stop 1fa4ab2cf395
 ## Can publish the images on Dockerhub, once published can be run on any machine
-
-
 ## Will pull and run Docker image
 $> docker run -p 4000:80 username/repo:tag
 ## Install docker-compose
@@ -7397,146 +7456,142 @@ $> sed -i 's/^#//g' ./docker-compose.yml
 ## #########################
 ## man vim - Vi IMproved, a programmers text editor.  Vim  is a text editor that is upwards compatible to Vi.  It can be used to edit all kinds of plain text.  It is especially useful  for  editing programs.
 ##--------------------------------------------
-$@ vim filename            ## Open file in vim
-$@ :Explore                ## File explorer
-$@ :Sex                    ## Split explore, open another file in slit pane
-$@ cntl+w+w                ## Change panes in split mode
-$@ :saveas                 ## Save current document as another name
-$@ vim +300 filename       ## Open file on line 300
-$@ vim +/term filename     ## Open file in vim at first instance of search term
-$@ vim ~/.vimrc            ## Write startup script
-$@ vim -x filename         ## add password and encryption to file
-$@ find . | vim -          ## send output to vim for editing and then save to file
-$@ h,j,k,l                 ## Move the cursor around the screen until you are comfortable.
-$@ <ESC>                   ## Normal mode.
-$@ :q! <ENTER>             ## Exit the editor, DISCARDING any changes you have made.
-$@ :w                      ## Save
-$@ :w filename             ## Save as
-$@ :wq                     ## Save the file with changes and exit
-$@ ZZ                      ## Save and close
-$@ x                       ## delete character under cursor
-$@ i                       ## insert mode, can write text <ESC> to leave insert mode and enter normal mode
-$@ a                       ## append mode append text to end of cursor location <ESC> to enter normal mode
-$@ A                       ## append text to end of line
-$@ dw                      ## Delete word
-$@ d$                      ## Delete to end of line
-$@ d^                      ## Delete backwards to begininng of line
-$@ d2w                     ## Delete 2 words
-$@ u                       ## undo
-$@ U                       ## undo all changes on line
-$@ CTRL-R                  ## redo, undo the undo
-$@ dd                      ## Delete line
-$@ p                       ## Put deleted text (paste)
-$@ 0                       ## go to first position in line
-$@ ^                       ## go to first non space character in line
-$@ ce                      ## change text to end of line and enter insert mode
-$@ c$                      ## change text to end of line and enter insert mode
-$@ c^                      ## change text to first non space character and enter insert mode
-$@ c0                      ## change text to beginning of line and enter insert mode
-$@ cw                      ## change text in word and enter insert mode
-$@ c2w                     ## change text in two words and enter insert mode
-$@ p                       ## Put deleted text
-$@ ctrl-g                  ## Show info at bottom filename and line number
-$@ gg                      ## go to start of file
-$@ G                       ## go to end of file
-$@ 250G                    ## go to line 250
-$@ /                       ## search
-$@ n                       ## search next
-$@ ?                       ## search backwards
-$@ cntl+o                  ## go back to one step
-$@ cntl+i                  ## go forward to one step
-$@ %                       ## cursor on ( [ { will file corresponding ) ] }
-$@ :s/this/that/           ## substitute first instance in line of this to that
-$@ :s/this/that/g          ## substitute all instances in line of this to that
-$@ :28,92s/this/that/g     ## substitute all instances in line 28-92 range of this to that
-$@ :%s/this/that/g         ## substitute all instances in file of this to that
-$@ :%s/this/that/gc        ## find all instances in line of this to that with confirmation to substitute
-$@ :! command              ## execute command
-$@ :r filename             ## retrieve and inserts text from a file
-$@ :r !command             ## retrieve and inserts output from command
-$@ o                       ## opens line below cursor and go into insert mode
-$@ O                       ## opens line above cursor and go into insert mode
-$@ e                       ## go to end of each word
-$@ R                       ## Replace text
-$@ V                       ## Select lines
-$@ cntl+v                  ## Select block
-$@ v                       ## Select characters
-$@ v MOVE CURSOR d         ## cut selected text (cut)
-$@ v MOVE CURSOR y         ## yank selected text (copy)
-$@ p                       ## Put yanked text (paste)
-$@ v MOVE CURSOR w name    ## selects text to write to file, write to file
-$@ CTRL-v                  ## select mult lines
-$@ :set option             ## turn option on
-$@ :set number             ## turn on line numbers or :set nu
-$@ :set nonumber           ## turn off line numbers or :set !nu
-$@ :set ignorecase         ## ignore upper/lower case when searching
-$@ :set incsearch          ## show partial matches for a search phrase
-$@ :set hlsearch           ## highlight all matching phrases
-$@ :set mouse=a            ## use mouse in term emulator
-$@ :e filename             ## edit another file
-$@ :split filename         ## split window and load another file
-$@ ctrl-w up arrow         ## move cursor up a window
-$@ ctrl-w ctrl-w           ## move cursor to another window (cycle)
-$@ ctrl-w_                 ## maximize current window
-$@ ctrl-w=                 ## make all equal size
-$@ 10 ctrl-w+              ## increase window size by 10 lines
-$@ :vsplit file            ## vertical split
-$@ :sview file             ## same as split, but readonly
-$@ :hide                   ## close current window
-$@ :only                   ## keep only this window open
-$@ :ls                     ## show current buffers
-$@ :b 1                    ## open buffer #1 in this window
-$@ :b 2                    ## open buffer #2 in this window
-$@ :colo cntl+d            ## show available colorschemes
-#
-$@ mk                                 ## 1) mark the first line: 2) move to last line
-$@ y'k                              ' ## 3a) yank:
-$@ d'k                              ' ## 3b) delete:4) move to destination line
-$@ P or p                             ## 5) put with
-$@ mk                                 ## 1) mark the first line:
-$@ ml                                 ## 2) mark the last line:
-$@ :'k,'ls/regex/power/g              ## Apply regex to an arbitrary number of lines
-$@ :'k,'ls/^/#/                       ## Add # to block of text
-$@ :'k,'ls/\ *$//                     ## Remove trailing whitespace of block of text
-$@ :%s#/path/to/log#/new/path/log#g   ## Search and replace PATHs, using different delimiter
-$@ :w !doas tee %                     ## Write file as root
-$@ :w !diff -u % -                    ## Diff the file on disk with the file in the buffer
-$@ :!cp % %.bak                       ## Make a backup of the file on disk
-$@ :%!sort                            ## Sort all lines
-$@ !}sort                             ## Sort paragraph.  } won't be shown in the command.
-$@ !Gsort                             ## Sort from current line to EOF.  G won't be shown in the command.
-$@ :%!uniq                            ## Uniq all lines
-$@ !}uniq                             ## Uniq paragraph.  } won't be shown in the command.
-$@ !Guniq                             ## Uniq from current line to EOF.  G won't be shown in the command.
-$@ :g/^CHAPTER /t.|s/./=/g            ## Underline all lines starting with CHAPTER
-$@ :g/pattern/?^ *def ?#              ## Search for "pattern", print the containing function (start with def) and line number
-$@ :g/pattern/?^$?+,//-s/^/#          ## Add # to paragraph containing "pattern", ie. comment out
-$@ :g/{$/+,/^}/-!sort                 ## Sort content of multiline CSS blocks
-$@ :g/^[^@].*{$/+,/}/-!sort           ## Sort content of multiline CSS blocks (media queries)
-$@ :g/<p>/+,/<\/p>/-!fmt -40          ## Reformat HTML paragraphs to a fixed width (40)
-$@ :%s/\(.*\), \(.*\)/\2 \1/          ## Swap "Lastname, Firstname" to "Firstname, Lastname"
-$@ :%j                                ## Join all lines
-$@ :g/pattern/t$                      ## Copy (t) lines containing "pattern"
-$@ :g/pattern/m$                      ## Move (m) lines containing "pattern"
-$@ :%!awk -F':' '{print $3}'          ## Select a column (3rd) from formated text seperated by ':'
-$@ mk                                 ## 1) mark the first line:
-$@ ml                                 ## 2) mark the last line:
-$@ :'k,'l!awk 'END{print "Total:", i}{i+=$1; print}'      ## Insert the sum of a list of numbers after an arbitrary number of lines
-$@ :'k,'l!awk 'END{print "Total:", i} ++i || 1'           ## Insert the sum of a list of numbers after an arbitrary number of lines
-$@ :?^$?+,//-w !mail -s "<subject>" email@example.com     ## Email the current paragraph
-$@ :set cedit=<CTRL-V><ESC>                               ## Enable and ) Set ESC key to enable history, or add to .exrc:
-$@ :<ESC>                                                 ## use ex history1
-$@ :Explore                           ##
-## https://github.com/tpope/vim-fugitive
-$@ :Gmove newname                     ## This will: Rename your file on disk. Rename the file in git repo. Reload the file into the current buffer.Preserve undo history.
-$@ :Gwrite                            ## If your file was not yet added to a git repo then first add it:
-$@ :retab                             ## Change tabs to spaces
-$@ "mdd                             " ## Select buff then dd erase line and copy to buffer "m. to put, pick buffer and put"
-$@ "mp                              " ## pick buffer and put
-
-
-
-
+$>  vim filename            ## Open file in vim
+$>  :Explore                ## File explorer
+$>  :Sex                    ## Split explore, open another file in slit pane
+$>  cntl+w+w                ## Change panes in split mode
+$>  :saveas                 ## Save current document as another name
+$>  vim +300 filename       ## Open file on line 300
+$>  vim +/term filename     ## Open file in vim at first instance of search term
+$>  vim ~/.vimrc            ## Write startup script
+$>  vim -x filename         ## add password and encryption to file
+$>  find . | vim -          ## send output to vim for editing and then save to file
+$>  h,j,k,l                 ## Move the cursor around the screen until you are comfortable.
+$>  <ESC>                   ## Normal mode.
+$>  :q! <ENTER>             ## Exit the editor, DISCARDING any changes you have made.
+$>  :w                      ## Save
+$>  :w filename             ## Save as
+$>  :wq                     ## Save the file with changes and exit
+$>  ZZ                      ## Save and close
+$>  x                       ## delete character under cursor
+$>  i                       ## insert mode, can write text <ESC> to leave insert mode and enter normal mode
+$>  a                       ## append mode append text to end of cursor location <ESC> to enter normal mode
+$>  A                       ## append text to end of line
+$>  dw                      ## Delete word
+$>  d$                      ## Delete to end of line
+$>  d^                      ## Delete backwards to begininng of line
+$>  d2w                     ## Delete 2 words
+$>  u                       ## undo
+$>  U                       ## undo all changes on line
+$>  CTRL-R                  ## redo, undo the undo
+$>  dd                      ## Delete line
+$>  p                       ## Put deleted text (paste)
+$>  0                       ## go to first position in line
+$>  ^                       ## go to first non space character in line
+$>  ce                      ## change text to end of line and enter insert mode
+$>  c$                      ## change text to end of line and enter insert mode
+$>  c^                      ## change text to first non space character and enter insert mode
+$>  c0                      ## change text to beginning of line and enter insert mode
+$>  cw                      ## change text in word and enter insert mode
+$>  c2w                     ## change text in two words and enter insert mode
+$>  p                       ## Put deleted text
+$>  ctrl-g                  ## Show info at bottom filename and line number
+$>  gg                      ## go to start of file
+$>  G                       ## go to end of file
+$>  250G                    ## go to line 250
+$>  /                       ## search
+$>  n                       ## search next
+$>  ?                       ## search backwards
+$>  cntl+o                  ## go back to one step
+$>  cntl+i                  ## go forward to one step
+$>  %                       ## cursor on ( [ { will file corresponding ) ] }
+$>  :s/this/that/           ## substitute first instance in line of this to that
+$>  :s/this/that/g          ## substitute all instances in line of this to that
+$>  :28,92s/this/that/g     ## substitute all instances in line 28-92 range of this to that
+$>  :%s/this/that/g         ## substitute all instances in file of this to that
+$>  :%s/this/that/gc        ## find all instances in line of this to that with confirmation to substitute
+$>  :! command              ## execute command
+$>  :r filename             ## retrieve and inserts text from a file
+$>  :r !command             ## retrieve and inserts output from command
+$>  o                       ## opens line below cursor and go into insert mode
+$>  O                       ## opens line above cursor and go into insert mode
+$>  e                       ## go to end of each word
+$>  R                       ## Replace text
+$>  V                       ## Select lines
+$>  cntl+v                  ## Select block
+$>  v                       ## Select characters
+$>  v MOVE CURSOR d         ## cut selected text (cut)
+$>  v MOVE CURSOR y         ## yank selected text (copy)
+$>  p                       ## Put yanked text (paste)
+$>  v MOVE CURSOR w name    ## selects text to write to file, write to file
+$>  CTRL-v                  ## select mult lines
+$>  :set option             ## turn option on
+$>  :set number             ## turn on line numbers or :set nu
+$>  :set nonumber           ## turn off line numbers or :set !nu
+$>  :set ignorecase         ## ignore upper/lower case when searching
+$>  :set incsearch          ## show partial matches for a search phrase
+$>  :set hlsearch           ## highlight all matching phrases
+$>  :set mouse=a            ## use mouse in term emulator
+$>  :e filename             ## edit another file
+$>  :split filename         ## split window and load another file
+$>  ctrl-w up arrow         ## move cursor up a window
+$>  ctrl-w ctrl-w           ## move cursor to another window (cycle)
+$>  ctrl-w_                 ## maximize current window
+$>  ctrl-w=                 ## make all equal size
+$>  10 ctrl-w+              ## increase window size by 10 lines
+$>  :vsplit file            ## vertical split
+$>  :sview file             ## same as split, but readonly
+$>  :hide                   ## close current window
+$>  :only                   ## keep only this window open
+$>  :ls                     ## show current buffers
+$>  :b 1                    ## open buffer #1 in this window
+$>  :b 2                    ## open buffer #2 in this window
+$>  :colo cntl+d            ## show available colorschemes
+##
+$>  mk                                 ## 1) mark the first line: 2) move to last line
+$>  y'k                              ' ## 3a) yank:
+$>  d'k                              ' ## 3b) delete:4) move to destination line
+$>  P or p                             ## 5) put with
+$>  mk                                 ## 1) mark the first line:
+$>  ml                                 ## 2) mark the last line:
+$>  :'k,'ls/regex/power/g              ## Apply regex to an arbitrary number of lines
+$>  :'k,'ls/^/#/                       ## Add # to block of text
+$>  :'k,'ls/\ *$//                     ## Remove trailing whitespace of block of text
+$>  :%s#/path/to/log#/new/path/log#g   ## Search and replace PATHs, using different delimiter
+$>  :w !doas tee %                     ## Write file as root
+$>  :w !diff -u % -                    ## Diff the file on disk with the file in the buffer
+$>  :!cp % %.bak                       ## Make a backup of the file on disk
+$>  :%!sort                            ## Sort all lines
+$>  !}sort                             ## Sort paragraph.  } won't be shown in the command.
+$>  !Gsort                             ## Sort from current line to EOF.  G won't be shown in the command.
+$>  :%!uniq                            ## Uniq all lines
+$>  !}uniq                             ## Uniq paragraph.  } won't be shown in the command.
+$>  !Guniq                             ## Uniq from current line to EOF.  G won't be shown in the command.
+$>  :g/^CHAPTER /t.|s/./=/g            ## Underline all lines starting with CHAPTER
+$>  :g/pattern/?^ *def ?#              ## Search for "pattern", print the containing function (start with def) and line number
+$>  :g/pattern/?^$?+,//-s/^/#          ## Add # to paragraph containing "pattern", ie. comment out
+$>  :g/{$/+,/^}/-!sort                 ## Sort content of multiline CSS blocks
+$>  :g/^[^@].*{$/+,/}/-!sort           ## Sort content of multiline CSS blocks (media queries)
+$>  :g/<p>/+,/<\/p>/-!fmt -40          ## Reformat HTML paragraphs to a fixed width (40)
+$>  :%s/\(.*\), \(.*\)/\2 \1/          ## Swap "Lastname, Firstname" to "Firstname, Lastname"
+$>  :%j                                ## Join all lines
+$>  :g/pattern/t$                      ## Copy (t) lines containing "pattern"
+$>  :g/pattern/m$                      ## Move (m) lines containing "pattern"
+$>  :%!awk -F':' '{print $3}'          ## Select a column (3rd) from formated text seperated by ':'
+$>  mk                                 ## 1) mark the first line:
+$>  ml                                 ## 2) mark the last line:
+$>  :'k,'l!awk 'END{print "Total:", i}{i+=$1; print}'      ## Insert the sum of a list of numbers after an arbitrary number of lines
+$>  :'k,'l!awk 'END{print "Total:", i} ++i || 1'           ## Insert the sum of a list of numbers after an arbitrary number of lines
+$>  :?^$?+,// -w !mail -s "<subject>" email@example.com     ## Email the current paragraph
+$>  :set cedit=<CTRL-V><ESC>                               ## Enable and ) Set ESC key to enable history, or add to .exrc:
+$>  :<ESC>                                                 ## use ex history1
+$>  :Explore                           ##
+$> firefox  https://github.com/tpope/vim-fugitive
+$>  :Gmove newname                     ## This will: Rename your file on disk. Rename the file in git repo. Reload the file into the current buffer.Preserve undo history.
+$>  :Gwrite                            ## If your file was not yet added to a git repo then first add it:
+$>  :retab                             ## Change tabs to spaces
+$>  "mdd                             " ## Select buff then dd erase line and copy to buffer "m. to put, pick buffer and put"
+$>  "mp                              " ## pick buffer and put
 ## #########################
 ## #      END vim          #
 ## #########################
@@ -7613,9 +7668,6 @@ $> sudo a2ensite mydomain.net
 ## look through all text files in whole folders and subfolders for a pattern
 $> grep -HrnF "pattern"
 ##==========================================
-
-
-##==========================================
 ## GUI
 ## https://obsproject.com/
 ## video recording and live streaming
@@ -7641,7 +7693,6 @@ $> echo ${month[3]}           #> Apr
 $> echo ${month%Dec}          ## % tells the shell you want to chop something off the end of the expanded variable
 $> a="Hello World!"
 $> echo Goodbye${a#Hello}     ## chop off a chunk from the beginning of a variable, instead of %, use #:
-
 ##==========================================
 #!/bin/bash
 ## Read from input script
@@ -7655,7 +7706,7 @@ $> echo "Your name is $name"
 ## 2>> appends standard error to a file >> appends command output
 ##==========================================
 ## Browser that uses firefox to render a page in a tty, psuedo page
-https://www.brow.sh/docs/installation/
+$> firefox https://www.brow.sh/docs/installation/
 $> wget https://github.com/browsh-org/browsh/releases/download/v1.5.0/browsh_1.5.0_linux_amd64.deb
 $> sudo apt install ./browsh_1.5.0_linux_amd64.deb
 $> rm ./browsh_1.5.0_linux_amd64.deb
@@ -7825,7 +7876,6 @@ $> tar c paths_to_files_and_dirs | gzip -c | openssl des3 > encrypted.tar.gz
 $> sudo mlabel -i /dev/sdd1 ::NewLabel
 ##==========================================
 ### rsync
-##
 $> rsync -r -t -x -v --progress -s --whole-file --exclude /Downloads /home/ /path/home
 $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ##==========================================
@@ -7839,66 +7889,60 @@ $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 $> w3m URL
 ## Set options: press o, change paramiter, press ok at bottom of section
 ##    Set external command to display images to fbi
-$@ Hyperlink operations
-$@   U:                # go to URL, Enter the URL you whish to visit.
-$@   Esc-u:            # go to relative URL, Enter the relative URL you whish to visit.
-$@   c:                # peek current URL, See what the URL of the current document is.
-$@   u:                # peek link URL, Place cursor on a link and hit "u" to see what URL it links to.
-$@   i:                # peek image URL, Place cursor on a image and hit "i" to see what the URL of the image is.
-$@   L:                # Show all links and images, Hit "L" to get a list of all links, anchors and images of the current page.
-$@   Esc-l:            # Popup linkslist, Hit "Esc-l" (small L) to get a popup menu filled with all the links of the current page.
-$@   Esc-M:            # open in external browser, Place cursor on a link and hit "Esc-M" (shift-M) to open the link in an external browser.
-$@
-$@ Navigation operations
-$@   B:                # Back
-$@   s:                # Show history in popup selection menu and go to selected page
-$@   R:                # Reload the current document
-$@   Esc-a:            # Add current page to bookmarks
-$@   Esc-b:            # Open a bookmarked page
-$@   Cltr-h:           # View history
-$@
-$@ Tab operations
-$@   T:                # open new tab
-$@   Ctrl-q:           # close current tab
-$@   {:                # move to previous tab
-$@   }:                # move to next tab
-$@   Esc-t:            # open popup tab selection menu and move to seleced tab
-$@   Ctrl-t:           # open current link in a new tab
-$@
-$@ Document operations
-$@   v:                # toggle view html-source / normal view
-$@   S:                # save the rendered output of the current document to a file
-$@   Esc-s:            # save the current document to a file
-$@   E:                # edit current document, open the current document in an editor if the current document is a local document
-$@   Esc-e:            # edit rendered document, open the rendered output of the current document in an editor
-$@
-$@ Image operations
-$@   I:                # view image, Place, Place cursor on a image and hit "i" to see what the URL of the image is.
-$@   Esc-I:            # save image, Place cursor on a image and hit "Esc-I" to save the image.
-$@
-$@ Pager operations
-$@   <space>:          # scroll one screen down
-$@   +:                # scroll one screen down
-$@   Ctrl-v:           # scroll one screen down
-$@   b:                # scroll one screen up
-$@   -:                # scroll one screen up
-$@   Esc-v:            # scroll one screen up
-$@   k:                # move cursor up one line
-$@   j:                # move cursor down one line
-$@   K:                # scroll down one line
-$@   J:                # scroll up one line
-$@   <:                # shift screen left
-$@   >:                # shift screen right
-$@   Z:                # move to center line
-$@   [:                # go to first link
-$@   ]:                # go to last link
-$@   <tab>:            # move to the next link
-$@   Esc-m:            # get a popup menu filled with all the links of the current page and move to the selected link.
-$@   Ctrl-l:           # redraw screen
-$@
-$@ Miscalanious operations
-$@   Ctrl-k:           # view cookies
-$@   m:                # toggle mouse operations (handy to select with the mouse pointer without having to pres shift)
+## Hyperlink operations
+$>   U:                # go to URL, Enter the URL you whish to visit.
+$>   Esc-u:            # go to relative URL, Enter the relative URL you whish to visit.
+$>   c:                # peek current URL, See what the URL of the current document is.
+$>   u:                # peek link URL, Place cursor on a link and hit "u" to see what URL it links to.
+$>   i:                # peek image URL, Place cursor on a image and hit "i" to see what the URL of the image is.
+$>   L:                # Show all links and images, Hit "L" to get a list of all links, anchors and images of the current page.
+$>   Esc-l:            # Popup linkslist, Hit "Esc-l" (small L) to get a popup menu filled with all the links of the current page.
+$>   Esc-M:            # open in external browser, Place cursor on a link and hit "Esc-M" (shift-M) to open the link in an external browser.
+## Navigation operations
+$>   B:                # Back
+$>   s:                # Show history in popup selection menu and go to selected page
+$>   R:                # Reload the current document
+$>   Esc-a:            # Add current page to bookmarks
+$>   Esc-b:            # Open a bookmarked page
+$>   Cltr-h:           # View history
+## Tab operations
+$>   T:                # open new tab
+$>   Ctrl-q:           # close current tab
+$>   {:                # move to previous tab
+$>   }:                # move to next tab
+$>   Esc-t:            # open popup tab selection menu and move to seleced tab
+$>   Ctrl-t:           # open current link in a new tab
+## Document operations
+$>   v:                # toggle view html-source / normal view
+$>   S:                # save the rendered output of the current document to a file
+$>   Esc-s:            # save the current document to a file
+$>   E:                # edit current document, open the current document in an editor if the current document is a local document
+$>   Esc-e:            # edit rendered document, open the rendered output of the current document in an editor
+## Image operations
+$>   I:                # view image, Place, Place cursor on a image and hit "i" to see what the URL of the image is.
+$>   Esc-I:            # save image, Place cursor on a image and hit "Esc-I" to save the image.
+## Pager operations
+$>   <space>:          # scroll one screen down
+$>   +:                # scroll one screen down
+$>   Ctrl-v:           # scroll one screen down
+$>   b:                # scroll one screen up
+$>   -:                # scroll one screen up
+$>   Esc-v:            # scroll one screen up
+$>   k:                # move cursor up one line
+$>   j:                # move cursor down one line
+$>   K:                # scroll down one line
+$>   J:                # scroll up one line
+$>   <:                # shift screen left
+$>   >:                # shift screen right
+$>   Z:                # move to center line
+$>   [:                # go to first link
+$>   ]:                # go to last link
+$>   <tab>:            # move to the next link
+$>   Esc-m:            # get a popup menu filled with all the links of the current page and move to the selected link.
+$>   Ctrl-l:           # redraw screen
+## Miscalanious operations
+$>   Ctrl-k:           # view cookies
+$>   m:                # toggle mouse operations (handy to select with the mouse pointer without having to pres shift)
 ##==========================================
 ### mpv multimedia player
 ## Play video in tty
@@ -7935,56 +7979,56 @@ $> tmux attach -t <target-session>          ## Re-attach a detached session
 $> tmux attach -d -t <target-session>       ## Re-attach a detached session (and detach it from elsewhere)
 $> tmux kill-session -t <target-session>    ## Delete session
 ## Pane Control
-$@ Ctrl b, "          " ## Split pane horizontally
-$@ Ctrl b, %          ## Split pane vertically
-$@ Ctrl b, o          ## Next pane
-$@ Ctrl b, ;          ## Previous pane
-$@ Ctrl b, q          ## Show pane numbers
-$@ Ctrl b, z          ## Toggle pane zoom
-$@ Ctrl b, !          ## Convert pane into a window
-$@ Ctrl b, x          ## Kill current pane
-$@ Ctrl b, Ctrl O     ## Swap panes
-$@ Ctrl b, t          ## Display clock
-$@ Ctrl b, q          ## Transpose two letters (delete and paste)
-$@ Ctrl b, {          ## Move to the previous pane
-$@ Ctrl b, }          ## Move to the next pane
-$@ Ctrl b, Space      ## Toggle between pane layouts
-$@ Ctrl b, ↑          ## Move to pane
-$@ Ctrl b, ↓          ## Move to pane
-$@ Ctrl b, ←          ## Move to pane
-$@ Ctrl b, →          ## Move to pane
+$>  Ctrl b, "          " ## Split pane horizontally
+$>  Ctrl b, %          ## Split pane vertically
+$>  Ctrl b, o          ## Next pane
+$>  Ctrl b, ;          ## Previous pane
+$>  Ctrl b, q          ## Show pane numbers
+$>  Ctrl b, z          ## Toggle pane zoom
+$>  Ctrl b, !          ## Convert pane into a window
+$>  Ctrl b, x          ## Kill current pane
+$>  Ctrl b, Ctrl O     ## Swap panes
+$>  Ctrl b, t          ## Display clock
+$>  Ctrl b, q          ## Transpose two letters (delete and paste)
+$>  Ctrl b, {          ## Move to the previous pane
+$>  Ctrl b, }          ## Move to the next pane
+$>  Ctrl b, Space      ## Toggle between pane layouts
+$>  Ctrl b, ↑          ## Move to pane
+$>  Ctrl b, ↓          ## Move to pane
+$>  Ctrl b, ←          ## Move to pane
+$>  Ctrl b, →          ## Move to pane
 ## Window Control
-$@ Ctrl b, c          ## Create new window
-$@ Ctrl b, d          ## Detach from session
-$@ Ctrl b, ,          ## Rename current window
-$@ Ctrl b, &          ## Close current window
-$@ Ctrl b, w          ## List windows
-$@ Ctrl b, p          ## Previous window
-$@ Ctrl b, n          ## Next window
+$>  Ctrl b, c          ## Create new window
+$>  Ctrl b, d          ## Detach from session
+$>  Ctrl b, ,          ## Rename current window
+$>  Ctrl b, &          ## Close current window
+$>  Ctrl b, w          ## List windows
+$>  Ctrl b, p          ## Previous window
+$>  Ctrl b, n          ## Next window
 ## Copy-Mode (Emacs)
-$@ Ctrl b, [          ## Enter copy mode
-$@ Ctrl b, M-<        ## Bottom of history
-$@ Ctrl b, M->        ## Top of history
-$@ Ctrl b, M-m        ## Back to indentation
-$@ Ctrl b, M-w        ## Copy selection
-$@ Ctrl b, M-y        ## Paste selection
-$@ Ctrl b, Ctrl g     ## Clear selection
-$@ Ctrl b, M-R        ## Cursor to top line
-$@ Ctrl b, M-r        ## Cursor to middle line
-$@ Ctrl b, ↑          ##  Cursor Up
-$@ Ctrl b, ↓          ##  Cursor Down
-$@ Ctrl b, ←          ##  Cursor Left
-$@ Ctrl b, →          ##  Cursor Right
+$>  Ctrl b, [          ## Enter copy mode
+$>  Ctrl b, M-<        ## Bottom of history
+$>  Ctrl b, M->        ## Top of history
+$>  Ctrl b, M-m        ## Back to indentation
+$>  Ctrl b, M-w        ## Copy selection
+$>  Ctrl b, M-y        ## Paste selection
+$>  Ctrl b, Ctrl g     ## Clear selection
+$>  Ctrl b, M-R        ## Cursor to top line
+$>  Ctrl b, M-r        ## Cursor to middle line
+$>  Ctrl b, ↑          ##  Cursor Up
+$>  Ctrl b, ↓          ##  Cursor Down
+$>  Ctrl b, ←          ##  Cursor Left
+$>  Ctrl b, →          ##  Cursor Right
 ## Copy-Mode (vi)
-$@ Ctrl b, [          ##  Enter copy mode
-$@ Ctrl b, G          ##  Bottom of history
-$@ Ctrl b, g          ##  Top of history
-$@ Ctrl b, Enter      ## Copy selection
-$@ Ctrl b, p          ##  Paste selection
-$@ Ctrl b, k          ##  Cursor Up
-$@ Ctrl b, j          ##  Cursor Down
-$@ Ctrl b, h          ##  Cursor Left
-$@ Ctrl b, l          ##  Cursor Right
+$>  Ctrl b, [          ##  Enter copy mode
+$>  Ctrl b, G          ##  Bottom of history
+$>  Ctrl b, g          ##  Top of history
+$>  Ctrl b, Enter      ## Copy selection
+$>  Ctrl b, p          ##  Paste selection
+$>  Ctrl b, k          ##  Cursor Up
+$>  Ctrl b, j          ##  Cursor Down
+$>  Ctrl b, h          ##  Cursor Left
+$>  Ctrl b, l          ##  Cursor Right
 ## ############################
 ## #        END tmux          #
 ## ############################
@@ -8014,10 +8058,7 @@ $> sudo apt-get install software-properties-common
 $> sudo apt-add-repository ppa:ansible/ansible
 $> sudo apt-get update
 $> sudo apt-get install ansible
-
 ## Add ssh keys to servers
-
-
 ## Create hosts file, --- make headers [name] no spaces in names, followed by IP or URL.
 $> echo '
 #---
@@ -8060,7 +8101,6 @@ $> ansible webservers:!keepalive -m apt -a "name=mc state=latest"
 $> ansible webservers:&staging -m apt -a "name=mc state=latest"
 ## Makes sure latest version of package is installed in the groups ‘webservers’ and ‘dbservers’ if they are also in ‘staging’ but not in the group ‘phoenix’
 $> ansible webservers:dbservers:&staging:!phoenix -m apt -a "name=mc state=latest"
-
 ##------------------------------------------
 ### Ansible Playbooks
 ## Run ansible playbook with a specified inventory file and playbook, uses -become line in playboook which requires sudo so use  --ask-become-pass
@@ -8124,8 +8164,6 @@ $> mkdir group_vars && cd group_vars && mkdir group1 && mkdir group2
 $> ssh-agent bash
 $> ssh-add /home/eakinc/.ssh/commandlinefun.pem
 ##----------------------------------------
-
-
 ## ############################
 ## #   END  ansible           #
 ## ############################
@@ -8190,7 +8228,6 @@ $> systemctl isolate graphical.target
 ## Will bring the graphical desktop instantly.
 $> systemctl isolate graphical.target
 ## Will switch back to command line interface.
-
 ##==========================================
 ## To install LXDE on Ubuntu server, Run the following command:
 $> apt-get install xorg lightdm lxde lxde-core lxsession-logout network-manager
@@ -8287,8 +8324,6 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ##   simple file server: Emacs Web Server;
 ##   emacs: Emacs.
 #apt, snap, flatpack, and guix
-
-
 ##==========================================
 ## GUI web browser
 ## press Ctrl+Shift+R in your browser to force a refresh of your local cache
@@ -8298,10 +8333,8 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ## To install UnityHub go to this link
 https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-download.650455/
 ## Scroll down to download the latest version.
-
 ## after downloading right-click on the file and go to properties and then permissions and then make executable.
 ## now just run it and use it.
-
 ## You may need to install this additional dependency:
 $> sudo apt install libgconf-2-4
 ## To install Unity3d without UnityHub go to this link
@@ -8344,14 +8377,14 @@ $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
 ##==========================================
 ## if youre looking for the directories that contain lots of files, this script may help:
-
+cat countum.sh << EOF
 #!/bin/bash
 # count_em - count files in all subdirectories under current directory.
 echo 'echo $(ls -a "$1" | wc -l) $1' >/tmp/count_em_$$
 chmod 700 /tmp/count_em_$$
 find . -mount -type d -print0 | xargs -0 -n1 /tmp/count_em_$$ | sort -n
 rm -f /tmp/count_em_$$
-
+EOF
 ##==========================================
 ## http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux
 ## use RSYNC to DELETE the large number of files
@@ -8369,7 +8402,6 @@ $> sudo umount /mntpoint
 ## Then do:
 $> fsck.ext4 -f /dev/sda2
 $> btrfs-convert /dev/sda2
-
 $> btrfs ## can be put on in place of ext4
 ##==========================================
 ### sysctl  - configure kernel parameters at runtime
@@ -8425,7 +8457,6 @@ $> sudo /etc/init.d/smbd start
 $> sudo update-rc.d -f smbd remove
 ## To restore it to rc.d use the command
 $> sudo update-rc.d smbd defaults
-
 ##==========================================
 ## Compile and make a .deb
 $> firefox https://help.ubuntu.com/community/CheckInstall
@@ -8452,7 +8483,21 @@ $> sudo checkinstall
 ## If you add the --install=no option to checkinstall, the program will generate a .deb package without installing it. For example:
 $> checkinstall --install=no
 ##==========================================
+## Easy way to remove ssh keys
 $> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key
+## Before Remove Identity You need to start ssh-agent with this command
+$> eval `ssh-agent -s`
+## For Remove All Identity
+$> ssh-add -D
+## To Remove Specific Identity
+$> ssh-add -d ~/.ssh/id_ed25519
+$> ssh-add -d ~/.ssh/id_rsa
+## Find a List of available Identify by using this command
+$> ssh-add -l
+## Add new ssh key after all delete
+$> ssh-add ~/.ssh/id_ed25519
+$> ssh-add ~/.ssh/id_rsa
+##------------------------------
 ## sign_and_send_pubkey: signing failed:
 ## agent refused operation when logging into several servers,
 $> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key,
@@ -8461,7 +8506,7 @@ $> sudo apt-get autoremove gnome-keyring
 $> ssh-add -D
 $> chmod 600 ~/.ssh/id_rsa
 ## occasionally require access to the other repository which uses diff RSA key, I just dedicate one terminal for it with export
-$> GIT_SSH_COMMAND="ssh -i /home/me/.ssh/id_rsa.pub"
+$> GIT_SSH_COMMAND="ssh -i /home/$USER/.ssh/id_rsa.pub"
 ## If gnome-keyring is interfereing can set ssh socks to 0.
 ## If this works problem is prob the key-ring saving old configs
 ## This worked on xps15-7590
@@ -8595,9 +8640,6 @@ $> sudo umount /mnt/md0 && sudo mdadm --stop /dev/md0  ## Stop a RAID array
 $> sudo mdadm --assemble /dev/md0                      ## Assemble an existing array in mdadm.conf
 $> sudo mdadm --assemble /dev/md0 /dev/sda /dev/sdb /dev/sdc /dev/sdd && sudo mount /dev/md0 /mnt ## Assemble an existing array not in mdadm.conf
 $> sudo mdadm /dev/md0 --add /dev/sde                  ## Add a device to array
-
-
-
 ##--------------------------------------
 ### lsi RAID pci-e card
 https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-configuration-of-raid-arrays-on-lsi-megaraid-9361-8i-9440-9460-and-9341-raid-controllers?lang=en
@@ -8667,7 +8709,6 @@ $> sudo tcpdump -i eth0
 ##==========================================
 ## Use emojis
 $> firefox https://www.webfx.com/tools/emoji-cheat-sheet/
-
 ##==========================================
 ### Ways to catdog a dogdog
 ## echo passes string to sed
@@ -8681,7 +8722,6 @@ $> sed 's/dog/cat/' <<< "dogdog"
 ## BASH reads file and passes string to sed
 $> sed "s/dog/cat/" < dog.txt
 ## All cool for diff reasons.
-
 ##==========================================
 ## add keys to authorized_keys
 $> cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
@@ -8701,39 +8741,28 @@ $> echo "$(date -u '+%H:%M')\n$(date '+%Y-%m-%d')" |dmenu
 $> dl_music () {
   youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x
 }
-
+##
+$> function dl_music() { youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x ; }
 ## Open browser from terminal to create PR after pushing something in Git in MAC
 $> git remote -v |grep origin|tail -1|awk '{print $2}'|cut -d"@" -f2|sed 's/:/\//g'|xargs -I {} open -a "Google Chrome" https://{}
 ##==========================================
-dl_video () {
-  youtube-dl --output ~/Videos/"$2.%(ext)s" "$1"
-}
-
+$> dl_video () {
+$>   youtube-dl --output ~/Videos/"$2.%(ext)s" "$1"
+$> }
+$> function dl_video() { youtube-dl --output ~/Videos/"$2.%(ext)s" "$1" ; }
 ##==========================================
-webm2mp4 () {
-    ffmpeg -i "$1" -c:v libx264 -c:a aac -strict experimental -loglevel error "${1%%.webm}.mp4"
-}
-
-webm2mp3 () {
-    ffmpeg -i "$1" "${1%%.webm}.mp3"
-}
-
-mp42mp3 () {
-    ffmpeg -i "$1" "${1%%.mp4}.mp3"
-}
-
-mp42webm () {
-    ffmpeg -i "$1" -c:v libvpx -b:v 1M -c:a libvorbis "${1%%.mp4}.webm"
-}
-
-domino () {
-    ffmpeg -video_size 1064x600 -framerate 25 -f x11grab -i :0.0+428,175 domino00.mp4
-}
-
-syncstats () {
-    watch grep -e Dirty: -e Writeback: /proc/meminfo
-}
-
+## Convert Video
+$> function webm2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a aac -strict experimental -loglevel error "${1%%.webm}.mp4" ; }
+##
+$> function webm2mp3() { ffmpeg -i "$1" "${1%%.webm}.mp3" ; }
+##
+$> function mp42mp3() { ffmpeg -i "$1" "${1%%.mp4}.mp3" ; }
+##
+$> function mp42webm() { ffmpeg -i "$1" -c:v libvpx -b:v 1M -c:a libvorbis "${1%%.mp4}.webm" ; }
+##
+$> function domino () { ffmpeg -video_size 1064x600 -framerate 25 -f x11grab -i :0.0+428,175 domino00.mp4 ; }
+##
+$> function syncstats () { watch grep -e Dirty: -e Writeback: /proc/meminfo ; }
 ##==========================================
 ## Like tree command
 $> find . -print | sed -e 's;[^/]*/;|-- ;g;s;-- |; |;g'
@@ -8796,10 +8825,9 @@ $> function copy2mp4() { avconv -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
 ## not working
 $> function vid2mp4() { avconv -i  "$1" -vf format=yuv420p10le -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> function vid2mp4() { ffmpeg -i  "$1" -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
-
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 ##==========================================
-
+##
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 $> function vid2mp4() { ffmpeg -i "$1" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
@@ -8853,14 +8881,14 @@ $> git add --patch <filename>
 ##==========================================
 ## create ext4 filesystem with big count of inodes
 ## XX is your device partition number like /dev/sdc1 . to see how many inodes your partition have type: df --inodes (or df -i) Default formatting with ext4 would create small inode count for the new partition if you need big count of inodes is the fstype news the correct one. in debian you can see which fstype exists as template in: vim /etc/mke2fs.conf if you format default ext for a partition size with 1TB you would get 1 Million inodes (not enough for backupStorages) but if you format with fstype news you would get hunderd of millions of inodes for the partition. you have tune /etc/sysctl.conf also with following sysconfig parameters fs.file-max = XXX fs.nr_open = XXX where XXX is the count of max inodes for whole system
-mkfs.ext4 -T news /dev/sdcXX
+$> mkfs.ext4 -T news /dev/sdcXX
 ##==========================================
 ## Generate a Google maps URL for GPS location data from digital photo
 ## This command uses the "exiftool" command which is available here: http://www.sno.phy.queensu.ca/~phil/exiftool/ NB, there should be a degree symbol right after the first "%d" NOT a question mark. For some unknown reason, commandlinefu is not able to handle degree symbol correctly ("?")? Show Sample Output
 $> echo "https://www.google.com/maps/place/$(exiftool -ee -p '$gpslatitude, $gpslongitude' -c "%d?%d'%.2f"\" image.jpg 2> /dev/null | sed -e "s/ //g")"
 ##==========================================
 ## Clear terminal Screen
-tput clear
+$> tput clear
 ##==========================================
 ## Show git log beautifully
 ## Only show a short of important information inline ( include branch info ), and color this log tree. Show Sample Output
@@ -8962,9 +8990,15 @@ $> sudo file -s /dev/sda1
 ## change the UUID using the tune2fs
 $> sudo tune2fs -U c1b9d5a2-f162-11cf-9ece-0020afc76f16 /dev/sdb1
 ##==========================================
-ll /dev/disk/by-uuid
 ## Change the file extension in batch. Useful to create output file names with same input name but distinct extension by including logic inside the loop
-
+ll /dev/disk/by-uuid
+##==========================================
+## Change the file extension in batch.
+## Useful to create output file names with same input name but distinct extension
+## by including logic inside the loop
+##==========================================
+## List the UUID of devices
+$> ls -l /dev/disk/by-uuid
 ##==========================================
 ## Hardcode the .srt file
 ## need the .srt file to be UTF-8 encoded.
@@ -9427,8 +9461,8 @@ $> wget --no-check-certificate http://install.ohmyz.sh -O - | sh.zshrc
 ## Add autosuggestion
 $> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ## Add to ~/.zshrc
-@> plugins=(git zsh-autosuggestions)
-@> source $ZSH/oh-my-zsh.sh
+$> plugins=(git zsh-autosuggestions)
+$> source $ZSH/oh-my-zsh.sh
 ##--------------------
 ## Get zsh auto suggest deb
 $> wget https://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosuggestions/xUbuntu_18.04/amd64/zsh-autosuggestions_0.5.0+1.1_amd64.deb
@@ -9451,6 +9485,7 @@ $> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.o
 ## Make zsh default shell: need password
 $> chsh -s $(which zsh)
 $> chsh -s /bin/zsh
+$> chsh -s /usr/bin/zsh
 ## Make bash default shell:
 $> chsh -s $(which bash)
 ##------------------------------------------
@@ -9459,8 +9494,7 @@ $> cat ~/.zshrc.ohmy > ~/.zshrc
 $> cat ~/.zshrc.zsh > ~/.zshrc
 ##------------------------------------------
 ### Prompt
-http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-
+$> firefox http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 ##-----------------------------------------
 ## syntax-highlighting
 ## Simply clone this repository and source the script:
@@ -9525,80 +9559,89 @@ $ apt-cache madison chromium-browser
 $> sudo apt-get install chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-browser=65.0.3325.181-0ubuntu1 -V
 ##==========================================
 ## https://wiki.archlinux.org/index.php/Bash/Prompt_customization
-$@ txtblk='\e[0;30m' ## Black - Regular
-$@ txtred='\e[0;31m' ## Red
-$@ txtgrn='\e[0;32m' ## Green
-$@ txtylw='\e[0;33m' ## Yellow
-$@ txtblu='\e[0;34m' ## Blue
-$@ txtpur='\e[0;35m' ## Purple
-$@ txtcyn='\e[0;36m' ## Cyan
-$@ txtwht='\e[0;37m' ## White
-$@ bldblk='\e[1;30m' ## Black - Bold
-$@ bldred='\e[1;31m' ## Red
-$@ bldgrn='\e[1;32m' ## Green
-$@ bldylw='\e[1;33m' ## Yellow
-$@ bldblu='\e[1;34m' ## Blue
-$@ bldpur='\e[1;35m' ## Purple
-$@ bldcyn='\e[1;36m' ## Cyan
-$@ bldwht='\e[1;37m' ## White
-$@ unkblk='\e[4;30m' ## Black - Underline
-$@ undred='\e[4;31m' ## Red
-$@ undgrn='\e[4;32m' ## Green
-$@ undylw='\e[4;33m' ## Yellow
-$@ undblu='\e[4;34m' ## Blue
-$@ undpur='\e[4;35m' ## Purple
-$@ undcyn='\e[4;36m' ## Cyan
-$@ undwht='\e[4;37m' ## White
-$@ bakblk='\e[40m'   ## Black - Background
-$@ bakred='\e[41m'   ## Red
-$@ bakgrn='\e[42m'   ## Green
-$@ bakylw='\e[43m'   ## Yellow
-$@ bakblu='\e[44m'   ## Blue
-$@ bakpur='\e[45m'   ## Purple
-$@ bakcyn='\e[46m'   ## Cyan
-$@ bakwht='\e[47m'   ## White
-$@ txtrst='\e[0m'    ## Text Reset
+$>  txtblk='\e[0;30m' ## Black - Regular
+$>  txtred='\e[0;31m' ## Red
+$>  txtgrn='\e[0;32m' ## Green
+$>  txtylw='\e[0;33m' ## Yellow
+$>  txtblu='\e[0;34m' ## Blue
+$>  txtpur='\e[0;35m' ## Purple
+$>  txtcyn='\e[0;36m' ## Cyan
+$>  txtwht='\e[0;37m' ## White
+$>  bldblk='\e[1;30m' ## Black - Bold
+$>  bldred='\e[1;31m' ## Red
+$>  bldgrn='\e[1;32m' ## Green
+$>  bldylw='\e[1;33m' ## Yellow
+$>  bldblu='\e[1;34m' ## Blue
+$>  bldpur='\e[1;35m' ## Purple
+$>  bldcyn='\e[1;36m' ## Cyan
+$>  bldwht='\e[1;37m' ## White
+$>  unkblk='\e[4;30m' ## Black - Underline
+$>  undred='\e[4;31m' ## Red
+$>  undgrn='\e[4;32m' ## Green
+$>  undylw='\e[4;33m' ## Yellow
+$>  undblu='\e[4;34m' ## Blue
+$>  undpur='\e[4;35m' ## Purple
+$>  undcyn='\e[4;36m' ## Cyan
+$>  undwht='\e[4;37m' ## White
+$>  bakblk='\e[40m'   ## Black - Background
+$>  bakred='\e[41m'   ## Red
+$>  bakgrn='\e[42m'   ## Green
+$>  bakylw='\e[43m'   ## Yellow
+$>  bakblu='\e[44m'   ## Blue
+$>  bakpur='\e[45m'   ## Purple
+$>  bakcyn='\e[46m'   ## Cyan
+$>  bakwht='\e[47m'   ## White
+$>  txtrst='\e[0m'    ## Text Reset
 ## Available control commands for PS1 string:
-$@ d     ## the date in "Weekday Month Date" format (e.g., "Tue May 26")
-$@ e     ## an ASCII escape character (033)
-$@ h     ## the hostname up to the first .
-$@ H     ## the full hostname
-$@ j     ## the number of jobs currently run in background
-$@ l     ## the basename of the shells terminal device name
-$@ n     ## newline
-$@ r     ## carriage return
-$@ s     ## the name of the shell, the basename of $0 (the portion following the final slash)
-$@ t     ## the current time in 24-hour HH:MM:SS format
-$@ T     ## the current time in 12-hour HH:MM:SS format
-$@ @     ## the current time in 12-hour am/pm format
-$@ A     ## the current time in 24-hour HH:MM format
-$@ u     ## the username of the current user
-$@ v     ## the version of bash (e.g., 4.00)
-$@ V     ## the release of bash, version + patch level (e.g., 4.00.0)
-$@ w     ## Complete path of current working directory
-$@ W     ## the basename of the current working directory
-$@ !     ## the history number of this command
-$@ #     ## the command number of this command
-$@ $     ## if the effective UID is 0, a #, otherwise a $
-$@ nnn   ## the character corresponding to the octal number nnn
-$@ \     ## a backslash
-$@ [     ## begin a sequence of non-printing characters, which could be used to embed a terminal control sequence into the prompt
-$@ ]     ## end a sequence of non-printing characters
+$>  d     ## the date in "Weekday Month Date" format (e.g., "Tue May 26")
+$>  e     ## an ASCII escape character (033)
+$>  h     ## the hostname up to the first .
+$>  H     ## the full hostname
+$>  j     ## the number of jobs currently run in background
+$>  l     ## the basename of the shells terminal device name
+$>  n     ## newline
+$>  r     ## carriage return
+$>  s     ## the name of the shell, the basename of $0 (the portion following the final slash)
+$>  t     ## the current time in 24-hour HH:MM:SS format
+$>  T     ## the current time in 12-hour HH:MM:SS format
+$>  @     ## the current time in 12-hour am/pm format
+$>  A     ## the current time in 24-hour HH:MM format
+$>  u     ## the username of the current user
+$>  v     ## the version of bash (e.g., 4.00)
+$>  V     ## the release of bash, version + patch level (e.g., 4.00.0)
+$>  w     ## Complete path of current working directory
+$>  W     ## the basename of the current working directory
+$>  !     ## the history number of this command
+$>  #     ## the command number of this command
+$>  $     ## if the effective UID is 0, a #, otherwise a $
+$>  nnn   ## the character corresponding to the octal number nnn
+$>  \     ## a backslash
+$>  [     ## begin a sequence of non-printing characters, which could be used to embed a terminal control sequence into the prompt
+$>  ]     ## end a sequence of non-printing characters
 ##==========================================
 ## ###########################################################
 ## ##             Git
 ## ###########################################################
 ## correct an unpushed commit message
 $> git commit --amend -m "New message"
-
 ##==========================================
+$> echo ${USER}
+## set your Git username
+$> git config --global user.name "YOUR NAME HERE"
+## Check your Git username
+$> git config --global user.name
+## Set your Git email.
+$> git config --global user.email "youremail@gmail.com"
+## Set remote repo on hithub
+$> git remote add origin https://github.com/YOURGITHUBACCOUNTHERE
+##
+## ###########################################################
 ## Bluetooth pair your phone to your computer, play audio from your phone on computer speakers
 ## If you add the pulseaudio-bluetooth package
 $> sudo apt-get install pulseaudio-bluetooth
 ## add the following two lines to /etc/pulse/system.pa and
 $> sudo echo "load-module module-bluetooth-policy
 load-module module-bluetooth-discover" >> /etc/pulse/system.pa
-
 ##==========================================
 ### Redirects
 ##           || visible in terminal ||   visible in file   || existing
@@ -9774,7 +9817,7 @@ $> ffmpeg -i my_video.mkv -vcodec x264 -minrate 1400000 -b:v 1500000 -maxrate 16
 $> ffmpeg -i input.mkv -filter:v "fps=fps=30" -c:v libvpx -b:v 500k -c:a libvorbis -b:a 80k output.webm
 ## it brings the output rate down to about 650k or so according to mpv. I think the -r option just sets the framerate on the container file but doesnt actually drop frames to get it. I may be wrong on that though.
 ##==========================================
-
+##
 $> firefox https://samrowe.com/wordpress/advancing-in-the-bash-shell/
 ##==========================================
 ## Remap Keyboard And Mouse Buttons On Linux With The New Key Mapper GUI
@@ -9782,7 +9825,6 @@ $> firefox https://github.com/sezanzeb/key-mapper/releases
 ##==========================================
 ## download music from youtube
 $> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
-
 ##==========================================
 ##    1) learn what is Dockerfile
 ##    2) add some apps on top of base image with dockerfile
@@ -9825,7 +9867,6 @@ $> screen -r
 ## This will "resume" your screen session, and you can see the output of your process.
 ## and then quit it:(-X = Execute command, -S session PID to execute on)
 $> screen -XS YOURSESSIONNAME quit
-
 ## ##########################################
 ## ##########################################
 ##==========================================
@@ -10416,8 +10457,8 @@ $> ssh-copy-id -i your-ed25519-key user@host
 ## //Youtube URL
 $> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
 ##==========================================
+##
 $> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
-
 ##==========================================
 ## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
 ## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
@@ -10428,17 +10469,17 @@ $> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 
 ##==========================================
 ## appimage is a standalone package format "one app = one file"
-https://appimage.github.io/
+$> https://appimage.github.io/
 ##==========================================
 ## Vagrant
 ## Install virtualbox, vagrant, and ansible
 ## OSX
-brew cask install virtualbox vagrant
-brew install ansible
+$> brew cask install virtualbox vagrant
+$> brew install ansible
 ## Linux
-sudo apt-get install vagrant ansible virtualbox
+$> sudo apt-get install vagrant ansible virtualbox
 ## Create a vagrant vm configuration file
-cat > Vagrantfile << EOF
+$> cat > Vagrantfile << EOF
 dev = [
     {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
     {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
@@ -10462,45 +10503,41 @@ Vagrant.configure("2") do |config|
 end
 EOF
 ## Start all the VMs
-vagrant up
+$> vagrant up
 ## Start one vm
-vagrant up server0001.dev.commandline.fun
+$> vagrant up server0001.dev.commandline.fun
 ## Check
-vagrant status
+$> vagrant status
 ## Run a command to verify
-vagrant ssh server0001.dev.commandline.fun -c 'echo hello world'
+$> vagrant ssh server0001.dev.commandline.fun -c 'echo hello world'
 ## ssh into vm
-ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
+$> ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
 ## Copy over a file, in this case a linux learning file
-scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
+$> scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
 ## Do the learning in the file
 ## Make a directory on the vm
-vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
+$> vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
 ## To stop the VM
 ## shut it down forcefully
-vagrant halt
+$> vagrant halt
 ## suspend the virtual machine
-vagrant suspend
+$> vagrant suspend
 ## restart it again,
-vagrant up
+$> vagrant up
 ## Remove the vm completely
-vagrant destroy
+$> vagrant destroy
 ## Or
-vagrant -f destroy
-
+$> vagrant -f destroy
 ##==========================================
 ## Use vagrant to test ansible
-
 ##==========================================
 ## Download Large Google Drive files with Wget in Terminal
 ## Replace FILEID and FILENAME in the command below:
-wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
-
+$> wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
 ##==========================================
 ## use ffmpeg to record a smooth, reasonably sized screencast:
-
-screenRecord.sh ~/demo.mkv
-
+$> screenRecord.sh ~/demo.mkv
+$> cat > Vagrantfile << EOF
 #! /bin/bash
 
 if [ -z "$1" ]
@@ -10508,157 +10545,154 @@ if [ -z "$1" ]
     echo "Please specify a valid destination:  screenRecord.sh ~/videos/cast.mkv"
     exit
 fi
-
-ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
+EOF
+$> ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
 
 ##==========================================
-## jq is fucking insane, only webfags would use shit like jq
-yt-dlp -J URL >> playlist.json
-perl -Mdd -MJSON::XS -E '$json=decode_json(do{local $/; <>}); say join "\n", map { $_->[0] } sort { $a->[1] <=> $b->[1] } map { [$_->{playlist_autonumber}." ".$_->{title}, $_->{upload_date} ] } $json->{entries}->@*' playlist.json
-
-
-
+## jq is insane
+$> yt-dlp -J URL >> playlist.json
+$> perl -Mdd -MJSON::XS -E '$json=decode_json(do{local $/; <>}); say join "\n", map { $_->[0] } sort { $a->[1] <=> $b->[1] } map { [$_->{playlist_autonumber}." ".$_->{title}, $_->{upload_date} ] } $json->{entries}->@*' playlist.json
 ##==========================================
 ## use zfs to encrypt.
 ## create a dataset called "tank" for /dev/sdb
-zpool create tank sdb
+$> zpool create tank sdb
 ## create a key
-openssl rand -out /media/poolkey 32
+$> openssl rand -out /media/poolkey 32
 ## create an pool called "encrypted" in dataset "tank"
-zfs create -o encryption=on -o keyformat=raw -o keylocation=file:///media/poolkey tank/encrypted
+$> zfs create -o encryption=on -o keyformat=raw -o keylocation=file:///media/poolkey tank/encrypted
 ## setting the mountpoint
-mkdir -p /mnt/tank
-zfs set mountpoint=/mnt/tank second
-zfs set mountpoint=/mnt/tank/encrypted tank/encrypted
+$> mkdir -p /mnt/tank
+$> zfs set mountpoint=/mnt/tank second
+$> zfs set mountpoint=/mnt/tank/encrypted tank/encrypted
 ## mount everything
-zfs mount -a -l
+$> zfs mount -a -l
 ## helpful zfs commands
-zfs get mountpoint
-zfs list
-zpool status
-
+$> zfs get mountpoint
+$> zfs list
+$> zpool status
 ##==========================================
 ## 2 minutes of 30fps video (3,600 frames), gop set to 30*30 (each 30 seconds), you can see the video change slightly at each 30 second mark (new i-frame), but otherwise its perfectly still
-
-ffmpeg -loop 1 -r 30 -i b10cac207d27ccaf0a2a4d25803c5626.jpg -t 120 -map 0:v:0 -threads 0 -cpu-used 1 -g "30*30" -c:v libvpx -b:v 2M -crf 35 -qmin 25 -qmax 63 -y /tmp/a.webm
-
+$> ffmpeg -loop 1 -r 30 -i b10cac207d27ccaf0a2a4d25803c5626.jpg -t 120 -map 0:v:0 -threads 0 -cpu-used 1 -g "30*30" -c:v libvpx -b:v 2M -crf 35 -qmin 25 -qmax 63 -y /tmp/a.webm
 ##==========================================
-## tmux Sessions
+## ###############################################
+## ##    tmux Sessions
+## ###############################################
 ## -------------------------------------
 ## Misc
-Ctrl + b :          ## enter command mode
-: set -g OPTION     ## set OPTION for all sessions
-: setw -g OPTION    ## set OPTION for all windows
-: set mouse on      ## enable mouse mode
+$> Ctrl + b :                         ## enter command mode
+$>    : set -g OPTION                 ## set OPTION for all sessions
+$>    : setw -g OPTION                ## set OPTION for all windows
+$>    : set mouse on                  ## enable mouse mode
 ## Help
-$ tmux list-keys    ## list key bindings(shortcuts)
-: list-keys         ## list key bindings(shortcuts)
-Ctrl + b ?          ## list key bindings(shortcuts)
-tmux info           ## show every session, window, pane, etc...
+$> tmux list-keys                     ## list key bindings(shortcuts)
+$>     : list-keys                    ## list key bindings(shortcuts)
+$>     Ctrl + b ?                     ## list key bindings(shortcuts)
+$> tmux info                          ## show every session, window, pane, etc...
 ## -------------------------------------
-$ tmux                                ## start a new session
-$ tmux new                            ## start a new session
-$ tmux new-session                    ## start a new session
-: new                                 ## start a new session
-$ tmux new -s mysession               ## start a new session with the name mysession
-: new -s mysession                    ## start a new session with the name mysession
-$ tmux kill-ses -t mysession          ## kill/delete session mysession
-$ tmux kill-session -t mysession      ## kill/delete session mysession
-$ tmux kill-session -a                ## kill/delete all sessions but the current
-Ctrl + b $                            ## rename session
-Ctrl + b d                            ## detach from session
-: attach -d                           ## detach others on the session (Maximize window by detach other clients)
-$ tmux ls                             ## show all sessions
-$ tmux list-sessions                  ## show all sessions
-Ctrl + b s                            ## show all sessions
-$ tmux a -t mysession                 ## attach to a session with the name mysession
-$ tmux at -t mysession                ## attach to a session with the name mysession
-$ tmux attach -t mysession            ## attach to a session with the name mysession
-$ tmux attach-session -t mysession    ## attach to a session with the name mysession
-Ctrl + b w                            ## preview session and window
-Ctrl + b (                            ## move to previous session
-Ctrl + b )                            ## move to next session
+$> tmux                               ## start a new session
+$> tmux new                           ## start a new session
+$> tmux new-session                   ## start a new session
+$>    : new                           ## start a new session
+$> tmux new -s mysession              ## start a new session with the name mysession
+$>    : new -s mysession              ## start a new session with the name mysession
+$> tmux kill-ses -t mysession         ## kill/delete session mysession
+$> tmux kill-session -t mysession     ## kill/delete session mysession
+$> tmux kill-session -a               ## kill/delete all sessions but the current
+$>    Ctrl + b $                      ## rename session
+$>    Ctrl + b d                      ## detach from session
+$>    : attach -d                     ## detach others on the session (Maximize window by detach other clients)
+$> tmux ls                            ## show all sessions
+$> tmux list-sessions                 ## show all sessions
+$>    Ctrl + b s                      ## show all sessions
+$> tmux a -t mysession                ## attach to a session with the name mysession
+$> tmux at -t mysession               ## attach to a session with the name mysession
+$> tmux attach -t mysession           ## attach to a session with the name mysession
+$> tmux attach-session -t mysession   ## attach to a session with the name mysession
+$>    Ctrl + b w                      ## preview session and window
+$>    Ctrl + b (                      ## move to previous session
+$>    Ctrl + b )                      ## move to next session
 ## -------------------------------------
 ## Windows
-Ctrl + b c                 ## preview session and window
-Ctrl + b ,                 ## rename current window
-Ctrl + b &                 ## close current window
-Ctrl + b p                 ## go to previous window
-Ctrl + b n                 ## go to next window
-Ctrl + b 0 ... 9           ## switch/select window by number
-: swap-window -s 2 -t 1    ## reorder window, swap window number 2 (src) and 1 (dst)
-: swap-window -t -1        ## move current window to the left by one position
+$>    Ctrl + b c                      ## preview session and window
+$>    Ctrl + b ,                      ## rename current window
+$>    Ctrl + b &                      ## close current window
+$>    Ctrl + b p                      ## go to previous window
+$>    Ctrl + b n                      ## go to next window
+$>    Ctrl + b 0 ... 9                ## switch/select window by number
+$>    : swap-window -s 2 -t 1         ## reorder window, swap window number 2 (src) and 1 (dst)
+$>    : swap-window -t -1             ## move current window to the left by one position
 ## -------------------------------------
 ## Panes
-Ctrl + b ;                     ## toggle last active pane
-Ctrl + b %                     ## split pane horizontally
-Ctrl + b "                     "## split pane vertically
-Ctrl + b {                     ## move the current pane left
-Ctrl + b }                     ## move the current pane right
-Ctrl + b up-arrow              ## switch to pane to the direction
-Ctrl + b down-arrow            ## switch to pane to the direction
-Ctrl + b right-arrow           ## switch to pane to the direction
-Ctrl + b left-arrow            ## switch to pane to the direction
-: setw synchronize-panes       ## toggle synchronize-panes (send command to all panes)
-Ctrl + b Spacebar              ## toggle between pane layouts
-Ctrl + b o                     ## switch to next pane
-Ctrl + b q                     ## show pane numbers
-Ctrl + b q 0 ... 9             ## switch/select pane by number
-Ctrl + b z                     ## toggle pane zoom
-Ctrl + b !                     ## convert pane into a window
-Ctrl + b + up-arrow            ## resize current pane height (holding second key is optional)
-Ctrl + b Ctrl + up-arrow       ## resize current pane height (holding second key is optional)
-Ctrl + b + down-arrow          ## resize current pane height (holding second key is optional)
-Ctrl + b Ctrl + down-arrow     ## resize current pane height (holding second key is optional)
-Ctrl + b + right-arrow         ## resize current pane width (holding second key is optional)
-Ctrl + b Ctrl + right-arrow    ## resize current pane width (holding second key is optional)
-Ctrl + b + left-arrow          ## resize current pane width (holding second key is optional)
-Ctrl + b Ctrl + left-arrow     ## resize current pane width (holding second key is optional)
-Ctrl + b x                     ## close current pane
+$>    Ctrl + b ;                      ## toggle last active pane
+$>    Ctrl + b %                      ## split pane horizontally
+$>    Ctrl + b "                      " ## split pane vertically
+$>    Ctrl + b {                      ## move the current pane left
+$>    Ctrl + b }                      ## move the current pane right
+$>    Ctrl + b up-arrow               ## switch to pane to the direction
+$>    Ctrl + b down-arrow             ## switch to pane to the direction
+$>    Ctrl + b right-arrow            ## switch to pane to the direction
+$>    Ctrl + b left-arrow             ## switch to pane to the direction
+$>    : setw synchronize-panes        ## toggle synchronize-panes (send command to all panes)
+$>    Ctrl + b Spacebar               ## toggle between pane layouts
+$>    Ctrl + b o                      ## switch to next pane
+$>    Ctrl + b q                      ## show pane numbers
+$>    Ctrl + b q 0 ... 9              ## switch/select pane by number
+$>    Ctrl + b z                      ## toggle pane zoom
+$>    Ctrl + b !                      ## convert pane into a window
+$>    Ctrl + b + up-arrow             ## resize current pane height (holding second key is optional)
+$>    Ctrl + b Ctrl + up-arrow        ## resize current pane height (holding second key is optional)
+$>    Ctrl + b + down-arrow           ## resize current pane height (holding second key is optional)
+$>    Ctrl + b Ctrl + down-arrow      ## resize current pane height (holding second key is optional)
+$>    Ctrl + b + right-arrow          ## resize current pane width (holding second key is optional)
+$>    Ctrl + b Ctrl + right-arrow     ## resize current pane width (holding second key is optional)
+$>    Ctrl + b + left-arrow           ## resize current pane width (holding second key is optional)
+$>    Ctrl + b Ctrl + left-arrow      ## resize current pane width (holding second key is optional)
+$>    Ctrl + b x                      ## close current pane
 ## -------------------------------------
 ## Copy mode (vi mode)
-: setw -g mode-keys vi   ## use vi keys in buffer
-Ctrl + b [               ## enter copy mode
-Ctrl + b PgUp            ## enter copy mode and scroll one page up
-q                        ## quit mode
-g                        ## go to top line
-G                        ## go to bottom line
-up-arrow                 ## scroll up
-down-arrow               ## scroll down
-h                        ## move cursor left
-j                        ## move cursor down
-k                        ## move cursor up
-l                        ## move cursor right
-w                        ## move cursor forward one word at a time
-b                        ## move cursor backward one word at a time
-/                        ## search forward
-?                        ## search backward
-n                        ## next keyword occurance
-N                        ## previous keyword occurance
-Spacebar                 ## start selection
-Esc                      ## clear selection
-Enter                    ## copy selection
-Ctrl + v                 ## toggle selection mode: line <-> rectangle
-Ctrl + b ]               ## paste contents of buffer_0
-: show-buffer            ## display buffer_0 contents
-: capture-pane           ## copy entire visible contents of pane to a buffer
-: list-buffers           ## show all buffers
-: choose-buffer          ## show all buffers and paste selected
-: save-buffer buf.txt    ## save buffer contents to buf.txt
-: delete-buffer -b 1     ## delete buffer_1
+$>    : setw -g mode-keys vi          ## use vi keys in buffer
+$>    Ctrl + b [                      ## enter copy mode
+$>    Ctrl + b PgUp                   ## enter copy mode and scroll one page up
+$>    q                               ## quit mode
+$>    g                               ## go to top line
+$>    G                               ## go to bottom line
+$>    up-arrow                        ## scroll up
+$>    down-arrow                      ## scroll down
+$>    h                               ## move cursor left
+$>    j                               ## move cursor down
+$>    k                               ## move cursor up
+$>    l                               ## move cursor right
+$>    w                               ## move cursor forward one word at a time
+$>    b                               ## move cursor backward one word at a time
+$>    /                               ## search forward
+$>    ?                               ## search backward
+$>    n                               ## next keyword occurance
+$>    N                               ## previous keyword occurance
+$>    Spacebar                        ## start selection
+$>    Esc                             ## clear selection
+$>    Enter                           ## copy selection
+$>    Ctrl + v                        ## toggle selection mode: line <-> rectangle
+$>    Ctrl + b ]                      ## paste contents of buffer_0
+$>    : show-buffer                   ## display buffer_0 contents
+$>    : capture-pane                  ## copy entire visible contents of pane to a buffer
+$>    : list-buffers                  ## show all buffers
+$>    : choose-buffer                 ## show all buffers and paste selected
+$>    : save-buffer buf.txt           ## save buffer contents to buf.txt
+$>    : delete-buffer -b 1            ## delete buffer_1
 ## -------------------------------------
+## ###############################################
+## ###############################################
 ##==========================================
 ## minimize button
 ## for the icons on the right side
-gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+$> gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
 ## for the icons on the left side
-gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
-=======
+$> gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
 ## install and aсtivate a clean copy of Windows on any PC.
-https://rentry.org/installwindows
+$> firefox https://rentry.org/installwindows
 ##==========================================
 ## Static linked-terminal editor
-https://micro-editor.github.io/
+$> firefox https://micro-editor.github.io/
 ##==========================================
 ## mac pci video cam
 ## As at 8/3/2020 follow the instructions Here. 
@@ -10666,24 +10700,24 @@ https://micro-editor.github.io/
 ## They are a bit jumbled on the site so I have included them below.
 
 ## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
-sudo apt-get install git
-sudo apt-get install curl xzcat cpio
-git clone https://github.com/patjak/facetimehd-firmware.git
-cd facetimehd-firmware
-make
-sudo make install
-cd ..
-sudo apt-get install kmod libssl-dev checkinstall
-git clone https://github.com/patjak/bcwc_pcie.git
-cd bcwc_pcie
-make
-sudo make install
-sudo depmod
-sudo modprobe -r bdc_pci
-sudo modprobe facetimehd
-echo "facetimehd" >> /etc/modules
+$> sudo apt-get install git
+$> sudo apt-get install curl xzcat cpio
+$> git clone https://github.com/patjak/facetimehd-firmware.git
+$> cd facetimehd-firmware
+$> make
+$> sudo make install
+$> cd ..
+$> sudo apt-get install kmod libssl-dev checkinstall
+$> git clone https://github.com/patjak/bcwc_pcie.git
+$> cd bcwc_pcie
+$> make
+$> sudo make install
+$> sudo depmod
+$> sudo modprobe -r bdc_pci
+$> sudo modprobe facetimehd
+$> echo "facetimehd" >> /etc/modules
 ## Or by hand
-sudo nano /etc/modules
+$> sudo nano /etc/modules
 ## **add line "facetimehd", write out (ctl+o) & close**
 
 ## I had to install xz-utils instead of xzcat as the latter was not found
@@ -10694,11 +10728,12 @@ $> do rsync -options /SOURCE/PATH $d
 $> done
 
 ##==========================================
+## Printing
 
-
+$> lp -d HP-LaserJet-3050 -n 2 -o Duplex=None -o fit-to-page -o MediaType=stationery-heavyweight -o Quality=High -o PageSize=Custom.4x6in file.pdf
 ##==========================================
-
-
+## Control android
+$> firefox https://github.com/Genymobile/scrcpy
 ##==========================================
 
 
@@ -10943,99 +10978,642 @@ $> done
 
 
 ##==========================================
+alias ufetch="sh $HOME/ufetch/ufetch-arch"
+alias ..='cd ..'
+alias ls='ls -hspt --color=auto'
+alias nscan='nmap -sn address'
+alias myip='curl ipinfo.io/ip'
+alias yt2='youtube-dl -x --audio-format mp3 --audio-quality 0 --add-metadata'
+alias donkeyballs='echo "Received and understood rocinante"'
+alias stats='sudo systemctl status'
+alias fstats='sudo systemctl status > status.txt'
+alias net?='ping archlinux.org -c 5'
+alias fuckit='git push'
+alias pubsub='. $HOME/scripts/pubsub.sh'
+alias fixrofi='. ~/.config/rofi/fixrofi'
+alias networks='nmcli device wifi list'
+alias wifi-home='sudo nmcli device wifi connect sunshine password Nigerian'
+alias wifi-parents='sudo nmcli device wifi connect ORBI47 password chowchow'
+alias vol='amixer get Master | tail -1 | awk '{print$4}''
+alias volup='amixer set Master playback 15+'
+alias voldn='amixer set Master playback 15-'
+#alias wifi-of='sudo nmcli device wifi connect '
+## fix typos
+alias {G,g}{re,er}p='grep'
+alias scrcpy='scrcpy --display-buffer=5000 --audio-buffer=5000 --record ' alias t='tmux'
+alias c='clear'
+alias ch='clear && history -c'
+alias coto='tldr'
+alias czysc='sudo apt clean && sudo apt autoclean && sudo apt autoremove'
+alias del='rm -i'
+alias dir='pwd && ls'
+alias h='history -c'
+alias ls='ls --color=auto'
+alias matrix='cmatrix -a -b'
+alias mpl='mplayer'
+alias nb='nano ~/.bashrc'
+alias nh='nano ~/.bash_history'
+alias sag='sudo apt'
+alias sagi='sudo apt install'
+alias sagr='sudo apt remove'
+alias szukaj='sudo find / -name'
+alias txt='mplayer -vo caca'
+alias wywal='sudo shred -fuvz'
+alias ~~='cd ~'
+alias lualatexmk='latexmk -lualatex'
+alias cpuhtop='htop --sort-key PERCENT_CPU'
+alias memhtop='htop --sort-key PERCENT_MEM'
+alias iohtop='htop --sort-key IO_RATE'
+alias rsynccp="rsync --archive -hh --partial --progress"
+alias rsyncmv="rsync --archive -hh --partial --progress --remove-sent-files"
+alias build_source_deb="ionice -c3 schedtool -D -n 19 -e debuild -S -sd --lintian-opts --no-lintian"
+alias o="xdg-open"
+alias verynice="ionice -c3 schedtool -D -n 19 -e"
+alias dcd="sudo docker compose down"
+alias dcu="sudo docker compose up -d"
+alias dcl="sudo docker compose logs -f"
+alias dcp="sudo docker compose pull"
+alias dps="sudo docker ps"
+alias dfc="dfc -p -/dev/loop"
+alias ip="ip -color=auto"
+alias diff="diff --color=auto"
+# System with settings-tweaks
+alias cd='cl'
+alias sudo='sudo '
+alias please='sudo '
+alias apt='nala '
+alias open='xdg-open '
+alias ls='ls -pa --color=auto --group-directories-first'
+alias tree='tree -L 2 --filelimit 25 --dirsfirst --noreport'
+alias recent='ls -t -1'
+alias cp='cp -i'
+alias cpv='rsync -ah --info=progress2'
+alias mv='mv -i'
+alias mkdir='mkdir -p'
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias home='cd ~'
+alias back='cd "$OLDPWD"'
 
+# Informatic
+alias motd='cat /etc/motd | lolcat'
+alias neofetch='neofetch | lolcat'
+alias yggdrasil='cbonsai -S | lolcat -a'
+alias bonsai='cbonsai -S'
+alias news='curl us.getnews.tech'
+alias weather='curl https://wttr.in/<my home>'
+alias moon='curl wttr.in/Moon'
 
-##==========================================
+# Developer Stuff
+alias gitlog="git log --graph -n 5 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias python='python3 '
+alias init-project='git init && python3 -m venv .venv && source .venv/bin/activate'
+alias gitroot='cd $(git rev-parse --show-toplevel)'
 
+# Misc
+alias newalias='source $HOME/.bash_aliases'
+alias rebash='source .bashrc'
+alias rezsh='source .zshrc'
+alias histsearch='history | grep'
+alias trash='mv --force -t ~/.local/share/Trash'
+alias quickdict='compgen -c | fzf | xargs tldr'
+alias commanddict='compgen -c | fzf | xargs man'
+alias dirsize='du -hc . | tail -n 1'
+# Functions
+gitignore() {
+        local gitrootdir="$(git rev-parse --show-toplevel)"
+        git rm --cached "$1" -r
+        echo "$1" >> "$gitrootdir/.gitignore"
+}
 
-##==========================================
+update() {
+        sudo nala update &&
+        sudo nala upgrade -y &&
+        sudo deb-get upgrade -y &&
+        pacstall -Up &&
+        sudo nala autopurge &&
+        sudo nala clean
+}
 
+countfiles() {
+    local directory="$1"
+    local count=$(find "$directory" -type f | wc -l)
+    echo "Number of files in $directory: $count"
+}
 
-##==========================================
+cl() {
+    DIR="$*";
+        # if no DIR given, go home
+        if [ $# -lt 1 ]; then
+                DIR=$HOME;
+    fi;
+    builtin cd "${DIR}" && \
+    # use your preferred ls command
+        ls
+}
+sounddev() {
+        echo "Sources (Inputs):"
+        pactl list sources short
+        echo
+        echo "Sinks (Sources):"
+        pactl list sinks short
+        echo
+        echo "pactl set-default-{sink, source} #"
+}
 
 
-##==========================================
+## git
+alias gs='git status'
+alias gl='git log'
+alias gb='git branch'
+alias gd='git diff'
+alias gdc='git diff --cached'
 
+# github aliases
+alias git-log="git log --graph --pretty=oneline --abbrev-commit --decorate --all"
 
-##==========================================
+# yadm helpers
+alias yadm-log="yadm log --graph --pretty=oneline --abbrev-commit --decorate --all"
 
+# ls/lsd aliases
+alias l="/usr/bin/lsd"
+alias ll="/usr/bin/lsd -l"
+alias la="/usr/bin/lsd -a"
+alias lt="/usr/bin/lsd --tree --depth=4"
+alias lla="/usr/bin/lsd -la"
+alias llt="/usr/bin/lsd -l --tree --depth=4"
+alias lta="/usr/bin/lsd -a --tree --depth=4"
+alias llta="/usr/bin/lsd -la --tree --depth=4"
 
-##==========================================
+# tmux shortcut
+t()
+{
+    tmux new-session -A -s `[ -z $1 ] && echo $HOST || echo $1`
+}
+alias tls="tmux ls"
 
+# other
+alias copy='rsync -rulhH --inplace --no-inc-recursive --info=progress2'
+alias vim=nvim
+alias wget=wget --hsts-file=${XDG_DATA_HOME:-${HOME}/.local/share}/wget-hsts
+alias rm='trash'
 
-##==========================================
+# homelab
+alias deploy="docker stack deploy --resolve-image=never --with-registry-auth -c docker-compose.yml"
+alias remove="docker stack rm"
 
+alias la='ls -Alh' # show hidden files
+alias ls='ls -aFh --color=always'
+alias lx='ls -lXBh' # sort by extension
+alias lk='ls -lSrh' # sort by size
+alias lc='ls -lcrh' # sort by change time
+alias lu='ls -lurh' # sort by access time
+alias lr='ls -lRh'  # recursive ls
+alias lt='ls -ltrh' # sort by date
+alias lm='ls -alh |more' # pipe through 'more'
+alias lw='ls -xAh'  # wide listing format
+alias ll='ls -Fls'  # long listing format
+alias labc='ls -lap' #alphabetical sort
+alias lf="ls -l | egrep -v 'd'" # files only
+alias ldir="ls -l | egrep 'd'" # directories only
+alias da='date "+%Y-%m-%d %A %T %Z"'
+alias upgrade='sudo apt upgrade'
+alias update='sudo apt update'
+alias remove='sudo apt remove'
+alias autoremove='sudo apt autoclean && sudo apt autoremove'
+alias clean='sudo apt clean'
+alias edit='sudo -H gedit'
+alias gedit='nohup gedit'
+alias reboot='sudo /sbin/reboot'
+alias shutdown='sudo /sbin/shutdown'
+alias install='sudo apt install'
+alias reinstall='sudo apt reinstall'
+alias speedtest='speedtest-cli'
+alias analyze='systemd-analyze'
+alias blame='systemd-analyze blame'
+alias chain='systemd-analyze critical-chain'
+alias chart='systemd-analyze plot > test.svg'
+alias trash='sudo rm -rf ~/.local/share/Trash/*'
+alias flush='sudo journalctl --vacuum-size=10M'
+alias release='cat /etc/*release'
+alias anan='journalctl -efu ananicy.service'
+alias cache='sync; echo 3 | sudo tee /proc/sys/vm/drop_caches'
+alias swap='sudo swapoff -a && sudo swapon -a'
+alias proton='protontricks --gui --no-bwrap'
+alias weather='curl wttr.in/'
+alias grep='grep --color=auto'
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -iv' alias c='clear'
+alias cpu5='ps auxf | sort -nr -k 3 | head -5'
+alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
+alias -s {txt,yml,yaml,conf,md,list}="nvim"
+alias -s html="firefox"
+alias -s org="firefox"
+$ alias -g C='| wc -l'
+$ grep alias ~/.zsh/* C
+alias -g WL='| wc -l'
+alias -g CA="2>&1 | cat -A"
+alias -g DN="2> /dev/null"
+alias -g G='|& egrep'
+alias -g H='|& head'
+alias -g L='|& less'
+alias -g B='|& bat'
+alias -g TF='|& tail -f'
+alias -g M='| most'
+alias -g SNR='| sort -nr'
+alias -g S='| sort'alias -g X='| xargs'
+alias -g X0G='| xargs -0 egrep'
+alias -g X0='| xargs -0'
+alias -g ND='*(/om[1])' # newest directory
+alias -g NF='*(.om[1])' # newest file
+alias iptl='sudo /sbin/iptables -L -n -v --line-numbers'
+alias iptlin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
+alias iptlout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
+alias iptlfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
+alias iptlnat='sudo /sbin/iptables -t nat -n -v --line-numbers'
+alias gitar="git ls-files -d -m -o -z --exclude-standard | xargs -0 git update-index --add --remove"
+alias g='git'
+alias gpd='git push origin develop'
+alias gpm='git push origin master'
+alias gst='git status'
+alias gcom='git commit -m --all'
+alias gclo='git clone'
+alias glog='git log'
+alias gadd='git add . --verbose'
+alias gco='git checkout'
+alias gls='git ls-files'
+alias gpall='git push --all'
+alias msr='mysql -u root -p'
+alias restartapache='sudo systemctl restart apache2 && sudo systemctl status -l apache2'
+alias apachedit='sudo vim /etc/apache2/apache2.conf'
+alias apachegrace='sudo apachectl graceful'
+alias apachelog="less +F /var/log/apache2/*.log"
+alias accio=ansibleSetup
+alias ans='ansible'
+alias ansp='ansible-playbook'
+alias lxcls="lxc-ls --fancy"
+alias lxcat="lxc-attach -n $@"
+alias lxcstop="lxc-stop -n $@"
+alias lxcstart="lxc-start -n $@"
 
 ##==========================================
 
+## Especially for Debian/Ubuntu :
+alias apti='sudo apt-get install'
+alias apts="sudo apt-cache search"
+alias aptr='sudo apt-get remove'
+alias orphand='sudo deborphan | xargs sudo apt-get -y remove --purge'
+alias aptclean='sudo apt-get autoclean && sudo apt-get autoremove && sudo apt-get clean && sudo apt-get remove && orphand'
+alias upd="sudo apt-get update && sudo apt-get upgrade --only-upgrade -y | tee /var/log/divers/packages-update-$(date +%F).log; sudo apt-get -f install; sudo apt autoclean; sudo apt autoremove"
+alias dodo='sudo /sbin/poweroff'
+alias reboot='sudo /sbin/reboot'
+alias poweroff='sudo /sbin/poweroff'
+alias halt='sudo /sbin/poweroff'
+alias shutdown='sudo /sbin/shutdown'
+alias stamp='echo $(date "+%A_%d/%m/%Y_%Hh%M)'
+alias now='echo $(date +"%T)"'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias please='sudo $(history -p \!\!)'
+alias sduo='sudo'
+alias suod='sudo'
+alias svi='sudo nvim' alias us="su"
+alias vi='nvim'
+alias edit='nvim'
+alias emacs='nvim'
+# Arch Linux "don't panic" updater
+alias         pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── 🔃 yesterday pkgs available at ───${COLOR_GRANADE}
+https://archive.archlinux.org/repos/$(date --date=yesterday '+%Y/%m/%d')
+by name : https://archive.archlinux.org/packages
+$COLOR_LIGHT_GREY
+\" ; paru"
+alias         ip='ip   --color                   '
 
-##==========================================
+# no qalc, 20°Cx2 doesn't equals 40°C
+alias       qalc='echo -en "\e]2;🧮 qalc\a"; qalc --set="temp 1"'
 
+alias   'rh#'=' systemctl      reboot    #'
+alias   'rs#'=' systemctl soft-reboot    #'
+alias pwr_cya=' systemctl hibernate      #'
+alias pwr_sby=' systemctl hybrid-sleep   #'
+alias pwr_zzz=' xset dpms force  off     #'
 
-##==========================================
+alias        cls=' echo -ne "\033c"                 #' # clear for real
+alias         :x=' exit 0                           #'
+alias         :X=' :x                               #'
+alias         :q=' :x                               #'
+alias         :Q=' :x                               #'
+alias        l='lsd        --long     --almost-all --group-dirs first --hyperlink=always         '
+alias       sl=' l                                                                               '
+alias powershell='echo -en "\e]2;🪟 Poweshell\a"; pwsh    '
+alias      vs='sudo     $EDITOR'
+alias      Sw='sudo     $EDITOR'
+alias     :Sw='sudo     $EDITOR'
+export MANPAGER="nvim    +Man! '+colorscheme base16-eighties' -"
 
+alias ii="xdg-open" # just like Windows
 
-##==========================================
+alias qr_cam="zbarcam"
+alias sc='systemctl'
+alias jc='journalctl'
 
 
-##==========================================
+alias du='du -h'
+alias df='df -h -x tmpfs -x devtmpfs -x squashfs'
+alias mkdir='mkdir -p'
+alias ls='ls -hqvF --group-directories-first --color=auto'
+alias rsync='rsync --info=progress2 --partial -Lrutz'
+alias hosts='grep -E "Host ([^*]+)$" $HOME/.ssh/config | cut -d" " -f2-'
+alias ll="ls -lah"
+alias drma='docker rm -f $(docker ps -a -q)'
+alias fixperms='sudo chown -R $(whoami):$(whoami) . && sudo chmod -R a=,a+rX,u+w,g+w .'
 
+function upd() {
+  if [[ $OSTYPE == "linux"* ]]; then
+    sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+  fi
+  if [[ $OSTYPE == "darwin"* && $(command -v brew) != "" ]]; then
+    brew update && brew upgrade
+  fi
+}
 
-##==========================================
+function killport() {
+  sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
+}
 
+gc=‘git commit -am’
+gcane=‘git commit —amend —no-edit`
+gp=‘git push’
+gpfl=‘git push —force-with-lease’
+gs=‘git status’
+gd=‘git diff’
 
-##==========================================
+# Recommit with the previous commit message
+gcr=‘git commit -am “$(cat “$(git rev-parse —git-dir)/COMMIT_EDITMSG”)”’
 
+# ffmpeg-normalize for normalizing volume levels of videos
+# Example: normalize video.mp4
+alias normalize='ffmpeg-normalize -v'
 
-##==========================================
+# qpdf for combining PDFs
+# Example: combine-pdf first.pdf second.pdf -- combined.pdf
+alias combine-pdf='qpdf --empty --page'
 
+# yt-dlp audio-only
+# Example: mp3-dl https://www.youtube.com/watch?v=dQw4w9WgXcQ
+alias mp3-dl='yt-dlp -x -f bestaudio --audio-format mp3 --audio-quality 128k'
+# kill and restart powerline
+alias pd="powerline-daemon -k && powerline daemon -q"
 
-##==========================================
+# check and install updates automatically
+alias sys-up="sudo dnf upgrade -y --refresh"
 
+# sys-up with terminal close
+alias sys-upgrade="sys-up && exit"
 
-##==========================================
+# sys-up with shutdown
+alias sys-up-down="sys-up && shutdown now"
 
+alias sodu="sudo"
+alias vd="yt-dlp"
+alias clr="clear && ls"
+alias o="xdg-open"
+alias c="cal | sed "s/$(date +%e)/"$'\033\[94m&\033\[0m/g'"
+alias python="python3"
+alias ..="cd .."
+alias ...="cd ../.."
+alias boss='while [ TRUE ]; do head -n 100 /dev/urandom; sleep .05; done | hexdump -C | grep "ff 25"'
+alias map="telnet mapscii.me"
+alias myip="wget https://ipinfo.io/ip -qO -"
+alias fuck='sudo $(history -p \!\!)'
+alias h='eval "$(history -p \!\! | awk '\''{print $1}'\'')" --help'
 
-##==========================================
+inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 
 
-##==========================================
+if [[ $inside_get_repo ]]; then
+    alias rm='git rm'
+elif [[ -e "/usr/bin/trash" ]]; then
+    alias rm='trash'
+else
+    alias rm='rm -i'
+fi
 
 
-##==========================================
+function _cd {
+    # typing just `_cd` will take you $HOME ;)
+    if [ "$1" == "" ]; then
+          pushd "$HOME" > /dev/null
+          # use `_cd -` to visit previous directory
+    elif [ "$1" == "-" ]; then
+          pushd "$OLDPWD" > /dev/null
+          # use `_cd -n` to go n directories back in history
+    elif [[ "$1" =~ ^-[0-9]+$ ]]; then
+          for i in `seq 1 ${1/-/}`; do
+              popd > /dev/null
+          done
+          # use `_cd -- <path>` if your path begins with a dash
+    elif [ "$1" == "--" ]; then
+          shift pushd -- "$@" > /dev/null
+          # basic case: move to a dir and add it to history
+    else
+          pushd "$@" > /dev/null
+    fi
+}
 
 
-##==========================================
+# replace standard `cd` with enhanced version, ensure tab-completion works
 
 
-##==========================================
+alias cd='_cd'
+complete -d cd
 
 
-##==========================================
+#
+alias ..='cd ..' #go to parent dir
+alias ...='cd ../..' #go to grandparent dir
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
 
 
-##==========================================
+alias star_wars='telnet towel.blinkenlights.nl'
 
 
-##==========================================
+cdate     = !git add --all && git commit --message \"Commit for $(date -I)\"
+cdatetime = !git add --all && git commit --message \"Commit for $(date -Iseconds)\"
+cyolo     = !git add --all && git commit --message \"$(fortune -n 72 -s)\" && git push --force
+cyolo2    = !git add --all && git commit --message \"$(fortune -n 72 -s)\"
+cyolo3    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\" && git push --force
+cyolo4    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\"
+cidk      = !git add --all && git commit --message '¯\\_(ツ)_/¯' && git push --force
+cidk2     = !git add --all && git commit --message '¯\\(°_o)/¯'
 
+alias ls='exa -l --icons --color=always --group-directories-first'
+alias la='exa -l --all --icons --color=always --group-directories-first'
+alias ProtonUp='ProtonUp-Qt-2.9.1-x86_64.AppImage'
+alias yuzu='yuzu-mainline-20240212-1d765bdb8.AppImage'
+#script with my aliases
+alias c="clear"
+alias ff="fastfetch"
+alias ls="ls --color=auto"
+alias l="ls -la --color=auto"
+alias ll="ls -l --color=auto"
+alias la="ls -a --color=auto"
+alias lt="ls -h --size -1 -S --classify"
+alias ll="ls -Alhp --group-directories-first"
+alias s="systemctl start"
+alias st="systemctl status"
+alias ss="systemctl stop"
+alias sr="systemctl restart"
+alias se="systemctl enable"
+alias sd="systemctl disable"
+alias sh="~/.scripts/hibernate.sh"
+alias suspend="systemctl suspend"
+alias locate="plocate -i"
+alias v="vim"
+alias untar="tar -axvf"
+alias du="du -h --max-depth=1"
+alias search="yay -Ss"
+alias install="sudo pacman -S"
+alias ynstall="yay -S"
+alias update="sudo pacman -Syu"
+alias ypdate="yay -Syu"
+alias remove="sudo pacman -Rns"
+alias rymove="yay -Rns"
+alias upgrade="update && ypdate"
 
-##==========================================
+#common foders
+alias dl="cd ~/Downloads"
+alias ms="cd ~/Music"
+alias dr="cd ~/Dropbox"
+alias pr="cd ~/Projects"
+alias dots="cd ~/.dotfiles"
+alias ~="cd ~"
+alias ..="cd ..;pwd"
+alias ...="cd ../..;pwd"
+#balena
+alias balena="nohup /usr/bin/balenaEtcher-1.14.3-x64.AppImage > /dev/null &"
+#git
+alias g="git $1"
+alias gs="git status"
+alias gl="git log"
+alias gd="git diff $1 $2"
+alias gi="git init $1"
+alias gr="git remote $1"
+alias gf="git fetch $1"
+alias gm="git merge $1"
+alias gr="git reset $"
+alias gsw="git switch"
+alias gco="git checkout $1"
+alias gcb="git checkout -b $1"
+alias ga="git add $1"
+alias gaa="git add ."
+alias gcm="git commit -m 'minor fixes'"
+alias gc="git commit -m $1"
+alias gp="git push $1 $2"
+alias gpo="git push origin $1"
+alias gpom="git push origin master"
+alias gpm="gaa && gcm && gp"
+alias gplom="git pull origin master"
+alias gpl="git pull $1 $2"
+alias gplr="git pull --rebase $1 $2"
+alias gsh="git stash"
+alias gshp="git stash pop"
+#config edit
+alias i="vim ~/.config/i3/config"
+alias ic="vim ~/.config/i3/custom.config"
+alias p="vim ~/.config/polybar/config.ini"
+alias pc="vim ~/.config/polybar/custom.config.ini"
+alias r="vim ~/.config/rofi/config.rasi"
+alias x=startx
+#dotman / .dotfiles repo
+alias dotman="~/.dotfiles/dotman.sh"
+# hibernation
+alias sleep="systemctl hibernate"
+# wifi on/off
+alias wifion="nmcli radio wifi on"
+alias wifioff="nmcli radio wifi off"
+# Vim for root
+alias rvim="sudo -E vim"
+# Bash shortcuts
+alias mx="chmod +x"
+alias psg="ps -aux | grep"
+# 7Z
+alias unzip="7z x '*.zip';7z x '*.7z';7z x '*.rar'"
+# cmus
+alias cmus="[ -f /sbin/cmus ] && cd ~/Music && cmus && cd - > null"
+# haskell
+alias cr="cabal repl"
+alias cb="cabal build"
+alias ci="cabal install"
+alias gh="ghcid"
+alias cbi="cabal build && cabal install --overwrite-policy=always"
+alias h="cd ~/Projects/haskell"
+# misc
+alias i3asus="cp ~/.dotfiles/i3/.config/i3/config ~/.config/i3/"
+alias yt="yt-dlp -f $1 $2"
+# save last command from history to a file
+# tip, add a comment to end of command before saving, ex: ls --color=auto # colored ls output
+a sl='fc -ln -1 | sed "s/^\s*//" >> ~/.saved_commands.txt'
+# short-cut to grep that file
+a slg='< ~/.saved_commands.txt grep'
 
+  aliases = {
+    "x" = "exit";
+    "celar" = "clear";
+    "tf" = "terraform";
+    "kubeclt" = "kubectl";
+    "edit" = "cd /home/jsh/git/jsh-nix/";
+    "nixfmt" = "nixpkgs-fmt";
+    "osbuild" = "nix build .#nixosConfigurations.$(hostname).config.system.build.toplevel";
+    "osinstall" = "./result/bin/switch-to-configuration switch";
+    "tvfb" = "filebot -r -rename * -non-strict --format /home/jsh/TV/\"{n.space('_')}-{y}/{s00e00}-{t.space('_')}\"";
+    "moviefb" = "filebot -rename * -non-strict --format \"{n.space('_')}-{y}\"";
+  };
 
-##==========================================
+alias lsd='ls -l | grep ^d'
+alias lslrt='find . -printf '\''%T@ %t %p\n'\'' | sort -k 1 -n | cut -d'\'' '\'' -f2-'
+alias lsrt='find . -type f -printf '\''%T@ %P\n'\'' | sort -n | awk '\''{print }'\'''
+alias memacs='emacs -mm'
+alias mkdir='mkdir -p'
+alias more='/usr/bin/less'
+alias mv='mv -i'
+alias rm='rm -i'
 
+#alias rebuild=sudo nixos-rebuild
+#alias jfu='journalctl -fu'
+#alias jru=‘journalctl -ru'
+#alias python=‘python3’ # or vice Versa depending on os
+#alias copy=‘xclip -selection c’
 
-##==========================================
+alias ffmpeg='ffmpeg -hide_banner'
+alias pacman='sudo pacman'
+alias yay='yay --sudoloop'
+alias c=clear
+alias :=sudo
+# render input with syntax highlighting
+alias hl='highlight -t3 -O xterm256'
 
+# generate inline QR code of supplied data
+alias qr='qrencode -t ANSI256 -o - '
 
-##==========================================
+# generate random password
+alias pwgen='cat /dev/urandom | head -c 1024 | base64 | head -c 16 ; echo'
 
+# determine wan IP address by querying OpenDNS resolver
+alias wanip='dig +short myip.opendns.com @208.67.220.220'
 
-##==========================================
+# display password and QR code for currently connected WiFi network
+alias wifipwd='nmcli dev wifi show-password'
 
+alias ls='exa --group-directories-first'
+alias ll='exa -l --group-directories-first'
 
-##==========================================
+alias yt2mp3="yt-dlp -x --audio-format mp3 -o '%(title)s.%(ext)s'"
+alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --cookies '/home/vorthas/Software/0-Configuration/youtube.com_cookies.txt'"
 
 
 ##==========================================
@@ -11060,144 +11638,429 @@ $> done
 
 
 ##==========================================
-
-
+## search_provider_overrides in chrome
+vim /etc/chromium/master_preferences
 ##==========================================
+https://scontent-sjc3-1.xx.fbcdn.net/v/t39.8562-6/369652058_690162392972818_1173984281354057457_n.gif?_nc_cat=103&ccb=1-7&_nc_sid=f537c7&_nc_ohc=_sbguaRNMh8AX9mF1FA&_nc_ht=scontent-sjc3-1.xx&oh=00_AfC00xMdarkmXSPd_fWQUqYot1cWXHCeHS0qI7mHQkaDFw&oe=65B01213
 
-
 ##==========================================
 
+## MIT: Machine Learning 6.036, Lecture
+https://www.youtube.com/playlist?list=PLxC_ffO4q_rW0bqQB80_vcQB09HOA3ClV
 
 ##==========================================
+## gnome thumbnails in the file picker
+yay -Sy gtk2-patched-filechooser-icon-view gtk3-patched-filechooser-icon-view
 
-
 ##==========================================
-
+## Viewing CSV Files in a Better Format
 
-##==========================================
+function view_csv_pretty {
+    if [ -z "$1" ]; then echo "Usage: view_csv_pretty <file.csv>"
+    else cat "$1" | column -s, -t | less -F -S -X -K
+    fi
+}
 
+This bash function comes in pretty handy when viewing csv files directly on the terminal. Here’s the explanation for this one liner.
 
-##==========================================
+    cat "$1": Reads the content of the specified CSV file.
+    column -s, -t: Uses the column command to format the content into a table
+        -s,: Specifies that columns are separated by commas in the CSV file.
+        -t: Tells column to create the table output.
+    less -F -S -X -K:
+        less: Displays the formatted table output in the terminal.
+        -F: Quits if the entire file fits on one screen.
+        -S: Chops long lines to fit within the screen width.
+        -X: Leaves the screen’s contents intact upon exiting less
+        -K: Exits less on Ctrl+C.
 
+Checking Recently Modified Files
 
 ##==========================================
+## This Bash function, recently_modified, proves to be quite handy for my team when keeping track of the latest modifications made to various files on the server.
 
+function recently_modified() {
+    recent_file=$(ls -t | head -n1)
+    echo "Most recently modified file: $recent_file"
+}
 
 ##==========================================
+## Compressing Multiple Files
 
+function compress_files() {
+    if [ -z "$1" ]; then echo "Usage: compress_files <archive_name.zip> <file1> <file2> ..."
+    else zip -r "$1" "${@:2}"
+    fi
+}
 
 ##==========================================
+## Searching text in files
 
+function search_text_in_files() {
+    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: search_text_in_files <directory> <search_term>"
+    else grep -rnw "$1" -e "$2"
+    fi
+}
 
 ##==========================================
+## Checking high usage memory processes
 
+function process_with_most_memory() {
+    ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
+}
 
 ##==========================================
+## Listing Open Ports
 
+function list_open_ports() {
+    netstat -tuln
+}
 
 ##==========================================
+## Listening Ports for specific process
 
+function find_listening_ports() {
+    if [ -z "$1" ]; then echo "Usage: find_listening_ports <pid>"
+    else ss -tulnp | grep "$1"
+    fi
+}
 
 ##==========================================
-
+## ###################################################
+## ##    tailscale headscale
+## ###################################################
+## tailscale with their server
+https://tailscale.com/
+## Add a device
+curl -fsSL https://tailscale.com/install.sh | sh
+## Register
+S^20240519_03:00:36~
+sudo tailscale up --operator=$USER
+##---------------------------
+## Headscale
+https://headscale.net/running-headscale-linux/
+## Create a headscale server instance
+## ssh to server
+ssh ops@34.83.225.82
+## Install
+## Download the latest Headscale package for your platform (.deb for Ubuntu and Debian).
+https://github.com/juanfont/headscale/releases/download/v0.22.3/headscale_0.22.3_linux_amd64.deb
+## OR
+HEADSCALE_VERSION="0.22.3" # See above URL for latest version, e.g. "X.Y.Z" (NOTE: do not add the "v" prefix!)
+HEADSCALE_ARCH="amd64" # Your system architecture, e.g. "amd64"
+wget --output-document=headscale.deb \
+  "https://github.com/juanfont/headscale/releases/download/v${HEADSCALE_VERSION}/headscale_${HEADSCALE_VERSION}_linux_${HEADSCALE_ARCH}.deb"
+sudo apt install ./headscale.deb
+## Setup configuration
+sudo vim /etc/headscale/config.yaml
+## OR
+sed -i 's/listen_addr: 127.0.0.1:8080/listen_addr: 0.0.0.0:8080/' /etc/headscale/config.yaml
+sed -i 's/grpc_listen_addr: 127.0.0.1:50443/grpc_listen_addr: 0.0.0.0:50443/' /etc/headscale/config.yaml
+## Enable and turn on headscale
+sudo systemctl enable headscale
+sudo systemctl start headscale
+sudo systemctl status headscale
+## Using Headscale
+#sudo headscale users create myfirstuser
+sudo headscale users create YOURMACHINENAMEHERE
+## Find the URL of the new Headscale server and use that and a generated key to
+## Generate a key using the command line:
+## Return a pre-authenticated key that is used to connect a node to headscale during the tailscale command:
+sudo headscale --user YOURMACHINENAMEHERE preauthkeys create --reusable --expiration 24h
+## Will spit out a key to add to the machine to add to the mesh tailnet network.
+##------------------------------------------
+## tailscale with headscale server
+https://tailscale.com/
+## Add a device
+curl -fsSL https://tailscale.com/install.sh | sh
+## Register
+## On client, Use key from above.
+sudo tailscale up --login-server=http://34.83.225.82:8080 --authkey=08bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5286
+sudo tailscale status --json
+## find your Tailscale IPv4 address by running:
+tailscale ip -4
+##=======================================
+## ###################################################
 
 ##==========================================
-
-
+## Transcode video and remove audio
+$> ffmpeg -i -an video.mp4 video.webm
 ##==========================================
-
-
+## Find out what services are most active
+$> systemd-analyze blame
+##==========================================
+## French AI startup Mistral tweeted
+https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
+## a magnet link
+magnet:?xt=urn:btih:208b101a0f51514ecf285885a8b0f6fb1a1e4d7d&dn=mistral-7B-v0.1&tr=udp%3A%2F%http://2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%http://2Ftracker1.520.jp%3A443%2Fannounce
+## to their first publicly released, open sourced LLM, writes Slashdot reader jenningsthecat. "That might be merely interesting if not for the fact that the chatbot has remarkably few guardrails."
+https://docs.mistral.ai/quickstart/
+## If you have downloaded the weights in the Hugging Face format on your local instance in the folder /path/to/model, you can directly run:
+docker run --gpus all \
+    -p 8000:8000 \
+    -v /path/to/model/:/mnt/model/ \
+     ghcr.io/mistralai/mistral-src/vllm:latest \
+    --host 0.0.0.0 \
+    --model="/mnt/model/"
+##
+https://docs.mistral.ai/api
+## You can then use the following command to start the server:
+python -u -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
+##==========================================
+## Search google, and get all the links, in one command! [POSIX]
+## With this command, you can search google, and scrape the answers, one line:
+$> printf 'GET /search?q=my+query\n' | nc google.com 80 | tidy --custom-tags blocklevel -i | awk '/\/url\?q=.*/{print $0}'
+##==========================================
+$> firefox https://www.cyberciti.biz/faq/bash-for-loop/
+##==========================================
+##
+rsync -e "ssh -i ~/.ssh/key" -aAXvP $wd/your-files $pc:/path/to/upload
+##==========================================
+$> firefox https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
+##==========================================
+## Cleanup remote git repository of all branches already merged into master
+## This is useful in teams where developers don't bother to remove branches after merging PR. These branches make it hard to seek for really useful branches, which gives us a nice value of finding and exploring other people's code even before they create PR for it.
+$> git branch --remotes --merged | grep -v master | sed 's@ origin/@:@' | xargs git push origin
+##==========================================
+## Remove multiple entries of the same command in .bash_history with preserving the chronological order
+## Only the first appearance of a repeated command in the history will be kept. Otherwise, if you prefer to keep last occurrence of a repeated command then maybe you can achieve that by including reverse input/output i.e with 'tac' command in expression above. To see statistics of removed repeated commands: diff --suppress-common-lines -y ~/.bash_history.bak ~/.bash_history|uniq -c|sort -n|tr -s " "|sed '/^ 1/d'|grep '<'
+$> cp -a ~/.bash_history ~/.bash_history.bak && perl -ne 'print unless $seen{$_}++' ~/.bash_history.bak >~/.bash_history
+##==========================================
+## Define a word from Linux Terminal
+## The link gets the definition from vocabulary.com. In case you are behind firewall, use --proxy URL in the curl option. Show Sample Output
+$> function define() { curl -s https://www.vocabulary.com/dictionary/$1 | grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}' }
+##==========================================
+## Visual alert with keyboard LEDs
+$> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
+##==========================================
+## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
+$> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
+##==========================================
+## Check difference between two file directories recursively
+$> diff <(tree /dir/one) <(tree /dir/two)
+##==========================================
+## Print all git repos from a user
+$> curl -s https://api.github.com/users/<username>/repos?per_page=1000 |grep git_url |awk '{print $2}'| sed 's/"\(.*\)",/\1/'
+##==========================================
+## Get all upgradable deb packages in a single line
+## Works for debian and ubuntu based distros. Show Sample Output
+$> apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
+##==========================================
+## rsync using pem file
+## Especially useful while syncing to Amazon EC2 instance. avz stands for archive verbose compress
+$> rsync -e 'ssh -i /root/my.pem' -avz /mysql/db/data_summary.* ec2-1-2-4-9.compute-1.amazonaws.com:/mysql/test/
+##==========================================
+## List the binaries installed by a Debian package
+## GNU greps perl-compatible regular expression(PCRE).
+$> binaries () { dpkg -L "$1" | grep -Po '.*/bin/\K.*'; }
+## or
+$> binaries () { for f in $(dpkg -L "$1" | grep "/bin/"); do basename "$f"; done; }
+##==========================================
+## Find dupe files by checking md5sum
+$> find /glftpd/site/archive -type f|grep '([0-9]\{1,9\})\.[^.]\+$'|parallel -n1 -j200% md5sum ::: |awk 'x[$1]++ { print $2 " :::"}'|sed 's/^/Dupe: /g'|sed 's,Dupe,\x1B[31m&\x1B[0m,'
+##==========================================
+## Make window transparent (50% opacity) in Gnome shell
+## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+##==========================================
+## Delete all local git branches that have been merged and deleted from remote
+$> git branch -d $( git branch -vv | grep '\[[^:]\+: gone\]' | awk '{print $1}' | xargs )
+##==========================================
+## rsync should continue even if connection lost
+## Manage partial uploads using append option.
+$> rsync --archive --recursive --compress --partial --progress --append root@123.123.123.123:/backup/somefile.txt.bz2 /home/ubuntu/
+##==========================================
+## convert raw camera image to jpeg
+## raw image created by canon digital camera. Install using apt-get install ufraw
+$> for i in *.CR2; do ufraw-batch $i --out-type=jpeg --output $i.jpg; done;
+##==========================================
+## Check if port is open on remote machine
+## Check if port is open, if you dont have ncat on your machine. Show Sample Output
+$> echo > /dev/tcp/127.0.0.123/8085 && echo "Port is open"
+##==========================================
+## List all accessed configuration files while executing a program in linux terminal (improved version)
+## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
+$> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
+##==========================================
+## Tail a log and replace according to a sed pattern
+## Tails a log and replaces it line-by-line according to whatever you want to replace. Useful if the file writing to the log cant be modified, so you need to modify its output instead. Show Sample Output
+$> tail -F logfile|while read l; do sed 's/find/replace/g' <<< $l; done
+##==========================================
+## find hard linked files (duplicate inodes) recursively
+## If you have two sets of files that may share hard-linked files, it can be useful to identify which ones are hard links to same underlying inode (file). This command shows you all of those, sorted by inode#. In my example the two directory trees to compare share a common parent, so I run the command in that parent and just use find . to start from the current directory. If yours are in different locations, you can pass both paths to find: find /directory1 /directory2 -type f -printf '%10i %p\n' | sort | uniq -w 11 -d -D | less Show Sample Output
+$> find . -type f -printf '%10i %p\n' | sort | uniq -w 11 -d -D | less
+##==========================================
+## Find out how much ram memory has your video (graphic) card
+$> glxinfo |grep -i -o 'device|memory\|[0-9]\{1,12\} MB'|head -n 1
+##==========================================
+## Find non-ASCII and UTF-8 files in the current directory
+$> find . -type f -regex '.*\.\(cpp\|h\)' -exec file {} \; | grep "UTF-8\|extended-ASCII"
+##==========================================
+## openssl Generate Self Signed SSL Certifcate
+## generating self signed ssl certificate to use in dovecot postfix nginx Self signed certificates can be used for private encryptions between server and client and must be manually accepted on browser/ client Show Sample Output
+$> openssl req -newkey rsa:2048 -nodes -keyout /etc/ssl/private/myblog.key -x509 -days 365 -out /etc/ssl/private/myblog.pem
+##==========================================
+## rename / move Uppercase filenames to lowercase filenames current directory
+## move filename/rename filenames with Uppercase to lowercase in current directory Show Sample Output
+$> FileList=$(ls); for FName in $FileList; do LowerFName=$(echo "$FName" | tr '[:upper:]' '[:lower:]'); echo $FName" rename/move to $LowerFName"; mv $FName $LowerFName; done
+##==========================================
+## Save a copy of all debian packages in the form in which they are installed and configured on your system
+## A copy of all installed debian packages on your system will be put back together, with all changes in configuration files you made and placed in the current directory. Make sure you have enough disk space (say 2-3 GB). Break any time with Ctrl+C. Show Sample Output
+$> for a in $(sudo dpkg --get-selections|cut -f1); do dpkg-repack $a|awk '{if (system("sleep .5 && exit 2") != 2) exit; print}';done
+##==========================================
+## Command to logout all the users in one command
+$> sudo who | awk '!/root/{ cmd="/sbin/pkill -KILL -u " $1; system(cmd)}'
+##==========================================
+## Compute newest kernel version from Makefile on Torvalds git repository
+## Get newest kernel version by parsing the most bleeding-edge Makefile possible. Useful for doing things like writing live ebuilds and/or self-updating PKGBUILDs for testing purposes. Breakdown: * wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile — retrieve Makefile and pipe to stdout * head -n5 — only the first 5 lines are relevant, thats where all the version variables are grep -E '\ \=\ [0-9]{1,}' — version variables always have an equals sign followed by a number * cut -d' ' -f3 — extract the individual numbers from the version variables * tr '\n' '.' — replace newlines with periods * sed -e "s/\.$//" — remove trailing period Show Sample Output
+$> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile | head -n5 | grep -E '\ \=\ [0-9]{1,}' | cut -d' ' -f3 | tr '\n' '.' | sed -e "s/\.$//"
+##==========================================
+## scan multiple log subdirectories for the latest log files and tail them
+$> ls /var/log/* -ld | tr -s " " | cut -d" " -f9 | xargs -i{} sh -c 'echo "\n---{}---\n"; tail -n50 {}/`ls -tr {} | tail -n1`'
+`
+##==========================================
+## Show current network interface in use
+$> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
+##==========================================
+## Batch-Convert text file containing youtube links to mp3
+$> cat playlist.txt | while read line; do youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" ytsearch:"$line" ;done
+##==========================================
+## Combine multiple images into a video using ffmpeg
+## The -start_number can be ignored if sequence starts with 0, otherwise use first number in sequence
+$> ffmpeg -start_number 0053 -r 1/5 -i IMG_%04d.JPG -c:v libx264 -vf fps=25 -pix_fmt yuv420p out.mp4
+##==========================================
+## Find failures with journalctl
+## Sometimes things break. You can find the most recent errors using a combination of journalctl, along with the classic tools sort and uniq Show Sample Output
+$> journalctl --no-pager --since today --grep 'fail|error|fatal' --output json | jq '._EXE' | sort | uniq -c | sort --numeric --reverse --key 1
+##==========================================
+## Show tcp connections sorted by Host / Most connections
+$> netstat -ntu|awk '{print $5}'|cut -d: -f1 -s|sort|uniq -c|sort -nk1 -r
+##==========================================
+## Download audio from youtube video
+$> yt-dlp -f 'ba' -x --audio-format mp3 https://www.youtube.com/watch?v=1La4QzGeaaQ -o '%(id)s.%(ext)s'
+##==========================================
+## Run a command as soon as another long-running command finishes. E.g. suspend the machine after performing apt upgrade. The process is selected interactively via fzf.
+$> tail --pid="$(ps -A -o pid,args | fzf | awk '{print $1}')" -f /dev/null && echo DONE
+##==========================================
+## Query cheat.sh from the termianl. A quick access cheat sheet for a range of linux commands!
+$> curl cheat.sh/<comamnd-to-search>
+##==========================================
+## Track flight information from the command line
+## See the flight information from the CLI Use as a SH file or function, like: `./flight.sh os 336`
+$> function flight_status() { curl --silent --stderr - "https://mobile.flightview.com/TrackByRoute.aspx?view=detail&al=$1&fn=$2&dpdat=$(date +%Y%m%d)" | html2text | grep -A19 "Status" ; } ; flight_status $1 $2
+##==========================================
+## Find non ascii characters in files in folder
+$> find . -type f -regex '.*\.\(cpp\|h\)' -exec grep -Pl "[\x80-\xFF]" {} \; | xargs -I % bash -c 'echo "%"; grep --color='auto' -P -n "[\x80-\xFF]" "%"'
+##==========================================
+## Output requirements.txt packages pinned to latest version
+## Given a requirements.txt file with unpinned package names, output the packages pinned to the latest version. Handy to copy/paste back into your requirements.txt when you start a new project. Note that this will download packages but not install them. Show Sample Output
+$> pip install -r requirements.txt --dry-run --no-deps --ignore-installed | tail -n1 | tr ' ' '\n' | tail -n+3 | sed -e "s/\(.*\)-/\1==/"
+##==========================================
+## QEMU From Fedora Livecd + Device CD + Device Disk + UEFI + 800x600 forced
+$> sudo qemu-system-x86_64 -enable-kvm -cpu host -M q35 -m 2G -smp 4 --bios /usr/share/edk2/ovmf/OVMF_CODE.fd -drive id=cdrom,file=/dev/sr1,if=none,media=cdrom,format=raw,readonly=on -drive id=disk,file=/dev/md126,if=none,format=raw -device virtio-blk-pci,drive=cdrom -device virtio-blk-pci,drive=disk -device VGA,vgamem_mb=64,xres=800,yres=600
+##==========================================
+## List all packages in Ubuntu/Debian that no package depends on
+$> dpkg-query --show --showformat='${Package}\t${Status}\n' | tac | awk '/installed$/ {print $1}' | xargs apt-cache rdepends --installed | tac | awk '{ if (/^ /) ++deps; else if (!/:$/) { if (!deps) print; deps = 0 } }'
+##==========================================
+## Show a zoomable world map
+$> telnet mapscii.me
+##==========================================
+## Convert an image sequence into a video
+$> ffmpeg -framerate 30 -pattern_type glob -i '*.jpg' -c:v libx264 -pix_fmt yuv420p out.mp4
+##==========================================
+## List all files in a folder in a git repository by last commit date
+## This lists all the files in a folder, then finds the commit date for them one by one, then sorts them from newest to oldest
+$> git ls-tree --name-only HEAD foldername/ | while read filename; do echo "$(git log -1 --format="%ci " -- $filename) $filename"; done | sort -r
+##==========================================
+## Download Video & extract only a specific Time of it
+$> ffmpeg $(yt-dlp -g 'https://de.pornhub.com/view_video.php?viewkey=ph637366806d6eb' | sed 's/^/-ss 00:05 -i /') -t 01:00 -c copy out.mp4
+##==========================================
+## Sudoers: bypass all password prompts
+## If you as the sole user of a computer at home only don’t like needing to repeatedly type a password each time you run a command, using ‘NOPASSWD’ in sudoers for your specific username is for you.
+$> echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 ##==========================================
 https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
+https://darkhz.github.io/bluetuith/
 
 
-##==========================================
 
 ##==========================================
 ## Watch the network for activity to discover devices
-sudo netdiscover -r 192.168.0.1/24
-
-
-Android Debug Bridge version 1.0.25
-
- -d                            - directs command to the only connected USB device
-                                 returns an error if more than one USB device is present.
- -e                            - directs command to the only running emulator.
-                                 returns an error if more than one emulator is running.
- -s <serial number>            - directs command to the USB device or emulator with
-                                 the given serial number. Overrides ANDROID_SERIAL
-                                 envivornment variable.
- -p <product name or path>     - simple product name like 'sooner', or
-                                 a relative/absolute path to a product
-                                 out directory like 'out/target/product/sooner'.
-                                 If -p is not specified, the ANDROID_PRODUCT_OUT
-                                 environment variable is used, which must
-                                 be an absolute path.
- devices                       - list all connected devices
- connect <host>:<port>         - connect to a device via TCP/IP
- disconnect <host>:<port>      - disconnect from a TCP/IP device
-
-device commands:
-  adb push <local> <remote>    - copy file/dir to device
-  adb pull <remote> <local>    - copy file/dir from device
-  adb sync [ <directory> ]     - copy host->device only if changed
-                                 (see 'adb help all')
-  adb shell                    - run remote shell interactively
-  adb shell <command>          - run remote shell command
-  adb emu <command>            - run emulator console command
-  adb logcat [ <filter-spec> ] - View device log
-  adb forward <local> <remote> - forward socket connections
-                                 forward specs are one of:
-                                   tcp:<port>
-                                   localabstract:<unix domain socket name>
-                                   localreserved:<unix domain socket name>
-                                   localfilesystem:<unix domain socket name>
-                                   dev:<character device name>
-                                   jdwp:<process pid> (remote only)
-  adb jdwp                     - list PIDs of processes hosting a JDWP transport
-  adb install [-l] [-r] <file> - push this package file to the device and install it
-                                 ('-l' means forward-lock the app)
-                                 ('-r' means reinstall the app, keeping its data)
-  adb uninstall [-k] <package> - remove this app package from the device
-                                 ('-k' means keep the data and cache directories)
-  adb bugreport                - return all information from the device
-                                 that should be included in a bug report.
-
-  adb help                     - show this help message
-  adb version                  - show version num
-
-DATAOPTS:
- (no option)                   - dont touch the data partition
-  -w                           - wipe the data partition
-  -d                           - flash the data partition
-
-scripting:
-  adb wait-for-device          - block until device is online
-  adb start-server             - ensure that there is a server running
-  adb kill-server              - kill the server if it is running
-  adb get-state                - prints: offline | bootloader | device
-  adb get-serialno             - prints: <serial-number>
-  adb status-window            - continuously print device status for a specified device
-  adb remount                  - remounts the /system partition on the device read-write
-  adb reboot [bootloader|recovery] - reboots the device, optionally into the bootloader or recovery program
-  adb root                     - restarts the adbd daemon with root permissions
-  adb usb                      - restarts the adbd daemon listening on USB
-  adb tcpip <port>             - restarts the adbd daemon listening on TCP on the specified port
-
-networking:
+$> sudo netdiscover -r 192.168.0.1/24
+##==========================================
+## Android Debug Bridge version 1.0.25 adb
+$> -d                            - directs command to the only connected USB device
+$>                                 returns an error if more than one USB device is present.
+$> -e                            - directs command to the only running emulator.
+$>                                 returns an error if more than one emulator is running.
+$> -s <serial number>            - directs command to the USB device or emulator with
+$>                                 the given serial number. Overrides ANDROID_SERIAL
+$>                                 envivornment variable.
+$> -p <product name or path>     - simple product name like 'sooner', or
+$>                                 a relative/absolute path to a product
+$>                                 out directory like 'out/target/product/sooner'.
+$>                                 If -p is not specified, the ANDROID_PRODUCT_OUT
+$>                                 environment variable is used, which must
+$>                                 be an absolute path.
+$> devices                       - list all connected devices
+$> connect <host>:<port>         - connect to a device via TCP/IP
+$> disconnect <host>:<port>      - disconnect from a TCP/IP device
+## device commands:
+$>  adb push <local> <remote>    - copy file/dir to device
+$>  adb pull <remote> <local>    - copy file/dir from device
+$>  adb sync [ <directory> ]     - copy host->device only if changed
+$>                                 (see 'adb help all')
+$>  adb shell                    - run remote shell interactively
+$>  adb shell <command>          - run remote shell command
+$>  adb emu <command>            - run emulator console command
+$>  adb logcat [ <filter-spec> ] - View device log
+$>  adb forward <local> <remote> - forward socket connections
+$>                                 forward specs are one of:
+$>                                   tcp:<port>
+$>                                   localabstract:<unix domain socket name>
+$>                                   localreserved:<unix domain socket name>
+$>                                   localfilesystem:<unix domain socket name>
+$>                                   dev:<character device name>
+$>                                   jdwp:<process pid> (remote only)
+$>  adb jdwp                     - list PIDs of processes hosting a JDWP transport
+$>  adb install [-l] [-r] <file> - push this package file to the device and install it
+$>                                 ('-l' means forward-lock the app)
+$>                                 ('-r' means reinstall the app, keeping its data)
+$>  adb uninstall [-k] <package> - remove this app package from the device
+$>                                 ('-k' means keep the data and cache directories)
+$>  adb bugreport                - return all information from the device
+$>                                 that should be included in a bug report.
+$>  adb help                     - show this help message
+$>  adb version                  - show version num
+## DATAOPTS:
+$> (no option)                   - dont touch the data partition
+$>  -w                           - wipe the data partition
+$>  -d                           - flash the data partition
+## scripting:
+$>  adb wait-for-device          - block until device is online
+$>  adb start-server             - ensure that there is a server running
+$>  adb kill-server              - kill the server if it is running
+$>  adb get-state                - prints: offline | bootloader | device
+$>  adb get-serialno             - prints: <serial-number>
+$>  adb status-window            - continuously print device status for a specified device
+$>  adb remount                  - remounts the /system partition on the device read-write
+$>  adb reboot [bootloader|recovery] - reboots the device, optionally into the bootloader or recovery program
+$>  adb root                     - restarts the adbd daemon with root permissions
+$>  adb usb                      - restarts the adbd daemon listening on USB
+$>  adb tcpip <port>             - restarts the adbd daemon listening on TCP on the specified port
+## networking:
   adb ppp <tty> [parameters]   - Run PPP over USB.
- Note: you should not automatically start a PPP connection.
+##  Note: you should not automatically start a PPP connection.
  <tty> refers to the tty for PPP stream. Eg. dev:/dev/omap_csmi_tty1
- [parameters] - Eg. defaultroute debug dump local notty usepeerdns
-
+##  [parameters] - Eg. defaultroute debug dump local notty usepeerdns
 adb sync notes: adb sync [ <directory> ]
-  <localdir> can be interpreted in several ways:
-
-  - If <directory> is not specified, both /system and /data partitions will be updated.
-
-  - If it is "system" or "data", only the corresponding partition
-    is updated.
-
+##   <localdir> can be interpreted in several ways:
+##   - If <directory> is not specified, both /system and /data partitions will be updated.
+##   - If it is "system" or "data", only the corresponding partition
+##     is updated.
+## android-sdk-platform-tools
+adb push "Ahsoka.S01E03.2160p.WEBRip.x265.DDP5.1.Atmos-KONTRAST.mkv" /sdcard/
+adb pull "/storage/emulated/0/Download/Star Wars - The Thrawn Trilogy by Timothy Zahn/1. Star Wars - Heir to the Empire.m4b" /home/user/Downloads
 ##=======================================================
 
 $> adb shell sm set-force-adoptable true
@@ -11361,22 +12224,22 @@ sudo udevadm control --reload-rules && udevadm trigger
 
 ##==========================================
 ## Change MAC
-ip link show
-sudo ip link set dev <Device> down
-sudo ip link set dev wlp3s0 down
+$> ip link show
+$> sudo ip link set dev <Device> down
+$> sudo ip link set dev wlp3s0 down
 ## Now, you can assign a new MAC address to your device by executing the command below, where <Device> must be replaced with your network device, and <New MAC address> must be replaced with the new MAC address you want to assign to your device.
-sudo ip link set dev <Device> address <New mac address>
-sudo ip link set dev wlp3s0 address 12:34:56:78:90:ab
-ip link show
+$> sudo ip link set dev <Device> address <New mac address>
+$> sudo ip link set dev wlp3s0 address 12:34:56:78:90:ab
+$> ip link show
 ## Finally, set your network card up again by running the following command, where <Device> must be replaced with your network card.
-sudo ip link set dev <Device> up
-sudo ip link set dev wlp3s0 up
+$> sudo ip link set dev <Device> up
+$> sudo ip link set dev wlp3s0 up
 ##==========================================
-ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null /dev/null && \
-ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -c:a libopus output.webm
+$> ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null /dev/null && \
+$> ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -c:a libopus output.webm
 
 ##==========================================
-ssh ubuntu@192.168.0.190
+$> ssh ubuntu@192.168.0.190
 
 
 ##==========================================
@@ -11396,52 +12259,51 @@ $> nmcli device wifi show-password
 ## Text Editor
 ## Sublime
 ## Adding a Line
-Alt+Shift+⬆  ## To add the line above to the selection:
-Alt+Shift+⬇ ## To add the line below to the selection:
-Ctrl+U ## If you go too far, use Undo Selection to step backwards:
+$> Alt+Shift+⬆  ## To add the line above to the selection:
+$> Alt+Shift+⬇ ## To add the line below to the selection:
+$> Ctrl+U ## If you go too far, use Undo Selection to step backwards:
 ## Splitting the Selection into Lines
-Ctrl+Shift+L ## Select a block of lines, and then split it into many selections, one per line:
+$> Ctrl+Shift+L ## Select a block of lines, and then split it into many selections, one per line:
 ## Quick Add Next
-Ctrl+D ## To add the next occurrence of the current word to the selection, use Quick Add Next, which is bound to:
-Ctrl+U ## Again, if you go too far, use Undo Selection to step backwards:
-Ctrl+K, Ctrl+D ## Individual occurrences can be skipped via Quick Skip Next, which is bound to:
+$> Ctrl+D ## To add the next occurrence of the current word to the selection, use Quick Add Next, which is bound to:
+$> Ctrl+U ## Again, if you go too far, use Undo Selection to step backwards:
+$> Ctrl+K, Ctrl+D ## Individual occurrences can be skipped via Quick Skip Next, which is bound to:
 ## Find All
-Alt+F3 ## To add all occurrences of the current word to the selection, use Find All:
+$> Alt+F3 ## To add all occurrences of the current word to the selection, use Find All:
 ## Single Selection
-Esc ## To go from multiple selections to a single selection, press
+$> Esc ## To go from multiple selections to a single selection, press
 ##------------------------------
 ## VS Code
 ## Basic editing
-Ctrl+X ## Cut line (empty selection)
-Ctrl+C ## Copy line (empty selection)
-Alt+ ↓ / ↑ ## Move line down/up
-Ctrl+Shift+K ## Delete line
-Ctrl+Enter / ## Insert line below
-Ctrl+Shift+Enter  ## Insert line above
-Ctrl+Shift+\  ## Jump to matching bracket
-Ctrl+]   ## Indent line
-Ctrl+[  ## Outdent line
-Home /   ## End Go to beginning/end of line
-Ctrl+ Home / End  ## Go to beginning/end of file
-Ctrl+ ↑ / ↓  ## Scroll line up/down
-Alt+ PgUp / PgDn  ## Scroll page up/down
-Ctrl+Shift+ [ / ]  ## Fold/unfold region
-Ctrl+K Ctrl+ [ / ]  ## Fold/unfold all subregions
-Ctrl+K Ctrl+0 /  ## Fold all regions
-Ctrl+K Ctrl+J  ## Unfold all regions
-Ctrl+K Ctrl+C  ## Add line comment
-Ctrl+K Ctrl+U  ## Remove line comment
-Ctrl+/  ## Toggle line comment
-Ctrl+Shift+A  ## Toggle block comment
-Alt+Z   ##Toggle word wra
-##Search and replace
-Ctrl+F  ## Find
-Ctrl+H  ## Replace
-F3 / Shift+F3  ## Find next/previous
-Alt+Enter  ## Select all occurrences of Find match
-Ctrl+D  ## Add selection to next Find match
-Ctrl+K Ctrl+D  ## Move last selection to next Find match
-
+$> Ctrl+X ## Cut line (empty selection)
+$> Ctrl+C ## Copy line (empty selection)
+$> Alt+ ↓ / ↑ ## Move line down/up
+$> Ctrl+Shift+K ## Delete line
+$> Ctrl+Enter / ## Insert line below
+$> Ctrl+Shift+Enter  ## Insert line above
+$> Ctrl+Shift+\  ## Jump to matching bracket
+$> Ctrl+]   ## Indent line
+$> Ctrl+[  ## Outdent line
+$> Home /   ## End Go to beginning/end of line
+$> Ctrl+ Home / End  ## Go to beginning/end of file
+$> Ctrl+ ↑ / ↓  ## Scroll line up/down
+$> Alt+ PgUp / PgDn  ## Scroll page up/down
+$> Ctrl+Shift+ [ / ]  ## Fold/unfold region
+$> Ctrl+K Ctrl+ [ / ]  ## Fold/unfold all subregions
+$> Ctrl+K Ctrl+0 /  ## Fold all regions
+$> Ctrl+K Ctrl+J  ## Unfold all regions
+$> Ctrl+K Ctrl+C  ## Add line comment
+$> Ctrl+K Ctrl+U  ## Remove line comment
+$> Ctrl+/  ## Toggle line comment
+$> Ctrl+Shift+A  ## Toggle block comment
+$> Alt+Z   ##Toggle word wra
+## Search and replace
+$> Ctrl+F  ## Find
+$> Ctrl+H  ## Replace
+$> F3 / Shift+F3  ## Find next/previous
+$> Alt+Enter  ## Select all occurrences of Find match
+$> Ctrl+D  ## Add selection to next Find match
+$> Ctrl+K Ctrl+D  ## Move last selection to next Find match
 ##==========================================
 ## Factory reset your android device via commandline.
 $> am broadcast -a android.intent.action.MASTER_CLEAR
@@ -11684,9 +12546,9 @@ docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/htm
 ##==========================================
 ## Screen reader
 ## Pressing AltSuperS will disable or enable speech dispatcher.
-Alt+Super+S
+$> Alt+Super+S
 ## The last thing you should hear is
-"screen reader off"
+$> "screen reader off"
 
 ##==========================================
 
@@ -11699,7 +12561,7 @@ Alt+Super+S
 $> sudo apt-get remove blueberry
 ## And
 $> sudo apt-get install blueman
-
+##-----------------------
 ## This was only partly effective.
 https://wiki.archlinux.org/title/bluetooth_headset
 ## Find necessary info about the bluetooth device (while it is connected!)
@@ -11738,7 +12600,7 @@ https://termshark.io/
 https://github.com/markqvist/nomadnet
 
 ##==========================================
-
+https://github.com/johang/btfs
 https://github.com/Samyak2/gosling/
 
 https://github.com/pystardust/ytfzf
@@ -11821,7 +12683,6 @@ $> * 192.168.42.0/24
 $> echo '* 192.168.42.0/24' > /etc/vbox/networks.conf
 ##==========================================
 #!/bin/sh
-
 if [ "$1" == "install" ] then;
         # Second argument == package name
         (do install stuff) $2;
@@ -11840,7 +12701,7 @@ $> udisksctl power-off -b /dev/sdb
 
 ##==========================================
 ## download all images in a thread
-wget -nd -r -H -l1 -D4cdn.org -A gif,webm,jpeg,jpg,png 4channel.org/{thread}
+$> wget -nd -r -H -l1 -D4cdn.org -A gif,webm,jpeg,jpg,png 4channel.org/{thread}
 ##==========================================
 ## Desktop:
 $> sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
@@ -11850,30 +12711,30 @@ $> tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git 
 
 ##==========================================
 ## sed command "cheat-sheet"
-:  # label
-=  # line_number
-a  # append_text_to_stdout_after_flush
-b  # branch_unconditional             
-c  # range_change                     
-d  # pattern_delete_top/cycle          
-D  # pattern_ltrunc(line+nl)_top/cycle 
-g  # pattern=hold                      
-G  # pattern+=nl+hold                  
-h  # hold=pattern                      
-H  # hold+=nl+pattern                  
-i  # insert_text_to_stdout_now         
-l  # pattern_list                       
-n  # pattern_flush=nextline_continue   
-N  # pattern+=nl+nextline              
-p  # pattern_print                     
-P  # pattern_first_line_print          
-q  # flush_quit                        
-r  # append_file_to_stdout_after_flush 
-s  # substitute                                          
-t  # branch_on_substitute              
-w  # append_pattern_to_file_now         
-x  # swap_pattern_and_hold             
-y  # transform_chars   
+$>  :  # label
+$>  =  # line_number
+$>  a  # append_text_to_stdout_after_flush
+$>  b  # branch_unconditional
+$>  c  # range_change
+$>  d  # pattern_delete_top/cycle
+$>  D  # pattern_ltrunc(line+nl)_top/cycle
+$>  g  # pattern=hold
+$>  G  # pattern+=nl+hold
+$>  h  # hold=pattern
+$>  H  # hold+=nl+pattern
+$>  i  # insert_text_to_stdout_now
+$>  l  # pattern_list
+$>  n  # pattern_flush=nextline_continue
+$>  N  # pattern+=nl+nextline
+$>  p  # pattern_print
+$>  P  # pattern_first_line_print
+$>  q  # flush_quit
+$>  r  # append_file_to_stdout_after_flush
+$>  s  # substitute
+$>  t  # branch_on_substitute
+$>  w  # append_pattern_to_file_now
+$>  x  # swap_pattern_and_hold
+$>  y  # transform_chars
 
 ##==========================================
 ## NEW STUFF TO ADD TO FILE
@@ -11891,16 +12752,6 @@ $> | sed ':a;N;$!ba;s/\n/ /g'
 ## Append the current and next line to the pattern space via N.
 ## If we are before the last line, branch to the created label $!ba ($! means not to do it on the last line as there should be one final newline).
 ## Finally the substitution replaces every newline with a space on the pattern space (which is the whole file).
-
-
-
-
-
-
-
-
-
-
 ##==========================================
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sMkIrrv-c5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -11934,8 +12785,6 @@ $> | sed ':a;N;$!ba;s/\n/ /g'
 ## CudaText - An open source alternative to SublimeText
 https://cudatext.github.io/
 
-
-
 https://github.com/arindas/mac-on-linux-with-qemu
 
 
@@ -11944,9 +12793,48 @@ Desktop: sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgame
 Server: sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
 
 
+https://www.wireguard.com/
+https://wazuh.com/
+https://github.com/juanfont/headscale
+##==========================================
+
+
+##==========================================
+## Remove the $> to activate the commands
+$> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
+
+##==========================================
+##
+https://standardai.atlassian.net/wiki/spaces/MAP/pages/501841936/WIP+MAP+LT+MT+Mapping+Level+Release+Process
+##==========================================
 if (condition) {
 } else {
 }
+##==========================================
+## ############################################################
+## ##    vlc stream from cli from Optiplex
+## ############################################################
+## Works
+$> cvlc --sout "#chromecast"  --gnutls-dir-trust=/data  --sout-chromecast-ip=192.168.0.104 --demux-filter=demux_chromecast  /data/0424241032a.mp4
+## ############################################################
+##==========================================
+## Thinkpad MiPi web cam.
+$> firefox https://forums.lenovo.com/t5/Ubuntu/MiPi-Camera-and-Ubuntu-Linux-New-kernel-6-5-new-problems/m-p/5282319
+$> sudo apt install linux-modules-ipu6-generic-hwe-22.04 linux-modules-ivsc-generic-hwe-22.04
+$> sudo add-apt-repository ppa:oem-solutions-group/intel-ipu6
+$> sudo apt install libcamhal0
+$> sudo add-apt-repository -r ppa:oem-solutions-group/intel-ipu6
+$> sudo reboot
+$> gst-launch-1.0 v4l2src ! glimagesink
+## Using Webcam Test https://webcamtests.com/ to verify if camera works
+##
+$> firefox https://github.com/stefanpartheym/archlinux-ipu6-webcam
+## working by placing the binary into /lib/firmware/intel/ipu
+$> cd /lib/firmware/intel/ipu
+$> wget https://github.com/intel/ipu6-camera-bins/raw/refs/heads/main/lib/firmware/intel/ipu/ipu6ep_fw.bin
+$> chmod +x ipu6ep_fw.bin
+
+
 
 
 
