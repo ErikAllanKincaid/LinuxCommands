@@ -4847,7 +4847,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ✔ ★ ☆ ♺ ⚑ ⚐ ✉ ✄ ⌲ ✈ ♦ ♣ ♠ ♥ ❤ ♡ ♪ ♩ ♫ ♬ ♯ ♀ ♂ ⚤ ⚥ ⚢ ⚣ ❑ ❒ ◈ ◐ ◑ ✖ ∞
 « » ‹ › “ ” ‘ ’ „ ‚ – — | ⁄ \ [ ] { } § ¶ ¡ ¿ ‽ ⁂ ※ ± × ~ ≈ ÷ ≠ π †
 ‡ ¥ € $ ¢ £ ß © ® @ ™ ° ‰ … · • ●
-૱ ꠸ ┯ ┰ ┱ ┲ ❗ ► ◄ Ă ă 0 1 2 3 4 5 6 7 8 9 Ǖ ǖ Ꞁ ¤ ­ Ð ¢ ℥ Ω ℧ K ℶ ℷ ℸ ⅇ ⅊
+૱ ꠸ ┯ ┰ ┱ ┲ ❗ ► ◄ Ă ă 0 1 2 3 4 5 6 7 8 9 Ǖ ǖ Ꞁ ¤  Ð ¢ ℥ Ω ℧ K ℶ ℷ ℸ ⅇ ⅊
 ⚌ ⚍ ⚎ ⚏ ⚭ ⚮ ⌀ ⏑ ⏒ ⏓ ⏔ ⏕ ⏖ ⏗ ⏘ ⏙ ⏠ ⏡ ⏦
 ᶀ ᶁ ᶂ ᶃ ᶄ ᶆ ᶇ ᶈ ᶉ ᶊ ᶋ ᶌ ᶍ ᶎ ᶏ ᶐ ᶑ ᶒ ᶓ ᶔ ᶕ ᶖ ᶗ ᶘ ᶙ ᶚ ᶸ ᵯ ᵰ ᵴ ᵶ ᵹ ᵼ ᵽ ᵾ ᵿ ⁁ ⁊⸜ ⸝ ¶ ¥ £
 ⅕ ⅙ ⅛ ⅔ ⅖ ⅗ ⅘ ⅜ ⅚ ⅐ ⅝ ↉ ⅓ ⅑ ⅒ ⅞
@@ -5013,6 +5013,10 @@ Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟͂̿̎̂̿̓́̃͜͠͝
 
  🍃🌼🌺🍃🌸🍃🤎🙏🏽👵🏽👋🏾🇨🇦❤️🇺🇸🇺❤️🇨🇦
 😳😥🤣🤣🌄
+
+## Prompt
+↳
+√
 
 COMMENT1
 ##==========================================
@@ -10735,20 +10739,62 @@ $> lp -d HP-LaserJet-3050 -n 2 -o Duplex=None -o fit-to-page -o MediaType=statio
 ## Control android
 $> firefox https://github.com/Genymobile/scrcpy
 ##==========================================
+## 3D printing
 
-
 ##==========================================
+## Laser exhaust
+## Fan
+https://www.amazon.com/HiCFM-Velocity-Powerful-Commercial-Industrial/dp/B0BBM3BH31/
+## Hepa
 
 
-##==========================================
 
 
-##==========================================
+
+
 
 
+
+
 ##==========================================
+## ## Docker
+## Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+## Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  noble stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+## install
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+##
+## nerdctl use full version
+wget https://github.com/containerd/nerdctl/releases/download/v2.0.2/nerdctl-full-2.0.2-linux-amd64.tar.gz
+#tar -zxf nerdctl-full-2.0.2-linux-amd64.tar.gz
+## Extract to all the correct folders
+sudo tar Cxzvvf /usr/local nerdctl-full-2.0.2-linux-amd64.tar.gz
+## Import docker containers. first, you save a tarball for it with docker
+sudo docker save hello-world2:latest > hello-world2.tar
+## Then you import that with containerd so it can be used in the cluster
+sudo ctr -n k8s.io image import hello-world2.tar
+## 
+sudo ctr namespaces ls
+sudo ctr -n k8s.io images list
+sudo ctr -n k8s.io containers list
+sudo nerdctl images ls
+sudo nerdctl container ls
+sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
+## Image not pulled. ## WHY?
+kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
+##========================================
 
+
 ##==========================================
 
 
@@ -10976,12 +11022,22 @@ $> firefox https://github.com/Genymobile/scrcpy
 
 ##==========================================
 
+
+##==========================================
+## Make small sharable video from larger.
+## Cut the video to just the part wanted.
+ffmpeg -ss 00:00:02 -i ./inputvid.mp4 -t 00:00:13 -vcodec copy -acodec copy ./outputvid.mp4
+## Downsample scale. Can try 'slow' and 'veryslow' preset as well.
+## HVEC H265. 
+ffmpeg -i ./outputvid.mp4 -vcodec libx265 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm.mp4
+## HVEC H264. Will play in browser.
+ffmpeg -i ./outputvid.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm-264.mp4
 
 ##==========================================
 alias ufetch="sh $HOME/ufetch/ufetch-arch"
 alias ..='cd ..'
 alias ls='ls -hspt --color=auto'
-alias nscan='nmap -sn address'
+alias nscan='nmap -sn $1'
 alias myip='curl ipinfo.io/ip'
 alias yt2='youtube-dl -x --audio-format mp3 --audio-quality 0 --add-metadata'
 alias donkeyballs='echo "Received and understood rocinante"'
