@@ -964,13 +964,13 @@ $> sudo nano /etc/fstab
 @> USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
 @> USERNAME@HOSTNAME_OR_IP:/REMOTE/DIRECTORY  /LOCAL/MOUNTPOINT  fuse.sshfs _netdev,user,idmap=user,transform_symlinks,identityfile=/home/USERNAME/.ssh/id_rsa,allow_other,default_permissions,uid=USER_ID_N,gid=USER_GID_N 0 0
 ##==========================================
-## ########################
-## #       END ssh        #
-## ########################
+## #########################
+## ##       END ssh        #
+## #########################
 ##==========================================
-## ##################################
-## #     LAMP apache mysql php      #
-## ##################################
+## ###################################
+## ##     LAMP apache mysql php      #
+## ###################################
 ##==========================================
 ### ssh secure shell remote
 ## Install ssh server and client
@@ -1019,9 +1019,11 @@ $> ssh-copy-id
 ## !!!! Do not copy your private key over. !!!!Z
 ##==========================================
 ## Install LAMP Web Server
-$> sudo apt-get install apache2 mysql-server mysql-client php5 libapache2-mod-php5 php5-cli php5-gd
+#$> sudo apt-get install apache2 mysql-server mysql-client php5 libapache2-mod-php5 php5-cli php5-gd
 ## Install newer LAMP Web Server implementation with php7.0
-$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
+#$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
+## Install newer LAMP Web Server implementation
+$> sudo apt install apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip
 ## Mysql should prompt to choose a root password
 ## Restart apache2
 $> sudo /etc/init.d/apache2 restart
@@ -1401,11 +1403,11 @@ $> mysql> UPDATE `wp_uniquename_usermeta` SET `meta_key` = REPLACE( `meta_key`, 
 $> function wordpressmysqltableprefix() { mysql -u root -p -e "USE $1; RENAME TABLE $2comments TO $3comments; RENAME TABLE $2links TO $3links; RENAME TABLE $2options TO $3options; RENAME TABLE $2postmeta TO $3postmeta; RENAME TABLE $2posts TO $3posts; RENAME TABLE $2term_relationships TO $3term_relationships; RENAME TABLE $2term_taxonomy TO $3term_taxonomy; RENAME TABLE $2termmeta TO $3termmeta; RENAME TABLE $2terms TO $3terms; RENAME TABLE $2usermeta TO $3usermeta; RENAME TABLE $2users TO $3users; RENAME TABLE $2commentmeta TO $3commentmeta; UPDATE `$3options` SET `option_name` = '$3user_roles' WHERE `option_name` = '$2user_roles'; UPDATE `$3usermeta` SET `meta_key` = REPLACE( `meta_key`, '$2', '$3' ); SHOW TABLES;" ; }
 ##==========================================
 ## ########################
-## #     END Wordpress    #
+## ##    END Wordpress
 ## ########################
 ##==========================================
 ## ################################################
-## #        Nextcloud Cloud Server Install        #
+## ##    Nextcloud Cloud Server Install
 ## ################################################
 ##==========================================
 ## https://nextcloud.com/
