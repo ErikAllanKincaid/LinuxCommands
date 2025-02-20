@@ -857,7 +857,7 @@ $> sudo sed -i "s/Port 22/Port 26/"
 $> ssh user@192.168.1.1 -p 26
 ##------------------------------------------
 ## Use openssl aes rsa encryption keys to connect securely to server
-## Create keys. public keys to put on remote machines which will use that key to authenticate, and a private key you set strong permissions on, that you use to give you access to the remote.
+## Create keys. RSA is old, use ed25519. Public keys to put on remote machines which will use that key to authenticate, and a private key you set strong permissions on, that you use to give you access to the remote.
 $> ssh-keygen -t rsa
 ##   Generating public/private rsa key pair.
 ##   Enter file in which to save the key (/Your/HomeDir/.ssh/id_rsa):
@@ -904,15 +904,15 @@ $> ssh -i .ssh/servername_id_rsa $USER@server
 ##------------------------------------------
 ## Log in to remote server without explicit call of the key file by adding it to IdentitiyFile setting in ~/.ssh/config
 $> echo '
-# Host servername
-# User $USER
-# Hostname 192.168.1.101
-# Port 22
-# PreferredAuthentications publickey
-# IdentityFile "/home/$USER/.ssh/keyfile"
-# #BatchMode yes
-# #EscapeChar none
-# ' >> ~/.ssh/config
+  Host servername
+  User $USER
+  Hostname 192.168.1.101
+  Port 22
+  PreferredAuthentications publickey
+  IdentityFile "/home/$USER/.ssh/keyfile"
+  #BatchMode yes
+  #EscapeChar none
+  ' >> ~/.ssh/config
 ## Or use printf to add multiline info to ~/.ssh/config
 $> printf '\nHost servername\nUser $USER\nHostname 192.168.1.101\nPort 22\nPreferredAuthentications publickey\nIdentityFile "/home/$USER/.ssh/id_rsa"\n#BatchMode yes\n#EscapeChar none\n' >>  ~/.ssh/config
 ## Or use editor to add above info
@@ -964,6 +964,22 @@ $> sudo nano /etc/fstab
 @> USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
 @> USERNAME@HOSTNAME_OR_IP:/REMOTE/DIRECTORY  /LOCAL/MOUNTPOINT  fuse.sshfs _netdev,user,idmap=user,transform_symlinks,identityfile=/home/USERNAME/.ssh/id_rsa,allow_other,default_permissions,uid=USER_ID_N,gid=USER_GID_N 0 0
 ##==========================================
+## Old Comment.
+## ssh Agent.
+## Check keys.
+ssh-add -l
+## Change the comment of a key.
+ssh-keygen -c -f ~/.ssh/id_ed25519 -C "YOUREMAIL@email.com"
+## Change the passphrase for an existing private key without regenerating the keypair.
+ssh-keygen -p -f ~/.ssh/id_ed25519
+## Remove keys from agent.
+ssh-add -D
+## Add back in.
+ssh-add ~/.ssh/id_ed25519
+## Check if using HTTPS. If yes you can change to ssh.
+git remote -v
+## To change from a HTTPS URL to a SSH URL.
+git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
 ## #########################
 ## ##       END ssh        #
 ## #########################
