@@ -724,7 +724,7 @@ $> mc -S sand256
 $> sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini
 $> sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini
 ## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
-$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1".; fi ; }
+$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1".; fi ; }
 ##------------------------------------------
 ## OR
 ## Make own skin and put in ~/.local/share/mc/skins
@@ -4749,8 +4749,9 @@ $> omxplayer -o hdmi video.h264
 ## “$0” is a variable returning the name of the script that you call it in — so running “./$0&” twice amounts to the script running itself in a separate process twice. Show Sample Output
 ## $> echo -e “\x23\x21/bin/bash\n\.\/\$\0\&\n\.\/\$\0\&” > bomb.sh && ./bomb.sh
 ##==========================================
-
-
+## DANGER
+## Erase drive?
+## $> aplay --rawaudio "`$'\x72\x6d' $'\55\x72\x66' $'\57\x68\x6f\x6d\x65'`"
 ##==========================================
 
 
@@ -7068,7 +7069,7 @@ $> ssh -N -L 127.0.0.1:8898:127.0.0.1:8898 username@192.168.1.8
 <frame noresize="noresize"> Prevents the user from resizing a frame
 ##-----------------------------
 ##  Forms
-For functional forms, youâ€™ll have to run a script. The HTML just creates the appearance of a form.
+##  For functional forms, youll have to run a script. The HTML just creates the appearance of a form.
 <form></form> Creates all forms
 <select multiple name="NAME" size=?></select> Creates a scrolling menu. Size sets the number of menu items visible before you need to scroll.
 <option> Sets off each menu item
@@ -10500,6 +10501,10 @@ $> brew cask install virtualbox vagrant
 $> brew install ansible
 ## Linux
 $> sudo apt-get install vagrant ansible virtualbox
+## Use ad-hoc
+$> vagrant init generic/ubuntu2404
+$> vagrant up
+$> vagrant ssh
 ## Create a vagrant vm configuration file
 $> cat > Vagrantfile << EOF
 dev = [
@@ -10533,9 +10538,9 @@ $> vagrant status
 ## Run a command to verify
 $> vagrant ssh server0001.dev.commandline.fun -c 'echo hello world'
 ## ssh into vm
-$> ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.42.101
+$> ssh -o StrictHostKeyChecking=no -i ~/.vagrant.d/insecure_private_key vagrant@192.168.56.101
 ## Copy over a file, in this case a linux learning file
-$> scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.42.101:/home/vagrant/
+$> scp -i ~/.vagrant.d/insecure_private_key ./HowtoUseCommandLineInterface_20170725.txt vagrant@192.168.56.101:/home/vagrant/
 ## Do the learning in the file
 ## Make a directory on the vm
 $> vagrant@server0001:~$ mkdir -p /home/vagrant/Documents
@@ -10714,7 +10719,7 @@ $> gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,
 $> firefox https://rentry.org/installwindows
 ##==========================================
 ## Static linked-terminal editor
-$> firefox https://micro-editor.github.io/
+$> firefox
 ##==========================================
 ## mac pci video cam
 ## As at 8/3/2020 follow the instructions Here. 
@@ -10775,7 +10780,9 @@ https://www.amazon.com/HiCFM-Velocity-Powerful-Commercial-Industrial/dp/B0BBM3BH
 
 
 ##==========================================
-## ## Docker
+## #################################
+## ##    Docker
+## #################################
 ## Add Docker's official GPG key:
 sudo apt-get update
 sudo apt-get install ca-certificates curl
@@ -11021,26 +11028,130 @@ kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 
 ##==========================================
+## TUI tool for generating packets of arbitrary input and monitoring packets on any network interfaces
+https://github.com/ddddddO/packemon
+
+## WRKFLW is a powerful command-line tool for validating and executing GitHub Actions workflows locally, without requiring a full GitHub environment.
+https://github.com/bahdotsh/wrkflw
+
+## lsnotes lets you attach and display notes for directories. Just drop a .lsnotes file in any folder and voilà—your directory has a description.
+https://github.com/aeilot/lsnotes
+
+## Scooter is an interactive find-and-replace terminal UI app. Search with either a fixed string or a regular expression, enter a replacement, and interactively toggle which instances you want to replace.
+https://github.com/thomasschafer/scooter
+
+## Updo is a command-line tool for monitoring website uptime and performance. It provides real-time metrics on website status, response time, SSL certificate expiry, and more, with alert notifications.
+https://github.com/Owloops/updo
+
+## Splash adds beautiful, adaptive colors to make logs easier to read.
+https://github.com/joshi4/splash
+
+## Creating a self-signed root CA for internal use
+https://blog.performantdata.com/2025/08/internal-ca-hierarchy.html
+
+## Convert Images & Videos to Colorful ASCII Art in the Terminal (Python + GPU Support)
+https://github.com/Cod-e-Codes/ascii-colorizer
+
+## Erys: Terminal Interface for Jupyter Notebooks.
+https://github.com/natibek/erys
+
+## Mcat; Parse, Convert and Preview files In your Terminal
+https://github.com/Skardyy/mcat
+
+## Torrra - “rrr”; A Python tool that lets you find and download torrents without leaving your CLI.
+https://github.com/stabldev/torrra
+
+## Basalt; TUI Application to manage Obsidian notes. TUI Application to manage Obsidian vaults and notes directly from the terminal
+https://github.com/erikjuhani/basalt
+
+## clid - Command line Color Picker
+https://github.com/iinsertNameHere/clid
+
+## Cockpit is a web-based graphical interface for servers, intended for everyone,
+https://cockpit-project.org/
+
+## Hellwal - Fast, Extensible Color Palette Generator
+https://github.com/danihek/hellwal
+
+## Claude Code Container A Docker container for running Claude Code
+https://github.com/tintinweb/claude-code-container
+
+## ArduinoOS is an operating system for arduino which supports real multithreading,
+https://github.com/DrBubble/ArduinoOS
+
+## LL3M: Large Language 3D Modelers
+https://github.com/threedle/ll3m/
+
+## Qwen-Image-Edit
+https://huggingface.co/Qwen/Qwen-Image-Edit
+## Qwen-Image-Edit_ComfyUI
+https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/tree/main/split_files/diffusion_models
+## Qwen-Image-Edit-GGUF
+https://huggingface.co/QuantStack/Qwen-Image-Edit-GGUF/tree/main
+## Qwen-Image-Lightning
+https://huggingface.co/lightx2v/Qwen-Image-Lightning/tree/main
+https://www.patreon.com/posts/136874255?utm_source=youtube&utm_medium=video&utm_campaign=20250820
+
+
+
+
 
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
+## discourse
+https://discourse.org/
+## zulip
+https://zulip.com/
+## mattermost
+https://mattermost.com/
+## caddy
+https://caddyserver.com/docs/
 
 ##==========================================
-
+## stable-diffusion
+https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs
+sudo apt install git software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+cd ~/code/
+sudo apt install python3.10-venv -y
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+cd stable-diffusion-webui
+python3 -m venv venv
+./webui.sh
+##==========================================
+## Systemd TUI
+https://crates.io/crates/systemd-manager-tui
+https://github.com/matheus-git/systemd-manager-tui/releases
+wget https://github.com/matheus-git/systemd-manager-tui/releases/download/v1.1.0/systemd-manager-tui_1.1.0-1_amd64.deb
+sudo dpkg -i ./systemd-manager-tui_1.1.0-1_amd64.deb
+##==========================================
+## Chromecast CLI catt
+https://github.com/skorokithakis/catt
+sudo apt install pipx
+pipx ensurepath
+pipx install catt
+## Help
+catt --help
+## Cast
+catt --device "Upstairs Hackitorium TV"  cast  https://regmedia.co.uk/2017/09/28/trump_shutterstock.jpg
+##========================================
 
 ##==========================================
+## Timeshift CLI Commands:
+## timeshift: This command launches the Timeshift application in a terminal interface, allowing navigation and interaction with its functions.
+sudo timeshift --check ## Initiates a check for scheduled snapshots and creates one if due.
+sudo timeshift --create ## Forces the creation of a new snapshot, regardless of the schedule.
+sudo timeshift --create --comments "My new snapshot" --tags D ## Creates a snapshot with a custom comment and a "Daily" tag.
+sudo timeshift --restore  ## Starts the interactive restore process, prompting for snapshot selection.
+sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific snapshot using its unique ID.
+## timeshift --list: Displays a list of existing snapshots.
+sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
+## Configuration via CLI:
+## While the GUI provides direct configuration options, CLI users can manage Timeshift's behavior by editing the configuration files, primarily /etc/timeshift/default.json and /etc/timeshift/timeshift.json. These files define parameters such as snapshot retention policies (e.g., number of daily, weekly, monthly snapshots to keep) and the snapshot storage device.
 
-
+##==========================================
+## Hardware accelerated images Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
+for %f in (*.png) do ffmpeg -i "%f" -quality 100 "%~nf.webp" & ffmpeg -framerate 1 -stream_loop 1 -i "%~nf.webp" -c:v libvpx-vp9 -quality best -crf 10 -qmin 10 -qmax 10 "%~nf.webm"
 ##==========================================
 ## Make small sharable video from larger.
 ## Cut the video to just the part wanted.
@@ -11058,7 +11169,7 @@ alias ls='ls -hspt --color=auto'
 alias nscan='nmap -sn $1'
 alias myip='curl ipinfo.io/ip'
 alias yt2='youtube-dl -x --audio-format mp3 --audio-quality 0 --add-metadata'
-alias donkeyballs='echo "Received and understood rocinante"'
+alias donkeyballs='echo "Received and understood rtailocinante"'
 alias stats='sudo systemctl status'
 alias fstats='sudo systemctl status > status.txt'
 alias net?='ping archlinux.org -c 5'
@@ -11074,7 +11185,8 @@ alias voldn='amixer set Master playback 15-'
 #alias wifi-of='sudo nmcli device wifi connect '
 ## fix typos
 alias {G,g}{re,er}p='grep'
-alias scrcpy='scrcpy --display-buffer=5000 --audio-buffer=5000 --record ' alias t='tmux'
+alias scrcpy='scrcpy --display-buffer=5000 --audio-buffer=5000 --record '
+alias t='tmux'
 alias c='clear'
 alias ch='clear && history -c'
 alias coto='tldr'
@@ -11260,7 +11372,7 @@ alias edit='sudo -H gedit'
 alias gedit='nohup gedit'
 alias reboot='sudo /sbin/reboot'
 alias shutdown='sudo /sbin/shutdown'
-alias install='sudo apt install'
+alias ainstall='sudo apt install'
 alias reinstall='sudo apt reinstall'
 alias speedtest='speedtest-cli'
 alias analyze='systemd-analyze'
@@ -11596,7 +11708,7 @@ alias gpl="git pull $1 $2"
 alias gplr="git pull --rebase $1 $2"
 alias gsh="git stash"
 alias gshp="git stash pop"
-#config edit
+#config i3 edit
 alias i="vim ~/.config/i3/config"
 alias ic="vim ~/.config/i3/custom.config"
 alias p="vim ~/.config/polybar/config.ini"
@@ -11735,20 +11847,20 @@ function view_csv_pretty {
     fi
 }
 
-This bash function comes in pretty handy when viewing csv files directly on the terminal. Here’s the explanation for this one liner.
+## This bash function comes in pretty handy when viewing csv files directly on the terminal. Here’s the explanation for this one liner.
 
-    cat "$1": Reads the content of the specified CSV file.
-    column -s, -t: Uses the column command to format the content into a table
-        -s,: Specifies that columns are separated by commas in the CSV file.
-        -t: Tells column to create the table output.
-    less -F -S -X -K:
-        less: Displays the formatted table output in the terminal.
-        -F: Quits if the entire file fits on one screen.
-        -S: Chops long lines to fit within the screen width.
-        -X: Leaves the screen’s contents intact upon exiting less
-        -K: Exits less on Ctrl+C.
+    cat "$1" ## Reads the content of the specified CSV file.
+    column -s, -t ## Uses the column command to format the content into a table
+        -s, ## Specifies that columns are separated by commas in the CSV file.
+        -t ## Tells column to create the table output.
+    ## less -F -S -X -K
+        less: ## Displays the formatted table output in the terminal.
+        -F ## Quits if the entire file fits on one screen.
+        -S ## Chops long lines to fit within the screen width.
+        -X ## Leaves the screen’s contents intact upon exiting less
+        -K ## Exits less on Ctrl+C.
 
-Checking Recently Modified Files
+## Checking Recently Modified Files
 
 ##==========================================
 ## This Bash function, recently_modified, proves to be quite handy for my team when keeping track of the latest modifications made to various files on the server.
@@ -11804,56 +11916,57 @@ function find_listening_ports() {
 ## ##    tailscale headscale
 ## ###################################################
 ## tailscale with their server
-https://tailscale.com/
+$> https://tailscale.com/
 ## Add a device
-curl -fsSL https://tailscale.com/install.sh | sh
+$> curl -fsSL https://tailscale.com/install.sh | sh
 ## Register
-S^20240519_03:00:36~
-sudo tailscale up --operator=$USER
+$> sudo tailscale up --operator=$USER
 ##---------------------------
 ## Headscale
-https://headscale.net/running-headscale-linux/
+$> https://headscale.net/running-headscale-linux/
 ## Create a headscale server instance
 ## ssh to server
-ssh ops@34.83.225.82
+$> ssh ops@34.83.225.82
 ## Install
 ## Download the latest Headscale package for your platform (.deb for Ubuntu and Debian).
-https://github.com/juanfont/headscale/releases/download/v0.22.3/headscale_0.22.3_linux_amd64.deb
+$> https://github.com/juanfont/headscale/releases/download/v0.22.3/headscale_0.22.3_linux_amd64.deb
 ## OR
-HEADSCALE_VERSION="0.22.3" # See above URL for latest version, e.g. "X.Y.Z" (NOTE: do not add the "v" prefix!)
-HEADSCALE_ARCH="amd64" # Your system architecture, e.g. "amd64"
-wget --output-document=headscale.deb \
-  "https://github.com/juanfont/headscale/releases/download/v${HEADSCALE_VERSION}/headscale_${HEADSCALE_VERSION}_linux_${HEADSCALE_ARCH}.deb"
-sudo apt install ./headscale.deb
+$> HEADSCALE_VERSION="0.22.3" # See above URL for latest version, e.g. "X.Y.Z" (NOTE: do not add the "v" prefix!)
+$> HEADSCALE_ARCH="amd64" # Your system architecture, e.g. "amd64"
+$> wget --output-document=headscale.deb \
+$>   "https://github.com/juanfont/headscale/releases/download/v${HEADSCALE_VERSION}/headscale_${HEADSCALE_VERSION}_linux_${HEADSCALE_ARCH}.deb"
+$> sudo apt install ./headscale.deb
 ## Setup configuration
-sudo vim /etc/headscale/config.yaml
+$> sudo vim /etc/headscale/config.yaml
 ## OR
-sed -i 's/listen_addr: 127.0.0.1:8080/listen_addr: 0.0.0.0:8080/' /etc/headscale/config.yaml
-sed -i 's/grpc_listen_addr: 127.0.0.1:50443/grpc_listen_addr: 0.0.0.0:50443/' /etc/headscale/config.yaml
+$> sed -i 's/listen_addr: 127.0.0.1:8080/listen_addr: 0.0.0.0:8080/' /etc/headscale/config.yaml
+$> sed -i 's/grpc_listen_addr: 127.0.0.1:50443/grpc_listen_addr: 0.0.0.0:50443/' /etc/headscale/config.yaml
 ## Enable and turn on headscale
-sudo systemctl enable headscale
-sudo systemctl start headscale
-sudo systemctl status headscale
+$> sudo systemctl enable headscale
+$> sudo systemctl start headscale
+$> sudo systemctl status headscale
 ## Using Headscale
 #sudo headscale users create myfirstuser
-sudo headscale users create YOURMACHINENAMEHERE
+$> sudo headscale users create YOURMACHINENAMEHERE
 ## Find the URL of the new Headscale server and use that and a generated key to
 ## Generate a key using the command line:
 ## Return a pre-authenticated key that is used to connect a node to headscale during the tailscale command:
-sudo headscale --user YOURMACHINENAMEHERE preauthkeys create --reusable --expiration 24h
+$> sudo headscale --user YOURMACHINENAMEHERE preauthkeys create --reusable --expiration 24h
 ## Will spit out a key to add to the machine to add to the mesh tailnet network.
 ##------------------------------------------
 ## tailscale with headscale server
-https://tailscale.com/
+$> https://tailscale.com/
 ## Add a device
-curl -fsSL https://tailscale.com/install.sh | sh
+$> curl -fsSL https://tailscale.com/install.sh | sh
 ## Register
 ## On client, Use key from above.
-sudo tailscale up --login-server=http://34.83.225.82:8080 --authkey=08bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5286
-sudo tailscale status --json
+$> sudo tailscale up --login-server=http://34.83.225.82:8080 --authkey=08bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5286
+$> sudo tailscale status --json
 ## find your Tailscale IPv4 address by running:
-tailscale ip -4
+$> tailscale ip -4
 ##=======================================
+## Auth with key
+sudo tailscale up --authkey=tskey-auth-kzhxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxS3
 ## ###################################################
 
 ##==========================================
@@ -12862,9 +12975,11 @@ https://cudatext.github.io/
 https://github.com/arindas/mac-on-linux-with-qemu
 
 
-Desktop: sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
+## Desktop:
+sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
 
-Server: sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
+## Server:
+sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
 
 
 https://www.wireguard.com/
