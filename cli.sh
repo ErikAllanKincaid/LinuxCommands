@@ -10784,38 +10784,38 @@ https://www.amazon.com/HiCFM-Velocity-Powerful-Commercial-Industrial/dp/B0BBM3BH
 ## ##    Docker
 ## #################################
 ## Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+$> sudo apt-get update
+$> sudo apt-get install ca-certificates curl
+$> sudo install -m 0755 -d /etc/apt/keyrings
+$> sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+$> sudo chmod a+r /etc/apt/keyrings/docker.asc
 ## Add the repository to Apt sources:
-echo \
+$> echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   noble stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+$> sudo apt-get update
 ## install
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+$> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ##
 ## nerdctl use full version
-wget https://github.com/containerd/nerdctl/releases/download/v2.0.2/nerdctl-full-2.0.2-linux-amd64.tar.gz
+$> wget https://github.com/containerd/nerdctl/releases/download/v2.0.2/nerdctl-full-2.0.2-linux-amd64.tar.gz
 #tar -zxf nerdctl-full-2.0.2-linux-amd64.tar.gz
 ## Extract to all the correct folders
-sudo tar Cxzvvf /usr/local nerdctl-full-2.0.2-linux-amd64.tar.gz
+$> sudo tar Cxzvvf /usr/local nerdctl-full-2.0.2-linux-amd64.tar.gz
 ## Import docker containers. first, you save a tarball for it with docker
-sudo docker save hello-world2:latest > hello-world2.tar
+$> sudo docker save hello-world2:latest > hello-world2.tar
 ## Then you import that with containerd so it can be used in the cluster
-sudo ctr -n k8s.io image import hello-world2.tar
+$> sudo ctr -n k8s.io image import hello-world2.tar
 ## 
-sudo ctr namespaces ls
-sudo ctr -n k8s.io images list
-sudo ctr -n k8s.io containers list
-sudo nerdctl images ls
-sudo nerdctl container ls
-sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
+$> sudo ctr namespaces ls
+$> sudo ctr -n k8s.io images list
+$> sudo ctr -n k8s.io containers list
+$> sudo nerdctl images ls
+$> sudo nerdctl container ls
+$> sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
 ## Image not pulled. ## WHY?
-kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
+$> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 ##========================================
 
@@ -11025,77 +11025,8 @@ kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 
 ##==========================================
-
-
-##==========================================
-## TUI tool for generating packets of arbitrary input and monitoring packets on any network interfaces
-https://github.com/ddddddO/packemon
-
-## WRKFLW is a powerful command-line tool for validating and executing GitHub Actions workflows locally, without requiring a full GitHub environment.
-https://github.com/bahdotsh/wrkflw
-
-## lsnotes lets you attach and display notes for directories. Just drop a .lsnotes file in any folder and voilà—your directory has a description.
-https://github.com/aeilot/lsnotes
-
-## Scooter is an interactive find-and-replace terminal UI app. Search with either a fixed string or a regular expression, enter a replacement, and interactively toggle which instances you want to replace.
-https://github.com/thomasschafer/scooter
-
-## Updo is a command-line tool for monitoring website uptime and performance. It provides real-time metrics on website status, response time, SSL certificate expiry, and more, with alert notifications.
-https://github.com/Owloops/updo
-
-## Splash adds beautiful, adaptive colors to make logs easier to read.
-https://github.com/joshi4/splash
-
-## Creating a self-signed root CA for internal use
-https://blog.performantdata.com/2025/08/internal-ca-hierarchy.html
-
-## Convert Images & Videos to Colorful ASCII Art in the Terminal (Python + GPU Support)
-https://github.com/Cod-e-Codes/ascii-colorizer
-
-## Erys: Terminal Interface for Jupyter Notebooks.
-https://github.com/natibek/erys
-
-## Mcat; Parse, Convert and Preview files In your Terminal
-https://github.com/Skardyy/mcat
-
-## Torrra - “rrr”; A Python tool that lets you find and download torrents without leaving your CLI.
-https://github.com/stabldev/torrra
-
-## Basalt; TUI Application to manage Obsidian notes. TUI Application to manage Obsidian vaults and notes directly from the terminal
-https://github.com/erikjuhani/basalt
-
-## clid - Command line Color Picker
-https://github.com/iinsertNameHere/clid
-
-## Cockpit is a web-based graphical interface for servers, intended for everyone,
-https://cockpit-project.org/
-
-## Hellwal - Fast, Extensible Color Palette Generator
-https://github.com/danihek/hellwal
-
-## Claude Code Container A Docker container for running Claude Code
-https://github.com/tintinweb/claude-code-container
-
-## ArduinoOS is an operating system for arduino which supports real multithreading,
-https://github.com/DrBubble/ArduinoOS
-
-## LL3M: Large Language 3D Modelers
-https://github.com/threedle/ll3m/
-
-## Qwen-Image-Edit
-https://huggingface.co/Qwen/Qwen-Image-Edit
-## Qwen-Image-Edit_ComfyUI
-https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/tree/main/split_files/diffusion_models
-## Qwen-Image-Edit-GGUF
-https://huggingface.co/QuantStack/Qwen-Image-Edit-GGUF/tree/main
-## Qwen-Image-Lightning
-https://huggingface.co/lightx2v/Qwen-Image-Lightning/tree/main
-https://www.patreon.com/posts/136874255?utm_source=youtube&utm_medium=video&utm_campaign=20250820
-
-
-
-
-
+## Make sure your user owns the directories you're mounting:
+$> chown -R $(id -un):$(id -gn) /path/to/your/data
 
 ##==========================================
 ## discourse
@@ -11138,6 +11069,8 @@ catt --device "Upstairs Hackitorium TV"  cast  https://regmedia.co.uk/2017/09/28
 
 ##==========================================
 ## Timeshift CLI Commands:
+## Configuration via CLI:
+## While the GUI provides direct configuration options, CLI users can manage Timeshift's behavior by editing the configuration files, primarily /etc/timeshift/default.json and /etc/timeshift/timeshift.json. These files define parameters such as snapshot retention policies (e.g., number of daily, weekly, monthly snapshots to keep) and the snapshot storage device.
 ## timeshift: This command launches the Timeshift application in a terminal interface, allowing navigation and interaction with its functions.
 sudo timeshift --check ## Initiates a check for scheduled snapshots and creates one if due.
 sudo timeshift --create ## Forces the creation of a new snapshot, regardless of the schedule.
@@ -11146,8 +11079,6 @@ sudo timeshift --restore  ## Starts the interactive restore process, prompting f
 sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific snapshot using its unique ID.
 ## timeshift --list: Displays a list of existing snapshots.
 sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
-## Configuration via CLI:
-## While the GUI provides direct configuration options, CLI users can manage Timeshift's behavior by editing the configuration files, primarily /etc/timeshift/default.json and /etc/timeshift/timeshift.json. These files define parameters such as snapshot retention policies (e.g., number of daily, weekly, monthly snapshots to keep) and the snapshot storage device.
 
 ##==========================================
 ## Hardware accelerated images Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
