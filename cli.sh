@@ -37,11 +37,11 @@ Type command.
 
 COMMENT1
 ############################################################
-#                     Command-Line Linux:                  #
+##    Command-Line Linux
 ############################################################
 ## Compiled by sflaptop@gmail.com
 ###########################################################
-#                   Table Of Contents                     #
+##    Table Of Contents
 ###########################################################
 ##
 #$   Information
@@ -71,13 +71,13 @@ COMMENT1
 #$
 ##
 ## ###########################################################
-## #               END Table Of Contents                     #
+## ##    END Table Of Contents
 ## ###########################################################
 ##
 ##
 ##
 ## ##########################################################
-## #                     Information                        #
+## ##    Information
 ## ##########################################################
 ##------------------------------------------------
 ## Information about the computer system running
@@ -215,13 +215,13 @@ $> eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;p
 ##==========================================
 ##==========================================
 ## ##########################################################
-## #                    END Info                            #
+## ##    END Info
 ## ##########################################################
 ##
 ##
 ##
 ## ##########################################################
-## #                       Setup                            #
+## ##    Setup
 ## ##########################################################
 ##------------------------------------------
 ## Setup includes many configurations best for running linux, most for Ubuntu based systems
@@ -836,7 +836,7 @@ $> apt-cache show PACKAGE_NAME
 $> apt-cache showpkg  PACKAGE_NAME
 ##==========================================
 ## ########################
-## #         ssh          #
+## ##    ssh
 ## ########################
 ## ssh secure shell
 ##------------------------------------------
@@ -981,11 +981,11 @@ git remote -v
 ## To change from a HTTPS URL to a SSH URL.
 git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
 ## #########################
-## ##       END ssh        #
+## ##    END ssh
 ## #########################
 ##==========================================
 ## ###################################
-## ##     LAMP apache mysql php      #
+## ##    LAMP apache mysql php
 ## ###################################
 ##==========================================
 ### ssh secure shell remote
@@ -1192,12 +1192,12 @@ $> sudo nano /etc/php/7.0/apache2/php.ini
 ##==========================================
 ##============================================
 ## ######################################
-## #     END LAMP apache mysql php      #
+## ##    END LAMP apache mysql php
 ## ######################################
 ##==========================================
 ##==========================================
 ## ######################
-## #      Wordpress     #
+## ##    Wordpress
 ## ######################
 ##==========================================
 ### Wordpress
@@ -1563,11 +1563,11 @@ $> sudo apt-get nextcloud-client
 ##--------------------------------------------
 ##==========================================
 ## #####################################################
-## #        END  Nextcloud Cloud Server Install        #
+## ##    END  Nextcloud Cloud Server Install
 ## #####################################################
 ##==========================================
 ## ##########################################################
-## #                   END Setup                            #
+## ##    END Setup
 ## ##########################################################
 ##==========================================
 ##
@@ -1575,7 +1575,7 @@ $> sudo apt-get nextcloud-client
 ##
 ##==========================================
 ## ####################################################
-## #                   Networking                     #
+## ##    Networking
 ## ####################################################
 ##==========================================
 ## Find out what networking devices you have
@@ -1764,13 +1764,13 @@ $> echo manual | sudo tee -a /etc/init/nmbd.override
 $> echo manual | sudo tee -a /etc/init/smbd.override
 ##==========================================
 ## ####################################################
-## #               END Networking                     #
+## ##    END Networking
 ## ####################################################
 ##
 ##
 ##
 ## #######################################################
-## #                      System                         #
+## ##    System
 ## #######################################################
 ##==========================================
 ## Suspend computer
@@ -1793,7 +1793,7 @@ $> pr file.txt | lpr
 ##==========================================
 ##
 ## #############################################
-## #               Multimedia                  #
+## ##    Multimedia
 ## #############################################
 ##==========================================
 ## If you want to cut an AVI file to extract a portion.(require mencoder)
@@ -1846,14 +1846,14 @@ $> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10
 ##
 ##
 ## #############################################
-## #                  Video                    #
+## ##    Video
 ## #############################################
 ##==========================================
 ##==========================================
 ##
 ##
 ## #############################################
-## #                    Web                    #
+## ##    Web
 ## #############################################
 ##==========================================
 ## Download entire directory recursive -r, without climbing the directory tree -np, continue interupted download -c.
@@ -1862,7 +1862,7 @@ $> wget -r -c -np -e robots=off --random-wait --limit-rate=80k <URL>
 ## man wget ; recursive -r, from text file list -i, continue interupted download -c, Do not ascend to the parent directory -np or --no-parent, send to background -b.
 ##==========================================
 ##  ###########################################
-##  #                 Text                    #
+##  ##    Text
 ##  ###########################################
 ##==========================================
 ## Create and start writing a file. Commit with cntl+d.
@@ -1871,7 +1871,7 @@ $> write what you want
 $> cntl+d
 ##==========================================
 ## ####################################
-## #           git howto              #
+## ##    git howto
 ## ####################################
 ## revisioning tool. Keeps all revisions of files
 ##-------------------------------------
@@ -1942,7 +1942,7 @@ $>  --pretty            ## Show commits in an alternate format. Option values in
 $>  --oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
 ##==========================================
 ##  ###########################################
-##  #                Files                    #
+##  ##    Files
 ##  ###########################################
 ##==========================================
 ## Run every script in folder
@@ -2725,13 +2725,13 @@ $> curl wttr.in/"san francisco"
 $> curl wttr.in/"94114"
 ##==========================================
 ## #######################################################
-## #                      END Use                        #
+## ##    END Use
 ## #######################################################
 ##
 ##
 ##
 ## ###################################################################
-## #                          BASH                                   #
+## ##    BASH
 ## ###################################################################
 ## Shell
 ##------------------------------------------
@@ -2744,7 +2744,7 @@ $> bashrc-reload() { builtin exec bash ; }
 $> printf "\033c"
 ##==========================================
 ## ####################################
-## #      Bash Sample Scripts         #
+## ##    Bash Sample Scripts
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
@@ -3123,7 +3123,7 @@ $> echo {0,2}{0,2}                         ## print 00 02 20 22
 $> function name() { command ; }
 ##==========================================
 ## #########################################################
-## #                    Cool | Pipes                       #
+## ##    Cool | Pipes
 ## #########################################################
 ##------------------------------------------
 ## Replace text in a line containing a pattern
@@ -3654,13 +3654,13 @@ $> | sed  -e :a -e 's/^.\{1,77\}$/ &/;ta' -e 's/\( *\)\1/\1/'  # method 2
 ##------------------------------------------
 ##==========================================
 ## #########################################################
-## #                END Cool | Pipes                       #
+## ##    END Cool | Pipes
 ## #########################################################
 ##
 ##
 ##
 ## ###########################################################
-## #                    .bashrc                              #
+## ##    .bashrc
 ## ###########################################################
 # /etc/profile.d/best_bash_history.sh
 # Save 5,000 lines of history in memory
@@ -3683,10 +3683,10 @@ $> export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 ##  Copy the next section between <<COMMENT1 and COMMENT1 to .bashrc to get a new set of functions and aliases.
 <<COMMENT1
 ## ###########################################################
-## #                    .bashrc                              #
+## ##    .bashrc
 ## ###########################################################
 ## ###########################################
-## #                Settings                 #
+## ##    Settings
 ## ###########################################
 ##------------------------------------------
 ## If not running interactively, do not do anything
@@ -3807,13 +3807,13 @@ HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
 #HISTTIMEFORMAT='%F %T '
 ##==========================================
 ## ###########################################
-## #                Functions                #
+## ##    Functions
 ## ###########################################
 ##------------------------------------------
 #===========================================
-## ##########
-## # System #
-## ##########
+## ######################
+## ##    System
+## ######################
 ##------------------------------------------
 #===========================================
 ## Suspend to RAM low power
@@ -3884,17 +3884,17 @@ function greptext () { grep -iIHrn --color=always "$1" . ; }
 function webshare() { python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"; }
 function pyshare() { python –m SimpleHTTPServer 8000 ; }
 ##==========================================
-## #######
-## # GUI #
-## #######
+## #############
+## ##    GUI
+## #############
 ##------------------------------------------
 ##==========================================
 ## Transform Mint Linux 17/18 icons to create any color
 function iconcolors() { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#a7c6df" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/0b5a7d/888889/g" -e "s/a7c6df/$2/g" -e "s/308fba/$1/g" ; }
 ##==========================================
-## ###########
-## # Search  #
-## ###########
+## #################
+## ##    Search
+## #################
 ##------------------------------------------
 ##==========================================
 ## Get definition from etymonline.com.
@@ -3948,9 +3948,9 @@ function thepiratebaydl() { transmission-cli $(curl -s  https://thepiratebay10.o
 #function streamfmls() { w3m -dump http://pub7.di.fm/ | grep 'Mount Point' | grep 'aac ' | sed 's/Mount Point \///g' | sed -e 's/ Login//g' -e 's/di_//g' -e 's/_aac//g' ; }
 #function streamfm() { mplayer http://pub7.di.fm/di_$1_aac?1 -user-agent "AudioAddict-di/3.2.0.3240 Android/5.1" ; }
 ##==========================================
-## ################
-## # Media Encode #
-## ################
+## ##############################
+## ##    Media Encode
+## ##############################
 ##------------------------------------------
 ##==========================================
 ## ???????rip audio from video ??????NOT WORKING??????
@@ -3972,9 +3972,9 @@ function copy2mp4mp3() { avconv -i  "$1" -c:v copy -c:a mp3 "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
 function transcode2mp4() { avconv -i  "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ##=========================================
-## ##########
-## # Random #
-## ##########
+## #################
+## ##    Random
+## #################
 ##------------------------------------------
 ##==========================================
 ## #######
@@ -4040,9 +4040,9 @@ function docgrep() { find -name '*.doc' | while read -r file; do catdoc "$file" 
 ## Append to all files in a folder: Usage: tag "your appended text"
 function tag() { for file in *.txt; do  echo ${1} >> "$file"; done }
 ##==========================================
-## #########
-## # Image #
-## #########
+## #################
+## ##    Image
+## #################
 ##------------------------------------------
 ##==========================================
 ## Resize images. Usage: resizeimg imagename.jpg 800
@@ -4054,9 +4054,9 @@ function batchsizejpg() {  for file in *.jpg; do convert $file -resize $1 sm-$fi
 ## Use imagemagik to batch overlay an image centered over a background image
 function overlay() { for file in *.jpg; do composite -gravity center "$1" "$file" "yt-$file"; done }
 ##==========================================
-## ##############
-## # Encryption #
-## ##############
+## ##########################
+## ##    Encryption
+## ##########################
 ##------------------------------------------
 ##==========================================
 ## Function to make encrypted file hidden in a .gif. Usage: crypt folder_to_be_encrypted  image_to_use.gif
@@ -4119,19 +4119,19 @@ parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
-## ######################
-## #  Other Functions   #
-## ######################
+## #################################
+## ##    Other Functions
+## #################################
 ##------------------------------------------
 ## ###########################################
-## #                Aliases                  #
+## ##    Aliases
 ## ###########################################
 ##------------------------------------------
 ## Use echo "alias name='app -a'" >> .bashrc to add new alias lines to .bashrc
 ##==========================================
-## ##########
-## # System #
-## ##########
+## ###################
+## ##    System
+## ###################
 ##------------------------------------------
 alias root='sudo su'
 ## Make changes in .bashrc immediately available
@@ -4170,9 +4170,9 @@ alias :q='exit'
 ## List available wifi
 alias lswifi='nmcli device wifi list'
 ##==========================================
-## ######################
-## # Command Parameters #
-## ######################
+## ###############################
+## ##    Command Parameters
+## ###############################
 ##------------------------------------------
 #alias ..='cd ..'
 alias cdd='cdls'
@@ -4286,9 +4286,9 @@ $> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be 
 ## BASH
 PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
 ##-----------------------------------------
-## ##############
-## #   Prompt   #
-## ##############
+## #########################
+## ##    Prompt
+## #########################
 ##------------------------------------------
 ## Initialize colors.
 $> autoload -U colors
@@ -4335,7 +4335,7 @@ $> unset color_prompt force_color_prompt
 #PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
 ##------------------------------------------
 ## ##########################
-## #     More functions     #
+## ##    More functions
 ## ##########################
 ##==========================================
 ## Add an "alert" alias for long running commands.  Usage: sleep 10; alert
@@ -4599,16 +4599,16 @@ $> set -o ignoreeof
 ##==========================================
 ##==========================================
 ## #######################################
-## #        END More functions           #
+## ##    END More functions
 ## #######################################
 ## ###################################################################
-## #                      END BASH                                   #
+## ##    END BASH
 ## ###################################################################
 ##
 ##
 ##
 ## ##############################
-## #        Framebuffer         #
+## ##    Framebuffer
 ## ##############################
 ##------------------------------------------
 ##==========================================
@@ -4644,14 +4644,14 @@ $> omxplayer -o hdmi video.h264
 ##==========================================
 ##==========================================
 ## ##############################
-## #      END Framebuffer       #
+## ##    END Framebuffer
 ## ##############################
 ##==========================================
 ##
 ##
 ##
 ## ####################################################
-## #                    DANGER                        #
+## ##    DANGER
 ## ####################################################
 ##==========================================
 ## Next time if you want to be retarded, at least run it inside docker
@@ -4763,7 +4763,7 @@ $> omxplayer -o hdmi video.h264
 
 ##==========================================
 ## ####################################################
-## #                   END DANGER                     #
+## ##    END DANGER
 ## ####################################################
 ##==========================================
 ##
@@ -4771,7 +4771,7 @@ $> omxplayer -o hdmi video.h264
 ##
 ##==========================================
 ## #################################################
-## #               Python Stuff                    #
+## ##    Python Stuff
 ## #################################################
 ##==========================================
 <<COMMENT1
@@ -4804,7 +4804,7 @@ Escape What it does.
 COMMENT1
 ##==========================================
 ## #################################################
-## #           END Python Stuff                    #
+## ##    END Python Stuff
 ## #################################################
 ##==========================================
 ##
@@ -4812,7 +4812,7 @@ COMMENT1
 ##
 ##==========================================
 ## ##################################################
-## #               Extra Characters                 #
+## ##    Extra Characters
 ## ##################################################
 ##==========================================
 ## GUI
@@ -5059,14 +5059,14 @@ sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
 sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
 
 ## #################################################
-## #          END Extra Characters                 #
+## ##    END Extra Characters
 ## #################################################
 ##==========================================
 ##
 ##
 ##
 ## #################################################
-## #                GUI Control                    #
+## ##    GUI Control
 ## #################################################
 ##==========================================
 ## GUI
@@ -5305,7 +5305,7 @@ $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_ur
 
 ##==========================================
 ## #################################################
-## #            END GUI Control                    #
+## ##    END GUI Control
 ## #################################################
 ##==========================================
 ##
@@ -5313,7 +5313,7 @@ $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_ur
 ##
 ##==========================================
 ## ###################################################
-## #                   UNSORTED                      #
+## ##    UNSORTED
 ## ###################################################
 ##==========================================
 #!/bin/sh
@@ -7090,7 +7090,7 @@ COMMENT1
 $> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html
 ##==========================================
 #####################
-#   END HTML CSS    #
+##    END HTML CSS
 #####################
 ##==========================================
 ##==========================================
@@ -7300,7 +7300,7 @@ $> curl -z 28-Feb-19 http://www.mywebsite.com/xyz.zip
 $> curl -z -28-Feb-19 http://www.mywebsite.com/xyz.zip
 ##==========================================
 ## ######################
-## #      Docker        #
+## ##    Docker
 ## ######################
 ## Docker info
 ##------------------------------------------
@@ -7471,11 +7471,11 @@ $> sed -i 's/^#//g' ./docker-compose.yml
 ## Read and do walkthrough on elasticsearch
 
 ## ######################
-## #   END Docker       #
+## ##    END Docker
 ## ######################
 ##==========================================
 ## #########################
-## #       vim             #
+## ##    vim
 ## #########################
 ## man vim - Vi IMproved, a programmers text editor.  Vim  is a text editor that is upwards compatible to Vi.  It can be used to edit all kinds of plain text.  It is especially useful  for  editing programs.
 ##--------------------------------------------
@@ -7616,11 +7616,11 @@ $>  :retab                             ## Change tabs to spaces
 $>  "mdd                             " ## Select buff then dd erase line and copy to buffer "m. to put, pick buffer and put"
 $>  "mp                              " ## pick buffer and put
 ## #########################
-## #      END vim          #
+## ##    END vim
 ## #########################
 ##==========================================
 ## ########################
-## #       HTTPS SSL      #
+## ##    HTTPS SSL
 ## ########################
 ## Self signed apache SSL certificate
 ##------------------------------------------
@@ -7905,7 +7905,7 @@ $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ##
 ##==========================================
 ## #########################
-## #         w3m           #
+## ##    w3m
 ## #########################
 ## Commandline web browser
 ##------------------------------------------
@@ -7978,7 +7978,7 @@ $> mpv --vo=drm --ytdl-format=18 http://www.youtube.com/watch?v=jcTdRGaFldw
 ##==========================================
 
 ## #####################################
-## ##           tmux
+## ##    tmux
 ## #####################################
 ## ctrl+b then after press; % for vertical split, " for horizontal split, arrows to move curser, x to close
 $> tmux
@@ -8188,7 +8188,7 @@ $> ssh-agent bash
 $> ssh-add /home/eakinc/.ssh/commandlinefun.pem
 ##----------------------------------------
 ## ############################
-## #   END  ansible           #
+## ##    END  ansible
 ## ############################
 
 
@@ -8671,7 +8671,7 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ## During post ctl+r
 
 ## ###############################################
-## #            END RAID Array                   #
+## ##    END RAID Array
 ## ###############################################
 ##======================================
 ## Make a table
@@ -9212,7 +9212,7 @@ $> Ctrl + Alt + Shift + R
 $> cp -a
 ##==========================================
 ## #######################################################
-## ##             Chromecast
+## ##    Chromecast
 ## #######################################################
 ## Chromecast from cli
 $> sudo apt install python3-pip python3-setuptools
@@ -9249,7 +9249,7 @@ $> catt volumeup      ## Turn up volume by a DELTA increment.
 $> catt write_config  ## Write the name of default Chromecast device to config file.
 ##==========================================
 ## #######################################################
-## ##              Keyboard shortcuts
+## ##    Keyboard shortcuts
 ## #######################################################
 ## 1. General
 $> Win                          ## Open the Applications Menu
@@ -9643,7 +9643,7 @@ $>  [     ## begin a sequence of non-printing characters, which could be used to
 $>  ]     ## end a sequence of non-printing characters
 ##==========================================
 ## ###########################################################
-## ##             Git
+## ##    Git
 ## ###########################################################
 ## correct an unpushed commit message
 $> git commit --amend -m "New message"
@@ -11022,8 +11022,9 @@ $> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 
 ##==========================================
-
-
+## ########################################
+## ##    Unsorted
+## ########################################
 ##==========================================
 ## Make sure your user owns the directories you're mounting:
 $> chown -R $(id -un):$(id -gn) /path/to/your/data
