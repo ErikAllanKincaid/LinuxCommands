@@ -10122,6 +10122,7 @@ $>    : save-buffer buf.txt           ## save buffer contents to buf.txt
 $>    : delete-buffer -b 1            ## delete buffer_1
 ## -------------------------------------
 ## ###############################################
+## ##    END tmux Sessions
 ## ###############################################
 ##==========================================
 ## gui. minimize button
@@ -10160,14 +10161,12 @@ $> echo "facetimehd" >> /etc/modules
 ## Or by hand
 $> sudo nano /etc/modules
 ## **add line "facetimehd", write out (ctl+o) & close**
-
 ## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
 ## files. sync. transfer the data to multiple destinations with the rsync command using a foe statement.
 $> for d in /DESTINATION/PATH_1 /DESTINATION/PATH_2
 $> do rsync -options /SOURCE/PATH $d
 $> done
-
 ##==========================================
 ## Printing
 $> lp -d HP-LaserJet-3050 -n 2 -o Duplex=None -o fit-to-page -o MediaType=stationery-heavyweight -o Quality=High -o PageSize=Custom.4x6in file.pdf
@@ -11033,202 +11032,207 @@ $> sudo apt-get nextcloud-client
 
 ##==========================================
 
+## shell. Find dupe files by checking md5sum
+$> find /glftpd/site/archive -type f|grep '([0-9]\{1,9\})\.[^.]\+$'|parallel -n1 -j200% md5sum ::: |awk 'x[$1]++ { print $2 " :::"}'|sed 's/^/Dupe: /g'|sed 's,Dupe,\x1B[31m&\x1B[0m,'
+
 
 ##==========================================
+
 ## ########################################
 ## ##    Unsorted
 ## ########################################
 ##==========================================
-## List all accessed configuration files while executing a program in linux terminal (improved version)
+## os. hardware. Make window transparent (50% opacity) in Gnome shell
+## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
+$> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
+##==========================================
+## shell. List all accessed configuration files while executing a program in linux terminal (improved version)
 ## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
 $> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
 ##==========================================
-## Convert an image sequence into a video
+## multimedia. video. Convert an image sequence into a video
 $> ffmpeg -framerate 30 -pattern_type glob -i '*.jpg' -c:v libx264 -pix_fmt yuv420p out.mp4
 ##==========================================
-## Print nic name of current connection
+## networking. Print nic name of current connection.
 $> nmcli -g name,type connection show --active|awk -F: '/ethernet|wireless/ { print $1 }'
 ## Print interface that is up and running
 $> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
 ##==========================================
-## Make sure your user owns the directories you're mounting:
+## files. Make sure your user owns the directories mounting.
 $> chown -R $(id -un):$(id -gn) /path/to/your/data
-
 ##==========================================
 ## discourse
-https://discourse.org/
+$> https://discourse.org/
 ## zulip
-https://zulip.com/
+$> https://zulip.com/
 ## mattermost
-https://mattermost.com/
+$> https://mattermost.com/
 ## caddy
-https://caddyserver.com/docs/
-
+$> https://caddyserver.com/docs/
 ##==========================================
-## stable-diffusion
-https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs
-sudo apt install git software-properties-common -y
-sudo add-apt-repository ppa:deadsnakes/ppa -y
-cd ~/code/
-sudo apt install python3.10-venv -y
-git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
-cd stable-diffusion-webui
-python3 -m venv venv
-./webui.sh
+## install. app. ai. stable-diffusion
+$> https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs
+$> sudo apt install git software-properties-common -y
+$> sudo add-apt-repository ppa:deadsnakes/ppa -y
+$> cd ~/code/
+$> sudo apt install python3.10-venv -y
+$> git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+$> cd stable-diffusion-webui
+$> python3 -m venv venv
+$> ./webui.sh
 ##==========================================
 ## Systemd TUI
-https://crates.io/crates/systemd-manager-tui
-https://github.com/matheus-git/systemd-manager-tui/releases
-wget https://github.com/matheus-git/systemd-manager-tui/releases/download/v1.1.0/systemd-manager-tui_1.1.0-1_amd64.deb
-sudo dpkg -i ./systemd-manager-tui_1.1.0-1_amd64.deb
+$> https://crates.io/crates/systemd-manager-tui
+$> https://github.com/matheus-git/systemd-manager-tui/releases
+$> wget https://github.com/matheus-git/systemd-manager-tui/releases/download/v1.1.0/systemd-manager-tui_1.1.0-1_amd64.deb
+$> sudo dpkg -i ./systemd-manager-tui_1.1.0-1_amd64.deb
 ##==========================================
-## Chromecast CLI catt
-https://github.com/skorokithakis/catt
-sudo apt install pipx
-pipx ensurepath
-pipx install catt
+## hardware. chromcast. web. Chromecast CLI catt
+$> https://github.com/skorokithakis/catt
+$> sudo apt install pipx
+$> pipx ensurepath
+$> pipx install catt
 ## Help
-catt --help
+$> catt --help
 ## Cast
-catt --device "Upstairs Hackitorium TV"  cast  https://regmedia.co.uk/2017/09/28/trump_shutterstock.jpg
-##========================================
-
+$> catt --device "Upstairs Hackitorium TV"  cast  https://regmedia.co.uk/2017/09/28/trump_shutterstock.jpg
 ##==========================================
-## Timeshift CLI Commands:
+## os. files. backup. Timeshift CLI Commands:
 ## Configuration via CLI:
 ## While the GUI provides direct configuration options, CLI users can manage Timeshift's behavior by editing the configuration files, primarily /etc/timeshift/default.json and /etc/timeshift/timeshift.json. These files define parameters such as snapshot retention policies (e.g., number of daily, weekly, monthly snapshots to keep) and the snapshot storage device.
 ## timeshift: This command launches the Timeshift application in a terminal interface, allowing navigation and interaction with its functions.
-sudo timeshift --check ## Initiates a check for scheduled snapshots and creates one if due.
-sudo timeshift --create ## Forces the creation of a new snapshot, regardless of the schedule.
-sudo timeshift --create --comments "My new snapshot" --tags D ## Creates a snapshot with a custom comment and a "Daily" tag.
-sudo timeshift --restore  ## Starts the interactive restore process, prompting for snapshot selection.
-sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific snapshot using its unique ID.
+$> sudo timeshift --check ## Initiates a check for scheduled snapshots and creates one if due.
+$> sudo timeshift --create ## Forces the creation of a new snapshot, regardless of the schedule.
+$> sudo timeshift --create --comments "My new snapshot" --tags D ## Creates a snapshot with a custom comment and a "Daily" tag.
+$> sudo timeshift --restore  ## Starts the interactive restore process, prompting for snapshot selection.
+$> sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific snapshot using its unique ID.
 ## timeshift --list: Displays a list of existing snapshots.
-sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
-
+$> sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
 ##==========================================
-## Hardware accelerated images Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
-for %f in (*.png) do ffmpeg -i "%f" -quality 100 "%~nf.webp" & ffmpeg -framerate 1 -stream_loop 1 -i "%~nf.webp" -c:v libvpx-vp9 -quality best -crf 10 -qmin 10 -qmax 10 "%~nf.webm"
+## Hardware accelerated images. Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
+$> for %f in (*.png) do ffmpeg -i "%f" -quality 100 "%~nf.webp" & ffmpeg -framerate 1 -stream_loop 1 -i "%~nf.webp" -c:v libvpx-vp9 -quality best -crf 10 -qmin 10 -qmax 10 "%~nf.webm"
 ##==========================================
-## Make small sharable video from larger.
+## multimedia. video. Make small sharable video from larger.
 ## Cut the video to just the part wanted.
-ffmpeg -ss 00:00:02 -i ./inputvid.mp4 -t 00:00:13 -vcodec copy -acodec copy ./outputvid.mp4
+$> ffmpeg -ss 00:00:02 -i ./inputvid.mp4 -t 00:00:13 -vcodec copy -acodec copy ./outputvid.mp4
 ## Downsample scale. Can try 'slow' and 'veryslow' preset as well.
 ## HVEC H265. 
-ffmpeg -i ./outputvid.mp4 -vcodec libx265 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm.mp4
+$> ffmpeg -i ./outputvid.mp4 -vcodec libx265 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm.mp4
 ## HVEC H264. Will play in browser.
-ffmpeg -i ./outputvid.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm-264.mp4
+$> ffmpeg -i ./outputvid.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm-264.mp4
 
 ##==========================================
-alias ufetch="sh $HOME/ufetch/ufetch-arch"
-alias ..='cd ..'
-alias ls='ls -hspt --color=auto'
-alias nscan='nmap -sn $1'
-alias myip='curl ipinfo.io/ip'
-alias yt2='youtube-dl -x --audio-format mp3 --audio-quality 0 --add-metadata'
-alias donkeyballs='echo "Received and understood rtailocinante"'
-alias stats='sudo systemctl status'
-alias fstats='sudo systemctl status > status.txt'
-alias net?='ping archlinux.org -c 5'
-alias fuckit='git push'
-alias pubsub='. $HOME/scripts/pubsub.sh'
-alias fixrofi='. ~/.config/rofi/fixrofi'
-alias networks='nmcli device wifi list'
-alias wifi-home='sudo nmcli device wifi connect sunshine password Nigerian'
-alias wifi-parents='sudo nmcli device wifi connect ORBI47 password chowchow'
-alias vol='amixer get Master | tail -1 | awk '{print$4}''
-alias volup='amixer set Master playback 15+'
-alias voldn='amixer set Master playback 15-'
-#alias wifi-of='sudo nmcli device wifi connect '
+## #################################
+## ##    More bash alias
+## #################################
+##
+$> alias ufetch="sh $HOME/ufetch/ufetch-arch"
+$> alias ..='cd ..'
+$> alias ls='ls -hspt --color=auto'
+$> alias nscan='nmap -sn $1'
+$> alias myip='curl ipinfo.io/ip'
+#$> alias yt2='youtube-dl -x --audio-format mp3 --audio-quality 0 --add-metadata'
+$> alias yt2='yt-dlp -x --audio-format mp3 --audio-quality 0 --add-metadata'
+$> alias donkeyballs='echo "Received and understood rtailocinante"'
+$> alias stats='sudo systemctl status'
+$> alias fstats='sudo systemctl status > status.txt'
+$> alias net?='ping archlinux.org -c 5'
+$> alias fuckit='git push'
+$> alias pubsub='. $HOME/scripts/pubsub.sh'
+$> alias fixrofi='. ~/.config/rofi/fixrofi'
+$> alias networks='nmcli device wifi list'
+$> alias wifi-home='sudo nmcli device wifi connect sunshine password Nigerian'
+$> alias wifi-parents='sudo nmcli device wifi connect ORBI47 password chowchow'
+$> alias vol='amixer get Master | tail -1 | awk '{print$4}''
+$> alias volup='amixer set Master playback 15+'
+$> alias voldn='amixer set Master playback 15-'
+$> alias wifi-of='sudo nmcli device wifi connect '
 ## fix typos
-alias {G,g}{re,er}p='grep'
-alias scrcpy='scrcpy --display-buffer=5000 --audio-buffer=5000 --record '
-alias t='tmux'
-alias c='clear'
-alias ch='clear && history -c'
-alias coto='tldr'
-alias czysc='sudo apt clean && sudo apt autoclean && sudo apt autoremove'
-alias del='rm -i'
-alias dir='pwd && ls'
-alias h='history -c'
-alias ls='ls --color=auto'
-alias matrix='cmatrix -a -b'
-alias mpl='mplayer'
-alias nb='nano ~/.bashrc'
-alias nh='nano ~/.bash_history'
-alias sag='sudo apt'
-alias sagi='sudo apt install'
-alias sagr='sudo apt remove'
-alias szukaj='sudo find / -name'
-alias txt='mplayer -vo caca'
-alias wywal='sudo shred -fuvz'
-alias ~~='cd ~'
-alias lualatexmk='latexmk -lualatex'
-alias cpuhtop='htop --sort-key PERCENT_CPU'
-alias memhtop='htop --sort-key PERCENT_MEM'
-alias iohtop='htop --sort-key IO_RATE'
-alias rsynccp="rsync --archive -hh --partial --progress"
-alias rsyncmv="rsync --archive -hh --partial --progress --remove-sent-files"
-alias build_source_deb="ionice -c3 schedtool -D -n 19 -e debuild -S -sd --lintian-opts --no-lintian"
-alias o="xdg-open"
-alias verynice="ionice -c3 schedtool -D -n 19 -e"
-alias dcd="sudo docker compose down"
-alias dcu="sudo docker compose up -d"
-alias dcl="sudo docker compose logs -f"
-alias dcp="sudo docker compose pull"
-alias dps="sudo docker ps"
-alias dfc="dfc -p -/dev/loop"
-alias ip="ip -color=auto"
-alias diff="diff --color=auto"
-# System with settings-tweaks
-alias cd='cl'
-alias sudo='sudo '
-alias please='sudo '
-alias apt='nala '
-alias open='xdg-open '
-alias ls='ls -pa --color=auto --group-directories-first'
-alias tree='tree -L 2 --filelimit 25 --dirsfirst --noreport'
-alias recent='ls -t -1'
-alias cp='cp -i'
-alias cpv='rsync -ah --info=progress2'
-alias mv='mv -i'
-alias mkdir='mkdir -p'
-alias grep='grep --color=auto'
-alias ..='cd ..'
-alias home='cd ~'
-alias back='cd "$OLDPWD"'
-
-# Informatic
-alias motd='cat /etc/motd | lolcat'
-alias neofetch='neofetch | lolcat'
-alias yggdrasil='cbonsai -S | lolcat -a'
-alias bonsai='cbonsai -S'
-alias news='curl us.getnews.tech'
-alias weather='curl https://wttr.in/<my home>'
-alias moon='curl wttr.in/Moon'
-
-# Developer Stuff
-alias gitlog="git log --graph -n 5 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias python='python3 '
-alias init-project='git init && python3 -m venv .venv && source .venv/bin/activate'
-alias gitroot='cd $(git rev-parse --show-toplevel)'
-
-# Misc
-alias newalias='source $HOME/.bash_aliases'
-alias rebash='source .bashrc'
-alias rezsh='source .zshrc'
-alias histsearch='history | grep'
-alias trash='mv --force -t ~/.local/share/Trash'
-alias quickdict='compgen -c | fzf | xargs tldr'
-alias commanddict='compgen -c | fzf | xargs man'
-alias dirsize='du -hc . | tail -n 1'
-# Functions
+$> alias {G,g}{re,er}p='grep'
+$> alias scrcpy='scrcpy --display-buffer=5000 --audio-buffer=5000 --record '
+$> alias t='tmux'
+$> alias c='clear'
+$> alias ch='clear && history -c'
+$> alias coto='tldr'
+$> alias czysc='sudo apt clean && sudo apt autoclean && sudo apt autoremove'
+$> alias del='rm -i'
+$> alias dir='pwd && ls'
+$> alias h='history -c'
+$> alias ls='ls --color=auto'
+$> alias matrix='cmatrix -a -b'
+$> alias mpl='mplayer'
+$> alias nb='nano ~/.bashrc'
+$> alias nh='nano ~/.bash_history'
+$> alias sag='sudo apt'
+$> alias sagi='sudo apt install'
+$> alias sagr='sudo apt remove'
+$> alias szukaj='sudo find / -name'
+$> alias txt='mplayer -vo caca'
+$> alias wywal='sudo shred -fuvz'
+$> alias ~~='cd ~'
+$> alias lualatexmk='latexmk -lualatex'
+$> alias cpuhtop='htop --sort-key PERCENT_CPU'
+$> alias memhtop='htop --sort-key PERCENT_MEM'
+$> alias iohtop='htop --sort-key IO_RATE'
+$> alias rsynccp="rsync --archive -hh --partial --progress"
+$> alias rsyncmv="rsync --archive -hh --partial --progress --remove-sent-files"
+$> alias build_source_deb="ionice -c3 schedtool -D -n 19 -e debuild -S -sd --lintian-opts --no-lintian"
+$> alias o="xdg-open"
+$> alias verynice="ionice -c3 schedtool -D -n 19 -e"
+$> alias dcd="sudo docker compose down"
+$> alias dcu="sudo docker compose up -d"
+$> alias dcl="sudo docker compose logs -f"
+$> alias dcp="sudo docker compose pull"
+$> alias dps="sudo docker ps"
+$> alias dfc="dfc -p -/dev/loop"
+$> alias ip="ip -color=auto"
+$> alias diff="diff --color=auto"
+## System with settings-tweaks
+$> alias cd='cl'
+$> alias sudo='sudo '
+$> alias please='sudo '
+$> alias apt='nala '
+$> alias open='xdg-open '
+$> alias ls='ls -pa --color=auto --group-directories-first'
+$> alias tree='tree -L 2 --filelimit 25 --dirsfirst --noreport'
+$> alias recent='ls -t -1'
+$> alias cp='cp -i'
+$> alias cpv='rsync -ah --info=progress2'
+$> alias mv='mv -i'
+$> alias mkdir='mkdir -p'
+$> alias grep='grep --color=auto'
+$> alias ..='cd ..'
+$> alias home='cd ~'
+$> alias back='cd "$OLDPWD"'
+## Informatic
+$> alias motd='cat /etc/motd | lolcat'
+$> alias neofetch='neofetch | lolcat'
+$> alias yggdrasil='cbonsai -S | lolcat -a'
+$> alias bonsai='cbonsai -S'
+$> alias news='curl us.getnews.tech'
+$> alias weather='curl https://wttr.in/<my home>'
+$> alias moon='curl wttr.in/Moon'
+## Developer Stuff
+$> alias gitlog="git log --graph -n 5 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+$> alias python='python3 '
+$> alias init-project='git init && python3 -m venv .venv && source .venv/bin/activate'
+$> alias gitroot='cd $(git rev-parse --show-toplevel)'
+## Misc
+$> alias new$> alias='source $HOME/.bash_$> aliases'
+$> alias rebash='source .bashrc'
+$> alias rezsh='source .zshrc'
+$> alias histsearch='history | grep'
+$> alias trash='mv --force -t ~/.local/share/Trash'
+$> alias quickdict='compgen -c | fzf | xargs tldr'
+$> alias commanddict='compgen -c | fzf | xargs man'
+$> alias dirsize='du -hc . | tail -n 1'
+## Functions
 gitignore() {
         local gitrootdir="$(git rev-parse --show-toplevel)"
         git rm --cached "$1" -r
         echo "$1" >> "$gitrootdir/.gitignore"
 }
-
+##
 update() {
         sudo nala update &&
         sudo nala upgrade -y &&
@@ -11237,13 +11241,13 @@ update() {
         sudo nala autopurge &&
         sudo nala clean
 }
-
+##
 countfiles() {
     local directory="$1"
     local count=$(find "$directory" -type f | wc -l)
     echo "Number of files in $directory: $count"
 }
-
+##
 cl() {
     DIR="$*";
         # if no DIR given, go home
@@ -11263,216 +11267,204 @@ sounddev() {
         echo
         echo "pactl set-default-{sink, source} #"
 }
-
-
+##---------------------------------
 ## git
-alias gs='git status'
-alias gl='git log'
-alias gb='git branch'
-alias gd='git diff'
-alias gdc='git diff --cached'
-
-# github aliases
-alias git-log="git log --graph --pretty=oneline --abbrev-commit --decorate --all"
-
-# yadm helpers
-alias yadm-log="yadm log --graph --pretty=oneline --abbrev-commit --decorate --all"
-
-# ls/lsd aliases
-alias l="/usr/bin/lsd"
-alias ll="/usr/bin/lsd -l"
-alias la="/usr/bin/lsd -a"
-alias lt="/usr/bin/lsd --tree --depth=4"
-alias lla="/usr/bin/lsd -la"
-alias llt="/usr/bin/lsd -l --tree --depth=4"
-alias lta="/usr/bin/lsd -a --tree --depth=4"
-alias llta="/usr/bin/lsd -la --tree --depth=4"
-
-# tmux shortcut
-t()
-{
-    tmux new-session -A -s `[ -z $1 ] && echo $HOST || echo $1`
-}
-alias tls="tmux ls"
-
-# other
-alias copy='rsync -rulhH --inplace --no-inc-recursive --info=progress2'
-alias vim=nvim
-alias wget=wget --hsts-file=${XDG_DATA_HOME:-${HOME}/.local/share}/wget-hsts
-alias rm='trash'
-
-# homelab
-alias deploy="docker stack deploy --resolve-image=never --with-registry-auth -c docker-compose.yml"
-alias remove="docker stack rm"
-
-alias la='ls -Alh' # show hidden files
-alias ls='ls -aFh --color=always'
-alias lx='ls -lXBh' # sort by extension
-alias lk='ls -lSrh' # sort by size
-alias lc='ls -lcrh' # sort by change time
-alias lu='ls -lurh' # sort by access time
-alias lr='ls -lRh'  # recursive ls
-alias lt='ls -ltrh' # sort by date
-alias lm='ls -alh |more' # pipe through 'more'
-alias lw='ls -xAh'  # wide listing format
-alias ll='ls -Fls'  # long listing format
-alias labc='ls -lap' #alphabetical sort
-alias lf="ls -l | egrep -v 'd'" # files only
-alias ldir="ls -l | egrep 'd'" # directories only
-alias da='date "+%Y-%m-%d %A %T %Z"'
-alias upgrade='sudo apt upgrade'
-alias update='sudo apt update'
-alias remove='sudo apt remove'
-alias autoremove='sudo apt autoclean && sudo apt autoremove'
-alias clean='sudo apt clean'
-alias edit='sudo -H gedit'
-alias gedit='nohup gedit'
-alias reboot='sudo /sbin/reboot'
-alias shutdown='sudo /sbin/shutdown'
-alias ainstall='sudo apt install'
-alias reinstall='sudo apt reinstall'
-alias speedtest='speedtest-cli'
-alias analyze='systemd-analyze'
-alias blame='systemd-analyze blame'
-alias chain='systemd-analyze critical-chain'
-alias chart='systemd-analyze plot > test.svg'
-alias trash='sudo rm -rf ~/.local/share/Trash/*'
-alias flush='sudo journalctl --vacuum-size=10M'
-alias release='cat /etc/*release'
-alias anan='journalctl -efu ananicy.service'
-alias cache='sync; echo 3 | sudo tee /proc/sys/vm/drop_caches'
-alias swap='sudo swapoff -a && sudo swapon -a'
-alias proton='protontricks --gui --no-bwrap'
-alias weather='curl wttr.in/'
-alias grep='grep --color=auto'
-alias cp="cp -i"
-alias mv='mv -i'
-alias rm='rm -iv' alias c='clear'
-alias cpu5='ps auxf | sort -nr -k 3 | head -5'
-alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
-alias -s {txt,yml,yaml,conf,md,list}="nvim"
-alias -s html="firefox"
-alias -s org="firefox"
-$ alias -g C='| wc -l'
-$ grep alias ~/.zsh/* C
-alias -g WL='| wc -l'
-alias -g CA="2>&1 | cat -A"
-alias -g DN="2> /dev/null"
-alias -g G='|& egrep'
-alias -g H='|& head'
-alias -g L='|& less'
-alias -g B='|& bat'
-alias -g TF='|& tail -f'
-alias -g M='| most'
-alias -g SNR='| sort -nr'
-alias -g S='| sort'alias -g X='| xargs'
-alias -g X0G='| xargs -0 egrep'
-alias -g X0='| xargs -0'
-alias -g ND='*(/om[1])' # newest directory
-alias -g NF='*(.om[1])' # newest file
-alias iptl='sudo /sbin/iptables -L -n -v --line-numbers'
-alias iptlin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
-alias iptlout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
-alias iptlfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
-alias iptlnat='sudo /sbin/iptables -t nat -n -v --line-numbers'
-alias gitar="git ls-files -d -m -o -z --exclude-standard | xargs -0 git update-index --add --remove"
-alias g='git'
-alias gpd='git push origin develop'
-alias gpm='git push origin master'
-alias gst='git status'
-alias gcom='git commit -m --all'
-alias gclo='git clone'
-alias glog='git log'
-alias gadd='git add . --verbose'
-alias gco='git checkout'
-alias gls='git ls-files'
-alias gpall='git push --all'
-alias msr='mysql -u root -p'
-alias restartapache='sudo systemctl restart apache2 && sudo systemctl status -l apache2'
-alias apachedit='sudo vim /etc/apache2/apache2.conf'
-alias apachegrace='sudo apachectl graceful'
-alias apachelog="less +F /var/log/apache2/*.log"
-alias accio=ansibleSetup
-alias ans='ansible'
-alias ansp='ansible-playbook'
-alias lxcls="lxc-ls --fancy"
-alias lxcat="lxc-attach -n $@"
-alias lxcstop="lxc-stop -n $@"
-alias lxcstart="lxc-start -n $@"
-
-##==========================================
-
+$> alias gs='git status'
+$> alias gl='git log'
+$> alias gb='git branch'
+$> alias gd='git diff'
+$> alias gdc='git diff --cached'
+## github $> aliases
+$> alias git-log="git log --graph --pretty=oneline --abbrev-commit --decorate --all"
+## yadm helpers
+$> alias yadm-log="yadm log --graph --pretty=oneline --abbrev-commit --decorate --all"
+## ls/lsd $> aliases
+$> alias l="/usr/bin/lsd"
+$> alias ll="/usr/bin/lsd -l"
+$> alias la="/usr/bin/lsd -a"
+$> alias lt="/usr/bin/lsd --tree --depth=4"
+$> alias lla="/usr/bin/lsd -la"
+$> alias llt="/usr/bin/lsd -l --tree --depth=4"
+$> alias lta="/usr/bin/lsd -a --tree --depth=4"
+$> alias llta="/usr/bin/lsd -la --tree --depth=4"
+## tmux shortcut
+$> t() { tmux new-session -A -s `[ -z $1 ] && echo $HOST || echo $1` }
+$> alias tls="tmux ls"
+## other
+$> alias copy='rsync -rulhH --inplace --no-inc-recursive --info=progress2'
+$> alias vim=nvim
+$> alias wget=wget --hsts-file=${XDG_DATA_HOME:-${HOME}/.local/share}/wget-hsts
+$> alias rm='trash'
+## homelab
+$> alias deploy="docker stack deploy --resolve-image=never --with-registry-auth -c docker-compose.yml"
+$> alias remove="docker stack rm"
+##
+$> alias la='ls -Alh' # show hidden files
+$> alias ls='ls -aFh --color=always'
+$> alias lx='ls -lXBh' # sort by extension
+$> alias lk='ls -lSrh' # sort by size
+$> alias lc='ls -lcrh' # sort by change time
+$> alias lu='ls -lurh' # sort by access time
+$> alias lr='ls -lRh'  # recursive ls
+$> alias lt='ls -ltrh' # sort by date
+$> alias lm='ls -alh |more' # pipe through 'more'
+$> alias lw='ls -xAh'  # wide listing format
+$> alias ll='ls -Fls'  # long listing format
+$> alias labc='ls -lap' #alphabetical sort
+$> alias lf="ls -l | egrep -v 'd'" # files only
+$> alias ldir="ls -l | egrep 'd'" # directories only
+$> alias da='date "+%Y-%m-%d %A %T %Z"'
+$> alias upgrade='sudo apt upgrade'
+$> alias update='sudo apt update'
+$> alias remove='sudo apt remove'
+$> alias autoremove='sudo apt autoclean && sudo apt autoremove'
+$> alias clean='sudo apt clean'
+$> alias edit='sudo -H gedit'
+$> alias gedit='nohup gedit'
+$> alias reboot='sudo /sbin/reboot'
+$> alias shutdown='sudo /sbin/shutdown'
+$> alias ainstall='sudo apt install'
+$> alias reinstall='sudo apt reinstall'
+$> alias speedtest='speedtest-cli'
+$> alias analyze='systemd-analyze'
+$> alias blame='systemd-analyze blame'
+$> alias chain='systemd-analyze critical-chain'
+$> alias chart='systemd-analyze plot > test.svg'
+$> alias trash='sudo rm -rf ~/.local/share/Trash/*'
+$> alias flush='sudo journalctl --vacuum-size=10M'
+$> alias release='cat /etc/*release'
+$> alias anan='journalctl -efu ananicy.service'
+$> alias cache='sync; echo 3 | sudo tee /proc/sys/vm/drop_caches'
+$> alias swap='sudo swapoff -a && sudo swapon -a'
+$> alias proton='protontricks --gui --no-bwrap'
+$> alias weather='curl wttr.in/'
+$> alias grep='grep --color=auto'
+$> alias cp="cp -i"
+$> alias mv='mv -i'
+$> alias rm='rm -iv' $> alias c='clear'
+$> alias cpu5='ps auxf | sort -nr -k 3 | head -5'
+$> alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
+$> alias -s {txt,yml,yaml,conf,md,list}="nvim"
+$> alias -s html="firefox"
+$> alias -s org="firefox"
+$ $> alias -g C='| wc -l'
+$ grep $> alias ~/.zsh/* C
+$> alias -g WL='| wc -l'
+$> alias -g CA="2>&1 | cat -A"
+$> alias -g DN="2> /dev/null"
+$> alias -g G='|& egrep'
+$> alias -g H='|& head'
+$> alias -g L='|& less'
+$> alias -g B='|& bat'
+$> alias -g TF='|& tail -f'
+$> alias -g M='| most'
+$> alias -g SNR='| sort -nr'
+$> alias -g S='| sort'$> alias -g X='| xargs'
+$> alias -g X0G='| xargs -0 egrep'
+$> alias -g X0='| xargs -0'
+$> alias -g ND='*(/om[1])' # newest directory
+$> alias -g NF='*(.om[1])' # newest file
+$> alias iptl='sudo /sbin/iptables -L -n -v --line-numbers'
+$> alias iptlin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
+$> alias iptlout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
+$> alias iptlfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
+$> alias iptlnat='sudo /sbin/iptables -t nat -n -v --line-numbers'
+$> alias gitar="git ls-files -d -m -o -z --exclude-standard | xargs -0 git update-index --add --remove"
+$> alias g='git'
+$> alias gpd='git push origin develop'
+$> alias gpm='git push origin master'
+$> alias gst='git status'
+$> alias gcom='git commit -m --all'
+$> alias gclo='git clone'
+$> alias glog='git log'
+$> alias gadd='git add . --verbose'
+$> alias gco='git checkout'
+$> alias gls='git ls-files'
+$> alias gpall='git push --all'
+$> alias msr='mysql -u root -p'
+$> alias restartapache='sudo systemctl restart apache2 && sudo systemctl status -l apache2'
+$> alias apachedit='sudo vim /etc/apache2/apache2.conf'
+$> alias apachegrace='sudo apachectl graceful'
+$> alias apachelog="less +F /var/log/apache2/*.log"
+$> alias accio=ansibleSetup
+$> alias ans='ansible'
+$> alias ansp='ansible-playbook'
+$> alias lxcls="lxc-ls --fancy"
+$> alias lxcat="lxc-attach -n $@"
+$> alias lxcstop="lxc-stop -n $@"
+$> alias lxcstart="lxc-start -n $@"
+##-------------------------------
 ## Especially for Debian/Ubuntu :
-alias apti='sudo apt-get install'
-alias apts="sudo apt-cache search"
-alias aptr='sudo apt-get remove'
-alias orphand='sudo deborphan | xargs sudo apt-get -y remove --purge'
-alias aptclean='sudo apt-get autoclean && sudo apt-get autoremove && sudo apt-get clean && sudo apt-get remove && orphand'
-alias upd="sudo apt-get update && sudo apt-get upgrade --only-upgrade -y | tee /var/log/divers/packages-update-$(date +%F).log; sudo apt-get -f install; sudo apt autoclean; sudo apt autoremove"
-alias dodo='sudo /sbin/poweroff'
-alias reboot='sudo /sbin/reboot'
-alias poweroff='sudo /sbin/poweroff'
-alias halt='sudo /sbin/poweroff'
-alias shutdown='sudo /sbin/shutdown'
-alias stamp='echo $(date "+%A_%d/%m/%Y_%Hh%M)'
-alias now='echo $(date +"%T)"'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep --color=auto'
-alias please='sudo $(history -p \!\!)'
-alias sduo='sudo'
-alias suod='sudo'
-alias svi='sudo nvim' alias us="su"
-alias vi='nvim'
-alias edit='nvim'
-alias emacs='nvim'
-# Arch Linux "don't panic" updater
-alias         pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── 🔃 yesterday pkgs available at ───${COLOR_GRANADE}
-https://archive.archlinux.org/repos/$(date --date=yesterday '+%Y/%m/%d')
-by name : https://archive.archlinux.org/packages
-$COLOR_LIGHT_GREY
-\" ; paru"
-alias         ip='ip   --color                   '
-
-# no qalc, 20°Cx2 doesn't equals 40°C
-alias       qalc='echo -en "\e]2;🧮 qalc\a"; qalc --set="temp 1"'
-
-alias   'rh#'=' systemctl      reboot    #'
-alias   'rs#'=' systemctl soft-reboot    #'
-alias pwr_cya=' systemctl hibernate      #'
-alias pwr_sby=' systemctl hybrid-sleep   #'
-alias pwr_zzz=' xset dpms force  off     #'
-
-alias        cls=' echo -ne "\033c"                 #' # clear for real
-alias         :x=' exit 0                           #'
-alias         :X=' :x                               #'
-alias         :q=' :x                               #'
-alias         :Q=' :x                               #'
-alias        l='lsd        --long     --almost-all --group-dirs first --hyperlink=always         '
-alias       sl=' l                                                                               '
-alias powershell='echo -en "\e]2;🪟 Poweshell\a"; pwsh    '
-alias      vs='sudo     $EDITOR'
-alias      Sw='sudo     $EDITOR'
-alias     :Sw='sudo     $EDITOR'
-export MANPAGER="nvim    +Man! '+colorscheme base16-eighties' -"
-
-alias ii="xdg-open" # just like Windows
-
-alias qr_cam="zbarcam"
-alias sc='systemctl'
-alias jc='journalctl'
-
-
-alias du='du -h'
-alias df='df -h -x tmpfs -x devtmpfs -x squashfs'
-alias mkdir='mkdir -p'
-alias ls='ls -hqvF --group-directories-first --color=auto'
-alias rsync='rsync --info=progress2 --partial -Lrutz'
-alias hosts='grep -E "Host ([^*]+)$" $HOME/.ssh/config | cut -d" " -f2-'
-alias ll="ls -lah"
-alias drma='docker rm -f $(docker ps -a -q)'
-alias fixperms='sudo chown -R $(whoami):$(whoami) . && sudo chmod -R a=,a+rX,u+w,g+w .'
-
+$> alias apti='sudo apt-get install'
+$> alias apts="sudo apt-cache search"
+$> alias aptr='sudo apt-get remove'
+$> alias orphand='sudo deborphan | xargs sudo apt-get -y remove --purge'
+$> alias aptclean='sudo apt-get autoclean && sudo apt-get autoremove && sudo apt-get clean && sudo apt-get remove && orphand'
+$> alias upd="sudo apt-get update && sudo apt-get upgrade --only-upgrade -y | tee /var/log/divers/packages-update-$(date +%F).log; sudo apt-get -f install; sudo apt autoclean; sudo apt autoremove"
+#$> alias dodo='sudo /sbin/poweroff'
+$> alias reboot='sudo /sbin/reboot'
+$> alias poweroff='sudo /sbin/poweroff'
+$> alias halt='sudo /sbin/poweroff'
+$> alias shutdown='sudo /sbin/shutdown'
+$> alias stamp='echo $(date "+%A_%d/%m/%Y_%Hh%M)'
+$> alias now='echo $(date +"%T)"'
+$> alias egrep='egrep --color=auto'
+$> alias fgrep='fgrep --color=auto'
+$> alias grep='grep --color=auto'
+$> alias please='sudo $(history -p \!\!)'
+$> alias sduo='sudo'
+$> alias suod='sudo'
+$> alias svi='sudo nvim'
+$> alias us="su"
+$> alias vi='nvim'
+$> alias edit='nvim'
+$> alias emacs='nvim'
+## Arch Linux "don't panic" updater
+$> alias         pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── 🔃 yesterday pkgs available at ───${COLOR_GRANADE}
+#https://archive.archlinux.org/repos/$(date --date=yesterday '+%Y/%m/%d')
+#by name : https://archive.archlinux.org/packages
+#$COLOR_LIGHT_GREY
+#\" ; paru"
+#$> alias         ip='ip   --color                   '
+##
+## no qalc, 20°Cx2 doesn't equals 40°C
+#$> alias       qalc='echo -en "\e]2;🧮 qalc\a"; qalc --set="temp 1"'
+##
+#$> alias rh#'=' systemctl      reboot    #'
+#$> alias  'rs#'=' systemctl soft-reboot    #'
+#$> alias pwr_cya=' systemctl hibernate      #'
+#$> alias pwr_sby=' systemctl hybrid-sleep   #'
+#$> alias pwr_zzz=' xset dpms force  off     #'
+#
+#$> alias cls=' echo -ne "\033c"                 #' # clear for real
+#$> alias :x=' exit 0                           #'
+#$> alias :X=' :x                               #'
+#$> alias :q=' :x                               #'
+#$> alias :Q=' :x                               #'
+#$> alias l='lsd        --long     --almost-all --group-dirs first --hyperlink=always         '
+#$> alias sl=' l                                                                               '
+#$> alias powershell='echo -en "\e]2;🪟 Poweshell\a"; pwsh    '
+#$> alias vs='sudo     $EDITOR'
+#$> alias Sw='sudo     $EDITOR'
+#$> alias :Sw='sudo     $EDITOR'
+#export MANPAGER="nvim    +Man! '+colorscheme base16-eighties' -"
+##
+$> alias ii="xdg-open" # just like Windows
+##
+$> alias qr_cam="zbarcam"
+$> alias sc='systemctl'
+$> alias jc='journalctl'
+##
+$> alias du='du -h'
+$> alias df='df -h -x tmpfs -x devtmpfs -x squashfs'
+$> alias mkdir='mkdir -p'
+$> alias ls='ls -hqvF --group-directories-first --color=auto'
+$> alias rsync='rsync --info=progress2 --partial -Lrutz'
+$> alias hosts='grep -E "Host ([^*]+)$" $HOME/.ssh/config | cut -d" " -f2-'
+$> alias ll="ls -lah"
+$> alias drma='docker rm -f $(docker ps -a -q)'
+$> alias fixperms='sudo chown -R $(whoami):$(whoami) . && sudo chmod -R a=,a+rX,u+w,g+w .'
+##
 function upd() {
   if [[ $OSTYPE == "linux"* ]]; then
     sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
@@ -11485,66 +11477,59 @@ function upd() {
 function killport() {
   sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
 }
-
-gc=‘git commit -am’
-gcane=‘git commit —amend —no-edit`
-gp=‘git push’
-gpfl=‘git push —force-with-lease’
-gs=‘git status’
-gd=‘git diff’
-
-# Recommit with the previous commit message
+## git.
+$> alias gc=‘git commit -am’
+$> alias gcane=‘git commit —amend —no-edit`
+$> alias gp=‘git push’
+$> alias gpfl=‘git push —force-with-lease’
+$> alias gs=‘git status’
+$> alias gd=‘git diff’
+##
+## Recommit with the previous commit message
 gcr=‘git commit -am “$(cat “$(git rev-parse —git-dir)/COMMIT_EDITMSG”)”’
-
-# ffmpeg-normalize for normalizing volume levels of videos
-# Example: normalize video.mp4
-alias normalize='ffmpeg-normalize -v'
-
-# qpdf for combining PDFs
-# Example: combine-pdf first.pdf second.pdf -- combined.pdf
-alias combine-pdf='qpdf --empty --page'
-
-# yt-dlp audio-only
-# Example: mp3-dl https://www.youtube.com/watch?v=dQw4w9WgXcQ
-alias mp3-dl='yt-dlp -x -f bestaudio --audio-format mp3 --audio-quality 128k'
-# kill and restart powerline
-alias pd="powerline-daemon -k && powerline daemon -q"
-
-# check and install updates automatically
-alias sys-up="sudo dnf upgrade -y --refresh"
-
-# sys-up with terminal close
-alias sys-upgrade="sys-up && exit"
-
-# sys-up with shutdown
-alias sys-up-down="sys-up && shutdown now"
-
-alias sodu="sudo"
-alias vd="yt-dlp"
-alias clr="clear && ls"
-alias o="xdg-open"
-alias c="cal | sed "s/$(date +%e)/"$'\033\[94m&\033\[0m/g'"
-alias python="python3"
-alias ..="cd .."
-alias ...="cd ../.."
-alias boss='while [ TRUE ]; do head -n 100 /dev/urandom; sleep .05; done | hexdump -C | grep "ff 25"'
-alias map="telnet mapscii.me"
-alias myip="wget https://ipinfo.io/ip -qO -"
-alias fuck='sudo $(history -p \!\!)'
-alias h='eval "$(history -p \!\! | awk '\''{print $1}'\'')" --help'
-
-inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-
-
+## ffmpeg-normalize for normalizing volume levels of videos
+## Example: normalize video.mp4
+$> alias normalize='ffmpeg-normalize -v'
+## qpdf for combining PDFs
+## Example: combine-pdf first.pdf second.pdf -- combined.pdf
+$> alias combine-pdf='qpdf --empty --page'
+## yt-dlp audio-only
+## Example: mp3-dl https://www.youtube.com/watch?v=dQw4w9WgXcQ
+$> alias mp3-dl='yt-dlp -x -f bestaudio --audio-format mp3 --audio-quality 128k'
+## kill and restart powerline.
+$> alias pd="powerline-daemon -k && powerline daemon -q"
+## check and install updates automatically.
+$> alias sys-up="sudo dnf upgrade -y --refresh"
+## sys-up with terminal close.
+$> alias sys-upgrade="sys-up && exit"
+## sys-up with shutdown.
+$> alias sys-up-down="sys-up && shutdown now"
+## corrections.
+$> alias sodu="sudo"
+$> alias vd="yt-dlp"
+$> alias clr="clear && ls"
+$> alias o="xdg-open"
+$> alias c="cal | sed "s/$(date +%e)/"$'\033\[94m&\033\[0m/g'"
+$> alias python="python3"
+$> alias ..="cd .."
+$> alias ...="cd ../.."
+$> alias boss='while [ TRUE ]; do head -n 100 /dev/urandom; sleep .05; done | hexdump -C | grep "ff 25"'
+$> alias map="telnet mapscii.me"
+$> alias myip="wget https://ipinfo.io/ip -qO -"
+$> alias fuck='sudo $(history -p \!\!)'
+$> alias h='eval "$(history -p \!\! | awk '\''{print $1}'\'')" --help'
+##
+$> inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+##
 if [[ $inside_get_repo ]]; then
-    alias rm='git rm'
+    $> alias rm='git rm'
 elif [[ -e "/usr/bin/trash" ]]; then
-    alias rm='trash'
+    $> alias rm='trash'
 else
-    alias rm='rm -i'
+    $> alias rm='rm -i'
 fi
-
-
+##-------------------------
+## New cd with functions
 function _cd {
     # typing just `_cd` will take you $HOME ;)
     if [ "$1" == "" ]; then
@@ -11565,145 +11550,138 @@ function _cd {
           pushd "$@" > /dev/null
     fi
 }
-
-
-# replace standard `cd` with enhanced version, ensure tab-completion works
-
-
-alias cd='_cd'
-complete -d cd
-
-
-#
-alias ..='cd ..' #go to parent dir
-alias ...='cd ../..' #go to grandparent dir
-alias .3='cd ../../..'
-alias .4='cd ../../../..'
-alias .5='cd ../../../../..'
-
-
-alias star_wars='telnet towel.blinkenlights.nl'
-
-
-cdate     = !git add --all && git commit --message \"Commit for $(date -I)\"
-cdatetime = !git add --all && git commit --message \"Commit for $(date -Iseconds)\"
-cyolo     = !git add --all && git commit --message \"$(fortune -n 72 -s)\" && git push --force
-cyolo2    = !git add --all && git commit --message \"$(fortune -n 72 -s)\"
-cyolo3    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\" && git push --force
-cyolo4    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\"
-cidk      = !git add --all && git commit --message '¯\\_(ツ)_/¯' && git push --force
-cidk2     = !git add --all && git commit --message '¯\\(°_o)/¯'
-
-alias ls='exa -l --icons --color=always --group-directories-first'
-alias la='exa -l --all --icons --color=always --group-directories-first'
-alias ProtonUp='ProtonUp-Qt-2.9.1-x86_64.AppImage'
-alias yuzu='yuzu-mainline-20240212-1d765bdb8.AppImage'
-#script with my aliases
-alias c="clear"
-alias ff="fastfetch"
-alias ls="ls --color=auto"
-alias l="ls -la --color=auto"
-alias ll="ls -l --color=auto"
-alias la="ls -a --color=auto"
-alias lt="ls -h --size -1 -S --classify"
-alias ll="ls -Alhp --group-directories-first"
-alias s="systemctl start"
-alias st="systemctl status"
-alias ss="systemctl stop"
-alias sr="systemctl restart"
-alias se="systemctl enable"
-alias sd="systemctl disable"
-alias sh="~/.scripts/hibernate.sh"
-alias suspend="systemctl suspend"
-alias locate="plocate -i"
-alias v="vim"
-alias untar="tar -axvf"
-alias du="du -h --max-depth=1"
-alias search="yay -Ss"
-alias install="sudo pacman -S"
-alias ynstall="yay -S"
-alias update="sudo pacman -Syu"
-alias ypdate="yay -Syu"
-alias remove="sudo pacman -Rns"
-alias rymove="yay -Rns"
-alias upgrade="update && ypdate"
-
-#common foders
-alias dl="cd ~/Downloads"
-alias ms="cd ~/Music"
-alias dr="cd ~/Dropbox"
-alias pr="cd ~/Projects"
-alias dots="cd ~/.dotfiles"
-alias ~="cd ~"
-alias ..="cd ..;pwd"
-alias ...="cd ../..;pwd"
-#balena
-alias balena="nohup /usr/bin/balenaEtcher-1.14.3-x64.AppImage > /dev/null &"
-#git
-alias g="git $1"
-alias gs="git status"
-alias gl="git log"
-alias gd="git diff $1 $2"
-alias gi="git init $1"
-alias gr="git remote $1"
-alias gf="git fetch $1"
-alias gm="git merge $1"
-alias gr="git reset $"
-alias gsw="git switch"
-alias gco="git checkout $1"
-alias gcb="git checkout -b $1"
-alias ga="git add $1"
-alias gaa="git add ."
-alias gcm="git commit -m 'minor fixes'"
-alias gc="git commit -m $1"
-alias gp="git push $1 $2"
-alias gpo="git push origin $1"
-alias gpom="git push origin master"
-alias gpm="gaa && gcm && gp"
-alias gplom="git pull origin master"
-alias gpl="git pull $1 $2"
-alias gplr="git pull --rebase $1 $2"
-alias gsh="git stash"
-alias gshp="git stash pop"
-#config i3 edit
-alias i="vim ~/.config/i3/config"
-alias ic="vim ~/.config/i3/custom.config"
-alias p="vim ~/.config/polybar/config.ini"
-alias pc="vim ~/.config/polybar/custom.config.ini"
-alias r="vim ~/.config/rofi/config.rasi"
-alias x=startx
-#dotman / .dotfiles repo
-alias dotman="~/.dotfiles/dotman.sh"
-# hibernation
-alias sleep="systemctl hibernate"
-# wifi on/off
-alias wifion="nmcli radio wifi on"
-alias wifioff="nmcli radio wifi off"
-# Vim for root
-alias rvim="sudo -E vim"
-# Bash shortcuts
-alias mx="chmod +x"
-alias psg="ps -aux | grep"
-# 7Z
-alias unzip="7z x '*.zip';7z x '*.7z';7z x '*.rar'"
-# cmus
-alias cmus="[ -f /sbin/cmus ] && cd ~/Music && cmus && cd - > null"
-# haskell
-alias cr="cabal repl"
-alias cb="cabal build"
-alias ci="cabal install"
-alias gh="ghcid"
-alias cbi="cabal build && cabal install --overwrite-policy=always"
-alias h="cd ~/Projects/haskell"
-# misc
-alias i3asus="cp ~/.dotfiles/i3/.config/i3/config ~/.config/i3/"
-alias yt="yt-dlp -f $1 $2"
-# save last command from history to a file
-# tip, add a comment to end of command before saving, ex: ls --color=auto # colored ls output
+## replace standard `cd` with enhanced version, ensure tab-completion works
+$> alias cd='_cd'
+$> complete -d cd
+##-------------------------
+##
+$> alias ..='cd ..' ## go to parent dir.
+$> alias ...='cd ../..' ## go to grandparent dir.
+$> alias .3='cd ../../..'
+$> alias .4='cd ../../../..'
+$> alias .5='cd ../../../../..'
+## blinkenlights.
+$> alias star_wars='telnet towel.blinkenlights.nl'
+## git.
+$> cdate     = !git add --all && git commit --message \"Commit for $(date -I)\"
+$> cdatetime = !git add --all && git commit --message \"Commit for $(date -Iseconds)\"
+$> cyolo     = !git add --all && git commit --message \"$(fortune -n 72 -s)\" && git push --force
+$> cyolo2    = !git add --all && git commit --message \"$(fortune -n 72 -s)\"
+$> cyolo3    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\" && git push --force
+$> cyolo4    = !git add --all && git commit --message \"$(curl -s https://whatthecommit.com/index.txt)\"
+$> cidk      = !git add --all && git commit --message '¯\\_(ツ)_/¯' && git push --force
+$> cidk2     = !git add --all && git commit --message '¯\\(°_o)/¯'
+## exa.
+$> alias ls='exa -l --icons --color=always --group-directories-first'
+$> alias la='exa -l --all --icons --color=always --group-directories-first'
+## Gaming.
+$> alias ProtonUp='ProtonUp-Qt-2.9.1-x86_64.AppImage'
+$> alias yuzu='yuzu-mainline-20240212-1d765bdb8.AppImage'
+## script with my aliases.
+$> alias c="clear"
+$> alias ff="fastfetch"
+$> alias ls="ls --color=auto"
+$> alias l="ls -la --color=auto"
+$> alias ll="ls -l --color=auto"
+$> alias la="ls -a --color=auto"
+$> alias lt="ls -h --size -1 -S --classify"
+$> alias ll="ls -Alhp --group-directories-first"
+$> alias s="systemctl start"
+$> alias st="systemctl status"
+$> alias ss="systemctl stop"
+$> alias sr="systemctl restart"
+$> alias se="systemctl enable"
+$> alias sd="systemctl disable"
+$> alias sh="~/.scripts/hibernate.sh"
+$> alias suspend="systemctl suspend"
+$> alias locate="plocate -i"
+$> alias v="vim"
+$> alias untar="tar -axvf"
+$> alias du="du -h --max-depth=1"
+$> alias search="yay -Ss"
+$> alias install="sudo pacman -S"
+$> alias ynstall="yay -S"
+$> alias update="sudo pacman -Syu"
+$> alias ypdate="yay -Syu"
+$> alias remove="sudo pacman -Rns"
+$> alias rymove="yay -Rns"
+$> alias upgrade="update && ypdate"
+## common foders
+$> alias dl="cd ~/Downloads"
+$> alias ms="cd ~/Music"
+$> alias dr="cd ~/Dropbox"
+$> alias pr="cd ~/Projects"
+$> alias dots="cd ~/.dotfiles"
+$> alias ~="cd ~"
+$> alias ..="cd ..;pwd"
+$> alias ...="cd ../..;pwd"
+## balena
+$> alias balena="nohup /usr/bin/balenaEtcher-1.14.3-x64.AppImage > /dev/null &"
+## git
+$> alias g="git $1"
+$> alias gs="git status"
+$> alias gl="git log"
+$> alias gd="git diff $1 $2"
+$> alias gi="git init $1"
+$> alias gr="git remote $1"
+$> alias gf="git fetch $1"
+$> alias gm="git merge $1"
+$> alias gr="git reset $"
+$> alias gsw="git switch"
+$> alias gco="git checkout $1"
+$> alias gcb="git checkout -b $1"
+$> alias ga="git add $1"
+$> alias gaa="git add ."
+$> alias gcm="git commit -m 'minor fixes'"
+$> alias gc="git commit -m $1"
+$> alias gp="git push $1 $2"
+$> alias gpo="git push origin $1"
+$> alias gpom="git push origin master"
+$> alias gpm="gaa && gcm && gp"
+$> alias gplom="git pull origin master"
+$> alias gpl="git pull $1 $2"
+$> alias gplr="git pull --rebase $1 $2"
+$> alias gsh="git stash"
+$> alias gshp="git stash pop"
+## config i3 edit
+$> alias i="vim ~/.config/i3/config"
+$> alias ic="vim ~/.config/i3/custom.config"
+$> alias p="vim ~/.config/polybar/config.ini"
+$> alias pc="vim ~/.config/polybar/custom.config.ini"
+$> alias r="vim ~/.config/rofi/config.rasi"
+$> alias x=startx
+## dotman / .dotfiles repo
+$> alias dotman="~/.dotfiles/dotman.sh"
+## hibernation
+$> alias sleep="systemctl hibernate"
+## wifi on/off
+$> alias wifion="nmcli radio wifi on"
+$> alias wifioff="nmcli radio wifi off"
+## Vim for root
+$> alias rvim="sudo -E vim"
+## Bash shortcuts
+$> alias mx="chmod +x"
+$> alias psg="ps -aux | grep"
+## 7Z
+$> alias unzip="7z x '*.zip';7z x '*.7z';7z x '*.rar'"
+## cmus
+$> alias cmus="[ -f /sbin/cmus ] && cd ~/Music && cmus && cd - > null"
+## haskell
+$> alias cr="cabal repl"
+$> alias cb="cabal build"
+$> alias ci="cabal install"
+$> alias gh="ghcid"
+$> alias cbi="cabal build && cabal install --overwrite-policy=always"
+$> alias h="cd ~/Projects/haskell"
+## misc
+$> alias i3asus="cp ~/.dotfiles/i3/.config/i3/config ~/.config/i3/"
+$> alias yt="yt-dlp -f $1 $2"
+## save last command from history to a file
+## tip, add a comment to end of command before saving, ex: ls --color=auto # colored ls output
 a sl='fc -ln -1 | sed "s/^\s*//" >> ~/.saved_commands.txt'
-# short-cut to grep that file
+## short-cut to grep that file
 a slg='< ~/.saved_commands.txt grep'
-
+## Corrections.
   aliases = {
     "x" = "exit";
     "celar" = "clear";
@@ -11716,49 +11694,44 @@ a slg='< ~/.saved_commands.txt grep'
     "tvfb" = "filebot -r -rename * -non-strict --format /home/jsh/TV/\"{n.space('_')}-{y}/{s00e00}-{t.space('_')}\"";
     "moviefb" = "filebot -rename * -non-strict --format \"{n.space('_')}-{y}\"";
   };
-
-alias lsd='ls -l | grep ^d'
-alias lslrt='find . -printf '\''%T@ %t %p\n'\'' | sort -k 1 -n | cut -d'\'' '\'' -f2-'
-alias lsrt='find . -type f -printf '\''%T@ %P\n'\'' | sort -n | awk '\''{print }'\'''
-alias memacs='emacs -mm'
-alias mkdir='mkdir -p'
-alias more='/usr/bin/less'
-alias mv='mv -i'
-alias rm='rm -i'
-
-#alias rebuild=sudo nixos-rebuild
-#alias jfu='journalctl -fu'
-#alias jru=‘journalctl -ru'
-#alias python=‘python3’ # or vice Versa depending on os
-#alias copy=‘xclip -selection c’
-
-alias ffmpeg='ffmpeg -hide_banner'
-alias pacman='sudo pacman'
-alias yay='yay --sudoloop'
-alias c=clear
-alias :=sudo
-# render input with syntax highlighting
-alias hl='highlight -t3 -O xterm256'
-
-# generate inline QR code of supplied data
-alias qr='qrencode -t ANSI256 -o - '
-
-# generate random password
-alias pwgen='cat /dev/urandom | head -c 1024 | base64 | head -c 16 ; echo'
-
-# determine wan IP address by querying OpenDNS resolver
-alias wanip='dig +short myip.opendns.com @208.67.220.220'
-
-# display password and QR code for currently connected WiFi network
-alias wifipwd='nmcli dev wifi show-password'
-
-alias ls='exa --group-directories-first'
-alias ll='exa -l --group-directories-first'
-
-alias yt2mp3="yt-dlp -x --audio-format mp3 -o '%(title)s.%(ext)s'"
-alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --cookies '/home/vorthas/Software/0-Configuration/youtube.com_cookies.txt'"
-
-
+##
+$> alias lsd='ls -l | grep ^d'
+$> alias lslrt='find . -printf '\''%T@ %t %p\n'\'' | sort -k 1 -n | cut -d'\'' '\'' -f2-'
+$> alias lsrt='find . -type f -printf '\''%T@ %P\n'\'' | sort -n | awk '\''{print }'\'''
+$> alias memacs='emacs -mm'
+$> alias mkdir='mkdir -p'
+$> alias more='/usr/bin/less'
+$> alias mv='mv -i'
+$> alias rm='rm -i'
+#$> alias rebuild=sudo nixos-rebuild
+#$> alias jfu='journalctl -fu'
+#$> alias jru=‘journalctl -ru'
+#$> alias python=‘python3’ # or vice Versa depending on os
+#$> alias copy=‘xclip -selection c’
+##
+$> alias ffmpeg='ffmpeg -hide_banner'
+$> alias pacman='sudo pacman'
+$> alias yay='yay --sudoloop'
+$> alias c=clear
+$> alias :=sudo
+## render input with syntax highlighting
+$> alias hl='highlight -t3 -O xterm256'
+## generate inline QR code of supplied data
+$> alias qr='qrencode -t ANSI256 -o - '
+## generate random password
+$> alias pwgen='cat /dev/urandom | head -c 1024 | base64 | head -c 16 ; echo'
+## Determine wan IP address by querying OpenDNS resolver
+$> alias wanip='dig +short myip.opendns.com @208.67.220.220'
+## display password and QR code for currently connected WiFi network
+$> alias wifipwd='nmcli dev wifi show-password'
+$> alias ls='exa --group-directories-first'
+$> alias ll='exa -l --group-directories-first'
+$> alias yt2mp3="yt-dlp -x --audio-format mp3 -o '%(title)s.%(ext)s'"
+$> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --cookies '/home/vorthas/Software/0-Configuration/youtube.com_cookies.txt'"
+## ############################
+## ##    END bash alias
+## ############################
+## ############################
 ##==========================================
 
 
