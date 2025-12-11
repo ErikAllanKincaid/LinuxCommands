@@ -93,63 +93,66 @@ $> lsusb                                            ## List devices on the usb b
 $> sudo blkid                                       ## List harddrive uuid
 $> lsblk -f                                         ## List the partitions, -f Output info about filesystems.
 $> lscpu                                            ## List cpu info
-$> lshw                                             ## List hardware info
-$> vmstat -s                                        ## RAM info
-$> lstopo                                           ## Draw machine architecture
+$> lshw                                             ## List hardware info.
+$> vmstat -s                                        ## RAM info.
+$> lstopo                                           ## Draw machine architecture.
 $> dmesg -T                                         ## Examine or control the kernel ring buffer -T human readable timestamp -L color
-$> sudo iotop -o                                    ## Shows what files are accessing hard drive
-$> lsmod                                            ## List loaded modules
-$> lsof                                             ## List open files
-$> lsof -n                                          ## List open files
-$> pstree                                           ## Tree view of processes
-$> top                                              ## Show running processes
-$> iotop                                            ## Show i/o of data to and from harddrives
-$> initctl list                                     ## List all services
+$> sudo iotop -o                                    ## Shows what files are accessing hard drive.
+$> lsmod                                            ## List loaded modules.
+$> lsof                                             ## List open files.
+$> lsof -n                                          ## List open files.
+$> pstree                                           ## Tree view of processes.
+$> top                                              ## Show running processes.
+$> iotop                                            ## Show i/o of data to and from harddrives.
+$> initctl list                                     ## List all services.
 $> set                                              ## Show all environmental variables and functions and info
-$> env                                              ## List Environmental variables
+$> env                                              ## List Environmental variables.
 $> shopt                                            ## Shell Options, Change the setting of each shell option: help shopt
-$> who -r                                           ## Current run level
-$> mount | column -t                                ## List mounted files system in columns
+$> who -r                                           ## Current run level.
+$> mount | column -t                                ## List mounted files system in columns.
 $> echo $DISPLAY                                    ## Display tty in use, :0.0 is first available tty7, :1.0 second available tty8 or tty9, if remote X then :IPaddress:0
-$> xdpyinfo                                         ## Info about current X server display
+$> xdpyinfo                                         ## Info about current X server display.
 $> xwininfo                                         ## Info about whatever window is click after command is run
 $> du -h --max-depth=1                              ## Show size of sub-folders within the current directory
-$> history                                          ## List commands which have run in terminal
-$> stat filename.typ                                ## Get information about file or directory
-$> cat /proc/loadavg                                ## Average system load
-$> cat /proc/meminfo                                ## Memory info
-$> dpkg -S boing.wav                                ## See what package a file belong to
+$> history                                          ## List commands which have run in terminal.
+$> stat filename.typ                                ## Get information about file or directory.
+$> cat /proc/loadavg                                ## Average system load.
+$> cat /proc/meminfo                                ## Memory info.
+$> dpkg -S boing.wav                                ## See what package a file belong to.
 $> cat /proc/sys/vm/swappiness                      ## Check how much swapping data RAM to swap partition, 1-100; 1-preferRAM to 100-preferDisk
 $> uname -p                                         ## 32 bits or 64 bits?
 $> inxi -F                                          ## Outputs an assortment of system information# Get full from half remembered commands
-$> apropos <part_remember> | less                   ## Searches through man pages
-$> apt-show-versions                                ## Show version of installed applications
+$> apropos <part_remember> | less                   ## Searches through man pages.
+$> apt-show-versions                                ## Show version of installed applications.
 $> dpkg -l | grep '^i' | awk '{print $2}' | sort    ## Print sorted list of all installed packages (Debian)
-$> systemctl status                                 ## Treeview of systemd system service
-$> mysqladmin -u root -p extended-status            ## View mysql status
-$> lpstat -p                                        ## List printers
-$> service --status-all                             ## Get the status of services
-$> systemctl -t service --state=active              ## Get the status of active services in systemd
-$> dstat                                            ## Running stats on disk and network usage
-$> e4defrag / -c                                    ## Check fragmentation of ex4
-$> sensors                                          ## Temp of sensors on motherboard
-$> ldd /usr/bin/mc                                  ## Show shared library dependencies
-$> upower -i /org/freedesktop/UPower/devices/battery_BAT0     ## Check battery health
-$> xrandr --verbose                                 ## Information on the display
+$> systemctl status                                 ## Treeview of systemd system service.
+$> mysqladmin -u root -p extended-status            ## View mysql status.
+$> lpstat -p                                        ## List printers.
+$> service --status-all                             ## Get the status of services.
+$> systemctl -t service --state=active              ## Get the status of active services in systemd.
+$> dstat                                            ## Running stats on disk and network usage.
+$> e4defrag / -c                                    ## Check fragmentation of ex4.
+$> sensors                                          ## Temp of sensors on motherboard.
+$> ldd /usr/bin/mc                                  ## Show shared library dependencies.
+$> upower -i /org/freedesktop/UPower/devices/battery_BAT0     ## Check battery health.
+$> xrandr --verbose                                 ## Information on the display.
 $> acpitool -e
 $> lsscsi
 $> glxinfo                                          ## information about the OpenGL and GLX implementations running on a given X display.
-$> sudo cat /var/log/syslog                         ## Display the system log
+$> sudo cat /var/log/syslog                         ## Display the system log.
+$> systemd-analyze blame                            ## Find out what services are most active.
+$> acpi -b                                          ## Check whether laptop is running on battery or cable
+
 ##==========================================
 ##==========================================
 ## os. info. files. System files
-$> cat /etc/group                                   ## Show available groups and members of groups
-$> cat /etc/fstab                                   ## Show file system table mounted at startup
+$> cat /etc/group                                   ## Show available groups and members of groups.
+$> cat /etc/fstab                                   ## Show file system table mounted at startup.
 ##==========================================
 ## os. info. System logs
-$> cat /var/log/syslog                              ## Try other log files auth.log
-$> tail -n 20 /var/log/syslog                       ## Read last 20 entries in system logs
-$> watch -d tail /var/log/syslog                    ## Watch system logs
+$> cat /var/log/syslog                              ## Try other log files auth.log.
+$> tail -n 20 /var/log/syslog                       ## Read last 20 entries in system logs.
+$> watch -d tail /var/log/syslog                    ## Watch system logs.
 ## Show all logs in /var/log
 $> find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f
 ##==========================================
@@ -2550,6 +2553,7 @@ $> function name() { command ; }
 ## #########################################################
 ## ##    Cool | Pipes
 ## #########################################################
+## shell. pipes
 ##------------------------------------------
 ## Replace text in a line containing a pattern
 $> | sed '/PATTERN/ { s/ORIGINAL/REPLACEMENT/; }'
@@ -2959,9 +2963,16 @@ $> | sed ':a;N;$!ba;s/\n/ /g'
 ## extract column from csv file
 $> | cut -d"," -f9
 ##------------------------------------------
-
-##------------------------------------------
-
+## remove comments (even those starting with spaces), empty lines (even those containing spaces) in one grep command
+## useful for discarding even those comments which start with blanks or those empty lines which contain blanks Show Sample Output
+$> | grep -vE '^\s*(#|$)'
+##-------------------
+## Switch to Upercase
+$> | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+## or
+$> | tr "[:lower:]" "[:upper:]"
+## or
+$> | tr "a-z" "A-Z"
 ##------------------------------------------
 
 ##------------------------------------------
@@ -9701,22 +9712,22 @@ $> onedrive --synchronize
 $> mkisofs -o movies.iso /home/username/folder-name
 ##-------------------------------
 ## os. iso. Pack the ISO.
-xorriso -as mkisofs -r \
-  -V 'Ubuntu 22.04 LTS AUTO (EFIBIOS)' \
-  -o ../ubuntu-22.04-autoinstall.iso \
-  --grub2-mbr ../BOOT/1-Boot-NoEmul.img \
-  -partition_offset 16 \
-  --mbr-force-bootable \
-  -append_partition 2 28732ac11ff8d211ba4b00a0c93ec93b ../BOOT/2-Boot-NoEmul.img \
-  -appended_part_as_gpt \
-  -iso_mbr_part_type a2a0d0ebe5b9334487c068b6b72699c7 \
-  -c '/boot.catalog' \
-  -b '/boot/grub/i386-pc/eltorito.img' \
-    -no-emul-boot -boot-load-size 4 -boot-info-table --grub2-boot-info \
-  -eltorito-alt-boot \
-  -e '--interval:appended_partition_2:::' \
-  -no-emul-boot \
-  .
+$> xorriso -as mkisofs -r \
+$>   -V 'Ubuntu 22.04 LTS AUTO (EFIBIOS)' \
+$>   -o ../ubuntu-22.04-autoinstall.iso \
+$>   --grub2-mbr ../BOOT/1-Boot-NoEmul.img \
+$>   -partition_offset 16 \
+$>   --mbr-force-bootable \
+$>   -append_partition 2 28732ac11ff8d211ba4b00a0c93ec93b ../BOOT/2-Boot-NoEmul.img \
+$>   -appended_part_as_gpt \
+$>   -iso_mbr_part_type a2a0d0ebe5b9334487c068b6b72699c7 \
+$>   -c '/boot.catalog' \
+$>   -b '/boot/grub/i386-pc/eltorito.img' \
+$>     -no-emul-boot -boot-load-size 4 -boot-info-table --grub2-boot-info \
+$>   -eltorito-alt-boot \
+$>   -e '--interval:appended_partition_2:::' \
+$>   -no-emul-boot \
+$>   .
 ##==========================================
 ## Compare hex dumps
 $> diff <(xxd file1) <(xxd file2)
@@ -9943,6 +9954,7 @@ Vagrant.configure("2") do |config|
     end
 end
 EOF
+
 ## Start all the VMs
 $> vagrant up
 ## Start one vm
@@ -9975,9 +9987,15 @@ $> vagrant -f destroy
 ## Replace FILEID and FILENAME in the command below:
 $> wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
 ##==========================================
-## multimedia. use ffmpeg to record a smooth, reasonably sized screencast:
+## multimedia. video. capture. use ffmpeg to record a smooth, reasonably sized screencast:
+$> cat > screenRecord.sh << EOF
+#! /bin/bash
+ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
+
+EOF
 $> screenRecord.sh ~/demo.mkv
-$> cat > Vagrantfile << EOF
+## This is useless alone. But can be filled in.
+$> cat > CheckVid.sh << EOF
 #! /bin/bash
 
 if [ -z "$1" ]
@@ -9986,8 +10004,10 @@ if [ -z "$1" ]
     exit
 fi
 EOF
-$> ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
-
+##==========================================
+## os. ram. Mount a temporary ram partition
+## Makes a partition in ram which is useful if you need a temporary working space as read/write access is fast. Be aware that anything saved in this partition will be gone after your computer is turned off.
+$> mount -t tmpfs tmpfs /mnt -o size=1024m
 ##==========================================
 ## files. jq is insane
 $> yt-dlp -J URL >> playlist.json
@@ -10174,15 +10194,16 @@ $> lp -d HP-LaserJet-3050 -n 2 -o Duplex=None -o fit-to-page -o MediaType=statio
 ## os. android. Control android
 $> firefox https://github.com/Genymobile/scrcpy
 ##==========================================
-## 3D printing
-
+## ###################################################
+## ##    3D printing
+## ###################################################
 ##==========================================
 
 
-
-
-
-
+##==========================================
+## ###################################################
+## ##    END 3D printing
+## ###################################################
 
 
 ##==========================================
@@ -10224,6 +10245,9 @@ $> sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
 $> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
 
 ##========================================
+## #################################
+## ##    END Docker
+## #################################
 ## ##########################################################
 ## ##    Sound
 ## ##########################################################
@@ -10987,60 +11011,87 @@ $> sudo apt-get nextcloud-client
 
 ##==========================================
 
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-## shell. Find dupe files by checking md5sum
-$> find /glftpd/site/archive -type f|grep '([0-9]\{1,9\})\.[^.]\+$'|parallel -n1 -j200% md5sum ::: |awk 'x[$1]++ { print $2 " :::"}'|sed 's/^/Dupe: /g'|sed 's,Dupe,\x1B[31m&\x1B[0m,'
-
-
-##==========================================
-
 ## ########################################
 ## ##    Unsorted
 ## ########################################
+##==========================================
+## files. Compare directories (using cmp to compare files byte by byte) to find files of the same name that differ
+f$> ind . -maxdepth 1 -mindepth 1 -print0 | xargs -0 -n 1 -I % cmp % /DUPDIR/% 2>/dev/null
+##==========================================
+## docker. Remove all intermediate docker images after build
+$> docker image rm $(docker image list -f "dangling=true" -qa)
+##==========================================
+## image. multimedia. camera. Extract thumbnails from EXIF metadata
+## It will generate a new file ending with "_ThumbnailImage.jpg" which is the embedded thumbnail inside the JPG for example.
+$> exiftool -a -b -W %d%f_%t%-c.%s -preview:all YourFileOrDirectory
+##==========================================
+## web. Download an entire website
+$> wget --random-wait -r -p -e robots=off -U mozilla http://www.example.com
+##==========================================
+## os. time. automation. Execute a command at a given time
+## This is an alternative to cron which allows a one-off task to be scheduled for a certain time.
+$> echo "ls -l" | at midnight
+##==========================================
+## multimedia. video. Encode video with constant framerate
+$> ffmpeg -i input.mp4 -vcodec libx264 -crf 30 output.mp4
+## app. office. Convert libreoffice files : .odt .odg and other to .pdf
+## Find and Convert all libre office files to PDF without libreoffice GUI Show Sample Output
+$> find /home/#USER/Documents/ -type f -iname "*.odt" -exec libreoffice --headless --convert-to pdf '{}' \;
+##==========================================
+## os. android. Factory reset your android device via commandline.
+$> am broadcast -a android.intent.action.MASTER_CLEAR
+##==========================================
+## multimedia, video. screen. Capture video of a linux desktop
+## This will grab the image from desktop, starting with the upper-left corner at x=100, y=200 with a width and height of 1024?768.
+$> ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,200 output.mp4
+##==========================================
+## networking. wifi. Show a prettified list of nearby wireless APs
+$> nmcli device wifi list
+##==========================================
+## math. Calculate the distance between two geographic coordinates points (latitude longitude)
+## The Haversine formula determines the great-circle distance between two points on a sphere given their longitudes and latitudes. Show Sample Output
+$> latlongdist(){ echo $@|awk '{d($1,$2,$3,$4);} function d(x,y,x2,y2,a,c,dx,dy){dx=r(x2-x);dy=r(y2-y);x=r(x);x2=r(x2);a=(sin(dx/2))^2+cos(x)*cos(x2)*(sin(dy/2))^2;c=2*atan2(sqrt(a),sqrt(1-a)); printf("%.4f",6372.8*c);} function r(g){return g*(3.1415926/180.);}';}
+##==========================================
+## networking. ssh. key. SSH Copy ed25519 key into your host
+$> ssh-copy-id -i your-ed25519-key user@host
+##==========================================
+## Get Your IP Geographic Location with curl and jq
+#$> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
+##==========================================
+## web. Download all recently uploaded pastes on pastebin.com
+$> elinks -dump https://pastebin.com/archive|grep https|cut -c 7-|sed 's/com/com\/raw/g'|awk 'length($0)>32 && length($0)<35'|grep -v 'messages\|settings\|languages\|archive\|facebook\|scraping'|xargs wget
+##==========================================
+## Scan all open ports without any required program
+$> for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] Open Port at\n: \t%d\n" "$i" || printf "."; done
+##==========================================
+## Visual alert with keyboard LEDs
+$> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
+##==========================================
+## shell. bash. iterate number range with for loop
+$> seq 10 20
+## or
+$> for i in {1..10}; do echo $i; done
+##==========================================
+## multimedia. video. Rotate a video file by 90 degrees CW Change video orientation in metadata only.
+$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
+$> ffmpeg -i in.mov -vf "transpose=1" out.mov
+##==========================================
+## os. process. logs. Perform Real-time Process Monitoring Using Watch Utility.
+$> watch -n 1 'ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head'
+##==========================================
+## backup. logs. Rsync using SSH and outputing results to a text file.
+## --delete will delete copies on remote to match local if deleted on local --stats will output the results -z zip -a archive -A preserve ACL -x don't cross filesystem boundaries -h human readable -e specify the remote shell to use
+$> rsync --delete --stats -zaAxh -e ssh /local_directory/ username@IP_of_remote:/Remote_Directory/ | tee -a /Text_file_Directory/backuplog.txt
+##==========================================
+## files. diff. Check difference between two file directories recursively
+$> diff <(tree /dir/one) <(tree /dir/two)
+##==========================================
+## shell. Find dupe files by checking md5sum
+$> find /glftpd/site/archive -type f|grep '([0-9]\{1,9\})\.[^.]\+$'|parallel -n1 -j200% md5sum ::: |awk 'x[$1]++ { print $2 " :::"}'|sed 's/^/Dupe: /g'|sed 's,Dupe,\x1B[31m&\x1B[0m,'
+##==========================================
+## os. iso. Write a bootable Linux .iso file directly to a USB-stick
+## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
+$> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
 ##==========================================
 ## os. hardware. Make window transparent (50% opacity) in Gnome shell
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
@@ -11125,7 +11176,8 @@ $> ffmpeg -i ./outputvid.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset 
 ## #################################
 ## ##    More bash alias
 ## #################################
-##
+## A bunch of extra alias.
+##==========================================
 $> alias ufetch="sh $HOME/ufetch/ufetch-arch"
 $> alias ..='cd ..'
 $> alias ls='ls -hspt --color=auto'
@@ -11729,7 +11781,7 @@ $> alias ll='exa -l --group-directories-first'
 $> alias yt2mp3="yt-dlp -x --audio-format mp3 -o '%(title)s.%(ext)s'"
 $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --cookies '/home/vorthas/Software/0-Configuration/youtube.com_cookies.txt'"
 ## ############################
-## ##    END bash alias
+## ##    END bash extra alias
 ## ############################
 ## ############################
 ##==========================================
@@ -11754,93 +11806,62 @@ $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --coo
 
 
 ##==========================================
-## search_provider_overrides in chrome
-vim /etc/chromium/master_preferences
-##==========================================
-https://scontent-sjc3-1.xx.fbcdn.net/v/t39.8562-6/369652058_690162392972818_1173984281354057457_n.gif?_nc_cat=103&ccb=1-7&_nc_sid=f537c7&_nc_ohc=_sbguaRNMh8AX9mF1FA&_nc_ht=scontent-sjc3-1.xx&oh=00_AfC00xMdarkmXSPd_fWQUqYot1cWXHCeHS0qI7mHQkaDFw&oe=65B01213
-
-##==========================================
-
-## MIT: Machine Learning 6.036, Lecture
-https://www.youtube.com/playlist?list=PLxC_ffO4q_rW0bqQB80_vcQB09HOA3ClV
-
+## gui, web. Search_provider_overrides in chrome
+$> cat /etc/chromium/master_preferences
 ##==========================================
 ## gnome thumbnails in the file picker
-yay -Sy gtk2-patched-filechooser-icon-view gtk3-patched-filechooser-icon-view
-
+$> yay -Sy gtk2-patched-filechooser-icon-view gtk3-patched-filechooser-icon-view
 ##==========================================
-## Viewing CSV Files in a Better Format
-
-function view_csv_pretty {
-    if [ -z "$1" ]; then echo "Usage: view_csv_pretty <file.csv>"
+## files. Viewing CSV Files in a Better Format
+$> function view_csv {
+    if [ -z "$1" ]; then echo "Usage: view_csv <file.csv>"
     else cat "$1" | column -s, -t | less -F -S -X -K
     fi
 }
-
 ## This bash function comes in pretty handy when viewing csv files directly on the terminal. Here’s the explanation for this one liner.
-
-    cat "$1" ## Reads the content of the specified CSV file.
-    column -s, -t ## Uses the column command to format the content into a table
-        -s, ## Specifies that columns are separated by commas in the CSV file.
-        -t ## Tells column to create the table output.
-    ## less -F -S -X -K
-        less: ## Displays the formatted table output in the terminal.
-        -F ## Quits if the entire file fits on one screen.
-        -S ## Chops long lines to fit within the screen width.
-        -X ## Leaves the screen’s contents intact upon exiting less
-        -K ## Exits less on Ctrl+C.
-
-## Checking Recently Modified Files
-
+##    cat "$1" ## Reads the content of the specified CSV file.
+##    column -s, -t ## Uses the column command to format the content into a table
+##        -s, ## Specifies that columns are separated by commas in the CSV file.
+##        -t ## Tells column to create the table output.
+## less -F -S -X -K
+##        less: ## Displays the formatted table output in the terminal.
+##        -F ## Quits if the entire file fits on one screen.
+##        -S ## Chops long lines to fit within the screen width.
+##        -X ## Leaves the screen’s contents intact upon exiting less
+##        -K ## Exits less on Ctrl+C.
 ##==========================================
+## files. Checking Recently Modified Files
 ## This Bash function, recently_modified, proves to be quite handy for my team when keeping track of the latest modifications made to various files on the server.
-
-function recently_modified() {
+$> function recently_modified() {
     recent_file=$(ls -t | head -n1)
     echo "Most recently modified file: $recent_file"
 }
-
 ##==========================================
-## Compressing Multiple Files
-
-function compress_files() {
+## files. compression. Compressing Multiple Files
+$> function compress_files() {
     if [ -z "$1" ]; then echo "Usage: compress_files <archive_name.zip> <file1> <file2> ..."
     else zip -r "$1" "${@:2}"
     fi
 }
-
 ##==========================================
-## Searching text in files
-
-function search_text_in_files() {
+## files. Searching text in files
+$> function search_text_in_files() {
     if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: search_text_in_files <directory> <search_term>"
     else grep -rnw "$1" -e "$2"
     fi
 }
-
 ##==========================================
-## Checking high usage memory processes
-
-function process_with_most_memory() {
-    ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
-}
-
+## os. ram. Checking high usage memory processes
+function process_with_most_memory() { ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head }
 ##==========================================
 ## Listing Open Ports
-
-function list_open_ports() {
-    netstat -tuln
-}
-
-##==========================================
+function list_open_ports() { netstat -tuln }
+##--------------------
 ## Listening Ports for specific process
-
-function find_listening_ports() {
-    if [ -z "$1" ]; then echo "Usage: find_listening_ports <pid>"
+function find_listening_ports() { if [ -z "$1" ]; then echo "Usage: find_listening_ports <pid>"
     else ss -tulnp | grep "$1"
     fi
 }
-
 ##==========================================
 ## ###################################################
 ## ##    tailscale headscale
@@ -11894,13 +11915,13 @@ $> sudo tailscale up --login-server=http://34.83.225.82:8080 --authkey=08bxxxxxx
 $> sudo tailscale status --json
 ## find your Tailscale IPv4 address by running:
 $> tailscale ip -4
-##=======================================
+##--------------------------------------
 ## Auth with key
 sudo tailscale up --authkey=tskey-auth-kzhxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxS3
 ## ###################################################
 
 ##==========================================
-## Transcode video and remove audio
+## multimedia. video. Transcode video and remove audio
 $> ffmpeg -i -an video.mp4 video.webm
 ##==========================================
 ## Find out what services are most active
@@ -11930,8 +11951,8 @@ $> printf 'GET /search?q=my+query\n' | nc google.com 80 | tidy --custom-tags blo
 ##==========================================
 $> firefox https://www.cyberciti.biz/faq/bash-for-loop/
 ##==========================================
-##
-rsync -e "ssh -i ~/.ssh/key" -aAXvP $wd/your-files $pc:/path/to/upload
+## networking. ssh. keys. Add your ssh keys to a server.
+$> rsync -e "ssh -i ~/.ssh/key" -aAXvP $wd/your-files $pc:/path/to/upload
 ##==========================================
 $> firefox https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
 ##==========================================
@@ -11950,7 +11971,7 @@ $> function define() { curl -s https://www.vocabulary.com/dictionary/$1 | grep '
 ## Visual alert with keyboard LEDs
 $> for a in $(seq 16); do xdotool key Num_Lock;sleep .5; xdotool key Caps_Lock;done
 ##==========================================
-## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
+## Progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
 $> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
 ##==========================================
 ## Check difference between two file directories recursively
@@ -12034,8 +12055,7 @@ $> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile |
 ##==========================================
 ## scan multiple log subdirectories for the latest log files and tail them
 $> ls /var/log/* -ld | tr -s " " | cut -d" " -f9 | xargs -i{} sh -c 'echo "\n---{}---\n"; tail -n50 {}/`ls -tr {} | tail -n1`'
-`
-##==========================================
+`##==========================================
 ## Show current network interface in use
 $> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
 ##==========================================
@@ -12105,6 +12125,9 @@ https://darkhz.github.io/bluetuith/
 ## Watch the network for activity to discover devices
 $> sudo netdiscover -r 192.168.0.1/24
 ##==========================================
+## ########################################
+## ##    Android
+## ########################################
 ## Android Debug Bridge version 1.0.25 adb
 $> -d                            - directs command to the only connected USB device
 $>                                 returns an error if more than one USB device is present.
@@ -12166,181 +12189,45 @@ $>  adb root                     - restarts the adbd daemon with root permission
 $>  adb usb                      - restarts the adbd daemon listening on USB
 $>  adb tcpip <port>             - restarts the adbd daemon listening on TCP on the specified port
 ## networking:
-  adb ppp <tty> [parameters]   - Run PPP over USB.
+$>  adb ppp <tty> [parameters]   - Run PPP over USB.
 ##  Note: you should not automatically start a PPP connection.
- <tty> refers to the tty for PPP stream. Eg. dev:/dev/omap_csmi_tty1
+$> <tty> refers to the tty for PPP stream. Eg. dev:/dev/omap_csmi_tty1
 ##  [parameters] - Eg. defaultroute debug dump local notty usepeerdns
-adb sync notes: adb sync [ <directory> ]
+$> adb sync notes: adb sync [ <directory> ]
 ##   <localdir> can be interpreted in several ways:
 ##   - If <directory> is not specified, both /system and /data partitions will be updated.
 ##   - If it is "system" or "data", only the corresponding partition
 ##     is updated.
 ## android-sdk-platform-tools
-adb push "Ahsoka.S01E03.2160p.WEBRip.x265.DDP5.1.Atmos-KONTRAST.mkv" /sdcard/
-adb pull "/storage/emulated/0/Download/Star Wars - The Thrawn Trilogy by Timothy Zahn/1. Star Wars - Heir to the Empire.m4b" /home/user/Downloads
-##=======================================================
-
+$> adb push "Ahsoka.S01E03.2160p.WEBRip.x265.DDP5.1.Atmos-KONTRAST.mkv" /sdcard/
+$> adb pull "/storage/emulated/0/Download/Star Wars - The Thrawn Trilogy by Timothy Zahn/1. Star Wars - Heir to the Empire.m4b" /home/$USER/Downloads
+##---------------------------
 $> adb shell sm set-force-adoptable true
 
-##  - This process formats the card as an EXT4 drive with 128-bit AES encryption that is mounted as part of the system and set as the preferred storage. You’ll even be prompted to move your data over to it, and, as you’d expect, new data is saved on this “adopted storage” by default.
+##=======================================================
+##  Formats the card as an EXT4 drive with 128-bit AES encryption that is mounted as part of the system and set as the preferred storage. You’ll even be prompted to move your data over to it, and, as you’d expect, new data is saved on this “adopted storage” by default.
 
 
 ##=======================================================
-##=======================================================
-
-
+## network. Route add default gateway. Add route default gateway on shell
+$> route add default gw 192.168.10.1 //OR// ip route add default via 192.168.10.1 dev eth0 //OR// ip route add default via 192.168.10.1
 ##==========================================
-## Wifi power setting
-cat /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+## network. wifi. Wifi power setting
+$> cat /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 ## By default there is:
-[connection]
-wifi.powersave = 3
+    ## [connection]
+    ## wifi.powersave = 3
 ## Possible values for the wifi.powersave field are:
-NM_SETTING_WIRELESS_POWERSAVE_DEFAULT (0): use the default value
-NM_SETTING_WIRELESS_POWERSAVE_IGNORE  (1): dont touch existing setting
-NM_SETTING_WIRELESS_POWERSAVE_DISABLE (2): disable powersave
-NM_SETTING_WIRELESS_POWERSAVE_ENABLE  (3): enable powersave
+    ## NM_SETTING_WIRELESS_POWERSAVE_DEFAULT (0): use the default value
+    ## NM_SETTING_WIRELESS_POWERSAVE_IGNORE  (1): dont touch existing setting
+    ## NM_SETTING_WIRELESS_POWERSAVE_DISABLE (2): disable powersave
+    ## NM_SETTING_WIRELESS_POWERSAVE_ENABLE  (3): enable powersave
 ## Change the value to 2.
-sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+$> sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 ## To take effect, just run:
-sudo systemctl restart NetworkManager
-
+$> sudo systemctl restart NetworkManager
 ##==========================================
-## stable-diffusion
-https://github.com/AbdBarho/stable-diffusion-webui-docker
-
-##==========================================
-## Write udev rule to run on AC/Battery plug/unplug:
-https://superuser.com/questions/1417292/udev-rule-to-start-a-command-on-ac-battery-plug-unplug-event
-https://opensource.com/article/18/11/udev
-https://wiki.archlinux.org/title/udev
-
-## create file /etc/udev/rules.d/60-onbattery.rules:
-
-## Also, if you'd like to know the attributes for your own rules, monitor what the
-udev udevadm monitor --environment
-
-##
-🍎:20230109_02:38:56~⚡sudo udevadm monitor --environment
-monitor will print the received events for:
-UDEV - the event which udev sends out after rule processing
-KERNEL - the kernel uevent
-
-KERNEL[516.019344] change   /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1 (power_supply)
-ACTION=change
-DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-SUBSYSTEM=power_supply
-POWER_SUPPLY_NAME=ADP1
-POWER_SUPPLY_TYPE=Mains
-POWER_SUPPLY_ONLINE=0
-SEQNUM=3869
-
-🍎:20230109_02:55:23~⚡sudo udevadm info --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-P: /devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-L: 0
-E: DEVPATH=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-E: POWER_SUPPLY_NAME=ADP1
-E: POWER_SUPPLY_TYPE=Mains
-E: POWER_SUPPLY_ONLINE=1
-E: SUBSYSTEM=power_supply
-
-
-## Check info
-## Plugged in
-sudo udevadm info --attribute-walk --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-
-Udevadm info starts with the device specified by the devpath and then
-walks up the chain of parent devices. It prints for every device
-found, all possible attributes in the udev rules key format.
-A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device.
-
-  looking at device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1':
-    KERNEL=="ADP1"
-    SUBSYSTEM=="power_supply"
-    DRIVER==""
-    ATTR{online}=="1"
-    ATTR{type}=="Mains"
-
-  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00':
-    KERNELS=="ACPI0003:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS=="ac"
-    ATTRS{hid}=="ACPI0003"
-    ATTRS{path}=="\_SB_.ADP1"
-
-  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00':
-    KERNELS=="LNXSYBUS:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS==""
-    ATTRS{hid}=="LNXSYBUS"
-    ATTRS{path}=="\_SB_"
-
-  looking at parent device '/devices/LNXSYSTM:00':
-    KERNELS=="LNXSYSTM:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS==""
-    ATTRS{hid}=="LNXSYSTM"
-    ATTRS{path}=="\ "
-
-## unplugged
-sudo udevadm info --attribute-walk --path=/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1
-
-Udevadm info starts with the device specified by the devpath and then
-walks up the chain of parent devices. It prints for every device
-found, all possible attributes in the udev rules key format.
-A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device.
-
-  looking at device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00/power_supply/ADP1':
-    KERNEL=="ADP1"
-    SUBSYSTEM=="power_supply"
-    DRIVER==""
-    ATTR{type}=="Mains"
-    ATTR{online}=="0"
-
-  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0003:00':
-    KERNELS=="ACPI0003:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS=="ac"
-    ATTRS{path}=="\_SB_.ADP1"
-    ATTRS{hid}=="ACPI0003"
-
-  looking at parent device '/devices/LNXSYSTM:00/LNXSYBUS:00':
-    KERNELS=="LNXSYBUS:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS==""
-    ATTRS{path}=="\_SB_"
-    ATTRS{hid}=="LNXSYBUS"
-
-  looking at parent device '/devices/LNXSYSTM:00':
-    KERNELS=="LNXSYSTM:00"
-    SUBSYSTEMS=="acpi"
-    DRIVERS==""
-    ATTRS{path}=="\ "
-
-
-# Rule for when switching to battery.
-SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/local/bin/unplug.sh"
-## or
-ACTION=change, SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="/usr/local/bin/unplug.sh"
-
-## Make a rule for switching to battery.
-sudo su
-echo '# Rule for when switching to battery
-SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/local/bin/unplug.sh"' > /etc/udev/rules.d/60-onbattery.rules
-
-## Make a script to run on battery unplug.
-sudo su
-echo "cvlc --play-and-exit ~/.local/share/sounds/bell.oga && notify-send 'Using Battery.' 'Power supply unplugged.'" > /usr/local/bin/unplug.sh
-chmod +x /usr/local/bin/unplug.sh
-
-## To test your udev rules, use
-sudo udevadm control --reload
-sudo udevadm control --reload-rules && udevadm trigger
-
-##==========================================
-## Change MAC
+## networking. hardware. Change MAC address.
 $> ip link show
 $> sudo ip link set dev <Device> down
 $> sudo ip link set dev wlp3s0 down
@@ -12360,13 +12247,11 @@ $> ssh ubuntu@192.168.0.190
 
 
 ##==========================================
-
-
-sudo userdel -r henrytl
-
-sudo useradd -m -d /home/henrytl henrytl
-
-sudo useradd -m henrytl
+## os. user. Add a new user with a home.
+$> sudo useradd -m -d /home/usernamehere usernamehere
+$> sudo useradd -m usernamehere
+## Delete a user
+$> sudo userdel -r usernamehere
 ##==========================================
 ## Get the current wifi password of a Connected Device with NMCLI
 $> nmcli device wifi show-password
@@ -12376,51 +12261,51 @@ $> nmcli device wifi show-password
 ## Text Editor
 ## Sublime
 ## Adding a Line
-$> Alt+Shift+⬆  ## To add the line above to the selection:
-$> Alt+Shift+⬇ ## To add the line below to the selection:
-$> Ctrl+U ## If you go too far, use Undo Selection to step backwards:
+$> Alt+Shift+⬆          ## To add the line above to the selection:
+$> Alt+Shift+⬇          ## To add the line below to the selection:
+$> Ctrl+U               ## If you go too far, use Undo Selection to step backwards:
 ## Splitting the Selection into Lines
-$> Ctrl+Shift+L ## Select a block of lines, and then split it into many selections, one per line:
+$> Ctrl+Shift+L         ## Select a block of lines, and then split it into many selections, one per line:
 ## Quick Add Next
-$> Ctrl+D ## To add the next occurrence of the current word to the selection, use Quick Add Next, which is bound to:
-$> Ctrl+U ## Again, if you go too far, use Undo Selection to step backwards:
-$> Ctrl+K, Ctrl+D ## Individual occurrences can be skipped via Quick Skip Next, which is bound to:
+$> Ctrl+D               ## To add the next occurrence of the current word to the selection, use Quick Add Next, which is bound to:
+$> Ctrl+U               ## Again, if you go too far, use Undo Selection to step backwards:
+$> Ctrl+K, Ctrl+D       ## Individual occurrences can be skipped via Quick Skip Next, which is bound to:
 ## Find All
-$> Alt+F3 ## To add all occurrences of the current word to the selection, use Find All:
+$> Alt+F3               ## To add all occurrences of the current word to the selection, use Find All:
 ## Single Selection
-$> Esc ## To go from multiple selections to a single selection, press
+$> Esc                  ## To go from multiple selections to a single selection, press
 ##------------------------------
 ## VS Code
 ## Basic editing
-$> Ctrl+X ## Cut line (empty selection)
-$> Ctrl+C ## Copy line (empty selection)
-$> Alt+ ↓ / ↑ ## Move line down/up
-$> Ctrl+Shift+K ## Delete line
-$> Ctrl+Enter / ## Insert line below
-$> Ctrl+Shift+Enter  ## Insert line above
-$> Ctrl+Shift+\  ## Jump to matching bracket
-$> Ctrl+]   ## Indent line
-$> Ctrl+[  ## Outdent line
-$> Home /   ## End Go to beginning/end of line
-$> Ctrl+ Home / End  ## Go to beginning/end of file
-$> Ctrl+ ↑ / ↓  ## Scroll line up/down
-$> Alt+ PgUp / PgDn  ## Scroll page up/down
-$> Ctrl+Shift+ [ / ]  ## Fold/unfold region
-$> Ctrl+K Ctrl+ [ / ]  ## Fold/unfold all subregions
-$> Ctrl+K Ctrl+0 /  ## Fold all regions
-$> Ctrl+K Ctrl+J  ## Unfold all regions
-$> Ctrl+K Ctrl+C  ## Add line comment
-$> Ctrl+K Ctrl+U  ## Remove line comment
-$> Ctrl+/  ## Toggle line comment
-$> Ctrl+Shift+A  ## Toggle block comment
-$> Alt+Z   ##Toggle word wra
+$> Ctrl+X                  ## Cut line (empty selection)
+$> Ctrl+C                  ## Copy line (empty selection)
+$> Alt+ ↓ / ↑              ## Move line down/up
+$> Ctrl+Shift+K            ## Delete line
+$> Ctrl+Enter /            ## Insert line below
+$> Ctrl+Shift+Enter        ## Insert line above
+$> Ctrl+Shift+\            ## Jump to matching bracket
+$> Ctrl+]                  ## Indent line
+$> Ctrl+[                  ## Outdent line
+$> Home /                  ## End Go to beginning/end of line
+$> Ctrl+ Home / End        ## Go to beginning/end of file
+$> Ctrl+ ↑ / ↓             ## Scroll line up/down
+$> Alt+ PgUp / PgDn        ## Scroll page up/down
+$> Ctrl+Shift+ [ / ]       ## Fold/unfold region
+$> Ctrl+K Ctrl+ [ / ]      ## Fold/unfold all subregions
+$> Ctrl+K Ctrl+0 /         ## Fold all regions
+$> Ctrl+K Ctrl+J           ## Unfold all regions
+$> Ctrl+K Ctrl+C           ## Add line comment
+$> Ctrl+K Ctrl+U           ## Remove line comment
+$> Ctrl+/                  ## Toggle line comment
+$> Ctrl+Shift+A            ## Toggle block comment
+$> Alt+Z                   ##Toggle word wra
 ## Search and replace
-$> Ctrl+F  ## Find
-$> Ctrl+H  ## Replace
-$> F3 / Shift+F3  ## Find next/previous
-$> Alt+Enter  ## Select all occurrences of Find match
-$> Ctrl+D  ## Add selection to next Find match
-$> Ctrl+K Ctrl+D  ## Move last selection to next Find match
+$> Ctrl+F                  ## Find
+$> Ctrl+H                  ## Replace
+$> F3 / Shift+F3           ## Find next/previous
+$> Alt+Enter               ## Select all occurrences of Find match
+$> Ctrl+D                  ## Add selection to next Find match
+$> Ctrl+K Ctrl+D           ## Move last selection to next Find match
 ##==========================================
 ## Factory reset your android device via commandline.
 $> am broadcast -a android.intent.action.MASTER_CLEAR
@@ -12523,104 +12408,64 @@ $> dwebp toConvert.webp -o toSave.png
 ## convert image
 $> gm mogrify -format webp -define webp:lossless=true -quality 100 *.png
 ##==========================================
+## os. hardware. battery. Save battery power.
+$> sudo apt install powertop tlp tlp-rdw
+## Tune tlp
+$> cat /etc/tlp.conf
+## Tune powertop.
+$> sudo powertop --auto-tune
+##---------------------------------
 ## Power savings  BAD!!!!!
 sudo apt-get install tlp
+#cat > /etc/tlp.d/00-custom.conf << ENDOFFILE
+#
+#TLP_ENABLE=1
+#
+#RADEON_DPM_PERF_LEVEL_ON_AC=high
+#RADEON_DPM_PERF_LEVEL_ON_BAT=low
+#
+#RADEON_DPM_STATE_ON_AC=performance
+#RADEON_DPM_STATE_ON_BAT=battery
+#
+#RADEON_POWER_PROFILE_ON_AC=high
+#RADEON_POWER_PROFILE_ON_BAT=low
+#
+#PCIE_ASPM_ON_AC=performance
+#PCIE_ASPM_ON_BAT=powersupersave
+#
+#DEVICES_TO_ENABLE_ON_STARTUP="wifi"
+#DEVICES_TO_DISABLE_ON_STARTUP="bluetooth nfc wwan"
+#DEVICES_TO_DISABLE_ON_SHUTDOWN="bluetooth nfc wifi wwan"
+#DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth nfc wifi wwan"
+#
+#START_CHARGE_THRESH_BAT0=94
+#STOP_CHARGE_THRESH_BAT0=98
+#
+#DEVICES_TO_DISABLE_ON_WIFI_CONNECT="wwan"
+#DEVICES_TO_DISABLE_ON_WWAN_CONNECT="wifi"
+#ENDOFFILE
 
-cat /etc/tlp.d/00-custom.conf
-
-TLP_ENABLE=1
-
-RADEON_DPM_PERF_LEVEL_ON_AC=high
-RADEON_DPM_PERF_LEVEL_ON_BAT=low
-
-RADEON_DPM_STATE_ON_AC=performance
-RADEON_DPM_STATE_ON_BAT=battery
-
-RADEON_POWER_PROFILE_ON_AC=high
-RADEON_POWER_PROFILE_ON_BAT=low
-
-PCIE_ASPM_ON_AC=performance
-PCIE_ASPM_ON_BAT=powersupersave
-
-DEVICES_TO_ENABLE_ON_STARTUP="wifi"
-DEVICES_TO_DISABLE_ON_STARTUP="bluetooth nfc wwan"
-DEVICES_TO_DISABLE_ON_SHUTDOWN="bluetooth nfc wifi wwan"
-DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth nfc wifi wwan"
-
-START_CHARGE_THRESH_BAT0=94
-STOP_CHARGE_THRESH_BAT0=98
-
-DEVICES_TO_DISABLE_ON_WIFI_CONNECT="wwan"
-DEVICES_TO_DISABLE_ON_WWAN_CONNECT="wifi"
-
-/etc/auto-cpufreq.conf
-
-[charger]
-governor = performance
-scaling_min_freq = 1700000
-scaling_max_freq = 1700000
-turbo = auto
-
-[battery]
-governor = powersave
-scaling_min_freq = 1400000
-scaling_max_freq = 1600000
-turbo = never
-
+#cat > /etc/auto-cpufreq.conf << ENDOFFILE
+#[charger]
+#governor = performance
+#scaling_min_freq = 1700000
+#scaling_max_freq = 1700000
+#turbo = auto
+#
+#[battery]
+#governor = powersave
+#scaling_min_freq = 1400000
+#scaling_max_freq = 1600000
+#turbo = never
+#ENDOFFILE
 ##------------------------------
 https://github.com/AdnanHodzic/auto-cpufreq
-
+##------------------------------
 ##==========================================
-
-## On a Linux Mint 20.x release (20, 20.1 and 20.2), /etc/apt/preferences.d/nosnap.pref needs to be either removed or moved before Snap can be installed. This can be accomplished from the command line, and the following command (for example) moves nosnap.pref to a renamed nosnap.backup file in your Documents directory:
-
-$ sudo mv /etc/apt/preferences.d/nosnap.pref ~/Documents/nosnap.backup
-$ sudo apt update
-## Reverse
-$> sudo mv ~/Documents/nosnap.backup /etc/apt/preferences.d/nosnap.pref
-
-$> sudo apt-get install snapd
-
-$> sudo snap install auto-cpufreq
-
-
-$> sudo auto-cpufreq --install
------------------ auto-cpufreq daemon installed and running -----------------
-
-## To view live stats, run:
-$> auto-cpufreq --stats
-
-## To disable and remove auto-cpufreq daemon, run:
-$> sudo auto-cpufreq --remove
-
-##-----------------------------
-Add to /etc/default/grub, Line starting with GRUB_CMDLINE_LINUX_DEFAULT="quiet splash pcie_aspm i915.i915_enable_rc6=1 i915.lvds_downclock=1"
-after editing...
-$> sudo update-grub
-
-##-----------------------------
-https://wiki.ubuntu.com/Kernel/PowerManagement/PowerSavingTweaks
-
-
-##-----------------------------
-$> sudo auto-cpufreq --remove
-$> sudo apt-get purge snapd
-$> sudo mv ~/Documents/nosnap.backup /etc/apt/preferences.d/nosnap.pref
-
-
-##==========================================
-
-##-----------------------------
-powertop
-
-##==========================================
-
-
-##==========================================
-## Kill webcam
+## multimedia. video. hardware. camera. Kill webcam
 $> sudo echo 0 > /sys/class/video4linux/video0/shield/state
 ##==========================================
-## reset your swap space
+## os, swap. Reset your swap space
 $> sudo swapoff -a && sudo swapon -a
 ##==========================================
 ## ??????????
@@ -12652,27 +12497,15 @@ diff-changes = diff --name-status -r
 diff-stat = diff --stat --ignore-space-change -r
 diff-staged = diff --cached
 diff-upstream = !git fetch origin && git diff master origin/master
-
-
 ##==========================================
-
-
-##==========================================
-docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/html:rw -d nginx
-
+## Docker
+$> docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/html:rw -d nginx
 ##==========================================
 ## Screen reader
 ## Pressing AltSuperS will disable or enable speech dispatcher.
 $> Alt+Super+S
 ## The last thing you should hear is
 $> "screen reader off"
-
-##==========================================
-
-
-##==========================================
-
-
 ##==========================================
 ## Fix bluetooth stutter caused by low amount of buffer
 $> sudo apt-get remove blueberry
@@ -12686,14 +12519,8 @@ $> pactl list | grep -Pzo '.*bluez_card(.*\n)*'
 ## Use field "Name:: and "Ports:"  headset-output. Set to 50000 - 70000 buffer
 $> pactl set-port-latency-offset bluez_card.7D_4D_C1_D8_F1_AA headset-output 64448
 $> pactl set-port-latency-offset bluez_card.7D_4D_C1_D8_F1_AA headset-output 125000
-
 ## restart bluetooth
 $> sudo service bluetooth restart
-
-
-##==========================================
-
-
 ##==========================================
 ## How to open DMG file in Linux [Ubuntu , Linux Mint , Kali Linux]
 1. sudo apt update
@@ -12709,26 +12536,6 @@ $> sudo service bluetooth restart
 ## PDF fill out anotate
 https://www.sejda.com/desktop
 ##==========================================
-https://github.com/jpbruinsslot/slack-term
-
-## Cool stuff to read and use
-https://www.marcobehler.com/guides/ssh-cheat-sheet
-https://termshark.io/
-https://github.com/markqvist/nomadnet
-
-##==========================================
-https://github.com/johang/btfs
-https://github.com/Samyak2/gosling/
-
-https://github.com/pystardust/ytfzf
-https://github.com/keepcosmos/terjira
-
-https://gitlab.com/ajak/tuir
-https://github.com/m4tt72/terminal
-
-https://github.com/file-acomplaint/kakikun
-
-##================================
 ## Awesome git tui
 https://github.com/jesseduffield/lazygit
 ## Ubuntu
@@ -12750,10 +12557,6 @@ $> git push origin HEAD:master
 ##
 https://lock.cmpxchg8b.com/linux123.html
 $> sudo apt-get install build-essential gcc-multilib lib32ncurses-dev
-
-##==========================================
-epy-reader for ebooks
-
 ##==========================================
 ## Raspberrypi headless with raspberrian OS
 ## Create some files on the root / of the sd card
@@ -12780,7 +12583,6 @@ $> ffmpeg -i source.mp4 -map 0:a:0 audio.wav
 ## edit audio.wav to suit
 ## mux the audio into a new video;
 $> ffmpeg -i source.mp4 -i audio_edited.wav -map 0 -map -0:a:0 -map 1 -c copy -c:a aac -b:a 128k source_fixedaudio.mp4
-
 ##==========================================
 ## Image viewer
 $> feh -r -F -Y "$(ls -d -1 ~/Pictures/* | shuf | head -1)"
@@ -12792,11 +12594,9 @@ $> feh --info "exifgrep '(Model|DateTimeOriginal|FNumber|ISO|Flash)' %F | cut -d
 ## temp fix
 $> sudo ip link set dev vboxnet0 up
 $> sudo ip address add 192.168.42.1/24 dev vboxnet0
-
 ## To auto assign the 192.168.10.10/24 range, a networks.conf file needs to be created.
 ## Create /etc/vbox/networks.conf on the host with the following contents:
 $> * 192.168.42.0/24
-
 $> echo '* 192.168.42.0/24' > /etc/vbox/networks.conf
 ##==========================================
 #!/bin/sh
@@ -12804,8 +12604,6 @@ if [ "$1" == "install" ] then;
         # Second argument == package name
         (do install stuff) $2;
 fi
-
-
 ##==========================================
 ## mount, copy files to partition, unmount
 $> install udisks2
@@ -12815,17 +12613,14 @@ $> udisksctl mount -b /dev/sdb1
 $> udisksctl unmount -b /dev/sdb1
 ## unmount, you must enter the device sdb not the partition
 $> udisksctl power-off -b /dev/sdb
-
 ##==========================================
 ## download all images in a thread
 $> wget -nd -r -H -l1 -D4cdn.org -A gif,webm,jpeg,jpg,png 4channel.org/{thread}
 ##==========================================
 ## Desktop:
 $> sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
-
 ## Server:
 $> tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
-
 ##==========================================
 ## sed command "cheat-sheet"
 $>  :  # label
@@ -12904,36 +12699,32 @@ https://cudatext.github.io/
 
 https://github.com/arindas/mac-on-linux-with-qemu
 
+## for ebooks
+epy-reader
 
 ## Desktop:
-sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
+$> sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
 
 ## Server:
-sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
+$> sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
 
 
 https://www.wireguard.com/
 https://wazuh.com/
 https://github.com/juanfont/headscale
 ##==========================================
-
-
-##==========================================
 ## Remove the $> to activate the commands
 $> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
-
 ##==========================================
-##
-https://standardai.atlassian.net/wiki/spaces/MAP/pages/501841936/WIP+MAP+LT+MT+Mapping+Level+Release+Process
-##==========================================
+## script. if else statement.
 if (condition) {
 } else {
 }
 ##==========================================
 ## ############################################################
-## ##    vlc stream from cli from Optiplex
+## ##    vlc stream to chromcast from cli from Optiplex
 ## ############################################################
-## Works
+## multimedia. video. Works
 $> cvlc --sout "#chromecast"  --gnutls-dir-trust=/data  --sout-chromecast-ip=192.168.0.104 --demux-filter=demux_chromecast  /data/0424241032a.mp4
 ## ############################################################
 ##==========================================
@@ -12952,11 +12743,6 @@ $> firefox https://github.com/stefanpartheym/archlinux-ipu6-webcam
 $> cd /lib/firmware/intel/ipu
 $> wget https://github.com/intel/ipu6-camera-bins/raw/refs/heads/main/lib/firmware/intel/ipu/ipu6ep_fw.bin
 $> chmod +x ipu6ep_fw.bin
-
-
-
-
-
 ##==========================================
 ## fuzzy finder - search history with fzf
 $> apt install fzf,
