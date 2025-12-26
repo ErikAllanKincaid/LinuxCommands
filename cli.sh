@@ -2974,7 +2974,8 @@ $> | tr "[:lower:]" "[:upper:]"
 ## or
 $> | tr "a-z" "A-Z"
 ##------------------------------------------
-
+## os. files. Redirect stdout to a file.
+$> | sudo tee -a /path/to/file
 ##------------------------------------------
 
 ##------------------------------------------
@@ -5432,8 +5433,8 @@ $> sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 ## Get a qrcode for a given string from qrenco.de
 $> echo "http://commandlinefu.com" | curl -F-=\<- qrenco.de
 ##==========================================
-$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## convert video to gif by ffmpeg and imagemagick
+$> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
 ##==========================================
@@ -7064,9 +7065,9 @@ $>  "mp                              " ## pick buffer and put
 ## ########################
 ## ##    HTTPS SSL
 ## ########################
-## Self signed apache SSL certificate
+## Self signed apache SSL certificate.
 ##------------------------------------------
-## enable the SSL module
+## enable the SSL module.
 $> sudo a2enmod ssl
 ##  Generate the CSR. remember passphrase!
 $> sudo openssl req -new > new.ssl.csr
@@ -7128,9 +7129,9 @@ $> sudo echo '
 $> sudo sed -i 's/^#//g' /etc/apache2/sites-available/mydomain.net
 ## for new domain run: sets up a symlink under /etc/apache2/sites-enabled that links to the configuration in /etc/apache2/sites-available
 $> sudo a2ensite mydomain.net
-## make sure your server address is in /etc/hosts with the IP address you're using for the server
+## make sure your server address is in /etc/hosts with the IP address you're using for the server.
 ##==========================================
-## look through all text files in whole folders and subfolders for a pattern
+## look through all text files in whole folders and subfolders for a pattern.
 $> grep -HrnF "pattern"
 ##==========================================
 ## GUI
@@ -7140,7 +7141,7 @@ $> sudo add-apt-repository ppa:obsproject/obs-studio
 $> sudo apt-get update
 $> sudo apt-get install obs-studio
 ##==========================================
-## Generate possible completion matches for word according to the options
+## Generate possible completion matches for word according to the options.
 $> compgen -a
 $> compgen -f
 $> compgen -g
@@ -7150,197 +7151,206 @@ $> compgen -e
 $> compgen -j
 $> compgen -a
 ##==========================================
-## Bash {}, %, #
+## bash {}, %, #, '0' indexed array
 $> echo {10..0..2}            ## prints every second number, starting with 10 and making its way backwards to 0
 $> echo {a..z}{a..z}          ## prints all two letter combos
-$> month=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
+$> month=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")  ## '0' indexed
 $> echo ${month[3]}           #> Apr
 $> echo ${month%Dec}          ## % tells the shell you want to chop something off the end of the expanded variable
-$> a="Hello World!"
-$> echo Goodbye${a#Hello}     ## chop off a chunk from the beginning of a variable, instead of %, use #:
+$> a="Hello World!"           ## Do not have to escape the '!'.
+$> echo Goodbye${a#Hello}     ## Chop off a chunk from the beginning of a variable, instead of %, use #:
+##---------------------------------------
+## zsh {}, %, #, !, '1' indexed array
+$> echo {10..0..2}            ## prints every second number, starting with 10 and making its way backwards to 0
+$> echo {a..z}{a..z}          ## prints all two letter combos
+$> month=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")  ## '1' indexed
+$> echo ${month[3]}           #> Mar
+$> echo ${month%Dec}          ## % tells the shell you want to chop something off the end of the expanded variable
+$> a="Hello World\!"          ## Have to escape the '!'.
+$> echo Goodbye${a#Hello}     ## Chop off a chunk from the beginning of a variable, instead of %, use #:
 ##==========================================
 #!/bin/bash
-## Read from input script
+## Read from input script.
 $> clear
 $> read -p "Press enter to start."
 $> echo -e "Enter your name. "
 $> read name
 $> echo "Your name is $name"
 ##==========================================
-## Standard error
+## Standard error.
 ## 2>> appends standard error to a file >> appends command output
 ##==========================================
-## Browser that uses firefox to render a page in a tty, psuedo page
+## Browser that uses firefox to render a page in a tty, psuedo page.
 $> firefox https://www.brow.sh/docs/installation/
 $> wget https://github.com/browsh-org/browsh/releases/download/v1.5.0/browsh_1.5.0_linux_amd64.deb
 $> sudo apt install ./browsh_1.5.0_linux_amd64.deb
 $> rm ./browsh_1.5.0_linux_amd64.deb
 $> browsh
 ## awesome. Use static bianary
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.5.0/browsh_1.5.0_linux_amd64
-$> chmod 755 browsh_1.5.0_linux_amd64
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.2/browsh_1.8.2_linux_amd64
+$> chmod 755 browsh_1.8.2_linux_amd64
 $> browsh
 ##==========================================
-## Displays the quantity of connections to port 80 on a per IP basis
+## network. Displays the quantity of connections to port 80 on a per IP basis.
 $> clear;while x=0; do clear;date;echo "";echo "  [Count] | [IP ADDR]";echo "-------------------";netstat -np|grep :80|grep -v LISTEN|awk '{print $5}'|cut -d: -f1|uniq -c; sleep 5;done
 ##==========================================
-## List IP addresses connected to your server on port 80
+## network. List IP addresses connected to your server on port 80.
 $> netstat -tn 2>/dev/null | grep :80 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head
 ##==========================================
-## Ban all IPs that attempted to access phpmyadmin on your site
+## network. security. Ban all IPs that attempted to access phpmyadmin on your site.
 $> grep "phpmyadmin" $path_to_access.log | grep -Po "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" | sort | uniq | xargs -I% sudo iptables -A INPUT -s % -j DROP
 ##==========================================
-## Ternary conditional clause
+## code. learn. Ternary conditional clause.
 $> [ test_statement ] && ( then_statement ) || ( else_statement );
 ##==========================================
-## Remove offending key from known_hosts file with one swift move
+## network. ssh. Remove offending key from known_hosts file with one swift move.
 $> ssh-keygen -R <hostname>
 ##------------------------------------------
-## Remove offending key from known_hosts file with one swift move
+## Remove offending key from known_hosts file with one swift move.
 $> sed -i 18d .ssh/known_hosts
 ##------------------------------------------
-## Remove offending key from known_hosts file with one swift move
+## Remove offending key from known_hosts file with one swift move.
 $> vi +18d +wq ~/.ssh/known_hosts
 ##==========================================
-## Convert a music file (mp3) to a mp4 video with a static image
+## multimedia. music. Convert a music file (mp3) to a mp4 video with a static image.
 $> ffmpeg -loop_input -i cover.jpg -i soundtrack.mp3 -shortest -acodec copy output_video.mp4
 ##==========================================
-## Dump network traffic with tcpdump to file with time-stamp in its filename
+## network. Dump network traffic with tcpdump to file with time-stamp in its filename.
 $> date +"%Y-%m-%d_%H-%M-%Z" | xargs -I {} bash -c "sudo tcpdump -nq -s 0 -i eth0 -w ./dump-{}.pcap"
 ##==========================================
-## Create a thumbnail from the first page of a PDF file
+## multimedia. Create a thumbnail from the first page of a PDF file.
 $> convert -thumbnail x80 file.pdf[0] thumb.png
 ##==========================================
-## Create a visual report of the contents of a usb drive
+## Create a visual report of the contents of a usb drive.
 $> find /path/to/drive -type f -exec file -b '{}' \; -printf '%s\n' | awk -F , 'NR%2 {i=$1} NR%2==0 {a[i]+=$1} END {for (i in a) printf("%12u %s\n",a[i],i)}' | sort -nr
 ##==========================================
-## Send HTTP POST to a website with a file input field
+## Send HTTP POST to a website with a file input field.
 $> curl -L -v -F "value=@myfile" "http://domain.tld/whatever.php"
 ##==========================================
-## Remove spaces recursively from all subdirectories of a directory
+## files. Remove spaces recursively from all subdirectories of a directory.
 $> find /path/to/dir -type d | tac | while read LINE; do target=$(dirname "$LINE")/$(basename "$LINE" | tr -d ' '); echo mv "$LINE" "$target"; done
 ##==========================================
-## Rename all files in a directory to lowercase names
+## os. files. Rename all files in a directory to lowercase names.
 $> paste <(ls) <(ls | tr A-Z a-z) | while read OLD NEW; do echo mv -v $OLD $NEW; done
 ##==========================================
-## Count the total number of hours of your music collection
+## files. multimedia. music. Count the total number of hours of your music collection.
 $> find . -print0 | xargs -0 -P 40 -n 1 sh -c 'ffmpeg -i "$1" 2>&1 | grep "Duration:" | cut -d " " -f 4 | sed "s/.$//" | tr "." ":"' - | awk -F ':' '{ sum1+=$1; sum2+=$2; sum3+=$3; sum4+=$4; if (sum4 > 100) { sum3+=1; sum4=0 }; if (sum3 > 60) { sum2+=1; sum3=0 }; if (sum2 > 60) { sum1+=1; sum2=0 } if (NR % 100 == 0) { printf "%.0f:%.0f:%.0f.%.0f\n", sum1, sum2, sum3, sum4 } } END { printf "%.0f:%.0f:%.0f.%.0f\n", sum1, sum2, sum3, sum4 }'
 ##==========================================
-## Search man pages and present a PDF
+## trans. Search man pages and present a PDF.
 $> man -k . | awk '{ print $1 " " $2 }' | dmenu -i -p man | awk '{ print $2 " " $1 }' | tr -d '()' | xargs man -t | ps2pdf - - | zathura -
 ##==========================================
-## List open processes ordered by number of open files
+## files. os. List open processes ordered by number of open files.
 $> ps -ef |awk '{ print $2 }' \     |tail -n +2 \   |while read pid; do echo "$pid  $(lsof -p $pid |wc -l)"; done \     |sort -r -n -k 2 \  |while read pid count; do echo "$pid    $count  $(ps -o command= -p $pid)"; done
 ##==========================================
-## Take values from a list (file) and search them on another file
+## Take values from a list (file) and search them on another file.
 $> for ITEM in $(cat values_to_search.txt); do  (egrep $ITEM full_values_list.txt && echo $ITEM found) | grep "found" >> exit_FOUND.txt; done
 ##==========================================
-## Get the latest Arch Linux news
+## DEPRECATED. Get the latest Arch Linux news.
 $> w3m https://www.archlinux.org/ | sed -n "/Latest News/,/Older News/p" | head -n -1
 ##==========================================
-## List the content of a GitHub repository without cloning it
+## git. List the content of a GitHub repository without cloning it.
 $> svn ls https://github.com/user/repo/trunk/some/path
 ##==========================================
-## Deletes orphan vim undo files
+## app. files. Deletes orphan vim undo files.
 $> find . -type f -iname '*.un~' | while read UNDOFILE ; do FILE=$( echo "$UNDOFILE" | sed -r -e 's/.un~$//' -e 's&/\.([^/]*)&/\1&' ) ; [[ -e "$FILE" ]] || rm "$UNDOFILE" ; done
 ##==========================================
-## Create a transparent image of given dimensions
+## multimedia. image. Create a transparent image of given dimensions.
 $> convert -size 100x100 xc:none transparency.png
 ##==========================================
-## Get only the latest version of a file from across mutiple directories.
+## files. Get only the latest version of a file from across mutiple directories.
 $> find . -name 'filename' | xargs -r ls -tc | head -n1
 ##==========================================
-## Get load average in a more parse-able format
+## os. Get load average in a more parse-able format.
 $> python -c 'import os; print os.getloadavg()[0]'
 ##==========================================
-## Redirect stdout to a file you do not have write permission on
+## os. files. Redirect stdout to a file you do not have write permission on.
 $> echo hello | sudo tee -a /path/to/file
 ##==========================================
-## Record audio from microphone or sound input from the console
+## Record audio from microphone or sound input from the console.
 $> sox -t ossdsp -w -s -r 44100 -c 2 /dev/dsp -t raw - | lame -x -m s - File.mp3
 ##==========================================
-## Edit the Gimp launcher file to disable the splash screen
+## app. Edit the Gimp launcher file to disable the splash screen.
 $> printf '%s\n' ',s/^Exec=[^ ]*/& -s/' w q | ed /usr/share/applications/gimp.desktop
 ##==========================================
-## Remove carriage return '\r' character in many files, without looping and intermediary files
+## files. text. Remove carriage return '\r' character in many files, without looping and intermediary files
 $> vi +'bufdo set ff=unix' +'bufdo %s/^M$//' +q file1 file2 file3
 ##==========================================
-## Cut select pages from a pdf file and create a new file from those pages.
+## files. text. Cut select pages from a pdf file and create a new file from those pages.
 $> ps2pdf -dFirstPage=3 -dLastPage=10 input.pdf output.p
 ##==========================================
-## Print the lines of file2 that are missing in file1
+## files. text. Print the lines of file2 that are missing in file1
 $> comm -23 file2 file1
 ##==========================================
-## Uses 'at' to run an arbitrary command at a specified time.
+## time. automation. Uses 'at' to run an arbitrary command at a specified time.
 $> echo 'play alarmclock.wav 2>/dev/null' | at 07:30 tomorrow
 ##==========================================
-## Recursively remove all empty sub-directories from a directory tree
+## files. Recursively remove all empty sub-directories from a directory tree
 $> find . -depth  -type d  -empty -exec rmdir {} \;
 ##==========================================
-## Concatenate two or more movie files into one using mencoder
+## multimedia. video. Concatenate two or more movie files into one using mencoder
 $> mencoder cd1.avi cd2.avi -o movie.avi -ovc copy -oac copy
 ##==========================================
-## Rotate a movie file with mencoder
+## multimedia. video. Rotate a movie file with mencoder.
 $> mencoder video.avi -o rotated-right.avi -oac copy -ovc lavc -vf rotate=1
 ##==========================================
-## Replace a regexp pattern in many files at once
+## regex. Replace a regexp pattern in many files at once.
 $> vi +'bufdo %s/pattern/replacement/g | update' +q $(grep -rl pattern /path/to/dir)
 ##==========================================
-## Organise image by portrait and landscape
+## multimedia. image. Organise image by portrait and landscape.
 $> mkdir "portraits"; mkdir "landscapes"; for f in ./*.jpg; do WIDTH=$(identify -format "%w" "$f")> /dev/null; HEIGHT=$(identify -format "%h" "$f")> /dev/null; if [[ "$HEIGHT" > "$WIDTH" ]]; then mv "$f" portraits/ ; else mv "$f" landscapes/ ; fi; done
 ##==========================================
-## Remove all container from an specific network (docker)
+## network. docker. Remove all container from an specific network (docker).
 $> docker ps -a -f network=$NETWORK --format='{{.ID}}' | xargs docker rm -f
 ##==========================================
-## Print the window title of current mpv session to display what is playing
+## multimedia. video. Print the window title of current mpv session to display what is playing.
 $> wmctrl -pl | grep $(pidof mpv) | cut -d- -f2-
 ##==========================================
-## Get streamed FLV from Chrome with lsof
+## multimedia. Get streamed FLV from Chrome with lsof
 $> export psid=$(pgrep -f libflashplayer.so); cp /proc/$psid/fd/$(lsof -p $psid | grep eleted | awk {' print $4 '} | sed -e "s/[a-z]//g") saved.flv
 ##==========================================
-## Clear the swap space forcing everything back to main memory in Linux
+## os. swap. Clear the swap space forcing everything back to main memory in Linux.
 $> sudo swapoff -a; sudo swapon -a
 ##==========================================
-## Edit the Gimp launcher file to disable the splash screen
+## multimedia. image. Edit the Gimp launcher file to disable the splash screen.
 $> sudo sed -i 's/^Exec=[^ ]*/& -s/' /usr/share/applications/gimp.desktop
 ##==========================================
-## Sort du output in Human-readable format
+## os. term. files. Sort du output in Human-readable format.
 $> du -hsx * | sort -rh
 ##==========================================
-## Replace symlinks with the actual files they are pointing at
+## Replace symlinks with the actual files they are pointing at.
 $> find /path/to/dir -type l -exec sh -c 'cp --remove-destination "$(readlink "{}")" "{}"' \;
 ##==========================================
-## Convert from avi format to mp4 encoding
+## Convert from avi format to mp4 encoding.
 $> ffmpeg -i file.avi file.mp4
 ##==========================================
-## Find the most recently modified files in a directory and all subdirectories
+## Find the most recently modified files in a directory and all subdirectories.
 $> find /path/to/dir -type f -mtime -7 -print0 | xargs -0 ls -lt | head
 ##==========================================
-## Set a colorful red bash prompt
+## term. prompt. Set a colorful red bash prompt.
 $> PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[0m\] '
 ##==========================================
-## Delete all tables of a mysql database
+## sgl. Delete all tables of a mysql database.
 $> mysql --defaults-file=my.cnf -e 'show tables' | while read t; do mysql --defaults-file=my.cnt  -e 'drop table '$t; done
 ##==========================================
-## Put an ssh session in the background
+## network. ssh. term. Put an ssh session in the background.
 $> ~^z
 ##==========================================
-## Do not save command history of current bash session
+## Do not save command history of current bash session.
 $> HISTFILE=
 ##==========================================
-## Burn the contents of a directory to dvd without needing a gui application
+## iso. Burn the contents of a directory to dvd without needing a gui application.
 $> growisofs -dvd-compat -Z /dev/scd0 -R -J -pad /path/to/dir
 ##==========================================
-## Halt the system in Linux without the halt command or gui
+## os. Halt the system in Linux without the halt command or gui.
 $> echo o > /proc/sysrq-trigger
 ##==========================================
-## Create an encrypted tar file with openssl
+## encryption. Create an encrypted tar file with openssl.
 $> tar c paths_to_files_and_dirs | gzip -c | openssl des3 > encrypted.tar.gz
 ##==========================================
-## Change the label of a USB drive in Linux without a gui
+## os. disk. Change the label of a USB drive in Linux without a gui.
 $> sudo mlabel -i /dev/sdd1 ::NewLabel
 ##==========================================
-### rsync
+### rsync.
 $> rsync -r -t -x -v --progress -s --whole-file --exclude /Downloads /home/ /path/home
 $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ##==========================================
@@ -7349,7 +7359,8 @@ $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ## #########################
 ## ##    w3m
 ## #########################
-## Commandline web browser
+## Commandline web browser. Only uses http, not https so has limited abilities.
+$> suao apt install w3m-img
 ##------------------------------------------
 $> w3m URL
 ## Set options: press o, change paramiter, press ok at bottom of section
@@ -7502,7 +7513,7 @@ $>  Ctrl b, l          ##  Cursor Right
 ## ############################
 ## #        ansible           #
 ## ############################
-## Configuration Managment
+## automation. Configuration Managment
 ## Host management node with Inventory or hosts file of computers which ssh in configuration instructions written in yaml Playbooks which run small Modules to infrastructure clients.
 ##------------------------------------------
 ## yaml checker
@@ -7671,7 +7682,9 @@ $> sudo echo '
 #[SeatDefaults]
 #allow-guest=false
 #user-session=xfce
-' > /etc/lightdm/lightdm.conf
+' >> /etc/lightdm/lightdm.conf
+## Remove leading #
+$> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
 ## Save the file and restart the server:
 $> systemctl reboot
 ## When the server reboot, The Ubuntu system will start with Xfce the desktop interface.
@@ -7698,10 +7711,10 @@ $> systemctl isolate graphical.target
 $> apt-get install xorg lightdm lxde lxde-core lxsession-logout network-manager
 ## Add following lines to the /etc/lightdm/lightdm.conf file and restart the computer.
 $> sudo echo '
-#[SeatDefaults]
-#allow-guest=false
-#user-session=LXDE
-' > /etc/lightdm/lightdm.conf
+$> [SeatDefaults]
+$> allow-guest=false
+$> user-session=LXDE
+$> ' > /etc/lightdm/lightdm.conf
 ## Remove leading #
 $> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
 ##==========================================
@@ -7749,14 +7762,14 @@ $> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
 #   fi
 # fi
 ##==========================================
-## Make backup while using sed on file
+## files. Make backup while using sed on file
 $> sed -i.bak '/pattern to match/d' ./infile
 ##==========================================
 ## After installing Anaconda or Miniconda, create a new conda environment containing TensorFlow and activate it
 $> conda create -n tensorflow_env tensorflow
 $> conda activate tensorflow_env
 ##==========================================
-## some base packages from people on reddit
+## apps. Some base packages from people on reddit
 $> sudo apt-get insatll acl emacs acpi aptitude autofs build-essential cryptsetup curl daemontools debconf-utils dos2unix elfutils gawk gdb gdisk gem2deb git gpm hfsutils iotop iptables-persistent iw jq kexec-tools lshw lsof lsscsi lvm2 lynx mailutils mc mdadm memtest86+ minicom mrtg ncftp ntfs-3g ntpdate openssh-client openssh-server openssl postfix pv python-appindicator python-software-properties rfkill rpl rpm rsync runit screen sharutils software-properties-common sqlite3 syslinux-utils tcputils tig tofrodos unzip vim w3m wget whois xfsprogs
 $> sudo apt-get insatll btrfs, rxvt-unicode, tmux, irssi, KeepassXC, Firefox, Libre Office, Transmission
 $> sudo apt-get install gedit, inkscape, gimp, and firefox
@@ -7773,8 +7786,8 @@ $> sudo apt-get install Calibre Mudlet tomboy-ng chromium-browser Tor-browser
 $> sudo apt-get install feh i3wm bat keepassxc
 $> sudo apt-get install zathura qbittorrent rofi dmenu
 $> sudo apt-get install zsh nnn tmux fd fzf ripgrep vim openbox fluxbox nitrogen tint2 angrysearch drill-finder parallel
-$> sudo apt-get install wireguard-tools mpd ncmpc newsbueter pcmanfm screen rtorrent vrms
-$> sudo apt-get install urxvt fzf nnn exa bat gotop screen
+$> sudo apt-get install wireguard-tools mpd ncmpc newsbueter pcmanfm screen rtorrent vrms
+$> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ### emacs hahaha
 ##   terminal emulator: Emacs;
 ##   text editor: Emacs;
@@ -7790,10 +7803,10 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ##   emacs: Emacs.
 #apt, snap, flatpack, and guix
 ##==========================================
-## GUI web browser
+## GUI. web browser
 ## press Ctrl+Shift+R in your browser to force a refresh of your local cache
 ##==========================================
-### Unity3d
+### multimedia. 3d. Unity3d
 ## Step 1: Installing Unity3d
 ## To install UnityHub go to this link
 https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-download.650455/
@@ -7838,11 +7851,11 @@ $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
 ## Step 4: Enjoy
 ## Now you are ready to use Unity3d without any problems
 ##==========================================
-## Get Your IP Geographic Location with curl and jq
+## web. Get Your IP Geographic Location with curl and jq
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
 ##==========================================
 ## if youre looking for the directories that contain lots of files, this script may help:
-cat countum.sh << EOF
+$> cat countum.sh << EOF
 #!/bin/bash
 # count_em - count files in all subdirectories under current directory.
 echo 'echo $(ls -a "$1" | wc -l) $1' >/tmp/count_em_$$
@@ -7854,7 +7867,6 @@ EOF
 ## http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux
 ## use RSYNC to DELETE the large number of files
 $> rsync -a --delete blanktest/ test/
-
 ##==========================================
 ## Problem with high inode useage
 ## You can backup the whole filesystem, than recreate it with higher number of inodes.
@@ -7900,7 +7912,7 @@ $> firefox https://www.youtube.com/watch?v=XjJ7ujKjQQc&list=PL7EOs-8ZXfMb2qRog9w
 $> firefox http://miloq.blogspot.com/2012/12/install-aruco-ubuntu-linux.html
 $> firefox http://milq.github.io/install-opencv-ubuntu-debian/
 ##==========================================
-## Compress an exact copy of your entire Linux file system into a TAR archive.
+## os. files. Compress an exact copy of your entire Linux file system into a TAR archive.
 ## cd to the / directory (or root).
 $> cd /
 ## Copy all the files
@@ -7910,7 +7922,7 @@ $> sudo tar -cvpzf backup.tar.gz --exclude=/backup.tar.gz --one-file-system /
 $> sudo tar -xvpzf /path/to/backup.tar.gz -C /restore/location --numeric-owner
 ##==========================================
 ##==========================================
-## To Stop Samba:
+## network. share. To Stop Samba:
 $> sudo service smbd stop
 ## or
 $> sudo /etc/init.d/smbd stop
@@ -7923,7 +7935,7 @@ $> sudo update-rc.d -f smbd remove
 ## To restore it to rc.d use the command
 $> sudo update-rc.d smbd defaults
 ##==========================================
-## Compile and make a .deb
+## os. repo. deb. Compile and make a .deb
 $> firefox https://help.ubuntu.com/community/CheckInstall
 $> sudo apt-get update && sudo apt-get install checkinstall
 ## Instead of
@@ -7948,7 +7960,7 @@ $> sudo checkinstall
 ## If you add the --install=no option to checkinstall, the program will generate a .deb package without installing it. For example:
 $> checkinstall --install=no
 ##==========================================
-## Easy way to remove ssh keys
+## network. ssh. share.  Easy way to remove ssh keys
 $> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key
 ## Before Remove Identity You need to start ssh-agent with this command
 $> eval `ssh-agent -s`
@@ -7963,7 +7975,7 @@ $> ssh-add -l
 $> ssh-add ~/.ssh/id_ed25519
 $> ssh-add ~/.ssh/id_rsa
 ##------------------------------
-## sign_and_send_pubkey: signing failed:
+## Sign_and_send_pubkey: signing failed:
 ## agent refused operation when logging into several servers,
 $> firefox https://stackoverflow.com/questions/25464930/how-to-remove-a-ssh-key,
 ## solution for me was to remove gnome-keyring, deleting identities from ssh-agent and reboot.
@@ -8111,12 +8123,13 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ## Card has it own bios which configures the raid
 ## Can poss
 ## During post ctl+r
-
 ## ###############################################
 ## ##    END RAID Array
 ## ###############################################
 ##======================================
-## Make a table
+## ###############################################
+## ##    Make a table
+## ###############################################
        ┌────────────────────────────────┬───────────────────────────────────────────────────┐
        │Path                            │ Description                                       │
        ├────────────────────────────────┼───────────────────────────────────────────────────┤
@@ -8166,16 +8179,18 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
+## ###############################################
+## ###############################################
 
 ##==========================================
-## Dump network connections
+## network. Dump network connections
 ## like wireshark for terminal
 $> sudo tcpdump -i eth0
 ##==========================================
-## Use emojis
+## test. Use emojis
 $> firefox https://www.webfx.com/tools/emoji-cheat-sheet/
 ##==========================================
-### Ways to catdog a dogdog
+### files. Ways to catdog a dogdog
 ## echo passes string to sed
 $> echo "dogdog" | sed "s/dog/cat/"
 ## create dogdog in file
@@ -8188,11 +8203,11 @@ $> sed 's/dog/cat/' <<< "dogdog"
 $> sed "s/dog/cat/" < dog.txt
 ## All cool for diff reasons.
 ##==========================================
-## add keys to authorized_keys
+## ssh. network. Add keys to authorized_keys
 $> cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 $> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
 ##==========================================
-## Download all images from a site
+## web. Download all images from a site
 ## This recursively downloads all images from a given website to your /tmp directory. The -nH and -nd switches disable downloading of the directory structure.
 $> wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
 ##==========================================
@@ -8200,23 +8215,23 @@ $> wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/image
 $> transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
 $> tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
 ##==========================================
-## simple popup with date and time using dmenu. I use this because I dont like having a permanent status bar.
-$> echo "$(date -u '+%H:%M')\n$(date '+%Y-%m-%d')" |dmenu
+## os. date. Simple popup with date and time using dmenu. I use this because I dont like having a permanent status bar.
+$> echo "$(date -u '+%H:%M')\n$(date '+%Y-%m-%d')" | dmenu
 ##==========================================
-$> dl_music () {
-  youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x
-}
+## multimedia. video. Download Video
+$> dl_music () { youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x ; }
 ##
 $> function dl_music() { youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x ; }
 ## Open browser from terminal to create PR after pushing something in Git in MAC
 $> git remote -v |grep origin|tail -1|awk '{print $2}'|cut -d"@" -f2|sed 's/:/\//g'|xargs -I {} open -a "Google Chrome" https://{}
 ##==========================================
+##  multimedia. video. Download Video
 $> dl_video () {
 $>   youtube-dl --output ~/Videos/"$2.%(ext)s" "$1"
 $> }
 $> function dl_video() { youtube-dl --output ~/Videos/"$2.%(ext)s" "$1" ; }
 ##==========================================
-## Convert Video
+##  multimedia. video.Convert Video
 $> function webm2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a aac -strict experimental -loglevel error "${1%%.webm}.mp4" ; }
 ##
 $> function webm2mp3() { ffmpeg -i "$1" "${1%%.webm}.mp3" ; }
@@ -8257,94 +8272,94 @@ $> git add --patch <filename>
 ## This command uses the "exiftool" command which is available here: http://www.sno.phy.queensu.ca/~phil/exiftool/ NB, there should be a degree symbol right after the first "%d" NOT a question mark. For some unknown reason, commandlinefu is not able to handle degree symbol correctly ("?")? Show Sample Output
 $> echo "https://www.google.com/maps/place/$(exiftool -ee -p '$gpslatitude, $gpslongitude' -c "%d?%d'%.2f"\" image.jpg 2> /dev/null | sed -e "s/ //g")"
 ##==========================================
-## Show git log beautifully
+## git. files. Show git log beautifully
 ## Only show a short of important information inline ( include branch info ), and color this log tree. Show Sample Output
 $> git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Cblue - %cn %Creset' --abbrev-commit --date=relative
 ##==========================================
-## Delete all local git branches that have been merged
+## git. files. Delete all local git branches that have been merged
 ## This checks if the branch has been merged with master and then will delete the ones that have been. Keeps your local git repo nice and clean from all the branches. Show Sample Output
 $> git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 ##==========================================
-## Better git diff, word delimited and colorized
+## git. files. Better git diff, word delimited and colorized
 ## Define a git alias then git dcolor
 $> git config alias.dcolor "diff --color-words"
 ##==========================================
-## Git Tree Command with color and tag/branch name
+## git. files. Git Tree Command with color and tag/branch name
 $> git log --graph --oneline --all --decorate --color
 ##==========================================
-## grep across a git repo and open matching files in gedit
+## git. files. grep across a git repo and open matching files in gedit
 $> git grep -l "your grep string" | xargs gedit
 ##==========================================
-## List all files ever added in git repository
+## git. files. List all files ever added in git repository
 $> git log --name-status --oneline --all | grep -P "^[A|M|D]\s" | awk '{print $2}' | sort | uniq
 ##==========================================
-## Pushing changes to an empty git repository for the first time
+## git. files. Pushing changes to an empty git repository for the first time
 ## After cloning an empty repository on the client ("git clone" just after "git init", for instance), "git push" fails. In order to be able to push to this repository for the first time, you need to run the above command. It will link your local "master" branch to the "master" branch in the origin server, and push the changes. This is only necessary only for the first push; after that, you can use just the commands "git push" or "git pull" in order to do this operations. Show Sample Output
 $> git push --set-upstream origin master
 ##==========================================
-## create html output from colored, word-level git diff
+## git. files. Create html output from colored, word-level git diff
 ## references: http://stackoverflow.com/questions/8818789/git-diff-word-diff-with-oneline-files use aha to output html: http://stackoverflow.com/a/20861333/199217
 $> git diff --word-diff --color-words | aha > index.html && firefox index.html
 ##==========================================
+## multimedia. video.
 $> function copy2mp4() { avconv -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
 ## not working
 $> function vid2mp4() { avconv -i  "$1" -vf format=yuv420p10le -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> function vid2mp4() { ffmpeg -i  "$1" -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
-##==========================================
-##
+## multimedia. video.
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 $> function vid2mp4() { ffmpeg -i "$1" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
 $> function transcode2mp4() { avconv -i  "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ##=========================================
-## Convert matroska mkv video files to mp4 by changing container without reencoding.
+## multimedia. video. Convert matroska mkv video files to mp4 by changing container without reencoding.
 $> function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ##==========================================
 ## iso to USB with dd and show progress status
 ## Does the same but shows nicely progress in real time with correct Size in %. But also needs the packages sudo,dd,pv and dialog.
 $> image="file.iso";drive="/dev/null";sudo -- sh -c 'cat '"${image}"'|(pv -n -s $(stat --printf="%s" '"${image}"')|dd of='"${drive}"' obs=1M oflag=direct) 2>&1| dialog --gauge "Writing Image '"${image}"' to Drive '"${drive}"'" 10 70 7'
 ##==========================================
-## Check difference between two file directories recursively
+## diff. files. Check difference between two file directories recursively
 $> diff <(tree /dir/one) <(tree /dir/two)
 ##==========================================
-## Download certificate from FTP
+## web. cert. Download certificate from FTP
 $> echo | openssl s_client -servername ftp.domain.com -connect ftp.domain.com:21 -starttls ftp 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
 ##==========================================
-## git remove files which have been deleted
+## git. files. git remove files which have been deleted
 ## It deletes all removed files, updates what was modified, and adds new files.
 $> git add -u
 ##==========================================
-## Set a user password without passwd
+## os. user. Set a user password without passwd
 ## Slightly shorter. It doesnt create a subprocess either.
 $> chpasswd <<< "user:newpassword"
 ## or
 $> echo 'user:newpassword' | chpasswd
 ##==========================================
-## Better tool for exporting git repository is Git itself!
+## git. files. Better tool for exporting git repository is Git itself!
 $> git archive HEAD --format=zip > archive.zip
 ##==========================================
-## find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
+## os. find. find all files that have 20 or more MB on every filesystem, change the size and filesystem to your liking
 $> find / -type f -size +20000k -exec ls -lh {} \; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -nrk 2,2
 ##==========================================
 ## List all authors of a particular git project
 ## List everyone who committed to a particular project, listed alphabetically. To list by commits, add -n to the shortlog. Show Sample Output
 $> git shortlog -s | cut -c8-
 ##==========================================
-## Listing today’s files only
+## files. Listing today’s files only
 $> ls -al --time-style=+%D| grep `date +%D`
 ##==========================================
-## Prints per-line contribution per author for a GIT repository
+## git. files. Prints per-line contribution per author for a GIT repository
 ## Figures out total line contribution per author for an entire GIT repo. Includes binary files, which kind of mess up the true count. If crashes or takes too long, mess with the ls-file option at the start: git ls-files -x "*pdf" -x "*psd" -x "*tif" to remove really random binary files git ls-files "*.py" "*.html" "*.css" to only include specific file types Based off my original SVN version: http://www.commandlinefu.com/commands/view/2787/prints-total-line-count-contribution-per-user-for-an-svn-repository Show Sample Output
 $> git ls-files | xargs -n1 -d'\n' -i git-blame {} | perl -n -e '/\s\((.*?)\s[0-9]{4}/ && print "$1\n"' | sort -f | uniq -c -w3 | sort -r
 ##==========================================
-## Find passwords that has been stored as plain text in NetworkManager
+## network. Find passwords that has been stored as plain text in NetworkManager
 $> sudo grep -H '^psk=' /etc/NetworkManager/system-connections/*
 ##==========================================
-## Stage only portions of the changes to a file.
+## files. repo. git. Stage only portions of the changes to a file.
 $> git add --patch <filename>
 ##==========================================
-## create ext4 filesystem with big count of inodes
+## os. disks. create ext4 filesystem with big count of inodes
 ## XX is your device partition number like /dev/sdc1 . to see how many inodes your partition have type: df --inodes (or df -i) Default formatting with ext4 would create small inode count for the new partition if you need big count of inodes is the fstype news the correct one. in debian you can see which fstype exists as template in: vim /etc/mke2fs.conf if you format default ext for a partition size with 1TB you would get 1 Million inodes (not enough for backupStorages) but if you format with fstype news you would get hunderd of millions of inodes for the partition. you have tune /etc/sysctl.conf also with following sysconfig parameters fs.file-max = XXX fs.nr_open = XXX where XXX is the count of max inodes for whole system
 $> mkfs.ext4 -T news /dev/sdcXX
 ##==========================================
@@ -8352,72 +8367,73 @@ $> mkfs.ext4 -T news /dev/sdcXX
 ## This command uses the "exiftool" command which is available here: http://www.sno.phy.queensu.ca/~phil/exiftool/ NB, there should be a degree symbol right after the first "%d" NOT a question mark. For some unknown reason, commandlinefu is not able to handle degree symbol correctly ("?")? Show Sample Output
 $> echo "https://www.google.com/maps/place/$(exiftool -ee -p '$gpslatitude, $gpslongitude' -c "%d?%d'%.2f"\" image.jpg 2> /dev/null | sed -e "s/ //g")"
 ##==========================================
-## Clear terminal Screen
+## term. Clear terminal Screen
 $> tput clear
 ##==========================================
-## Show git log beautifully
+## files. repo. git. logs. Show git log beautifully
 ## Only show a short of important information inline ( include branch info ), and color this log tree. Show Sample Output
 $> git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Cblue - %cn %Creset' --abbrev-commit --date=relative
 ##==========================================
 ## Delete all local git branches that have been merged
 ## This checks if the branch has been merged with master and then will delete the ones that have been. Keeps your local git repo nice and clean from all the branches. Show Sample Output
-$> git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
+$> files. repo. git. git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 ##==========================================
 ## Better git diff, word delimited and colorized
 ## Define a git alias then git dcolor
 $> git config alias.dcolor "diff --color-words"
 ##==========================================
-## Git Tree Command with color and tag/branch name
+## files. repo. git. logs. Git Tree Command with color and tag/branch name
 $> git log --graph --oneline --all --decorate --color
 ##==========================================
-## grep across a git repo and open matching files in gedit
+## files. repo. git. grep across a git repo and open matching files in gedit
 $> git grep -l "your grep string" | xargs gedit
 ##==========================================
-## List all files ever added in git repository
+## files. repo. git. List all files ever added in git repository
 $> git log --name-status --oneline --all | grep -P "^[A|M|D]\s" | awk '{print $2}' | sort | uniq
 ##==========================================
-## Pushing changes to an empty git repository for the first time
+## files. repo. git. Pushing changes to an empty git repository for the first time
 ## After cloning an empty repository on the client ("git clone" just after "git init", for instance), "git push" fails. In order to be able to push to this repository for the first time, you need to run the above command. It will link your local "master" branch to the "master" branch in the origin server, and push the changes. This is only necessary only for the first push; after that, you can use just the commands "git push" or "git pull" in order to do this operations. Show Sample Output
 $> git push --set-upstream origin master
 ##==========================================
-## create html output from colored, word-level git diff
+## files. repo. git. Create html output from colored, word-level git diff
 ## references: http://stackoverflow.com/questions/8818789/git-diff-word-diff-with-oneline-files use aha to output html: http://stackoverflow.com/a/20861333/199217
 $> git diff --word-diff --color-words | aha > index.html && firefox index.html
 ##==========================================
+## multimeddia. video.
 $> function copy2mp4() { avconv -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
 ## not working
 $> function vid2mp4() { avconv -i  "$1" -vf format=yuv420p10le -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> function vid2mp4() { ffmpeg -i  "$1" -c:v libx265 -crf 18 -preset medium -x265-params aq-mode=3:cutree=0:psy-rd=4:ipratio=1.2:pbratio=1.1:fades=1 -c:a flac -sample_fmt s16 "$1".mp4 ; }
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 ##==========================================
-## Define a word from Linux Terminal
+## script. code. Define a word from Linux Terminal
 ## The link gets the definition from vocabulary.com. In case you are behind firewall, use --proxy URL in the curl option. Show Sample Output
 $> function define() { curl -s https://www.vocabulary.com/dictionary/$1 | grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}' }; define welcome
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 ##==========================================
-## get a rough estimate about how much disk space is used by all the currently installed debian packages
+## os. disks. get a rough estimate about how much disk space is used by all the currently installed debian packages
 ## The vaule is expressed in megabytes Show Sample Output
 $> echo $[ ($(dpkg-query -s $(dpkg --get-selections | grep -oP '^.*(?=\binstall)') | grep -oP '(?<=Installed-Size: )\d+' | tr '\n' '+' | sed 's/+$//')) / 1024 ]
 ##============================================
-## Transcode video
+## multimeddia. video. Transcode video
 $> for %%f IN (*.mkv, *.mp4) do ( ffmpeg -i "%%f" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "%%~nf_10bx265.mkv" )
 $> function vid2mp4() { ffmpeg -i "$1" -c:v libx265 -preset fast -x265-params crf=22:bframes=10:ref=6 -pix_fmt yuv420p10le -c:a libopus -b:a 192k "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
 $> function transcode2mp4() { avconv -i  "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ##=========================================
-## Convert matroska mkv video files to mp4 by changing container without reencoding.
+## multimeddia. video. Convert matroska mkv video files to mp4 by changing container without reencoding.
 $> function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ##==========================================
-## get the full description of a randomly selected package from the list of installed packages on a debian system
+## os. apps. Get the full description of a randomly selected package from the list of installed packages on a debian system
 ## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
 $> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
-## vid options
+## multimeddia. video. vid options
 $> --input-depth 16 --output-depth 10 --ref 5 --qcomp 0.7 --no-fast-intra --no-cu-lossless --no-tskip-fast --no-pme --no-rd-refine --no-lossless --ctu 32 --max-tu-size 32 --no-strong-intra-smoothing --no-sao --no-sao-non-deblock --no-early-skip --no-rskip
 ## vid options
 $> ffmpeg -i input -filter:v scale=-1:360 output
 ##==========================================
-## If iptables is enabled on the server, the following commands can be used to permit incoming SSH access. They must be run as root.
+## networking. If iptables is enabled on the server, the following commands can be used to permit incoming SSH access. They must be run as root.
 $> iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 $> iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ## If you want to save the rules permanently, on some systems that can be done with the command:
@@ -8445,35 +8461,31 @@ vm.swappiness = 1
 ## Reboot
 ## Use "ionice -c 3 command" to start the file copying process. I tried solving the problem for about two weeks until I found the option vm.dirty_expire_centisecs
 ##==========================================
-https://www.linuxuprising.com/2019/02/how-to-downgrade-packages-to-specific.html
+$> firefox https://www.linuxuprising.com/2019/02/how-to-downgrade-packages-to-specific.html
 ## Check availible packages including older ones
-apt policy chromium-browser
+$> apt policy chromium-browser
 ##==========================================
-## file -s can give the UUID for a partition in a case where blkid will not:
+## os. disks. file -s can give the UUID for a partition in a case where blkid will not:
 $> sudo file -s /dev/sda1
 ##==========================================
-## change the UUID using the tune2fs
+## os. disks. Change the UUID using the tune2fs
 $> sudo tune2fs -U c1b9d5a2-f162-11cf-9ece-0020afc76f16 /dev/sdb1
 ##==========================================
-## Change the file extension in batch. Useful to create output file names with same input name but distinct extension by including logic inside the loop
-ll /dev/disk/by-uuid
+## os. disks. Change the file extension in batch. Useful to create output file names with same input name but distinct extension by including logic inside the loop
+$> ll /dev/disk/by-uuid
 ##==========================================
-## Change the file extension in batch.
-## Useful to create output file names with same input name but distinct extension
-## by including logic inside the loop
-##==========================================
-## List the UUID of devices
+## os. disks. List the UUID of devices
 $> ls -l /dev/disk/by-uuid
 ##==========================================
-## Hardcode the .srt file
+## multimedia. video. subs. Hardcode the .srt file
 ## need the .srt file to be UTF-8 encoded.
 $> file some.srt
 ## Encode mp4 with .srt file
 $> ffmpeg -i video.mp4 -vf subtitles=utf8.srt video-with-subs.mp4
 ##==========================================
-## Linux Networking commands and scripts
+## networking. Linux Networking commands and scripts
 $> arpwatch                 ## Ethernet Activity Monitor.
-$> arp-scan
+$> arp-scan                 ## Discover active devices (hosts) on a local network by sending out requests for IP-to-MAC address mappings.
 $> bmon                     ## bandwidth monitor and rate estimator.
 $> bwm-ng                   ## live network bandwidth monitor.
 $> curl                     ## transferring data with URLs. (or try httpie)
@@ -8531,21 +8543,59 @@ $> vnStat                   ## network traffic monitor.
 $> websocat                 ## Connection forwarder from/to web sockets to/from usual sockets, in style of socat.
 $> wget                     ## retrieving files using HTTP, HTTPS, FTP and FTPS.
 $> Wireless Tools for Linux ## includes iwconfig, iwlist, iwspy, iwpriv and ifrename.
-$> Wireshark                ## network protocol analyzer
-
+$> Wireshark                ## network protocol analyzer.
 ##==========================================
-## A one-liner version number incrementor
+## file. code. A one-liner version number incrementor
 ## For a project Im maintaining Ive written a release script, after bodging one too many releases. For this, I came up with this helpful little snippet to increment version numbers.
-inc_version() {
-    awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1
-}
+inc_version() { awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1 ; }
 ## You just give it a version number on stdin, tell it which part you need incremented, and youll get it properly changed on stdout. Fields right of the one given get zeroed out.
 $> echo "1.2.3" | inc_version 3   ## 1.2.4
 $> echo "1.2.3" | inc_version 2   ## 1.3.0
 $> echo "1.2.3" | inc_version 1   ## 2.0.0
 ## If your version number ends on a build- or version control identifier, just replace NF with NF-1, so the zeroing stops one field short.
 ##==========================================
-## git
+## rename. files. Batch rename.
+$> for file in *.txt; do mv "$file" "${file%.txt}.xml"; done
+##==========================================
+$> wget -c --recursive --no-clobber --page-requisites --convert-links --restrict-file-names=windows http://website.com
+##==========================================
+## files. Convert tab separate file (TSV) to JSON with jq
+## With this command you can convert a tab separate file (TSV) into a JSON file with jq. For example, this input.tsv i-0b9adca882e5e6326 172.16.0.188 i-088dd69e5c3624888 172.16.0.102 i-0e70eac180537d4aa 172.16.0.85 will produce the showed output. Show Sample Output
+$> cat input.tsv | jq --raw-input --slurp 'split("\n") | map(split("\t")) | .[0:-1] | map( { "id": .[0], "ip": .[1] } )'
+##------------------------
+##==========================================
+## os. iso. Write a bootable Linux .iso file directly to a USB-stick
+## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
+$> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
+##==========================================
+## diff. Check difference between two file directories recursively
+$> diff <(tree /dir/one) <(tree /dir/two)
+##==========================================
+## sync. Rsync using SSH and outputing results to a text file
+## --delete will delete copies on remote to match local if deleted on local --stats will output the results -z zip -a archive -A preserve ACL -x dont cross filesystem boundaries -h human readable -e specify the remote shell to use
+$> rsync --delete --stats -zaAxh -e ssh /local_directory/ username@IP_of_remote:/Remote_Directory/ > /Text_file_Directory/backuplog.txt
+##==========================================
+## multimedia. video. Rotate a video file by 90 degrees CW
+## Change video orientation in metadata only
+$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
+##==========================================
+## networking. nmap get all active online ips from specific network
+## scan whole specific network for active online ips Show Sample Output
+$> nmap -n -sn 192.168.1.0/24 -oG - | awk '/Up$/{print $2}'
+##==========================================
+## logs. web. server. Analyse an Apache access log for the most common IP addresses
+## This uses awk to grab the IP address from each request and then sorts and summarises the top 10.
+$> tail -10000 access_log | awk '{print $1}' | sort | uniq -c | sort -n | tail
+##==========================================
+## sql. Checks all MySQL tables
+## See http://dev.mysql.com/doc/refman/5.0/en/myisamchk.html for further details. You can also repair all tables by running: myisamchk -r *.MYI
+$> myisamchk /path/to/mysql/files/*.MYI
+##==========================================
+## os. logs. info. Display the top ten running processes - sorted by memory usage
+## ps returns all running processes which are then sorted by the 4th field in numerical order and the top 10 are sent to STDOUT. Show Sample Output
+$> ps aux | sort -nk +4 | tail
+##==========================================
+## files. repo. git
 $> git branch newBranch
 ## do changes
 $> git checkout test
@@ -8554,48 +8604,6 @@ $> git push
 $> git checkout master
 $> git merge newBranch
 $> git push
-##==========================================
-## Batch rename
-$> for file in *.txt; do mv "$file" "${file%.txt}.xml"; done
-##==========================================
-$> wget -c --recursive --no-clobber --page-requisites --convert-links --restrict-file-names=windows http://website.com
-##==========================================
-## Convert tab separate file (TSV) to JSON with jq
-## With this command you can convert a tab separate file (TSV) into a JSON file with jq. For example, this input.tsv i-0b9adca882e5e6326 172.16.0.188 i-088dd69e5c3624888 172.16.0.102 i-0e70eac180537d4aa 172.16.0.85 will produce the showed output. Show Sample Output
-$> cat input.tsv | jq --raw-input --slurp 'split("\n") | map(split("\t")) | .[0:-1] | map( { "id": .[0], "ip": .[1] } )'
-##------------------------
-##==========================================
-## Write a bootable Linux .iso file directly to a USB-stick
-## Writes hybrid ISO directly to USB stick; replace /dev/sdb with USB device in question and the ISO image link with the link of your choice
-$> wget -O /dev/sdb https://cdimage.ubuntu.com/daily-live/current/eoan-desktop-amd64.iso
-##==========================================
-## Check difference between two file directories recursively
-$> diff <(tree /dir/one) <(tree /dir/two)
-##==========================================
-## Rsync using SSH and outputing results to a text file
-## --delete will delete copies on remote to match local if deleted on local --stats will output the results -z zip -a archive -A preserve ACL -x dont cross filesystem boundaries -h human readable -e specify the remote shell to use
-$> rsync --delete --stats -zaAxh -e ssh /local_directory/ username@IP_of_remote:/Remote_Directory/ > /Text_file_Directory/backuplog.txt
-##==========================================
-## Rotate a video file by 90 degrees CW
-## Change video orientation in metadata only
-$> ffmpeg -i in.mov -c copy -metadata:s:v:0 rotate=90 out.mov
-##==========================================
-## nmap get all active online ips from specific network
-## scan whole specific network for active online ips Show Sample Output
-$> nmap -n -sn 192.168.1.0/24 -oG - | awk '/Up$/{print $2}'
-##==========================================
-## Analyse an Apache access log for the most common IP addresses
-## This uses awk to grab the IP address from each request and then sorts and summarises the top 10.
-$> tail -10000 access_log | awk '{print $1}' | sort | uniq -c | sort -n | tail
-##==========================================
-## Checks all MySQL tables
-## See http://dev.mysql.com/doc/refman/5.0/en/myisamchk.html for further details. You can also repair all tables by running: myisamchk -r *.MYI
-$> myisamchk /path/to/mysql/files/*.MYI
-##==========================================
-## Display the top ten running processes - sorted by memory usage
-## ps returns all running processes which are then sorted by the 4th field in numerical order and the top 10 are sent to STDOUT. Show Sample Output
-$> ps aux | sort -nk +4 | tail
-##==========================================
 $> git reset .
 $> git status
 $> git checkout .
@@ -8693,6 +8701,7 @@ $> catt write_config  ## Write the name of default Chromecast device to config f
 ## #######################################################
 ## ##    Keyboard shortcuts
 ## #######################################################
+## OS.
 ## 1. General
 $> Win                          ## Open the Applications Menu
 $> Win+D                        ## Show desktop
@@ -8743,7 +8752,7 @@ $> Ctrl+Alt+Backspace           ## Restart the X server (WARNING: this will clos
 ## 8. Accessibility
 $> Alt+Win+=/- or Alt+Mousewheel        ## Zoom desktop in or out (Note: Zoom must be enabled in Universal Access settings)
 ##==========================================
-https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
+$> https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
 ## The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. pdsh is a variant of the rsh(1) command. Unlike rsh(1), which runs commands on a single remote host, pdsh can run multiple remote commands in parallel. pdsh uses a "sliding window" (or fanout) of threads to conserve resources on the initiating host while allowing some connections to time out.
 ## Make ssh the default protocol by putting this in .bashrc
 $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
@@ -8790,9 +8799,9 @@ $> /usr/lib/vino/vino-server --sm-disable
 ## This is me connecting from my phone (with the settings as listed above).
 ##==========================================
 ## Install phabricator howto
-https://www.youtube.com/watch?v=yX3us669EvY
+$> https://www.youtube.com/watch?v=yX3us669EvY
 ##==========================================
-## Install x11vnc:
+## GUI. VNC. Install x11vnc:
 $> sudo apt-get -y install x11vnc
 ## Create the directory for the password file:
 $> sudo mkdir /etc/x11vnc
@@ -9654,8 +9663,8 @@ $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 $> tfPath=$(which terraform | rev | cut -d'/' -f2- | rev)
 $> echo $tfPath
 ##==========================================
-## multimedia. vieo. Cut
-$> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "[YURI] School Days  S01E01 (BD 1080p x264 10bit Flac).mkv" -vf "subtitles=\[YURI\]\ School\ Days\ \ S01E01\ \(BD\ 1080p\ x264\ 10bit\ Flac\).mkv" -c:v libx264 -c:a aac endings/1.mp4
+## multimedia. video. Cut a video.
+$> ffmpeg -ss 0:23:10.5 -to 0:24:40 -i "input.mkv" -vf "subtitles=input.mkv" -c:v libx264 -c:a aac output.mp4
 ##==========================================
 ## script. shell. Quick ref for for/do/done commands
 $> for i in {01..10}; do <COMMAND> <BLA>$i; done
@@ -11008,15 +11017,33 @@ $> sudo apt-get nextcloud-client
 
 ##==========================================
 
-
-##==========================================
-
 ## ########################################
 ## ##    Unsorted
 ## ########################################
 ##==========================================
+## os. security. Make computer that resets at every boot. Files and history do not persist.
+## Use an empty ext4 partition or use a ramdisk.
+## Install overlayroot.
+$> sudo apt update
+$> sudo apt install overlayroot
+## Assuming you have an empty partition at /dev/sda3:
+## Set up configuration, change the overlayroot= line.
+$> sudo vim /etc/overlayroot.conf
+##    overlayroot="crypt:dev=/dev/sda3"
+## Enable overlayroot as part of the boot process.
+$> sudo update-initramfs -u
+## Reboot.
+$> sudo reboot
+##========================================
+## os. logs. tui. lnav - Log Navigator. Loads and displays log files in ncurses tui.
+## G             ## Go to end of logs and follow.
+## LEFT Arrow    ## Show the log file that entry came from.
+## /             ## Search. TAB completion.
+## :config       ## Configure.
+$> lnav /var/log
+##==========================================
 ## files. Compare directories (using cmp to compare files byte by byte) to find files of the same name that differ
-f$> ind . -maxdepth 1 -mindepth 1 -print0 | xargs -0 -n 1 -I % cmp % /DUPDIR/% 2>/dev/null
+$> find . -maxdepth 1 -mindepth 1 -print0 | xargs -0 -n 1 -I % cmp % /DUPDIR/% 2>/dev/null
 ##==========================================
 ## docker. Remove all intermediate docker images after build
 $> docker image rm $(docker image list -f "dangling=true" -qa)
