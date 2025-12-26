@@ -5433,7 +5433,7 @@ $> sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 ## Get a qrcode for a given string from qrenco.de
 $> echo "http://commandlinefu.com" | curl -F-=\<- qrenco.de
 ##==========================================
-## convert video to gif by ffmpeg and imagemagick
+## multimedia.video. convert video to gif by ffmpeg and imagemagick
 $> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - output.gif
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
