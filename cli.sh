@@ -736,7 +736,7 @@ $> mc -S sand256
 $> sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini
 $> sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini
 ## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
-$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1".; fi ; }
+$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1."; fi ; }
 ##------------------------------------------
 ## OR
 ## Make own skin and put in ~/.local/share/mc/skins
@@ -8636,12 +8636,13 @@ $> cp -a
 ## #######################################################
 ## ##    Chromecast
 ## #######################################################
-## Control chromecast with cli  Awesome!
+## multimedia. video. cast. Control chromecast with cli  Awesome!
 ## https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
 ##-------------------------------
 ## Chromecast from cli
 $> sudo apt install python3-pip python3-setuptools
 $> pip3 install --user catt
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> .zshrc
 ## usage
 $> catt --help
 ## usage: catt [OPTIONS] COMMAND [ARGS]...
@@ -8672,6 +8673,14 @@ $> catt volume        ## Set the volume to LVL [0-100].
 $> catt volumedown    ## Turn down volume by a DELTA increment.
 $> catt volumeup      ## Turn up volume by a DELTA increment.
 $> catt write_config  ## Write the name of default Chromecast device to config file.
+##==========================================
+## ############################################################
+## ##    vlc stream to chromcast from cli from remote.
+## ############################################################
+## multimedia. video. Works
+## vlc cast to chromecast.
+$> cvlc --sout "#chromecast"  --gnutls-dir-trust=/data  --sout-chromecast-ip=192.168.1.209 --demux-filter=demux_chromecast  /data/0107261101.mp4
+## ############################################################
 ##==========================================
 ## #######################################################
 ## ##    Keyboard shortcuts
@@ -12690,13 +12699,6 @@ if (condition) {
 } else {
 }
 ##==========================================
-## ############################################################
-## ##    vlc stream to chromcast from cli from Optiplex
-## ############################################################
-## multimedia. video. Works
-$> cvlc --sout "#chromecast"  --gnutls-dir-trust=/data  --sout-chromecast-ip=192.168.0.104 --demux-filter=demux_chromecast  /data/0424241032a.mp4
-## ############################################################
-##==========================================
 ## Thinkpad MiPi web cam.
 $> firefox https://forums.lenovo.com/t5/Ubuntu/MiPi-Camera-and-Ubuntu-Linux-New-kernel-6-5-new-problems/m-p/5282319
 $> sudo apt install linux-modules-ipu6-generic-hwe-22.04 linux-modules-ivsc-generic-hwe-22.04
@@ -12714,9 +12716,9 @@ $> wget https://github.com/intel/ipu6-camera-bins/raw/refs/heads/main/lib/firmwa
 $> chmod +x ipu6ep_fw.bin
 ##==========================================
 ## fuzzy finder - search history with fzf
-$> apt install fzf,
-$> dpkg -L fzf | grep -e key-bindings | grep bash,
-$> source [.../key-bindings.bash] ==  . [.../key-bindings.bash],
+$> apt install fzf
+$> dpkg -L fzf | grep -e key-bindings | grep bash
+$> source [.../key-bindings.bash] ==  . [.../key-bindings.bash]
 $> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
 
 
