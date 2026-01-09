@@ -6411,7 +6411,7 @@ $> rm *.doc && rm *.odt
 ## Append to all files in a folder: Usage: tag "your appended text"
 $> function tag() { for file in *.txt; do  echo ${1} >> "$file"; done }
 ##==========================================
-## Sync rwo folder
+## files. Sync rwo folder
 $> rsync -r -t -x -v --progress -s --whole-file  /path/bigfolder /path/destination
 ##==========================================
 ## Use jupyter on another computer
@@ -6537,7 +6537,7 @@ $> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" li
 #####################
 ##==========================================
 ##==========================================
-## exif data
+##  multimedia. image. hardware camera. exif data
 ## Read write exif data
 $> sudo apt-get install libimage-exiftool-perl
 ## Extract and view all EXIF metadata from an image or photo:
@@ -6551,7 +6551,7 @@ $> exiftool -all= *
 ## Remove EXIF metadata from images with “.jpeg” extensions only:
 $> exiftool -all= *.jpeg
 ##==========================================
-## Change permissions
+## files. Change permissions
 ## Change permissions of a single file
 $> chmod 640 file_name.ext
 ## Find all directories and change permissions
@@ -6565,7 +6565,7 @@ $> chown -R $USER:group_to_change_to *
 ## Recursive change the group of all files single directory
 $> chown -R :group_to_change_to /path
 ##==========================================
-## Use imagemagik to add a centered overlayed png on top of a background image
+## multimedia. image. Use imagemagik to add a centered overlayed png on top of a background image
 $> composite -gravity center overlay.png  background.jpg  result1.jpg
 ##==========================================
 ## https://ittutorials.net/open-source/owncloud/installing-owncloud-in-ubuntu/
@@ -7854,7 +7854,7 @@ $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
 ## web. Get Your IP Geographic Location with curl and jq
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
 ##==========================================
-## if youre looking for the directories that contain lots of files, this script may help:
+## fles, Directories that contain lots of files, this script may help:
 $> cat countum.sh << EOF
 #!/bin/bash
 # count_em - count files in all subdirectories under current directory.
@@ -8211,7 +8211,7 @@ $> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys
 ## This recursively downloads all images from a given website to your /tmp directory. The -nH and -nd switches disable downloading of the directory structure.
 $> wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
 ##==========================================
-## This will upload any file to transfer.sh and return a link you can share.
+## files. This will upload any file to transfer.sh and return a link you can share.
 $> transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
 $> tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
 ##==========================================
@@ -8222,16 +8222,13 @@ $> echo "$(date -u '+%H:%M')\n$(date '+%Y-%m-%d')" | dmenu
 $> dl_music () { youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x ; }
 ##
 $> function dl_music() { youtube-dl --output ~/Music/"$2.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0 "$1" --add-metadata -x ; }
-## Open browser from terminal to create PR after pushing something in Git in MAC
-$> git remote -v |grep origin|tail -1|awk '{print $2}'|cut -d"@" -f2|sed 's/:/\//g'|xargs -I {} open -a "Google Chrome" https://{}
-##==========================================
-##  multimedia. video. Download Video
-$> dl_video () {
-$>   youtube-dl --output ~/Videos/"$2.%(ext)s" "$1"
-$> }
+## multimedia. video. Download Video
 $> function dl_video() { youtube-dl --output ~/Videos/"$2.%(ext)s" "$1" ; }
 ##==========================================
-##  multimedia. video.Convert Video
+## git. files. Open browser from terminal to create PR after pushing something in Git in MAC
+$> git remote -v |grep origin|tail -1|awk '{print $2}'|cut -d"@" -f2|sed 's/:/\//g'|xargs -I {} open -a "Google Chrome" https://{}
+##==========================================
+## multimedia. video.Convert Video
 $> function webm2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a aac -strict experimental -loglevel error "${1%%.webm}.mp4" ; }
 ##
 $> function webm2mp3() { ffmpeg -i "$1" "${1%%.webm}.mp3" ; }
@@ -8254,14 +8251,14 @@ $> diff <(tree /dir/one) <(tree /dir/two)
 ## It deletes all removed files, updates what was modified, and adds new files.
 $> git add -u
 ##==========================================
-## Better tool for exporting git repository is Git itself!
+## git. files. Better tool for exporting git repository is Git itself!
 $> git archive HEAD --format=zip > archive.zip
 ##==========================================
 ## List all authors of a particular git project
 ## List everyone who committed to a particular project, listed alphabetically. To list by commits, add -n to the shortlog. Show Sample Output
 $> git shortlog -s | cut -c8-
 ##==========================================
-## Prints per-line contribution per author for a GIT repository
+## git. files. Prints per-line contribution per author for a GIT repository
 ## Figures out total line contribution per author for an entire GIT repo. Includes binary files, which kind of mess up the true count. If crashes or takes too long, mess with the ls-file option at the start: git ls-files -x "*pdf" -x "*psd" -x "*tif" to remove really random binary files git ls-files "*.py" "*.html" "*.css" to only include specific file types Based off my original SVN version: http://www.commandlinefu.com/commands/view/2787/prints-total-line-count-contribution-per-user-for-an-svn-repository Show Sample Output
 $> git ls-files | xargs -n1 -d'\n' -i git-blame {} | perl -n -e '/\s\((.*?)\s[0-9]{4}/ && print "$1\n"' | sort -f | uniq -c -w3 | sort -r
 ##==========================================
@@ -8438,28 +8435,6 @@ $> iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j
 $> iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ## If you want to save the rules permanently, on some systems that can be done with the command:
 $> service iptables save
-##==========================================
-## Heres a recipe for fixing high iowait when copying large files from USB HDD to internal SSD (Fedora 30, kernel 5.3.6, USB 2.0)
-## By default the OS configuration is almost unusable because the large file copying causes a high iowait on the CPU, ranging up to 80%. I wasnt even able to switch between Plasma 5s konsole tabs during the high iowait stage.
-## This configuration eliminates the high iowait and the laptop remains fully usable during the file copying process.
-
-/etc/udev/rules.d/98-io-scheduler.rules:
-## solution is to add the remote host public key in /etc/ssh/ssh_known_hosts before calling the git module, with the following command:
-ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts.
-
-ACTION=="add|change", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", ATTR{queue/scheduler}="bfq", ATTR{queue/nr_requests}="1024", ATTR{queue/iosched/low_latency}="1"
-
-/etc/sysctl.d/98-dirty-bytes.conf:
-
-vm.dirty_background_bytes = 33554432
-vm.dirty_bytes = 67108864
-vm.dirty_expire_centisecs = 100
-
-/etc/sysctl.d/97-swappiness.conf:
-
-vm.swappiness = 1
-## Reboot
-## Use "ionice -c 3 command" to start the file copying process. I tried solving the problem for about two weeks until I found the option vm.dirty_expire_centisecs
 ##==========================================
 $> firefox https://www.linuxuprising.com/2019/02/how-to-downgrade-packages-to-specific.html
 ## Check availible packages including older ones
@@ -12226,8 +12201,8 @@ $> adb sync notes: adb sync [ <directory> ]
 ##   - If it is "system" or "data", only the corresponding partition
 ##     is updated.
 ## android-sdk-platform-tools
-$> adb push "Ahsoka.S01E03.2160p.WEBRip.x265.DDP5.1.Atmos-KONTRAST.mkv" /sdcard/
-$> adb pull "/storage/emulated/0/Download/Star Wars - The Thrawn Trilogy by Timothy Zahn/1. Star Wars - Heir to the Empire.m4b" /home/$USER/Downloads
+$> adb push "video.mkv" /sdcard/
+$> adb pull "/storage/emulated/0/Download/video.mp4" /home/$USER/Downloads
 ##---------------------------
 $> adb shell sm set-force-adoptable true
 
@@ -12692,53 +12667,20 @@ $> | sed ':a;N;$!ba;s/\n/ /g'
 ## If we are before the last line, branch to the created label $!ba ($! means not to do it on the last line as there should be one final newline).
 ## Finally the substitution replaces every newline with a space on the pattern space (which is the whole file).
 ##==========================================
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sMkIrrv-c5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## web. Embed Youtube iFrame video in a webpage.
+$> <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+##==========================================
+## log. files. fzf.
+$> apt install fzf,
+$> dpkg -L fzf | grep -e key-bindings | grep bash
+$> dpkg -L fzf | grep -e key-bindings | grep zsh
+$> source [.../key-bindings.bash] ==  . [.../key-bindings.bash]
+$> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
-## Software to look at
-## amass, dirsearch, and nmap
-## Browser: Firefox ESR
-## Email Client: Claws Mail
-## Media Player: VLC Media Player
-## Image viewer: Nomacs
-## Note Taking app: Zim
-## Graphics: Gimp 2.10, GMIC, Pixelitor, REMBG, Triangle wallpaper generator
-## Document work : LibreOffice, OnlyOffice, GImageReader, PDF Jumbler, HotShots screen caption,
-## Misc: Pulse Effects,
-## CopyQ Clipboard Manager with Advanced Features
-## , Virtual box, GNOME Screenshot,
-##
-## ## Flameshot
-## https://github.com/flameshot-org/flameshot/releases,
-##
-## Recoll and Video Trimme
-## Emba, an open source firmware analyzer,
-## https://github.com/andreafabrizi/Dropbox-Uploader
-
-## CudaText - An open source alternative to SublimeText
-https://cudatext.github.io/
-
-https://github.com/arindas/mac-on-linux-with-qemu
-
-## for ebooks
-epy-reader
-
-## Desktop:
-$> sudo apt-get update && sudo apt-get install -y calcurse tmux mc bsdgames lynx elinks w3m htop pandoc pdftk cmus wordgrinder diatheke mutt sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw deluged deluged-console
-
-## Server:
-$> sudo apt-get update && sudo apt-get install -y tmux mc lynx htop sshfs pdftotext ffmpeg openvpn openssh-server mpv snap git ufw
-
-
-https://www.wireguard.com/
-https://wazuh.com/
-https://github.com/juanfont/headscale
+## python. package. uv
+$> curl https://astral.sh/uv/install.sh -Lo uv-install.sh (view),
+$> bash uv-install.sh
 ##==========================================
 ## Remove the $> to activate the commands
 $> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
