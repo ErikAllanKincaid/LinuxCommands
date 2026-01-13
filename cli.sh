@@ -8193,6 +8193,8 @@ $> firefox https://www.webfx.com/tools/emoji-cheat-sheet/
 ### files. Ways to catdog a dogdog
 ## echo passes string to sed
 $> echo "dogdog" | sed "s/dog/cat/"
+## echo passes string to sed global change.
+$> echo "dogdog" | sed "s/dog/cat/g"
 ## create dogdog in file
 $> echo "dogdog" > dog.txt
 ## sed reads string from file
