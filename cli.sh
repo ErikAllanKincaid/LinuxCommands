@@ -252,163 +252,6 @@ $>  /etc/bash.bashrc                     ## System wide bashrc
 $>  /etc/default/grub                    ## Configuration file, run update-grub after editing
 $>  /etc/X11/                            ## Config files for XWindows
 ##==========================================
-### Apple Macbook Air 2013
-## Network controller: Broadcom Corporation BCM4360 802.11ac Wireless Network Adapter. https://askubuntu.com/questions/55868/installing-broadcom-wireless-drivers
-## Can use gui driver manager
-## or
-$> sudo apt-get install bcmwl-kernel-source
-## Could need firmware installer as well. Above is usually enough.
-$> sudo apt-get install firmware-b43-installer
-$> sudo apt-get install --reinstall bcmwl-kernel-source
-## In some particular cases, after installing the firmware-b43-installer you need to remove the b43 module.
-#> sudo modprobe -r b43
-#> sudo modprobe b43
-#> sudo rfkill unblock all
-##----------------------------------------------
-### Facetime camera
-## Multimedia controller: Broadcom Corporation 720p FaceTime HD Camera
-## https://forums.linuxmint.com/viewtopic.php?t=263871
-## https://gist.github.com/Stono/990ea9f0b3c41606c292f00382d421bf
-## https://github.com/patjak/bcwc_pcie/wiki/Get-Started#get-started-on-debian
-## https://karlstoney.com/2017/02/27/facetimehd-camera-on-linux/
-## Firmware extraction
-## Download the driver (zip version) and extract it by following these steps:
-## Clone the git repository with
-$> git clone https://github.com/patjak/bcwc_pcie.git
-$> git clone https://github.com/patjak/facetimehd-firmware
-## Change to the firmware directory with
-$> cd bcwc_pcie/firmware
-## Dependencies for make are curl, xzcat and cpio
-##     Under bcwc_pcie/firmware type $ make and then as root type # make install
-##     Result should be like:
-$> sudo make
-#> Dowloading the driver, please wait...
-#>Found matching hash from OS X, El Capitan 10.11.2
-#> ==> Extracting firmware...
-#> --> Decompressing the firmware using gzip...
-#> --> Deleting temporary files...
-#> --> Extracted firmware version 1.43.2
-$> sudo make install
-#> -->Copying firmware into '/usr/lib/firmware/facetimehd'
-## Create facetimehd.ko
-$> cd ..
-$> sudo make
-$> sudo make install
-$> sudo depmod
-$> sudo modprobe -r bdc_pci
-## Load driver
-$> sudo modprobe facetimehd
-## Might need to add facetimehd.ko to /lib/modules/$(uname -r)/updates/facetimehd.ko by hand
-$> sudo cp /tmp/bcwc_pcie/facetimehd.ko /lib/modules/$(uname -r)/updates/facetimehd.ko
-$> sudo depmod
-$> sudo modprobe facetimehd
-##------------------------------------------
-## script to install facetime hd firmware remove # in front of each line.
-$> echo '
-##!/bin/bash
-#cd bcwc_pcie/firmware
-#printf "Compiling firmware\n";
-#make
-#printf "done\n\n";
-##
-#printf "Installing firmware\n";
-#sudo make install
-#printf "done\n\n";
-##
-#cd ..
-#printf "Compiling driver\n";
-#make
-#printf "done\n\n";
-##
-#printf "Installing driver\n";
-#sudo make install
-#printf "done\n\n";
-##
-#printf "Running depmod\n";
-#sudo depmod
-#printf "done\n\n";
-##
-#printf "Running modprobe -r bdc_pci\n";
-#sudo modprobe -r bdc_pci
-#printf "done\n\n";
-##
-#printf "Loading driver\n";
-#sudo modprobe facetimehd
-#printf "done\n\n";
-#' > facetime_hd_firmware_install.sh
-## Remove leading #
-$> sed -i 's/^#//g' facetime_hd_firmware_install.sh
-##------------------------------------------
-## Optional can just run each time upgrade kernal
-## Make script ./99-install-facetime-camera.sh, remove the single # at  cat > "/etc/modules-load.d/facetimehd.conf" << EOL
-## Can add to file which runs each time you update the kernel
-$> echo '
-##!/bin/bash
-#set -e
-##
-#export CONFIG_MODULE_SIG=n
-#export CONFIG_MODULE_SIG_ALL=n
-#export KERNELRELEASE=${1}
-##
-#echo "Installing FacetimeHD camera for $KERNELRELEASE"
-#cd /tmp
-#git clone https://github.com/patjak/bcwc_pcie.git
-#cd bcwc_pcie/firmware
-#make
-#make install
-#cd ..
-#make
-#make install
-##rm -rf /tmp/bcwc_pcie
-##
-#if [ ! -d "/etc/modules-load.d" ]; then
-#  mkdir -p "/etc/modules-load.d"
-#fi
-### Reload the module each kernel upgrade.
-##cat > "/etc/modules-load.d/facetimehd.conf" << EOL
-#videobuf2-core
-#videobuf2_v4l2
-#videobuf2-dma-sg
-#facetimehd
-#EOL
-##
-#echo "Install complete."
-#' > 99-install-facetime-camera.sh
-## Remove leading #
-$> sed -i 's/^#//g' 99-install-facetime-camera.sh
-## Run with
-$> 99-install-facetime-camera.sh $(uname -r)
-## Might need to add facetimehd.ko to /lib/modules/$(uname -r)/updates/facetimehd.ko by hand
-$> sudo cp /tmp/bcwc_pcie/facetimehd.ko /lib/modules/$(uname -r)/updates/facetimehd.ko
-$> sudo depmod
-$> sudo modprobe -r bdc_pci
-## Load driver
-$> sudo modprobe facetimehd
-##-------------------------------------
-## OR
-## mac pci video cam
-## As at 8/3/2020 follow the instructions Here. They come in two parts, make sure you also follow the ones for your platform. They are a bit jumbled on the site so I have included them below.
-## I'm running 18.04 LTS (Bionic) on a 2013 Macbook Pro. The instructions that worked for me were as follows:
-$> sudo apt-get install git
-$> sudo apt-get install curl xzcat cpio
-$> git clone https://github.com/patjak/facetimehd-firmware.git
-$> cd facetimehd-firmware
-$> make
-$> sudo make install
-$> cd ..
-$> sudo apt-get install kmod libssl-dev checkinstall
-$> git clone https://github.com/patjak/bcwc_pcie.git
-$> cd bcwc_pcie
-$> ## Copy over the firmware from above to the firmware dir
-$> make
-$> sudo make install
-$> sudo depmod
-$> sudo modprobe -r bdc_pci
-$> sudo modprobe facetimehd
-$> sudo nano /etc/modules
-## **add line "facetimehd", write out (ctl+o) & close**
-## I had to install xz-utils instead of xzcat as the latter was not found
-##==========================================
 ##==========================================
 ## tmux
 $> firefox https://tmuxcheatsheet.com/
@@ -997,9 +840,17 @@ git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
 ## ##    END Setup
 ## ##########################################################
 ##==========================================
-##
-##
-##
+## #################################
+## ##    Monitoring
+## #################################
+## Install monitoring tools.
+$> sudo aptinstall htop iotop iftop nvtop
+##==========================================
+##  Use grafana
+##==========================================
+## #################################
+## ##    END Monitoring
+## #################################
 ##==========================================
 ## ####################################################
 ## ##    Networking
@@ -1042,6 +893,7 @@ $> nmap -sP 192.168.1.0/24
 $> hostname
 ##==========================================
 ## Get wifi working
+$> sudo ip dev
 $> sudo iw dev
 $> sudo ip link show wlan0
 $> sudo ip link set wlan0 up
@@ -1218,7 +1070,22 @@ $> xset dpms force off
 ## Format for printing then send to printer
 $> pr file.txt | lpr
 ##==========================================
+## Mount USB with cli.
+$> sudo apt install udisks2
+## Make sure you are part of plugdev group.
+$> groups
+## If not in group plugdev add your user.
+$> sudo usermod -aG plugdev $(whoami)
+## Mount. Will output where it is mounted.
+$> udisksctl mount -b /dev/sdb1
+$> ls -la /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9/
+## Unmount
+$> udisksctl unmount -b /dev/sdb1
+##==========================================
 ##
+## #######################################################
+## ##    END System
+## #######################################################
 ## #############################################
 ## ##    Multimedia
 ## #############################################
@@ -1520,10 +1387,10 @@ $> openssl enc -d -des3 -salt -out stuff.tgz -in encryptedstuff
 $> tar -zxvf stuff.tgz
 ##------------------------------------------
 ## Functions to encrypt and decrypt
-## Function to make encrypted file hidden in a .gif; Usage: crypt Directory_To_Encrypt image.gif
+## Function to make encrypted file hidden in a .gif; Usage: cryptgif Directory_To_Encrypt image.gif
 $> function cryptgif() { cp "$2" pic.gif && tar -zcvf stuff.tgz ./"$1" && openssl des3 -salt -in stuff.tgz -out encryptedstuff && zip encryptedstuff.zip encryptedstuff && cat encryptedstuff.zip >> pic.gif && cp pic.gif crypt.gif && rm  pic.gif && rm stuff.tgz && rm encryptedstuff && rm encryptedstuff.zip ; }
 ##------------------------------------------
-## Function to de-encrypt an encrypted file hidden in a .gif
+## Function to de-encrypt an encrypted file hidden in a .gif; Usage: decryptgif image.gif
 $> function decryptgif() { cp $1 encryptedstuff.zip && unzip encryptedstuff.zip ; openssl enc -d -des3 -salt -out stuff.tgz -in encryptedstuff && tar -zxvf stuff.tgz && rm encryptedstuff.zip && rm encryptedstuff && rm stuff.tgz ; }
 ##==========================================
 ## Extract public key from private
@@ -5316,7 +5183,7 @@ $> sed 'X{N;s/\n//;}' file.txt
 ## Embed next line on the end of current line using sed (where X is the current line)
 ## N: On the current line, sed will display it on pattern space, plus a \n (new line); but s/\n//: Will get rid of new line displayed on pattern space, joining the current lines end with the start of the next line
 ##==========================================
-$> sudo mount -o remount,rw / && sudo cp /etc/hosts /etc/hosts.old && wget http://winhelp2002.mvps.org/hosts.txt && cp /etc/hosts ~/ && cat hosts.txt >> hosts && sudo cp hosts /etc/hosts
+$> sudo mount -o remount,rw / && sudo cp /etc/hosts /etc/hosts.old && Fhttp://winhelp2002.mvps.org/hosts.txt && cp /etc/hosts ~/ && cat hosts.txt >> hosts && sudo cp hosts /etc/hosts
 ## Ad blocking on Ubuntu phone/tablet with hosts file
 ## Will append lines to the hosts file to do some basic ad blocking.
 ##==========================================
@@ -5814,6 +5681,7 @@ $> | sed 's/^\(somestring\)/#\1/'
 $> sox -t alsa default ./recording.flac silence 1 0.1 5% 1 2.0 5%
 ## Records audio from your mic in FLAC (Free Lossless Audio Codec) format, starts only after it detects at least 0.1 seconds of noise and stops after 2 second of silence. You can adjust the percent values (sensitivity) to best fit your microphone and voice (0.1% if you have a great quality mic, higher if you do not, 0% does not trim anything).
 ## Useful for speech recognition in conjunction with my previous command titled 'Google voice recognition "API"' (http://www.commandlinefu.com/commands/view/8043/google-voice-recognition-api).
+$> sox -t alsa default ./recording.wav silence 1 0.1 5% 1 2.0 5%
 ##==========================================
 ## Multimedia
 ## Record audio from microphone or sound input from the console
@@ -11007,6 +10875,18 @@ $> sudo apt-get nextcloud-client
 ## ##    Unsorted
 ## ########################################
 ##==========================================
+## Mount USB drives in cli.
+## Install udisks2.
+## For Debian/Ubuntu
+$> sudo apt install udisks2
+$> groups
+## If 'plugdev' is not listed, add your user:
+$> sudo usermod -aG plugdev your_username
+## Mount a Drive: When a USB drive is plugged in, identify its device name (e.g., /dev/sdb1) using lsblk and then use udisksctl to mount it.
+$> lsblk
+## Identify the correct device and partition, then mount:
+$> udisksctl mount -b /dev/sdb1
+##========================================
 ## os. security. Make computer that resets at every boot. Files and history do not persist.
 ## Use an empty ext4 partition or use a ramdisk.
 ## Install overlayroot.
@@ -12725,7 +12605,9 @@ $> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
 
 
 ##==========================================
-
+## Install a bunch of good stuff
+$> firefox https://tuxmate.com/
+$> sudo apt install -y btop htop fastfetch eza bat fzf ripgrep zoxide tldr wget curl aria2 ranger ncdu fd-find tmux zellij rsync zsh python3 nodejs golang neovim vlc mpv audacity obs-studio ffmpeg handbrake torbrowser-launcher google-chrome-stable
 
 ##==========================================
 
