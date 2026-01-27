@@ -856,40 +856,43 @@ $> sudo aptinstall htop iotop iftop nvtop
 ## ##    Networking
 ## ####################################################
 ##==========================================
-## Find out what networking devices you have
+## Find out what networking devices you have.
 $> ifconfig -a
 $> lshw -C network
-## Turn on and off networking device
+## Turn on and off networking device.
 $> sudo ifconfig <interface> down
 $> sudo dhclient -r <interface>
 $> sudo ifconfig <interface> up
-## Scan wifi Example;<interface>=wlan1
+## Scan wifi Example;<interface>=wlan1.
 $> iwlist wlan1 scan
 $> iwlist wlan1 scan | grep -E 'ESSID|Cell'
-## Connect to a wifi network
+## Connect to a wifi network.
 $> sudo iwconfig <interface> essid "<ESSID_IN_QUOTES>"
 $> sudo iwconfig <interface> key '<wifipassword>'
 $> sudo iwconfig <interface> mode Managed
 $> sudo iwconfig <interface> channel <same channel number as router>
 $> sudo dhclient <interface>
 $> sudo iwconfig wlan1 essid 'My Network' AP '00:00:FF:DD:43:78' channel 7 key s:'Mykey'
-## Display your local IP address
+## Display your local IP address.
 $> ip addr | grep 'inet '
-## Display only your local IP address
+## Display only your local IP address.
 $> ifconfig wlan1 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'
-## Display your outside IP address
+## Display your outside IP address.
 $> nslookup myip.opendns.com resolver1.opendns.com
-## Display your gateway IP address
+## Display your gateway IP address.
 $> ip route show | grep -i 'default via'| awk '{print $3 }'
-## Scan for other hosts on network
+## Scan for other hosts on network.
 $> sudo arp-scan --interface=<interface> --localnet
-## Find open ports
-$> sudo nmap -sT -O <host>
-## Display NetBIOS name of a given IP address
+## Display NetBIOS name of a given IP address.
 $> nmblookup -A IP_ADDRESS
-## Scan Subnet for IP and MAC addresses
+## Scan Subnet for device port information.
+$> nmap 192.168.1.0/24
+## Find open ports.
+$> sudo nmap -sT -O <host>
+## Scan Subnet for IP and MAC addresses.
 $> nmap -sP 192.168.1.0/24
-## Display hostname
+$> nmap -sn 192.168.1.0/24 | grep scan | sed 's/Nmap scan report for //' | column -t
+## Display hostname.
 $> hostname
 ##==========================================
 ## Get wifi working
@@ -1022,6 +1025,7 @@ $> sudo apt-get install ytalk
 ## Both parties run talk <user-you-want-to-talk-to>@<host-IP-or-name> #on both
 $> talk user@host
 ##==========================================
+## ##     samba
 ## Disable Samba from listening on the samba ports:
 $> sudo ufw deny Samba
 ## To disable the samba server from running:
@@ -1041,6 +1045,41 @@ $> sudo stop smbd
 ## Change the configuration so that samba will not be started on reboot.
 $> echo manual | sudo tee -a /etc/init/nmbd.override
 $> echo manual | sudo tee -a /etc/init/smbd.override
+##==========================================
+## Check the current network.
+## Dynamic logical IP address (Layer 3) to a fixed physical MAC address (Layer 2) on a local area network (LAN).
+$> arp -a
+## Get local interface.
+$> networkInterface=$(ip -br a | grep 192 | awk '{print $1}')
+## Scan.
+$> sudo arp-scan --localnet --interface $networkInterface
+## Watch network traffic.
+$> sudo apt install iftop
+$> sudo iftop
+## Watch interfaces
+$> watch -d netstat -rn
+## Capture packets on the network. Use wireshark to monitor.
+$> sudo apt install tshark
+$> sudo tshark -i $networkInterface -f arp
+$> sudo tshark -i $networkInterface
+$> sudo tshark -i $networkInterface | grep -v WireGuard
+$> sudo tshark -i $networkInterface | grep -v WireGuard
+##==========================================
+## Termshark - A terminal UI for tshark, inspired by Wireshark.
+## Check for latest version.
+$> firefox https://termshark.io/
+$> wget https://github.com/gcla/termshark/releases/download/v2.4.0/termshark_2.4.0_linux_x64.tar.gz
+$> tar --extract --file="termshark_2.4.0_linux_x64.tar.gz" --gzip --verbose
+$> ls ./termshark_2.4.0_linux_x64
+$> sudo cp ./termshark_2.4.0_linux_x64/termshark /usr/local/bin/
+## Get local interface.
+$> networkInterface=$(ip -br a | grep 192 | awk '{print $1}')
+## Capture packets on the network.
+$> sudo termshark -i=$networkInterface
+
+
+##==========================================
+
 ##==========================================
 ## ####################################################
 ## ##    END Networking
@@ -4194,7 +4233,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ⌴ ⌵ ⌶ ⌷ ⌸ ⌹ ⌺ ⌻ ⌼ ⍯ ⍰ ⌽ ⌾ ⌿ ⍀ ⍁ ⍂ ⍉ ⍊ ⍋ ⍎ ⍏ ⍑ ⍒ ⍕ ⍖ ⍘ ⍙ ⍚ ⍛ ⍜ ⍝ ⍞ ⍠ ⍟
 ⍡ ⍢ ⍣ ⍤ ⍥ ⍨ ⍩ ⍦ ⍧ ⍬ ⍿ ⍪ ⍮ ⍫ ⍱ ⍲ ⍭ ⍳ ⍴ ⍵ ⍶ ⍷ ⍸ ⍹ ⍺ ⍼ ⍽ ⍾ ⎀ ⎁ ⎂ ⎃ ⎄ ⎅
 ⎆ ⎉ ⎊ ⎋ ⎍ ⎎ ⎏ ⎐ ⎑ ⎒ ⎓ ⎔ ⎕ ⏣ ⌓ ⏥ ⏢ ⎖ ⎲ ⎳ ⎴ ⎵ ⎶ ⎸ ⎹ ⎺ ⎻ ⎼ ⎽ ⎾ ⎿
-⏀ ⏁ ⏂ ⏃ ⏄ ⏅ ⏆ ⏇ ⏈ ⏉ ⏉ ⏋ ⏌ ⏍ ⏐ ⏤ ⏚ ⏛ Ⓝ ℰ ⓦ !       ⌘ « » ‹ ›
+⏀ ⏁ ⏂ ⏃ ⏄ ⏅ ⏆ ⏇ ⏈ ⏉ ⏉ ⏋ ⏌ ⏍ ⏐ ⏤ ⏚ ⏛ Ⓝ ℰ ⓦ !  ⌘ « » ‹ ›
 ‘ ’ “ ” „ ‚ ❝ ❞ £ ¥ € $ ¢ ¬ ¶ @ § ® © ™ ° × π ± √ ‰ Ω ∞ ≈ ÷ ~ ≠
 ¹ ² ³ ½ ¼ ¾ ‐ – — | ⁄ \ [ ] { } † ‡ … · • ● ⌥ ⌃ ⇧ ↩ ¡ ¿ ‽ ⁂ ∴ ∵ ◊ ※ ← → ↑ ↓
 ☜ ☞ ☝ ☟ ✔ ★ ☆ ♺ ☼ ☂ ☺ ☹ ☃ ✉ ✿ ✄ ✈ ✌ ✎ ♠ ♦ ♣ ♥ ♪ ♫ ♯ ♀ ♂ α ß
@@ -6495,7 +6534,7 @@ $> ssh-keygen -R "hostname"
 ## Check SSL expiry from commandline
 $> echo | openssl s_client -showcerts -servername google.com -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 ## Remove a passphrase from a private key
-openssl rsa -in privateKey.pem -out newPrivateKey.pem
+$> openssl rsa -in privateKey.pem -out newPrivateKey.pem
 ## Remove key from known_hosts
 $> ssh-keygen -R "hostname"
 ##==========================================
@@ -10886,6 +10925,8 @@ $> sudo usermod -aG plugdev your_username
 $> lsblk
 ## Identify the correct device and partition, then mount:
 $> udisksctl mount -b /dev/sdb1
+## Unmount the drive.
+$> udisksctl unmount -b /dev/sdb1
 ##========================================
 ## os. security. Make computer that resets at every boot. Files and history do not persist.
 ## Use an empty ext4 partition or use a ramdisk.

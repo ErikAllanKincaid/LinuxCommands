@@ -16,6 +16,11 @@ firefox https://www.marcobehler.com/guides/ssh-cheat-sheet
 ## WORKS!
 ## Termshark - A terminal UI for tshark, inspired by Wireshark
 firefox https://termshark.io/
+wget https://github.com/gcla/termshark/releases/download/v2.4.0/termshark_2.4.0_linux_x64.tar.gz
+tar --extract --file="termshark_2.4.0_linux_x64.tar.gz" --gzip --verbose
+ls ./termshark_2.4.0_linux_x64
+sudo cp ./termshark_2.4.0_linux_x64/termshark /usr/local/bin/
+termshark -i=$networkInterface
 
 ##==================================
 ## Nomad Network - Communicate Freely - Off-grid, resilient mesh communication with strong encryption, forward secrecy and extreme privacy.
@@ -183,6 +188,40 @@ source .venv/bin/deactivate
 ## To use again get into virtual python environment.
 source .venv/bin/activate
 
+##--------------------------
+## WebUI
+## Three files to make a webui for TripoSG.
+cp app.py
+
+
+
+
+
+
+
+
+##-------------------
+## ## WebUi service
+## Copy service file to the service directory.
+sudo cp /home/$USER/code/TripoSG/triposg-webui.service  /etc/systemd/system/
+## Reload systemd: Notify the service manager of the new file.
+sudo systemctl daemon-reload
+## Start the service: Manually start the service for the first time.
+sudo systemctl start webui.service
+## Check the service status: Verify that it is running correctly.
+sudo systemctl status webui.service
+## Enable the service (optional): Configure the service to start automatically every time your system boots.
+sudo systemctl enable webui.service
+## ## Troubleshooting
+## If the service fails to start, use journalctl to view the logs and identify the error:
+sudo journalctl -u webui.service -f
+
+
+
+cp TripoSG-WebUI/app.py TripoSG/ TripoSG-WebUI/pyproject.toml TripoSG-WebUI/requirement.txt ~/code/TripoSG/
+
+
+
 
 ##==================================
 ## faster-whisper is a reimplementation of OpenAIs Whisper transcription of audio model using CTranslate2, which is a fast inference engine for Transformer models.
@@ -214,7 +253,11 @@ cd ascii-colorizer
 ## Install dependencies
 #pip install -r requirements.txt
 uv -r requirements.txt
+uv init
+uv venv
+source .venv/bin/activate
 
+uv pip install -r requirements.txt
 ## Install the package
 #pip install -e .
 #uv -e .
@@ -225,18 +268,18 @@ uv pip install torch torchvision torchaudio --index-url firefox https://download
 uv run python3 -c "import torch; print(torch.__version__); print(torch.cuda.is_available())"
     2.9.1+cu128
     True
+
+## NOPE!
 ## Install the package
 uv -e .
-## NOPE
+
+## NOPE. No binary created above.
 # Convert an image
 ascii-colorizer --file s-l500.jpg
-
 # Convert a video
 ascii-colorizer --file video.mp4 --fps 15
-
 # Use GPU acceleration
 ascii-colorizer --file video.mp4 --gpu
-
 # High-quality output
 ascii-colorizer --file image.png --detailed --width 120
 
@@ -251,7 +294,8 @@ ascii-colorizer --file image.png --detailed --width 120
 ## Erys: - Terminal Interface for Jupyter Notebooks.
 firefox https://github.com/natibek/erys
 uv tool install erys
-
+## Opens interface
+erys
 
 ##==================================
 ## WORKS!
@@ -443,7 +487,7 @@ firefox https://www.gh-dash.dev/enhance
 
 ##==================================
 ## Twake
-\Drive - The open-source alternative to Google Drive.
+## Drive - The open-source alternative to Google Drive.
 firefox https://github.com/linagora/twake-drive
 
 ##==================================
@@ -499,10 +543,12 @@ wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/NerdFontsS
 ## update the font cache.
 fc-cache -fv
 
-wget https://github.com/Templarian/MaterialDesign-Font/blob/master/MaterialDesignIconsDesktop.ttf
+## Install Material Design Icons.
+wget https://github.com/Templarian/MaterialDesign-Font/raw/refs/heads/master/MaterialDesignIconsDesktop.ttf
 sudo mkdir /usr/share/fonts/truetype/nerd-fonts
-sudo mv ./MaterialDesignIconsDesktop.ttf /usr/share/fonts/
+sudo mv ./MaterialDesignIconsDesktop.ttf /usr/share/fonts/truetype/nerd-fonts/
 sudo fc-cache -fv
+
 ##==================================
 ## GitFetch - insanely satisfying terminal stats for GitHub
 firefox https://github.com/Matars/gitfetch
@@ -602,6 +648,7 @@ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_
 sudo dpkg -i ripgrep_12.1.1_amd64.deb
 
 ##==================================
+## Works
 ## Systemd TUI
 firefox https://crates.io/crates/systemd-manager-tui
 firefox https://github.com/matheus-git/systemd-manager-tui/releases
@@ -926,6 +973,22 @@ ollama run llava "a photorealistic image of a cat wearing sunglasses"
 ollama run x/z-image-turbo:fp8 "a photorealistic image of a cat wearing sunglasses"
     Error: 500 Internal Server Error: image runner failed: Error: insufficient memory for image generation: need 21 GB, have 11 GB (exit: exit status 1)
 
+##--------------------------------
+## ## ollama docker
+https://hub.docker.com/r/ollama/ollama
+## Add Nvidia docker tools.
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+    | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+    | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+    | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+##
+
+##--------------------------------
+## ollama launch
+https://ollama.com/blog/launch
 
 
 
@@ -935,6 +998,7 @@ firefox https://github.com/tintinweb/claude-code-container
 
 
 ##============================
+## WORKS!!
 ## Whisper
 firefox https://github.com/ggml-org/whisper.cpp
 cd ~/code
@@ -1016,6 +1080,10 @@ https://github.com/curtosis-org/phub-cli
 
 ##============================
 ## Node.js
+https://nodejs.org/en/download
+## Standalone Binary (.xz)
+wget https://nodejs.org/dist/v24.13.0/node-v24.13.0-linux-x64.tar.xz
+## OR
 ## Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ## in lieu of restarting the shell, or restart shell.
@@ -1038,9 +1106,62 @@ npm -v
 
 ##============================
 ## Kilo code. Claude code competitor.
-https://kilo.ai/install
+firefox https://kilo.ai/install
 
 
+
+##============================
+## KAOS: K8s Agent Orchestration System
+## Deploy, manage, and orchestrate AI agents on Kubernetes
+firefox https://github.com/axsaucedo/kaos
+
+##============================
+##
+firefox https://medium.com/@lee.harding/building-a-real-time-hn-display-for-15-3ea1772051ff
+
+
+##============================
+## LL3M: Large Language 3D Modelers
+https://github.com/threedle/ll3m/
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
 
 
 ##============================
