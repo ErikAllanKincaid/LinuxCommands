@@ -685,6 +685,14 @@ $> apt-cache pkgnames
 $> apt-cache show PACKAGE_NAME
 $> apt-cache showpkg  PACKAGE_NAME
 ##==========================================
+## Change the hostname.
+$> hostnamectl set-hostname 'new-hostname'
+##==========================================
+
+##==========================================
+## ###################################
+## ##    END Setup
+## ###################################
 ## ########################
 ## ##    ssh
 ## ########################
@@ -10763,7 +10771,176 @@ $> sudo apt-get nextcloud-client
 ## #####################################################
 ## ##    END  Nextcloud Cloud Server Install
 ## #####################################################
+## ###########################################
+## ##    Apps
+## ###########################################
+##==========================================
+## Draw.io diagraming software.
+$> firefox https://www.drawio.com/blog/diagrams-offline
+## Install either .deb or AppImage
+$> wget https://github.com/jgraph/drawio-desktop/releases/download/v29.3.6/drawio-amd64-29.3.6.deb
+$> wget https://github.com/jgraph/drawio-desktop/releases/download/v29.3.6/drawio-x86_64-29.3.6.AppImage
+##==========================================
+## Node.js
+$> firefox https://nodejs.org/en/download
+## Standalone Binary (.xz)
+$> wget https://nodejs.org/dist/v24.13.0/node-v24.13.0-linux-x64.tar.xz
+## OR
+## Download and install nvm:
+$> curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+## in lieu of restarting the shell, or restart shell.
+$> \. "$HOME/.nvm/nvm.sh"
+## Download and install Node.js:
+$> nvm install 24
+## Verify the Node.js version: Should print "v24.13.0".
+$> node -v
+## Verify npm version: Should print "11.6.2".
+$> npm -v
+##==========================================
+## Termshark - A terminal UI for tshark, inspired by Wireshark
+$> firefox https://termshark.io/
+$> wget https://github.com/gcla/termshark/releases/download/v2.4.0/termshark_2.4.0_linux_x64.tar.gz
+$> tar --extract --file="termshark_2.4.0_linux_x64.tar.gz" --gzip --verbose
+$> ls ./termshark_2.4.0_linux_x64
+$> sudo cp ./termshark_2.4.0_linux_x64/termshark /usr/local/bin/
+$> export NETWORKINTERFACE=YOURNETWORKINTERFACEHERE
+$> termshark -i=$NETWORKINTERFACE
+##==================================
+## BTFS (bittorrent filesystem) BTFS, you can mount any .torrent file or magnet link and then use it as any read-only directory in your file tree.
+$> firefox https://github.com/johang/btfs
+## Install
+$> sudo apt install termshark
+$> mkdir mnt
+$> btfs video.torrent mnt
+$> cd mnt
+$> vlc video.mp4
+## Checkout a bittorent file
+$> firefox https://pirate-proxy.thepiratebay.rocks/browse
+$> mkdir mnt
+$> btfs 'magnet:?xt=urn:btih:CAB643475B478D9FA447CA85B87FA83C3914A197&dn=Charlie+Chaplin+The+Great+Dictator+%281940%29720p+BrRip+650MB+YIFY&tr=http%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2F47.ip-51-68-199.eu%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2780%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2730%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce' mnt
+$> vlc 'The.Great.Dictator.1940.720p.BrRip.x264.YIFY.mp4'
+## Mount
+$> fusermount -u /home/$USER/mnt
+## Unmount
+$> umount /home/$USER/mnt
+##==========================================
+## fzf - general-purpose command-line fuzzy finder.
+$> firefox https://github.com/junegunn/fzf
+## Switch to zsh
+$> sudo apt-get install git-core zsh fzf
+$> which zsh
+$> chsh -s $(which zsh)
+## Set up fzf key bindings and fuzzy completion
+$> source < (fzf --zsh)
+##==========================================
+## Erys: - Terminal Interface for Jupyter Notebooks.
+$> firefox https://github.com/natibek/erys
+$> uv tool install erys
+## Opens interface
+$> erys
+##==========================================
+## Mcat; Parse, Convert and Preview files In your Terminal.
+$> firefox https://github.com/Skardyy/mcat
+$> wget https://github.com/Skardyy/mcat/releases/download/v0.4.6/mcat-x86_64-unknown-linux-gnu.tar.xz
+$> unzip mcat-x86_64-unknown-linux-gnu.tar.xz
+$> sudo cp ./mcat /usr/local/bin/imagecat
+##==========================================
+## Basalt; TUI Application to manage Obsidian notes. TUI Application to manage Obsidian vaults and notes directly from the terminal
+$> firefox https://github.com/erikjuhani/basalt
+$> wget https://github.com/erikjuhani/basalt/releases/download/basalt%2Fv0.11.2/basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz
+$> mkdir basalt-0.11.2-x86_64-unknown-linux-musl
+$> tar --extract --file="basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz" --gzip --verbose -C ./basalt-0.11.2-x86_64-unknown-linux-musl/
+$> ls ./basalt-0.11.2-x86_64-unknown-linux-musl/target/x86_64-unknown-linux-musl/release/
+$> cp ./basalt-0.11.2-x86_64-unknown-linux-musl/target/x86_64-unknown-linux-musl/release/basalt ~/bin/
+$> ls ~/bin/
+##==========================================
+## nvtop. Monitor video card use vRAM GPU.
+$> wget https://github.com/Syllo/nvtop/releases/download/3.3.1/nvtop-3.3.1-x86_64.AppImage
+$> chmod +x nvtop-3.3.1-x86_64.AppImage
+$> sudo cp nvtop-3.3.1-x86_64.AppImage /usr/local/bin/nvtop
+$> rm nvtop-3.3.1-x86_64.AppImage
+##==========================================
+## Cockpit is a web-based graphical interface for servers, intended for everyone,
+$> firefox https://cockpit-project.org/
+$> sudo apt install cockpit
+$> firefox http://localhost:9090
+##==========================================
+## text. ripgrep - line-oriented search tool that recursively searches your current directory for a regex pattern.
+$> firefox https://github.com/BurntSushi/ripgrep
+$> curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+$> sudo dpkg -i ripgrep_12.1.1_amd64.deb
+##==========================================
+## Systemd TUI
+$> firefox https://crates.io/crates/systemd-manager-tui
+$> firefox https://github.com/matheus-git/systemd-manager-tui/releases
+$> wget https://github.com/matheus-git/systemd-manager-tui/releases/download/v1.2.0/systemd-manager-tui_1.2.0_amd64.deb
+$> sudo dpkg -i ./systemd-manager-tui_1.2.0_amd64.deb
+##==========================================
+## lazydocker - A simple terminal UI for both docker and docker-compose
+$> firefox https://github.com/jesseduffield/lazydocker
+$> wget https://github.com/jesseduffield/lazydocker/releases/download/v0.24.3/lazydocker_0.24.3_Linux_x86_64.tar.gz
+$> mkdir lazydocker_0.24.3_Linux_x86_64
+$> tar --extract --file="lazydocker_0.24.3_Linux_x86_64.tar.gz" --gzip --verbose -C ./lazydocker_0.24.3_Linux_x86_64/
+$> ls ./lazydocker_0.24.3_Linux_x86_64
+$>     lazydocker
+$> cp ./lazydocker_0.24.3_Linux_x86_64/lazydocker ~/bin/
+$> sudo ~/bin/lazydocker
+##==========================================
+## dawn - Live tui Markdown Rendering Markdown renders as you write.
+$> firefox https://github.com/andrewmd5/dawn
+$> cd ~/code
+$> wget https://github.com/andrewmd5/dawn/releases/download/v0.1.3/dawn-linux-x64.tar.gz
+$> mkdir ~/code/dawn-linux-x64
+$> tar --verbose --extract --file dawn-linux-x64.tar.gz -C ~/code/dawn-linux-x64
+$> ls ~/code/dawn-linux-x64/
+$> sudo cp ~/code/dawn-linux-x64/dawn /usr/local/bin/
+##==========================================
+## Stable-diffusion image generation command line interface.
+    ## This ran on CPU. How to force GPU?
+$> mkdir -p ~/code/stable-diffusion-cli
+$> cd ~/code/stable-diffusion-cli
+## Get binary.
+$> wget https://github.com/leejet/stable-diffusion.cpp/releases/download/master-480-b87fe13/sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
+$> unzip sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
+## Get model.
+$> curl -L -O https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
+## Generate image. Each prompt overwrite as output.png. To save as name use --output
+$> ./sd-cli -m ./v1-5-pruned-emaonly.safetensors -p "a lovely cat" --output "cat.png"
+$> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a diaphanous dress and a crown standing in front of a very large window, overlooking a futuristic city."
+##==========================================
+## catt - Cast All The Things allows you to send videos from online sources (YouTube, Vimeo, and a few hundred others) to your Chromecast.
+## It also allows you to cast local files or render websites.
+$> firefox https://github.com/skorokithakis/catt
+## Install
+$> pipx catt
+## Chromecast.
+## Use without installing.
+$> uvx catt --device "Living Room TV" cast cat.png
+##==========================================
 
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## ###########################################
+## ##    END Apps
+## ###########################################
 
 ## ##########################################################
 ## ##    END Packages
@@ -10771,8 +10948,118 @@ $> sudo apt-get nextcloud-client
 ## ##########################################################
 ## ##########################################################
 ##==========================================
+## ##########################################################
+## ##    Fonts
+## ##########################################################
+## Material Design fonts
+$> wget https://github.com/Templarian/MaterialDesign-Font/raw/refs/heads/master/MaterialDesignIconsDesktop.ttf
+$> sudo mkdir /usr/share/fonts/truetype/nerd-fonts
+$> sudo mv ./MaterialDesignIconsDesktop.ttf /usr/share/fonts/truetype/nerd-fonts/
+$> sudo fc-cache -fv
+##==========================================
+## Install some fonts
+$> sudo apt-get install ttf-mscorefonts-installer    ## Microsoft core fonts
+$> sudo apt-get install msttcorefonts                ## fonts
+$> sudo apt-get install fonts-dustin                 ## fonts
+$> sudo apt-get install fonts-georgewilliams         ## fonts
+$> sudo apt-get install fonts-sjfonts                ## fonts
+$> sudo apt-get install fonts-larabie-deco           ## fonts
+$> sudo apt-get install fonts-larabie-straight       ## fonts
+$> sudo apt-get install fonts-larabie-uncommon       ## fonts
+##==========================================
 
 
+##==========================================
+
+
+## ##########################################################
+## ##    END Fonts
+## ##########################################################
+##==========================================
+## ##########################################################
+## ##    AI Models
+## ##########################################################
+##
+##==========================================
+
+## #############################################
+## ##    Claude Coder
+## #############################################
+##
+##==========================================
+
+## #############################################
+## ##    Using ollama
+## #############################################
+## Install ollama
+$> firefox https://ollama.com/download
+$> curl -fsSL https://ollama.com/install.sh | sh
+## Pull some models
+$> ollama pull llama3.2
+$> ollama pull sd-turbo
+$> ollama pull llama3.2:1b
+##----------------------------
+## Open WebUI Docker image to run in a GUI
+$> firefox https://github.com/open-webui/open-webui
+## Docker with Open-Webui.
+$> sudo docker run -d  -p 8686:8080  --gpus=all  -v ollama:/root/.ollama  -v open-webui:/app/backend/data  --name open-webui  --restart always ghcr.io/open-webui/open-webui:ollama
+## Open the WebUI
+$> firefox http://localhost:8686
+
+##==========================================
+## #############################################
+## ##    Huggingface Models
+## #############################################
+$> firefox https://huggingface.co/
+## Install Huggingface cli.
+$> uv pip install huggingface_hub
+## Download models.
+$> uv run hf download stabilityai/sd-turbo
+$> uv run hf download stabilityai/sdxl-turbo
+## Get account at Hugging Face then get an Access Token.Can put in .zshrc
+$> firefox https://huggingface.co/docs/hub/en/security-tokens
+$> export HF_TOKEN=hf_exxghjklljghjkiouihsdsdzrT
+## SDXL requires access token.
+$> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
+## FLUX requires access token.
+$> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
+$> uv run hf download black-forest-labs/.1-schnell
+##==========================================
+## French AI startup Mistral tweeted
+$> firefox https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
+## a magnet link
+$> magnet:?xt=urn:btih:208b101a0f51514ecf285885a8b0f6fb1a1e4d7d&dn=mistral-7B-v0.1&tr=udp%3A%2F%http://2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%http://2Ftracker1.520.jp%3A443%2Fannounce
+## to their first publicly released, open sourced LLM, writes Slashdot reader jenningsthecat. "That might be merely interesting if not for the fact that the chatbot has remarkably few guardrails."
+$> firefox https://docs.mistral.ai/quickstart/
+## If you have downloaded the weights in the Hugging Face format on your local instance in the folder /path/to/model, you can directly run:
+$> docker run --gpus all \
+$>    -p 8000:8000 \
+$>    -v /path/to/model/:/mnt/model/ \
+$>     ghcr.io/mistralai/mistral-src/vllm:latest \
+$>    --host 0.0.0.0 \
+$>    --model="/mnt/model/"
+## API
+$> firefox https://docs.mistral.ai/api
+## You can then use the following command to start the server:
+$> python -u -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
+##==========================================
+## text. audio. ai.
+## Whisper. Converts audio to text. Transcription.
+$> firefox https://github.com/ggml-org/whisper.cpp
+$> cd ~/code
+$> git clone https://github.com/ggml-org/whisper.cpp.git
+$> cd whisper.cpp
+## Download Whisper model converted in ggml format.
+$> sh ./models/download-ggml-model.sh base.en
+## Build
+$> cmake -B build
+$> cmake --build build -j --config Release
+## Use vox to record.
+$> sudo apt install vox
+## Record .wav stops after you stop talking.
+$> sox -t alsa default ./recording.wav silence 1 0.1 5% 1 2.0 5%
+## Output to a file.
+$> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt recording.txt
 ##==========================================
 
 
@@ -10789,6 +11076,37 @@ $> sudo apt-get nextcloud-client
 
 
 ##==========================================
+## ##########################################################
+## ##    END AI Models
+## ##########################################################
+
+
+## ##########################################################
+## ##########################################################
+##==========================================
+
+
+##==========================================
+## ###########################################
+## ##    Drivers
+## ###########################################
+##==========================================
+## #######################
+## ##    Nvidia
+## #######################
+##-----------------------------------
+## Install CUDA
+$> firefox https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_local
+##
+$> wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+$> sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+$> wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+$> sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+$> sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+$> sudo apt-get update
+$> sudo apt-get -y install cuda-toolkit-13-1
+##
+
 
 
 ##==========================================
@@ -10798,21 +11116,9 @@ $> sudo apt-get nextcloud-client
 
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
+## ###########################################
+## ##    END Drivers
+## ###########################################
 
 
 ##==========================================
@@ -11123,9 +11429,11 @@ $> alias donkeyballs='echo "Received and understood rtailocinante"'
 $> alias stats='sudo systemctl status'
 $> alias fstats='sudo systemctl status > status.txt'
 $> alias net?='ping archlinux.org -c 5'
-$> alias fuckit='git push'
-$> alias pubsub='. $HOME/scripts/pubsub.sh'
-$> alias fixrofi='. ~/.config/rofi/fixrofi'
+#$> alias fuckit='git push'
+$> alias fuckit='git add . && git commit -m "Untracted changes." && git push'
+$> alias fucked='git reset --hard origin/master'
+#$> alias pubsub='. $HOME/scripts/pubsub.sh'
+#$> alias fixrofi='. ~/.config/rofi/fixrofi'
 $> alias networks='nmcli device wifi list'
 $> alias wifi-home='sudo nmcli device wifi connect sunshine password Nigerian'
 $> alias wifi-parents='sudo nmcli device wifi connect ORBI47 password chowchow'
@@ -11152,7 +11460,7 @@ $> alias nh='nano ~/.bash_history'
 $> alias sag='sudo apt'
 $> alias sagi='sudo apt install'
 $> alias sagr='sudo apt remove'
-$> alias szukaj='sudo find / -name'
+$> alias findname='sudo find / -name'
 $> alias txt='mplayer -vo caca'
 $> alias wywal='sudo shred -fuvz'
 $> alias ~~='cd ~'
@@ -11195,7 +11503,7 @@ $> alias motd='cat /etc/motd | lolcat'
 $> alias neofetch='neofetch | lolcat'
 $> alias yggdrasil='cbonsai -S | lolcat -a'
 $> alias bonsai='cbonsai -S'
-$> alias news='curl us.getnews.tech'
+#$> alias news='curl us.getnews.tech'
 $> alias weather='curl https://wttr.in/<my home>'
 $> alias moon='curl wttr.in/Moon'
 ## Developer Stuff
@@ -11860,24 +12168,6 @@ $> ffmpeg -i -an video.mp4 video.webm
 ##==========================================
 ## Find out what services are most active
 $> systemd-analyze blame
-##==========================================
-## French AI startup Mistral tweeted
-https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
-## a magnet link
-magnet:?xt=urn:btih:208b101a0f51514ecf285885a8b0f6fb1a1e4d7d&dn=mistral-7B-v0.1&tr=udp%3A%2F%http://2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%http://2Ftracker1.520.jp%3A443%2Fannounce
-## to their first publicly released, open sourced LLM, writes Slashdot reader jenningsthecat. "That might be merely interesting if not for the fact that the chatbot has remarkably few guardrails."
-https://docs.mistral.ai/quickstart/
-## If you have downloaded the weights in the Hugging Face format on your local instance in the folder /path/to/model, you can directly run:
-docker run --gpus all \
-    -p 8000:8000 \
-    -v /path/to/model/:/mnt/model/ \
-     ghcr.io/mistralai/mistral-src/vllm:latest \
-    --host 0.0.0.0 \
-    --model="/mnt/model/"
-##
-https://docs.mistral.ai/api
-## You can then use the following command to start the server:
-python -u -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
 ##==========================================
 ## Search google, and get all the links, in one command! [POSIX]
 ## With this command, you can search google, and scrape the answers, one line:
