@@ -2,6 +2,25 @@
 ## ############################################
 ## ##   cool git repos
 ## ############################################
+##==================================
+##==================================
+## Install CUDA
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_local
+##
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-13-1
+##
+
+## Hugging Face
+https://huggingface.co/docs/huggingface_hub/en/guides/cli
+curl -LsSf https://hf.co/cli/install.sh | bash
+
+
 
 
 ##==================================
@@ -566,7 +585,7 @@ firefox https://github.com/vitor-mariano/regex-tui
 firefox https://github.com/ahmed-alnassif/AndroSH
 
 ##==================================
-## Opperator - is a framework for building and running general AI agents locally from your terminal
+## Opperator - is a framework for building and running general AI agents locally from your terminal.
 firefox https://github.com/opper-ai/opperator?tab=readme-ov-file
 
 ##==================================
@@ -941,12 +960,12 @@ python -m ensurepip --default-pip
 ## catt - Cast All The Things allows you to send videos from online sources (YouTube, Vimeo, and a few hundred others) to your Chromecast.
 ## It also allows you to cast local files or render websites.
 firefox https://github.com/skorokithakis/catt
+## Install
+pipx catt
 ## Chromecast.
 ## Use without installing.
 uvx catt --device "Living Room TV" cast cat.png
 
-## Install
-pipx catt
 
 
 
@@ -958,6 +977,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 ##
 ## NOPE
 firefox https://ollama.com/x/z-image-turbo
+ollama pull x/z-image-turbo
 ollama run x/z-image-turbo "a photorealistic image of a cat wearing sunglasses"
     Error: 500 Internal Server Error: image runner failed: Error: insufficient memory for image generation: need 21 GB, have 11 GB (exit: exit status 1)
 
@@ -1126,10 +1146,12 @@ https://github.com/threedle/ll3m/
 
 
 ##============================
-
+## Kimi K2.5 : Agentic cli coding tool like claude, from china, and newer.
+https://www.kimi.com/code/docs/en/kimi-cli/guides/getting-started.html
 
 ##============================
-
+## z.ai Add to clude for different AI
+https://docs.z.ai/devpack/tool/claude
 
 ##============================
 
