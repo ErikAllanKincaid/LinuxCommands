@@ -1211,10 +1211,10 @@ $> cat > test.txt
 $> write what you want
 $> cntl+d
 ##==========================================
-## ####################################
-## ##    git howto
-## ####################################
-## revisioning tool. Keeps all revisions of files
+## ###########################################################
+## ##    Git
+## ###########################################################
+## Revisioning tool. Keeps all revisions of files
 ##-------------------------------------
 ## Set up your name and e-mail. Run the following commands to let git know your name and e-mail address. If git is already installed, skip down to the end of the line.
 $> git config --global user.name "Your Name"
@@ -1251,7 +1251,7 @@ $> git reset hello.html
 ## keep track of log as you work
 $> while :; do clr;  git --no-pager log -33 --graph --all --date=short --pretty=oneline --abbrev-commit --decorate $*;    sleep 1; done
 ## Git log
-Useful specifiers for git log --pretty=format
+## Useful specifiers for git log --pretty=format
 ## Specifier       Description of Output
 $>  %H              ## Commit hash
 $>  %h              ## Abbreviated commit hash
@@ -1269,7 +1269,7 @@ $>  %cd             ## Committer date
 $>  %cr             ## Committer date, relative
 $>  %s              ## Subject
 ## Example
-git log --pretty=format:"%h %s" --graph
+$> git log --pretty=format:"%h %s" --graph
 ## Option              Description
 $>  -p                  ## Show the patch introduced with each commit.
 $>  --stat              ## Show statistics for files modified in each commit.
@@ -1282,6 +1282,47 @@ $>  --graph             ## Display an ASCII graph of the branch and merge histor
 $>  --pretty            ## Show commits in an alternate format. Option values include oneline, short, full, fuller, and format (where you specify your own format).
 $>  --oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
 ##==========================================
+## correct an unpushed commit message
+$> git commit --amend -m "New message"
+##==========================================
+$> echo ${USER}
+## set your Git username
+$> git config --global user.name "YOUR NAME HERE"
+## Check your Git username
+$> git config --global user.name
+## Set your Git email.
+$> git config --global user.email "youremail@gmail.com"
+## Set remote account on hithub.
+$> git remote add origin https://github.com/YOURGITHUBACCOUNTHERE
+## Set the github remote repo.
+$> git remote set-url origin https://github.com/YOURGITHUBACCOUNTHERE/REPO
+##==========================================
+## git. Change Git Remote URL
+## In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
+$> git remote set-url <remote_name> <remote_url>
+## For example, let’s say that you want to change the URL of your Git origin remote.
+## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
+$> git remote set-url origin git@github.com:$USER/LinuxCommands.git
+##==========================================
+## List the names of the changed files different between your local main branch and the remote.
+$> git diff --name-only main origin/main
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## ###########################################################
+## ##    END Git
+## ###########################################################
+## ###########################################################
 ##  ###########################################
 ##  ##    Files
 ##  ###########################################
@@ -7097,14 +7138,14 @@ $> echo "Your name is $name"
 ##==========================================
 ## Browser that uses firefox to render a page in a tty, psuedo page.
 $> firefox https://www.brow.sh/docs/installation/
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.5.0/browsh_1.5.0_linux_amd64.deb
-$> sudo apt install ./browsh_1.5.0_linux_amd64.deb
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
+$> sudo apt install ./browsh_1.8.0_linux_amd64.deb
 $> rm ./browsh_1.5.0_linux_amd64.deb
 $> browsh
-## awesome. Use static bianary
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.2/browsh_1.8.2_linux_amd64
-$> chmod 755 browsh_1.8.2_linux_amd64
-$> browsh
+## awesome. Use static binary
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
+$> chmod 755 browsh_1.8.0_linux_amd64
+$> ./browsh_1.8.0_linux_amd64
 ##==========================================
 ## network. Displays the quantity of connections to port 80 on a per IP basis.
 $> clear;while x=0; do clear;date;echo "";echo "  [Count] | [IP ADDR]";echo "-------------------";netstat -np|grep :80|grep -v LISTEN|awk '{print $5}'|cut -d: -f1|uniq -c; sleep 5;done
@@ -7269,7 +7310,10 @@ $> sudo mlabel -i /dev/sdd1 ::NewLabel
 $> rsync -r -t -x -v --progress -s --whole-file --exclude /Downloads /home/ /path/home
 $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ##==========================================
-##
+## Convert .xlsx to a .csv using libre office headless.
+$> libreoffice --headless --convert-to csv links1.xlsx
+##==========================================
+
 ##==========================================
 ## #########################
 ## ##    w3m
@@ -7555,6 +7599,12 @@ $> mkdir group_vars && cd group_vars && mkdir group1 && mkdir group2
 $> ssh-agent bash
 $> ssh-add /home/eakinc/.ssh/commandlinefun.pem
 ##----------------------------------------
+## find the index of in ansible.txt
+$> hostname: |
+$>   {% for item in standard_network_info['hosts'] %}
+$>   item['loopback'] when item['name'] == ansible_hostname
+$>   {% endfor %}
+##==========================================
 ## ############################
 ## ##    END  ansible
 ## ############################
@@ -8537,10 +8587,10 @@ $> sudo su -c 'setleds -L +caps < /dev/tty7'
 $> sudo su -c 'setleds -L -caps < /dev/tty7'
 ##==========================================
 ## find the index of in ansible.txt
-hostname: |
-  {% for item in standard_network_info['hosts'] %}
-  item['loopback'] when item['name'] == ansible_hostname
-  {% endfor %}
+$> hostname: |
+$>   {% for item in standard_network_info['hosts'] %}
+$>   item['loopback'] when item['name'] == ansible_hostname
+$>   {% endfor %}
 ##==========================================
 ## Set duration of screencasts manually, by modifying the following gsettings: 300 for 5 minutes, 600 for 10 minute
 $> gsettings set org.gnome.settings-daemon.plugins.media-keys max-screencast-length 600
@@ -8550,6 +8600,29 @@ $> Ctrl + Alt + Shift + R
 ## Copy archival mode, preserves permissions, owner, etc
 $> cp -a
 ##==========================================
+## uv python package manager.
+## Instal uv
+$> curl -LsSf https://astral.sh/uv/install.sh | sh
+## OR
+$> pipx install uv
+## Go to project directory.
+$> cd ~/code/project/
+$> uv init
+$> uv venv
+$> source .venv/bin/activate
+## Install some packages.
+$> uv pip install numpy
+$> uv pip install huggingface-hub
+## Run something
+$> uv run python app.py
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
 ## #######################################################
 ## ##    Chromecast
 ## #######################################################
@@ -8990,23 +9063,6 @@ $>  \     ## a backslash
 $>  [     ## begin a sequence of non-printing characters, which could be used to embed a terminal control sequence into the prompt
 $>  ]     ## end a sequence of non-printing characters
 ##==========================================
-## ###########################################################
-## ##    Git
-## ###########################################################
-## correct an unpushed commit message
-$> git commit --amend -m "New message"
-##==========================================
-$> echo ${USER}
-## set your Git username
-$> git config --global user.name "YOUR NAME HERE"
-## Check your Git username
-$> git config --global user.name
-## Set your Git email.
-$> git config --global user.email "youremail@gmail.com"
-## Set remote repo on hithub
-$> git remote add origin https://github.com/YOURGITHUBACCOUNTHERE
-##
-## ###########################################################
 ## Bluetooth pair your phone to your computer, play audio from your phone on computer speakers
 ## If you add the pulseaudio-bluetooth package
 $> sudo apt-get install pulseaudio-bluetooth
@@ -9552,13 +9608,6 @@ $> firefox https://www.fmald.net/
 ##==========================================
 ## multimedia. rembg removes backgrounds from images
 $> firefox https://github.com/danielgatis/rembg
-##==========================================
-## git. Change Git Remote URL
-## In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
-$> git remote set-url <remote_name> <remote_url>
-## For example, let’s say that you want to change the URL of your Git origin remote.
-## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
-$> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 ##==========================================
 ## files. Get the path without the name of the program. Terraform as an example.
 $> tfPath=$(which terraform | rev | cut -d'/' -f2- | rev)
@@ -10895,19 +10944,6 @@ $> tar --verbose --extract --file dawn-linux-x64.tar.gz -C ~/code/dawn-linux-x64
 $> ls ~/code/dawn-linux-x64/
 $> sudo cp ~/code/dawn-linux-x64/dawn /usr/local/bin/
 ##==========================================
-## Stable-diffusion image generation command line interface.
-    ## This ran on CPU. How to force GPU?
-$> mkdir -p ~/code/stable-diffusion-cli
-$> cd ~/code/stable-diffusion-cli
-## Get binary.
-$> wget https://github.com/leejet/stable-diffusion.cpp/releases/download/master-480-b87fe13/sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
-$> unzip sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
-## Get model.
-$> curl -L -O https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
-## Generate image. Each prompt overwrite as output.png. To save as name use --output
-$> ./sd-cli -m ./v1-5-pruned-emaonly.safetensors -p "a lovely cat" --output "cat.png"
-$> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a diaphanous dress and a crown standing in front of a very large window, overlooking a futuristic city."
-##==========================================
 ## catt - Cast All The Things allows you to send videos from online sources (YouTube, Vimeo, and a few hundred others) to your Chromecast.
 ## It also allows you to cast local files or render websites.
 $> firefox https://github.com/skorokithakis/catt
@@ -11012,6 +11048,18 @@ $> firefox http://localhost:8686
 ## #############################################
 $> firefox https://huggingface.co/
 ## Install Huggingface cli.
+
+## uv python package manager.
+## Instal uv
+$> curl -LsSf https://astral.sh/uv/install.sh | sh
+## OR
+$> pipx install uv
+## Go to project directory.
+$> cd ~/code/project/
+$> uv init
+$> uv venv
+$> source .venv/bin/activate
+## Install some packages.
 $> uv pip install huggingface_hub
 ## Download models.
 $> uv run hf download stabilityai/sd-turbo
@@ -11019,6 +11067,7 @@ $> uv run hf download stabilityai/sdxl-turbo
 ## Get account at Hugging Face then get an Access Token.Can put in .zshrc
 $> firefox https://huggingface.co/docs/hub/en/security-tokens
 $> export HF_TOKEN=hf_exxghjklljghjkiouihsdsdzrT
+## Run something
 ## SDXL requires access token.
 $> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
 ## FLUX requires access token.
@@ -11060,6 +11109,19 @@ $> sudo apt install vox
 $> sox -t alsa default ./recording.wav silence 1 0.1 5% 1 2.0 5%
 ## Output to a file.
 $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt recording.txt
+##==========================================
+## Stable-diffusion image generation command line interface.
+## This ran on CPU. How to force GPU?
+$> mkdir -p ~/code/stable-diffusion-cli
+$> cd ~/code/stable-diffusion-cli
+## Get binary.
+$> wget https://github.com/leejet/stable-diffusion.cpp/releases/download/master-480-b87fe13/sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
+$> unzip sd-master-b87fe13-bin-Linux-Ubuntu-24.04-x86_64.zip
+## Get model.
+$> curl -L -O https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
+## Generate image. Each prompt overwrite as output.png. To save as name use --output
+$> ./sd-cli -m ./v1-5-pruned-emaonly.safetensors -p "a lovely cat" --output "cat.png"
+$> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a diaphanous dress and a crown standing in front of a very large window, overlooking a futuristic city."
 ##==========================================
 
 
