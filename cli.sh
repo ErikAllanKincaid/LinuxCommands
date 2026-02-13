@@ -311,7 +311,7 @@ $> sudo systemctl start lightdm
 ## os. permissions. Command line only login.
 $> sudo systemctl set-default multi-user.target
 ## GUi login.
-$> sudo systemctl set-default mgraphical.target
+$> sudo systemctl set-default graphical.target
 ##------------------------------------------
 ## Change /etc/default/grub
 $> sudo sed -i 's:quiet splash:quiet text:' /etc/default/grub
@@ -1005,8 +1005,8 @@ $> nc -v -l 8088 < file.ext
 $> function share8088 () { nc -v -l 8088 < $1 ; }
 ##==========================================
 ## Share current directory through http 8000
-$> python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"
-$> python –m SimpleHTTPServer 8000
+#$> python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"
+#$> python –m SimpleHTTPServer 8000
 ## In case you need to test some CGI scripts this does the job. It also has the functionality of a http server.
 $> python2 -m CGIHTTPServer
 ## Test python3 web server
@@ -1160,6 +1160,9 @@ $> byzanz-record --duration=20 --cursor desktoprecord.gif
 ## Record the desktop to .mpg with cursor
 $> ffmpeg -f x11grab -s 1440x900 -r 25 -i :0.0 -qscale -0 output.mpg
 ##==========================================
+## Shrink a video for sharing. Even smaller with libx265, but not playable in browser.
+$> ffmpeg -i video.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset fast video_small.mp4
+##==========================================
 ## Take audio notes with datestamp YYYYMMDD-HHMMSS
 $> arecord -D plughw:0,0 -f cd -c 1 -t wav -d 0 -q -r 16000 | flac - -s -f --best --sample-rate 16000 -o audio$(date +"%Y%m%d-%H%M%S").flac
 ## ..which does a high quality, wave type recording and pipes it into the flac encoder, which outputs ./test.flac
@@ -1198,7 +1201,7 @@ $> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10
 ## #############################################
 ##==========================================
 ## Download entire directory recursive -r, without climbing the directory tree -np, continue interupted download -c.
-$> wget -r -c -np -e robots=off --random-wait --limit-rate=80k <URL>
+$> wget -mEp --convert-links -r -c -np -e robots=off --random-wait --limit-rate=80k <URL>
 ##==========================================
 ## man wget ; recursive -r, from text file list -i, continue interupted download -c, Do not ascend to the parent directory -np or --no-parent, send to background -b.
 ##==========================================
@@ -1282,10 +1285,9 @@ $>  --graph             ## Display an ASCII graph of the branch and merge histor
 $>  --pretty            ## Show commits in an alternate format. Option values include oneline, short, full, fuller, and format (where you specify your own format).
 $>  --oneline           ## Shorthand for --pretty=oneline --abbrev-commit used together.
 ##==========================================
-## correct an unpushed commit message
+## Correct an unpushed commit message
 $> git commit --amend -m "New message"
 ##==========================================
-$> echo ${USER}
 ## set your Git username
 $> git config --global user.name "YOUR NAME HERE"
 ## Check your Git username
@@ -1304,8 +1306,9 @@ $> git remote set-url <remote_name> <remote_url>
 ## In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
 $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 ##==========================================
-## List the names of the changed files different between your local main branch and the remote.
-$> git diff --name-only main origin/main
+## List the names of the commited changed files different between your local main branch and the remote.
+$> git diff --name-status main origin/main
+$> git diff --name-status master origin/master
 ##==========================================
 
 
@@ -1322,7 +1325,7 @@ $> git diff --name-only main origin/main
 ## ###########################################################
 ## ##    END Git
 ## ###########################################################
-## ###########################################################
+##==========================================
 ##  ###########################################
 ##  ##    Files
 ##  ###########################################
@@ -1901,14 +1904,14 @@ $> syt() { pipe=`mktemp -u`; mkfifo -m 600 "$pipe" && for i in "$@"; do youtube-
 ## Create mp3 from wav
 $> lame -V3 input.wav output.mp3
 ##==========================================
-## Convert an mp3 and add to it a img
+## Convert an mp3 and add an image to it.
 $> lame -v 2 -b 192 --ti /path/to/file.jpg audio.mp3 new-audio.mp3
 ##==========================================
 ## Rename file to same name plus datestamp of last modification.
 $> FILENAME=nohup.out
 $> mv -iv $FILENAME{,.$(stat -c %Z $FILENAME)}
 ##==========================================
-## slow down/speed up video file
+## Slow down/speed up video file
 $> mencoder -speed 2 -o output.avi -ovc lavc -oac mp3lame input.avi
 ##==========================================
 ## In case you need to test some CGI scripts this does the job. It also has the functionality of a http server.
@@ -2277,12 +2280,12 @@ $> reset                        ## Resets the terminal and removes all text
 $> echo -ne '\033c'             ## Removes all text
 ##==========================================
 ## Brace expansion.
-$> echo \"{These,words,are,quoted}\"   # " prefix and suffix
 # "These" "words" "are" "quoted"
-$> cat {file1,file2,file3} > combined_file
+$> echo \"{These,words,are,quoted}\"   # " prefix and suffix
 # Concatenates the files file1, file2, and file3 into combined_file.
-$> cp file22.{txt,backup}
+$> cat {file1,file2,file3} > combined_file
 # Copies "file22.txt" to "file22.backup"
+$> cp file22.{txt,backup}
 ##==========================================
 ## Colour text variables to output colored text
 ## tput controls the look of output
@@ -2928,6 +2931,8 @@ $> | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 $> | tr "[:lower:]" "[:upper:]"
 ## or
 $> | tr "a-z" "A-Z"
+## All to Upercase letters except 'p'.
+$> | tr abcdefghijklmnoqrstuvwxyz ABCDEFGHIJKLMNOQRSTUVWXYZ
 ##------------------------------------------
 ## os. files. Redirect stdout to a file.
 $> | sudo tee -a /path/to/file
@@ -11167,25 +11172,144 @@ $> sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
 $> sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
 $> sudo apt-get update
 $> sudo apt-get -y install cuda-toolkit-13-1
-##
-
-
-
-##==========================================
-
-
-##==========================================
-
-
 ##==========================================
 ## ###########################################
 ## ##    END Drivers
 ## ###########################################
-
-
 ##==========================================
+## ###############################################
+## ##    Out of Band OOB managment
+## ###############################################
+##===============================
+## #############################
+## ##    BMC IPMI
+## #############################
+## Many times the password is on the chassis of the server, sometimes on a pull out tab, other times inside the case.
+##===============================
+## Install.
+$> sudo apt install ipmitool
+## Use locally.
+$> sudo ipmitool lan print
+## Show Board info
+$> sudo ipmitool fru print
+$> sudo ipmitool chassis power status
+## Power off normally.
+$> sudo ipmitool chassis power soft
+## Power off like holding down the button.
+$> sudo ipmitool chassis power hard
+## Power reset.
+$> sudo ipmitool chassis power reset
+## Show users.
+$> sudo ipmitooluser list 1
+## Sets password for a user. Long pass words are required unless set in the GUI.
+$> sudo ipmitool user set password 2 admin
+## Show info.
+$> sudo ipmitool sdr elist all
+$> sudo ipmitool mac list
+## Some info is only available in raw format. Needs to be parsed.
+$> sudo ipmitool raw 0x30 0x9F
 
-
+##===============================
+## Use remotely.
+## Check Power Status of IPMI Server
+$> ipmitool -I lanplus -U [username] -P [password] -H [IPMI-Server.IP] chassis power status
+## Get LAN settings for IPMI Server
+$> ipmitool -I lanplus -U [username] -P [password] -H [IPMI-Server.IP] lan print
+## Show information relating to the PC
+$> ipmitool -I lanplus -U [username] -P [password] -H [IPMI-Server.IP] fru print
+## Activate Serial over Lan Console
+$> ipmitool -I lanplus -U [username] -P [password] -H [IPMI-Server.IP] sol activate
+##===============================
+## DO NOT set to static unless you know exactly what you want. IPMI could get lost on any other network.
+## Set static ip on ipmi interface
+$> sudo ipmitool lan print
+## Set the IP to static
+$> sudo ipmitool lan set 1 ipsrc static
+## where ip_address is the static IP address that you want to assign to this system.
+$> sudo ipmitool lan set 1 ipaddr 192.168.1.17
+## where netmask_address in the netmask
+$> sudo ipmitool lan set 1 netmask 255.255.255.0
+## where gateway_server is the gateway for this system.
+$> sudo ipmitool lan set 1 defgw ipaddr 192.168.1.1
+##. Wait at least 30 seconds for the changes to take effect.
+$> sudo ipmitool lan set 1 access on
+## Remotely. Rest of commands follow above but remote.
+$> sudo ipmitool -I lanplus -H 10.95.142.17 -U UN -P PW  lan set 1 ipaddr 10.96.1.17
+## Set ipmi to DHCP. This should be the one to use.
+$> ipmitool lan set 1 ipsrc dhcp
+##===============================
+## ## GUI WebUI. Lots of function avaiable in the WebUI. Use the IP of the IPMI.
+$> firefox https://192.168.1.17:43/
+##===============================
+## #############################
+## ##    END BMC IPMI
+## #############################
+##===============================
+## ################################
+## ##    Intel ME vPro AMT.
+## ################################
+## Intel vPro AMT Management Engine, which is the, always on, tiny, SBC on Intel CPUs for out-of-band (OOB) management.
+## Read: secret computer that run apart from your OS always when the machine is plugged in, not even powered on.
+## Yes, that means ALWAYS on in laptops due to battery.
+## If you own a vPro CPU you can get access to it.
+##--------------------------
+## Go into BIOS and activate the AMT functions and add a password.
+## Passwork should have lowercase,UPERCASE,symbol,number
+##--------------------------
+## Get meshcmd
+$> wget https://meshcentral.com/executables/meshcmd-linux-x86-64
+$> mv meshcmd-linux-x86-64 meshcmd
+$> chmod +x ./meshcmd
+$> sudo mv ./meshcmd /usr/local/bin/.
+## Run alone to see help.
+$> sudo meshcmd
+## Run as root to acces /dev/mei0
+## Get AMT information on local machine
+$> sudo meshcmd AmtInfo
+## Get AMT information on remote machine
+$> sudo meshcmd AmtInfo --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
+    #> Intel AMT v16.1.25, activated in Admin Control Mode ( ACM).
+    #> Wired Enabled, DHCP, 88:AE:DE:34:34:D2, 192.168.1.201
+    #> Wireless Disabled, DHCP, 00:00:00:00:00:00
+    #> DNS suffix: localdomain
+    #> Connection Status: Unknown, CIRA: Disconnected.
+## Get BIOS info
+$> sudo meshcmd SMBios --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
+## HANGS
+$> sudo meshcmd AmtUUID --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
+## Scan does NOT seem to work.
+$> sudo meshcmd AmtScan --scan 192.168.1.201/24 --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
+    #> No Intel AMT found.
+## Log does NOT seem work.
+$> sudo meshcmd AmtEventLog --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
+## Launch GUI
+$> sudo meshcmd meshcommander start
+##========================================
+## ## GUI WebUI to control AMT functions.
+## Use Meshcommander or MeshCentral2. Also many Official Intel tools.
+##---------------------------------
+## Meshcommander control ME vPro. Out of Band OOB managment.
+## Docker image run meshcommander.
+$> docker run -it --rm -p 3000:3000 docker.io/boxcutter/meshcmd MeshCommander
+##--------------------
+## Meshcentral - The open source, multi-platform, self-hosted, feature packed web site for remote device management.
+$> firefox https://meshcentral.com/downloads.html
+##---------------------------------
+## Mesh-Mini is a fork of MeshCommander. MeshCommander is the ultimate open source Intel® AMT management console.
+$> firefox https://github.com/BrytonSalisbury/mesh-mini
+## A Docker image, where {architecture} is amd64 or arm64.
+$> docker pull brytonsalisbury/mesh-mini:amd64
+$> docker run -p 3000:3000 brytonsalisbury/mesh-mini:amd64
+## Add a vPro computer by IP.
+##---------------------------------
+##========================================
+## ###################################
+## ##    END Intel ME vPro AMT
+## ###################################
+##========================================
+## ###############################################
+## ##    END Out of Band OOB managment
+## ###############################################
 ##==========================================
 
 
