@@ -1117,7 +1117,7 @@ $> xset dpms force off
 ## Format for printing then send to printer
 $> pr file.txt | lpr
 ##==========================================
-## Mount USB with cli.
+## Mount USB with cli systemd.
 $> sudo apt install udisks2
 ## Make sure you are part of plugdev group.
 $> groups
@@ -1202,8 +1202,8 @@ $> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10
 ##==========================================
 ## Download entire directory recursive -r, without climbing the directory tree -np, continue interupted download -c.
 $> wget -mEp --convert-links -r -c -np -e robots=off --random-wait --limit-rate=80k <URL>
-##==========================================
 ## man wget ; recursive -r, from text file list -i, continue interupted download -c, Do not ascend to the parent directory -np or --no-parent, send to background -b.
+##==========================================
 ##==========================================
 ##  ###########################################
 ##  ##    Text
@@ -1326,9 +1326,9 @@ $> git diff --name-status master origin/master
 ## ##    END Git
 ## ###########################################################
 ##==========================================
-##  ###########################################
-##  ##    Files
-##  ###########################################
+## ###########################################
+## ##    Files
+## ###########################################
 ##==========================================
 ## Run every script in folder
 $> run-parts --report /path/to/folderfullofcommands
@@ -1983,13 +1983,14 @@ $> sudo blkid
 ## Good for when you download youtube videos and want the mp3 for your mp3 player.
 $> for a in $(find . -maxdepth 1 -name "*.mp4" -type f -printf "%f\n" | rev | cut -d '.' -f2- | rev | sort -u); do if [ ! -f "$a.mp3" ]; then  avconv -i "$a."* -vn  -ab 128 "$a.mp3"; fi done
 ##==========================================
-## Install ffmpeg
+## Install ffmpeg. DEPRECATED
 #$> sudo apt-add-repository ppa:samrog131/ppa
 #$> sudo apt-get update
 #$> sudo apt-get install ffmpeg-real
 ## Next, to make FFmpeg 2.6.0 work, create the below symlink:
 #$> sudo ln -sf /opt/ffmpeg/bin/ffmpeg /usr/bin/ffmpeg
 ##
+##==========================================
 ## ???Capture Audio/video???
 $> mplayer -cache 128 -tv driver=v4l2:width=176:height=177 -vo xv tv:// -noborder -geometry "95%:93%" -ontop | ffmpeg -y -f alsa -ac 2 -i pulse -f x11grab -r 30 -s `xdpyinfo | grep 'dimensions:'|awk '{print $2}'` -i :0.0 -acodec pcm_s16le output.wav -an -vcodec libx264 -vpre lossless_ultrafast -threads 0 output.mp4
 ##==========================================
@@ -2001,7 +2002,7 @@ $> ffmpeg -i input.ogv -qscale 0 output.wmv # convert .ogv to .wmv
 $> curl 'LINK' | pdftotext - - | less
 ##==========================================
 ## Print machine's ipv4 addresses
-$> ifconfig | grep "inet addr" |  sed 's/.*inet \(.*\)$/\1/' | tail -n +2
+$> ifconfig | grep "inet " |  sed 's/.*inet \(.*\)$/\1/' | tail -n +2
 ##==========================================
 ## Convert PDF to JPG
 ## Without the bashisms and sed dependency. Substitutions quoted so that filenames with whitespace will be handled correctly.
@@ -2034,8 +2035,9 @@ $> ffmpeg -f x11grab -s 800x600 -i :0.0 /tmp/screencast.mpg
 ## Search for a string inside all files in the current directory
 $> grep -RnsI --color=auto <pattern> *
 ##==========================================
-## Beyond grep
+## Beyond grep. ack is a grep-like source code search tool.
 $> sudo apt-get install ack-grep
+$> firefox https://beyondgrep.com/
 ##  _   /|
 ##  \'o.O'
 ##  =(___)=
@@ -2074,8 +2076,7 @@ $> for INPUT in *.avi ; do echo "${INPUT%.avi}" ; done | xargs -i -P9  HandBrake
 ## The first three bits ("for INPUT...done |") lists the AVI files in the current directory, then uses a Bash function to strip off the suffix. It then sends each video file name to the next part.
 ## The next part of the command (| xargs ...) runs our converter in parallel. The "-i" flag says take each input (video file name) and stick it in the "{}" parts of the xargs command. The parallel option lets us run up to 9 commands at the same time ("-P9").
 ## The last part (HandBrakeCLI -i "{}".avi -o "{}".mp4) converts a single video to MP4 format. The two open-close curly braces are replaced with xargs, once per input video file. The first run through will be "HandBrakeCLI -i "input1".avi -o "input1".mp4", next will be "HandBrakeCLI -i "input2".avi -o "input2".mp4", etc.
-## Limitations
-## Converting videos in parallel is confusing as Handbrake overwrites the status for every file -- ignore the screen.
+## Limitations: Converting videos in parallel is confusing as Handbrake overwrites the status for every file -- ignore the screen.
 ##==========================================
 ## ??create a set of backed up .txt files with the current date added at the end of the file:
 ## ls *txt | sed "s/.*/cp & &.$(date "+%Y%m%d")/"
@@ -4438,6 +4439,8 @@ Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟͂̿̎̂̿̓́̃͜͠͝
 ## Prompt
 ↳
 √
+
+
 
 COMMENT1
 ##==========================================
@@ -6380,9 +6383,9 @@ $> jupyter notebook --no-browser --port=8898
 ## Create a ssh tunnel to another computer on port 8898
 $> ssh -N -L 127.0.0.1:8898:127.0.0.1:8898 username@192.168.1.8
 ##==========================================
-#####################
-#     HTML CSS      #
-#####################
+## ############################
+## ##    HTML CSS
+## ############################
 <<COMMENT1
 #####################
 #  HTML Cheetsheet  #
@@ -6493,9 +6496,9 @@ COMMENT1
 ## Create simple html doc with a lot of simple elements
 $> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html
 ##==========================================
-#####################
-##    END HTML CSS
-#####################
+## ###############################
+## ##    END HTML CSS
+## ###############################
 ##==========================================
 ##==========================================
 ##  multimedia. image. hardware camera. exif data
@@ -6630,9 +6633,9 @@ $> tp=$(synclient -l | grep TouchpadOff | awk '{ print $3 }') && tp=$((tp==0)) &
 ##==========================================
 $> firefox https://www.maketecheasier.com/setup-wifi-on-raspberry-pi/
 ##==========================================
-## ################
-## # sed awk grep #
-## ################
+## #########################
+## ##    sed awk grep
+## #########################
 ##------------------------------------------
 ##==========================================
 ### sed awk grep
@@ -7393,7 +7396,6 @@ $> mpv --vo=help
 ## Play youtube video in tty
 $> mpv --vo=drm --ytdl-format=18 http://www.youtube.com/watch?v=jcTdRGaFldw
 ##==========================================
-
 ## #####################################
 ## ##    tmux
 ## #####################################
@@ -7470,12 +7472,11 @@ $>  Ctrl b, j          ##  Cursor Down
 $>  Ctrl b, h          ##  Cursor Left
 $>  Ctrl b, l          ##  Cursor Right
 ## ############################
-## #        END tmux          #
+## ##    END tmux
 ## ############################
-
 ##==========================================
 ## ############################
-## #        ansible           #
+## ##    ansible
 ## ############################
 ## automation. Configuration Managment
 ## Host management node with Inventory or hosts file of computers which ssh in configuration instructions written in yaml Playbooks which run small Modules to infrastructure clients.
@@ -7611,10 +7612,8 @@ $>   item['loopback'] when item['name'] == ansible_hostname
 $>   {% endfor %}
 ##==========================================
 ## ############################
-## ##    END  ansible
+## ##    END ansible
 ## ############################
-
-
 ##==========================================
 ## Add a new user with a home directory
 $> sudo useradd -m newusername
@@ -7649,12 +7648,12 @@ $> apt-get install lightdm xfce4
 $> sudo nano /etc/lightdm/lightdm.conf
 ## Add following lines to the lightdm.conf file:
 $> sudo echo '
-#[SeatDefaults]
-#allow-guest=false
-#user-session=xfce
+$#[SeatDefaults]
+$#allow-guest=false
+$#user-session=xfce
 ' >> /etc/lightdm/lightdm.conf
 ## Remove leading #
-$> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
+$> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
 ## Save the file and restart the server:
 $> systemctl reboot
 ## When the server reboot, The Ubuntu system will start with Xfce the desktop interface.
@@ -7681,15 +7680,15 @@ $> systemctl isolate graphical.target
 $> apt-get install xorg lightdm lxde lxde-core lxsession-logout network-manager
 ## Add following lines to the /etc/lightdm/lightdm.conf file and restart the computer.
 $> sudo echo '
-$> [SeatDefaults]
-$> allow-guest=false
-$> user-session=LXDE
-$> ' > /etc/lightdm/lightdm.conf
+$# [SeatDefaults]
+$# allow-guest=false
+$# user-session=LXDE
+$# ' > /etc/lightdm/lightdm.conf
 ## Remove leading #
-$> sed -i 's/^#//g' /etc/lightdm/lightdm.conf
+$> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
 ##==========================================
 ## ####################################
-## #      Bash Sample Scripts         #
+## ##    Bash Sample Scripts
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
@@ -7962,7 +7961,7 @@ $> SSH_AUTH_SOCK=0 ssh -v $USER@192.168.1.57
 $> cat ~/.ssh/id_rsa.pub | ssh $USER@192.168.1.57 "cat >> ~/.ssh/authorized_keys"
 ##==========================================
 ## ###############################################
-## #               RAID Array                    #
+## ##      RAID Array
 ## ###############################################
 ### RAID arrays
 ## RAID types raid0, raid1, raid5, raid6,  raid10 or raid1+0,
@@ -8151,7 +8150,6 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 
 ## ###############################################
 ## ###############################################
-
 ##==========================================
 ## network. Dump network connections
 ## like wireshark for terminal
@@ -8397,7 +8395,7 @@ $> function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
 $> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
-## multimeddia. video. vid options
+## multimeddia. video. Vid options
 $> --input-depth 16 --output-depth 10 --ref 5 --qcomp 0.7 --no-fast-intra --no-cu-lossless --no-tskip-fast --no-pme --no-rd-refine --no-lossless --ctu 32 --max-tu-size 32 --no-strong-intra-smoothing --no-sao --no-sao-non-deblock --no-early-skip --no-rskip
 ## vid options
 $> ffmpeg -i input -filter:v scale=-1:360 output
@@ -11069,10 +11067,10 @@ $> uv pip install huggingface_hub
 ## Download models.
 $> uv run hf download stabilityai/sd-turbo
 $> uv run hf download stabilityai/sdxl-turbo
-## Get account at Hugging Face then get an Access Token.Can put in .zshrc
+## Get account at Hugging Face then get an Access Token: settings > access tokens > create new token.Can put in .zshrc
 $> firefox https://huggingface.co/docs/hub/en/security-tokens
-$> export HF_TOKEN=hf_exxghjklljghjkiouihsdsdzrT
-## Run something
+$> export HF_TOKEN=hf_exaadfhstyuj,T
+## Pull a model, Run something
 ## SDXL requires access token.
 $> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
 ## FLUX requires access token.
@@ -11239,7 +11237,7 @@ $> sudo ipmitool -I lanplus -H 10.95.142.17 -U UN -P PW  lan set 1 ipaddr 10.96.
 $> ipmitool lan set 1 ipsrc dhcp
 ##===============================
 ## ## GUI WebUI. Lots of function avaiable in the WebUI. Use the IP of the IPMI.
-$> firefox https://192.168.1.17:43/
+$> firefox https://192.168.1.17:443/
 ##===============================
 ## #############################
 ## ##    END BMC IPMI
@@ -11252,6 +11250,8 @@ $> firefox https://192.168.1.17:43/
 ## Read: secret computer that run apart from your OS always when the machine is plugged in, not even powered on.
 ## Yes, that means ALWAYS on in laptops due to battery.
 ## If you own a vPro CPU you can get access to it.
+$> firefox https://www.intel.com/content/dam/support/us/en/documents/technologies/intel_amt_linux_enablement_guide_revision_1_1.pdf
+$> firefox https://software.intel.com/sites/manageability/AMT_Implementation_and_Reference_Guide/default.htm
 ##--------------------------
 ## Go into BIOS and activate the AMT functions and add a password.
 ## Passwork should have lowercase,UPERCASE,symbol,number
@@ -11262,14 +11262,14 @@ $> mv meshcmd-linux-x86-64 meshcmd
 $> chmod +x ./meshcmd
 $> sudo mv ./meshcmd /usr/local/bin/.
 ## Run alone to see help.
-$> sudo meshcmd
+$> meshcmd
 ## Run as root to acces /dev/mei0
 ## Get AMT information on local machine
 $> sudo meshcmd AmtInfo
 ## Get AMT information on remote machine
 $> sudo meshcmd AmtInfo --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
     #> Intel AMT v16.1.25, activated in Admin Control Mode ( ACM).
-    #> Wired Enabled, DHCP, 88:AE:DE:34:34:D2, 192.168.1.201
+    #> Wired Enabled, DHCP, 88:34:34:34:34:D2, 192.168.1.201
     #> Wireless Disabled, DHCP, 00:00:00:00:00:00
     #> DNS suffix: localdomain
     #> Connection Status: Unknown, CIRA: Disconnected.
@@ -11281,12 +11281,18 @@ $> sudo meshcmd AmtUUID --hostname 192.168.1.201 --user admin --password YOUPASS
 $> sudo meshcmd AmtScan --scan 192.168.1.201/24 --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
     #> No Intel AMT found.
 ## Log does NOT seem work.
-$> sudo meshcmd AmtEventLog --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
+$> sudo meshcmd AmtEventLog --hostname 192.168.1.201 --user admin --password 'YOUPASSWORDHERE'
+## Serial Over Lan SOL.
+$> meshcmd amtterm --host 192.168.1.201 --user admin --pass 'YOUPASSWORDHERE' --tls
 ## Launch GUI
 $> sudo meshcmd meshcommander start
 ##========================================
 ## ## GUI WebUI to control AMT functions.
-## Use Meshcommander or MeshCentral2. Also many Official Intel tools.
+## Use built in WebUi, Meshcommander, or MeshCentral2. Also many Official Intel tools.
+##---------------------------------
+## GUI WebUI to control AMT functions
+## The AMT has built in very limited function WebUI. Port 16993
+$> firefox https://102.167.1.201:16993
 ##---------------------------------
 ## Meshcommander control ME vPro. Out of Band OOB managment.
 ## Docker image run meshcommander.
@@ -11295,7 +11301,8 @@ $> docker run -it --rm -p 3000:3000 docker.io/boxcutter/meshcmd MeshCommander
 ## Meshcentral - The open source, multi-platform, self-hosted, feature packed web site for remote device management.
 $> firefox https://meshcentral.com/downloads.html
 ##---------------------------------
-## Mesh-Mini is a fork of MeshCommander. MeshCommander is the ultimate open source Intel® AMT management console.
+## Mesh-Mini is a fork of MeshCommander.
+## MeshCommander is the ultimate open source Intel® AMT management console.
 $> firefox https://github.com/BrytonSalisbury/mesh-mini
 ## A Docker image, where {architecture} is amd64 or arm64.
 $> docker pull brytonsalisbury/mesh-mini:amd64
