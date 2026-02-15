@@ -3619,7 +3619,6 @@ alias ver="uname -a"
 alias mem="free -h"
 alias move="mv -iv"
 alias rename="mv -iv"
-alias type="cat"
 alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd'"
 ##==========================================
 # Git aliases
@@ -4835,7 +4834,7 @@ $> sudo service transmission-daemon reload  # start/stop/reload
 ## files. filebrowser. Make mc always display non-blue background
 $> echo "alias mc='mc -S gotan'" >> .bashrc
 ##==========================================
-## web video. Upgrade youtube-dl. DEPRECATED. Upgrade to yt-dlp
+## web. video. Upgrade youtube-dl. DEPRECATED. Upgrade to yt-dlp
 $> $ youtube-dl --version
 #> 2014.02.17
 $> sudo mv /usr/bin/youtube-dl /usr/bin/youtube-dl.old
@@ -6500,6 +6499,79 @@ $> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" li
 ## ##    END HTML CSS
 ## ###############################
 ##==========================================
+## ###############################
+## ##    Markdown
+## ###############################
+## Markdown is a lightweight, easy-to-read markup language for creating formatted text.
+$> firefox https://www.markdownguide.org
+##==========================================
+# Markdown Cheat Sheet
+## Basic Syntax
+### Heading
+# H1
+## H2
+### H3
+### Bold
+$> **bold text**
+## Italic
+$> *italicized text*
+## Blockquote
+$> > blockquote
+## Ordered List
+$> 1. First item
+$> 2. Second item
+$> 3. Third item
+## Unordered List
+$> - First item
+$> - Second item
+$> - Third item
+## Code
+$> `code`
+## Horizontal Rule
+$> ---
+## Link
+$> [Markdown Guide](https://www.markdownguide.org)
+## Image
+$> ![alt text](https://www.markdownguide.org/assets/images/tux.png)
+## Extended Syntax
+## Table
+$> | Syntax | Description | Other |
+$> | ----------- | ----------- | ----------- |
+$> | Header | Title | Thing |
+$> | Paragraph | Text | Letter |
+## Fenced Code Block
+$> ```
+$> {
+$>   "firstName": "John",
+$>   "lastName": "Smith",
+$>   "age": 25
+$> }
+$> ```
+## Footnote
+$> Heres a sentence with a footnote. [^1]
+$> [^1]: This is the footnote.
+## Heading ID
+## My Great Heading {#custom-id}
+## Definition List
+$> term
+$> : definition
+## Strikethrough
+$> ~~The world is flat.~~
+## Task List
+$> - [x] Write the press release
+$> - [ ] Update the website
+$> - [ ] Contact the media
+## Emoji
+$> That is so funny! :joy:
+## Highlight
+$> I need to highlight these ==very important words==.
+## Subscript
+$> H~2~O
+## Superscript
+$> X^2^
+## ###############################
+## ##    END Markdown
+## ###############################
 ##==========================================
 ##  multimedia. image. hardware camera. exif data
 ## Read write exif data
@@ -11020,11 +11092,122 @@ $> sudo apt-get install fonts-larabie-uncommon       ## fonts
 ## ##########################################################
 ##
 ##==========================================
-
+##`
 ## #############################################
 ## ##    Claude Coder
 ## #############################################
+## Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
+$> firefox https://code.claude.com/docs/en/overview
+##==========================================
+## Install.
+$> curl -fsSL https://claude.ai/install.sh | bash
+##==========================================
+## Make parameters files.
+## Examples:
+## Allows agent to work with some files without asking.
+$> mkdir -p ~/code/claude/.claude/
+$> cd ~/code/claude/
+$> touch ~/code/claude/.claude/settings.local.json
+#> {
+#>   "permissions": {
+#>     "allow": [
+#>       "WebFetch(domain:github.com)",
+#>       "WebFetch(domain:stackoverflow.com)",
+#>       "WebFetch(domain:raw.githubusercontent.com)",
+#>       "Bash(cat:*)",
+#>       "Bash(git init:*)",
+#>       "Bash(git config:*)",
+#>       "Bash(chmod:*)",
+#>       "Bash(curl:*)",
+#>       "Bash(wget:*)",
+#>       "Bash(antiword:*)",
+#>       "WebSearch"
+#>     ]
+#>   },
+#>   "hooks": {
+#>     "Stop": [
+#>       {
+#>         "hooks": [
+#>           {
+#>             "type": "command",
+#>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
+#>           }
+#>         ]
+#>       }
+#>     ]
+#>   }
+#> }
+#>
+##----------------------------
+## This auto files claudes memories.
+$> touch ~/code/claude/append-memory.sh
+#> #!/bin/bash
+#> # Hook script: appends Claude's last response summary to MEMORY.md
+#>
+#> INPUT=$(cat)
+#> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+#> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
+#> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
+#>
+#> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
+#>   exit 0
+#> fi
+#>
+#> # Extract the last assistant message text from the JSONL transcript
+#> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
+#>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
+#>   if [ "$ROLE" = "assistant" ]; then
+#>     echo "$line" | jq -r '
+#>       [.message.content[] | select(.type == "text") | .text] | join("\n")
+#>     ' 2>/dev/null
+#>     break
+#>   fi
+#> done)
+#>
+#> if [ -z "$LAST_RESPONSE" ]; then
+#>   exit 0
+#> fi
+#>
+#> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+#>
+#> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
+#>
+#> exit 0
+
+
+
+## Specifies how you want the agent to act.
+$> touch CLAUDE.md ## Specifies how you want the agent to act.
+#> Hooks
+#>
+#> - A `Stop` hook is configured in `.claude/settings.local.json` that runs `append-memory.sh` after every response.
+#> - It appends Claude's last response (with timestamp) to `MEMORY.md`.
+#>
+#> # About Me
+#> - Name: YOURNAMEHERE
+#> - Location: Hawaii
+#> - Occupation: Engineer, Molecular Biologist
+#> - Email: YOUREMAILHERE@gmail.com
+#> - GitHub: https://github.com/YOURGITHUBHERE
+#> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
+#> ## This Environment
+#> - Linux, Ubuntu 24.04 'noble' based.
+#> - Uses Claude Code as a general-purpose personal assistant
+#> - sudo password: Ask me to enter when needed.
+#> ## Session Persistence
+#> - At the START of every session, read `MEMORY.md` and `TODO.md`.
+#> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
+
+
+$> touch MEMORY.md ## A place for agent to add information to add context to next session.
+$> touch TODO.md   ## Have agent add items as you come up with new ideas.
+#>
+##==========================================
 ##
+
+##==========================================
+
+
 ##==========================================
 
 ## #############################################
