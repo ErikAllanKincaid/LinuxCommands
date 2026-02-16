@@ -1,6 +1,9 @@
 #!/bin/bash
 echo '
 
+## Edit out all the "$>" to view the file better, but do NOT run the whole thing.. hahah..
+#> sed -i 's/^$> //g'
+
 Hello World
 
     1. Copy and paste one of the commands into the terminal.
@@ -11,28 +14,25 @@ chmod -x cli.text
 Type "#" to front of echo on the second line.
     4. Uncomment one of the commands.
 Remove #$> from front of the command.
-    5. Run this files as an executable.
+    5. Or edit out all the "$>" to view the file better.
+    6. Run this files as an executable.
 ./cli.sh
-    6. somethingcool.jpg
+    7. somethingcool.jpg
 Type command.
-    7. Profit!
+    8. Profit!
 '
 <<COMMENT1
-#######################################################################
-# This is a project to learn the fun of the command line interface.   #
-#######################################################################
-####################################################
-#            Draft  http://ix.io/yaV               #
-####################################################
+########################################################################
+##    This is a project to learn the fun of the command line interface.
+########################################################################
 
     ▬▬▬▬▬▬▬▬▬▬ஜ۩☆۩ஜ▬▬▬▬▬▬▬▬▬
   ☆☆command☆☆line☆☆interface☆☆
     ▬▬▬▬▬▬▬▬▬▬ஜ۩☆۩ஜ▬▬▬▬▬▬▬▬▬
 
-███████████████
-█   clicool   █
-███████████████
-
+         ███████████████
+         █   clicool   █
+         ███████████████
 
 
 COMMENT1
@@ -41,13 +41,11 @@ COMMENT1
 ############################################################
 ## Compiled by sflaptop@gmail.com
 ###########################################################
-##    Table Of Contents
+##    Table Of Contents. Might be a bit out of date
 ###########################################################
 ##
 #$    Information
 #$    Setup
-#$        ssh LAMP apache mysql php Wordpress
-#$        Nextcloud
 #$    Networking
 #$    Use
 #$        Sound
@@ -66,6 +64,8 @@ COMMENT1
 #$    GUI Control
 #$    HTML CSS Cheatsheets
 #$    Unsorted
+#$        ssh LAMP apache mysql php Wordpress
+#$        Nextcloud
 #$    vim
 #$    keywords
 #$
@@ -184,7 +184,7 @@ $> lsof /var/log/syslog
 ## Show what a given user has open using -u
 $> lsof -u USERNAME
 ## You can also use the -t with -u to kill everything a user has open
-$> kill -9 `lsof -t -u USERNAME`
+$> kill -9 'lsof -t -u USERNAME'
 ##==========================================
 ## os. files. print the directory structure from the current directory in tree format.
 $> tree
@@ -453,21 +453,21 @@ $> sudo nano /etc/fstab
 $> sshfs name@server:/path/to/folder /path/to/mount/point
 ##==========================================
 ## ?????????? working? Better to use sshfs.
-## create a config file in .ssh directory.
-## or cat paste
-$> cat > ~/.ssh/config
+## Connect to your remote amazon ec2 server.
+## Create a config file in .ssh directory.
+$> echo '
 $> Host myec2server
-$> HostName myec2server.com (or IP Address of Server like xxx.xxx.xxx.xxx)
+$> HostName myec2server.com  ## (or IP Address of Server like xxx.xxx.xxx.xxx)
 $> User ec2-user
 $> IdentityFile ~/.ssh/MyEC2Key.pem
-$> Compression yes
+$> Compression yes' >> ~/.ssh/config
 ## save and exit
 $> cntl-d
-## on command line will connect to your remote amazon ec2 server without any other info.
+## Command line will connect to your remote amazon ec2 server without any other info.
 $> ssh myec2server
 ## Open Nautilus. press Ctrl+L
 $> ssh://myec2server
-## mount your remote ec2server into your nautilus. Now you can edit remote files and you can use the remote server as another folder in your computer. That is great.
+## Mount your remote ec2server into your nautilus. Now you can edit remote files and you can use the remote server as another folder in your computer. That is great.
 ##==========================================
 ## text. app. ide. Install sublime-text. Sublime is a great ext editor with context highlighting and many features
 $> sudo apt-get install sublime-text
@@ -476,7 +476,7 @@ $> sudo apt-get install sublime-text
 $> sudo apt-get install xfce xfce-goodies
 $> sudo apt-get install mint-meta-xfce
 ##==========================================
-## Install ffmpeg
+## Install ffmpeg. Use normal repo.
 #$> sudo add-apt-repository ppa:mc3man/trusty-media
 #$> sudo apt-get update
 #$> sudo apt-get install ffmpeg
@@ -487,7 +487,7 @@ $> setxkbmap -option caps:backspace
 ## os. date. info. Favorite nerdy, name friendly, date format %Y=year %m=month %d=day - %H=hour %M=minute %S=seconds, %F:YYYY-MM-DD, %T-HH:MM:SS, %N-NanoSeconds
 $> date +"%Y%m%d-%H:%M"
 $> date +"%Y%m%d-%H:%M:%S"
-$> date "+%F %H:%M.%S"
+$> date +"%F %H:%M.%S"
 $> date +%F.%T
 ## Take a nanosecond timestamp: YYYY-MM-DD HH:MM:SS.NNNNNNNNN
 $> date "+%F %T.%N"
@@ -521,6 +521,11 @@ $> eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;p
 ##==========================================
 ## Change terminal prompt; 0;32 green
 $> export PS1="\e[0;32m\u@\h \w> \e[m"
+##==========================================
+## Write a script or a file with EOF method.
+$> cat > fake_cam.sh << EOF
+$> ls -la
+EOF
 ##==========================================
 ## ##########################
 ## ## ##    cron
@@ -570,51 +575,6 @@ $> chmod +x /home/$USER/Projects/satelite/satellite-24hr.sh
 $> echo "0 0,4,8,12,16,20 * * * /home/$USER/satellite/satellite.sh" >> .crontab
 ## Run once a day at midnight
 $> echo "0 0 * * * /home/$USER/Projects/satellite/satellite24hr.sh" >> .crontab && crontab < .crontab
-##==========================================
-## Try out new colors in mc, with -S skins from,
-$> ls /usr/share/mc/skins
-$> mc -S gotar
-$> mc -S sand256
-## Make gotar the default globally
-$> sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini
-$> sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini
-## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
-$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1."; fi ; }
-##------------------------------------------
-## OR
-## Make own skin and put in ~/.local/share/mc/skins
-##------------------------------------------
-## Make gotar the default globally
-#function mcgotar() { sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini ; sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now gotar. To reverse this change run mcblue default-blue." ; }
-##------------------------------------------
-## Change the default mc skin to whatever you want
-#function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then echo "Run mcgotar first." && exit 0; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1"; fi ; }
-##------------------------------------------
-## OR, not as good,  rewrite configs
-## or with long color picks
-$> mc --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
-## or yellow
-$> mc --colors normal=yellow,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
-## or blue
-$> mc --colors normal=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
-## or dark
-$> mc --colors normal=black,white:selected=white,black:marked=blue,white:markselect=black,white:errors=red,white:input=black,white:reverse=white,black:gauge=black,white:directory=black,white:executable=gray,white:stalledlink=lightgray,white:special=gray,white:core=red,white:
-## or by changing ~/.config/mc/ini
-## Make the colors permanent
-$> sed -i 's/base_color=/base_color=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default' ~/.config/mc/ini
-## Another
-$> sed -i 's/base_color=/base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default/' ~/.config/mc/ini
-## Undo the above change
-$> sed -i 's/base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default/base_color=/' ~/.config/mc/ini
-## Or in mcedit hold shift to highlight to copy, middle click to paste
-$> sudo mcedit ~/.config/mc/ini
-## Change [Colors] section to this;
-#$ [Colors]
-#$ base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
-##------------------------------------------
-## Get 256 colors and use 256 color skins
-$> export TERM=xterm-256color # BREAKS mc in non gui tty logins
-$> mc -S sand256
 ##==========================================
 ## shell. Put a console clock in top right corner
 $> while sleep 1;do tput sc;tput cup 0 $(($(tput cols)-29));date;tput rc;done &
@@ -688,11 +648,6 @@ $> apt-cache showpkg  PACKAGE_NAME
 ## Change the hostname.
 $> hostnamectl set-hostname 'new-hostname'
 ##==========================================
-
-##==========================================
-## ###################################
-## ##    END Setup
-## ###################################
 ## ########################
 ## ##    ssh
 ## ########################
@@ -762,15 +717,15 @@ $> ssh -i .ssh/servername_id_rsa $USER@server
 ##------------------------------------------
 ## Log in to remote server without explicit call of the key file by adding it to IdentitiyFile setting in ~/.ssh/config
 $> echo '
-  Host servername
-  User $USER
-  Hostname 192.168.1.101
-  Port 22
-  PreferredAuthentications publickey
-  IdentityFile "/home/$USER/.ssh/keyfile"
-  #BatchMode yes
-  #EscapeChar none
-  ' >> ~/.ssh/config
+$>  Host servername
+$>  User $USER
+$>  Hostname 192.168.1.101
+$>  Port 22
+$>  PreferredAuthentications publickey
+$>  IdentityFile "/home/$USER/.ssh/keyfile"
+$>  #BatchMode yes
+$>  #EscapeChar none
+$>  ' >> ~/.ssh/config
 ## Or use printf to add multiline info to ~/.ssh/config
 $> printf '\nHost servername\nUser $USER\nHostname 192.168.1.101\nPort 22\nPreferredAuthentications publickey\nIdentityFile "/home/$USER/.ssh/id_rsa"\n#BatchMode yes\n#EscapeChar none\n' >>  ~/.ssh/config
 ## Or use editor to add above info
@@ -818,31 +773,29 @@ $> man sshfs # some options, -o port=PORT,follow_symlinks,compression=yes,allow_
 $> sshfs -o compression=yes,allow_other,IdentityFile="~/.ssh/key.pem" $USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt
 ##
 $> sudo nano /etc/fstab
-@> root@xxx.xxx.xxx.xxx:/ /local/mnt
-@> USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
-@> USERNAME@HOSTNAME_OR_IP:/REMOTE/DIRECTORY  /LOCAL/MOUNTPOINT  fuse.sshfs _netdev,user,idmap=user,transform_symlinks,identityfile=/home/USERNAME/.ssh/id_rsa,allow_other,default_permissions,uid=USER_ID_N,gid=USER_GID_N 0 0
+$> root@xxx.xxx.xxx.xxx:/ /local/mnt
+$> USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
+$> USERNAME@HOSTNAME_OR_IP:/REMOTE/DIRECTORY  /LOCAL/MOUNTPOINT  fuse.sshfs _netdev,user,idmap=user,transform_symlinks,identityfile=/home/USERNAME/.ssh/id_rsa,allow_other,default_permissions,uid=USER_ID_N,gid=USER_GID_N 0 0
 ##==========================================
 ## Old Comment.
 ## ssh Agent.
 ## Check keys.
-ssh-add -l
+$> ssh-add -l
 ## Change the comment of a key.
-ssh-keygen -c -f ~/.ssh/id_ed25519 -C "YOUREMAIL@email.com"
+$> ssh-keygen -c -f ~/.ssh/id_ed25519 -C "YOUREMAIL@email.com"
 ## Change the passphrase for an existing private key without regenerating the keypair.
-ssh-keygen -p -f ~/.ssh/id_ed25519
+$> ssh-keygen -p -f ~/.ssh/id_ed25519
 ## Remove keys from agent.
-ssh-add -D
+$> ssh-add -D
 ## Add back in.
-ssh-add ~/.ssh/id_ed25519
+$> ssh-add ~/.ssh/id_ed25519
 ## Check if using HTTPS. If yes you can change to ssh.
-git remote -v
+$> git remote -v
 ## To change from a HTTPS URL to a SSH URL.
-git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
+$> git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
 ## #########################
 ## ##    END ssh
 ## #########################
-##==========================================
-
 ##==========================================
 ## ##########################################################
 ## ##    END Setup
@@ -1436,7 +1389,7 @@ $> aplay -c 2 -f S16_LE -r 44100 /dev/urandom
 $> ls -lt --time=atime
 ##==========================================
 ## Find and replace specific characters in a single line in multiple files with sed
-$> for f in `ls`; do sed -i '/MATCHING STRING/ { s/ORIGINAL/REPLACEMENT/; }' ${f} ; done
+$> for f in 'ls'; do sed -i '/MATCHING STRING/ { s/ORIGINAL/REPLACEMENT/; }' ${f} ; done
 ##==========================================
 ## Create an animation we use the ffmpeg convert command
 $> convert -delay 50 frame1.gif frame2.gif frame3.gif -loop 0 animated.gif
@@ -1864,8 +1817,8 @@ $> sudo shutdown -r now
 ##==========================================
 ## Change Process priority
 ## renice NEW_PRIORITY `pgrep NAME_OF_PROCESS`
-$> renice 5  `pgrep firefox`
-##         renice -5 `pgrep wine-server'
+$> renice 5  'pgrep firefox'
+##         renice -5 'pgrep wine-server'
 ##               high <------------------> low
 ## NEW_PRIORITY = -19, -18, -17 [...] 18, 19, 20
 ##==========================================
@@ -1883,7 +1836,7 @@ $> lsof /var/log/messages
 ## Show what a given user has open using -u
 $> lsof -u daniel
 ## You can also use the -t with -u to kill everything a user has open
-$> kill -9 `lsof -t -u daniel`
+$> kill -9 'lsof -t -u daniel'
 ##==========================================
 ## Can remove stuff i do not need and take things from loading up on startup.
 ## ie. if you do not have bluetooth, are not blind and need brail, find other stuff you do not need.
@@ -1892,14 +1845,14 @@ $> sudo apt-get remove bluetooth brltty
 ## and customise away. e.g. i take out stuff like gwibber and telepathy and put in emesene, thunderbird, firefox, transmission etc sysv-rc-conf and take out ppd-dns and stuff used for dial-up, and sudo apt-get remove modemmanager while you're at it - it loads at startup and most have no need for it.
 ##==========================================
 ## binary clock
-$> perl -e 'for(;;sleep 1){printf"\r"."%.4b "x6,split"",`date +%H%M%S`}'
+#$> perl -e 'for(;;sleep 1){printf"\r"."%.4b "x6,split"","date +%H%M%S"}'
 ##==========================================
 ## Compare a remote file with a local file
 $> test "$(md5sum /local/file | cut -d' ' -f1)" == "$(ssh root@xen -- md5sum /remote/file | cut -d' ' -f1)" && echo "Match" || echo "Differ"
 ##==========================================
 ## Streams youtube-dl video to mplayer.
 ## syt 'youtube.com/link' 'anotherlinkto.video'
-$> syt() { pipe=`mktemp -u`; mkfifo -m 600 "$pipe" && for i in "$@"; do youtube-dl -qo "$pipe" "$i" & mplayer "$pipe" || break; done; rm -f "$pipe"; }
+$> syt() { pipe='mktemp -u'; mkfifo -m 600 "$pipe" && for i in "$@"; do youtube-dl -qo "$pipe" "$i" & mplayer "$pipe" || break; done; rm -f "$pipe"; }
 ##==========================================
 ## Create mp3 from wav
 $> lame -V3 input.wav output.mp3
@@ -1918,7 +1871,7 @@ $> mencoder -speed 2 -o output.avi -ovc lavc -oac mp3lame input.avi
 $> python2 -m CGIHTTPServer
 ##==========================================
 ## rename all images in folder with prefix of date and time from exif data
-$> for i in `ls` ; do date=$(identify -format %[exif:DateTime] $i); date=${date//:/-}; date=${date// /_}; mv $i ${date}__$i; done
+$> for i in 'ls' ; do date=$(identify -format %[exif:DateTime] $i); date=${date//:/-}; date=${date// /_}; mv $i ${date}__$i; done
 ##==========================================
 ## convert png images to jpg and optimize them
 $> ls *.png | cut -d . -f 1 | xargs -L1 -i convert -strip -interlace Plane -quality 80 {}.png {}.jpg
@@ -2134,7 +2087,7 @@ $> printf "\033c"
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
-$> cat elseif.sh << EOF
+$> cat > elseif.sh << EOF
 #!/bin/bash
 echo -n "Enter a number: "
 read VAR
@@ -2330,65 +2283,6 @@ $>  $RANDOM           ## Returns a different random number each time is it refer
 $>  $LINENO           ## Returns the current line number in the Bash script.
 ##==========================================
 ## shell. regex. generic regular expression pattern language:
-## Print regular expression patterns
-$> function regexpattern() { echo '
-$> ##===================================
-$> ##Pattern         Pattern meaning
-$>    no character    ## matches ""
-$>    .               ## matches any character
-$>    .*              ## matches any string
-$>    c               ## matches "c"
-$>    p1 p2           ## matches p1 then p2
-$>    p1|p2           ## matches p1 or p2
-$>    p*              ## matches "" or p repeated
-$>    p+              ## matches p repeated, but not ""
-$>    p?              ## matches p or ""
-$>    p{n}            ## matches p repeated n times
-$>    p{n,m}          ## matches p repeated n to m times
-$>    .               ## matches any character
-$>    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-$>    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-$>    (p)             ## matches p, remembers submatch
-$>    \n              ## matches string from nth submatch
-$>    \b              ## matches a word boundary
-$>    \w              ## matches a word character, e.g., alphanumeric
-$>    \W              ## matches a nonword character, e.g., punctuation
-$>    \s              ## matches a whitespace character, e.g., space, tab, return
-$>    \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
-$>    \d              ## matches a digit character, i.e., 0-9
-$>    \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
-$>    ^               ## matches start of line/string
-$>    $               ## matches end of line/string
-$>    [c1-c2]         ## matches $c_1$ through $c_2$
-$> ##===================================
-$> ## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
-$> ## BRE Pattern     Pattern meaning
-$>    no character    ## matches ""
-$>    c               ## matches "c"
-$>    p1p2            ## matches p1 then p2
-$>    p1\|p2          ## matches p1 or p2
-$>    p*              ## matches "" or p repeated
-$>    p\+             ## matches p repeated, but not ""
-$>    p\?             ## matches p or ""
-$>    p\{n\}          ## matches p repeated n times
-$>    p\{n,m\}        ## matches p repeated n to m times
-$>    .               ## matches any character
-$>    [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-$>    [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-$>    \(p\)           ## matches p, remembers submatch
-$>    \n              ## matches string from nth submatch
-$>    \b              ## matches a word boundary
-$>    [[:word:]]      ## matches a word character, e.g., alphanumeric
-$>    [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
-$>    [[:digit:]]     ## matches a digit character, i.e., 0-9
-$>    [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
-$>    [[:upper:]]     ## matches a upperspaced character
-$>    [[:lower:]]     ## matches a lowerspaced character
-$>    ^               ## matches start of line/string
-$>    $               ## matches end of line/string
-$>    [c1-c2]         ## matches $c_1$ through $c_2$
-$> ##=================================== ' ; }
-##==========================================
 ### shell. Short course in BASH
 ## zsh is not zero indexed, zsh arrays use 1-based indexing, so arrays will start with 1 not 0.
 ## http://matt.might.net/articles/bash-by-example/
@@ -2474,13 +2368,23 @@ $> cat myfile > newfile                    ## Redirects one file into another
 $> cat myfile >> newfile                   ## Append to end of file
 ## To specify the contents of STDIN literally, in a script, use the <<endmarker most use <<EOF
 $> cat <<UNTILHERE
-All of this printed,
-since all of this is going into cat on STDIN.
+$> All of this printed,
+$> since all of this is going into cat on STDIN.
 UNTILHERE
-## Redirect STADIN to a file
+## Redirect STADIN to a file.
 $> cat > file.txt << EOF
-All of this writen,
-since all of this is going into cat on STDIN redirected into a file.
+$> All of this writen,
+$> since all of this is going into cat on STDIN redirected into a file.
+EOF
+## OR Better because it works in more circumstances.
+$> cat << EOF > file.txt
+$> All of this writen,
+$> since all of this is going into cat on STDIN redirected into a file.
+EOF
+## OR for root can use tee.
+$> tee /etc/path/file.txt << EOF
+$> All of this writen,
+$> since all of this is going into cat on STDIN redirected into a file.
 EOF
 ## STDIN is channel 0, STDOUT is channel 1, while STDERR is channel 2.
 ## To redirect error output (STDERR), use the operator 2>
@@ -2508,6 +2412,12 @@ $> first-command && command-dependent-on-first-command
 $> echo {0,2}{0,2}                         ## print 00 02 20 22
 ## fuction sub-routine. Syntax; function name() { command ; command ; }
 $> function name() { command ; }
+##==========================================
+
+##==========================================
+## ####################################
+## ##    END Bash Sample Scripts
+## ####################################
 ##==========================================
 ## #########################################################
 ## ##    Cool | Pipes
@@ -2938,9 +2848,17 @@ $> | tr abcdefghijklmnoqrstuvwxyz ABCDEFGHIJKLMNOQRSTUVWXYZ
 ## os. files. Redirect stdout to a file.
 $> | sudo tee -a /path/to/file
 ##------------------------------------------
-
+## Embed next line on the end of current line using sed (where X is the current line)
+$> sed 'X{N;s/\n//;}' file.txt
 ##------------------------------------------
-
+# Remove leading whitespace
+$> sed 's/^[ \t]*//' tmp > tmp2
+# Remove trailing whitespace from each line
+$> sed 's/[ \t]*$//' tmp2 > tmp3
+# Remove leading whitespace from file
+$> awk '!d && NF {sub(/^[[:blank:]]*/,""); d=1} d' tmp4 > tmp5
+# Remove blank lines from end of file
+$> awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' tmp5 > tmp6
 ##------------------------------------------
 
 ##------------------------------------------
@@ -3080,74 +2998,151 @@ $> export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 ##==========================================
 ##  Copy the next section between <<COMMENT1 and COMMENT1 to .bashrc to get a new set of functions and aliases.
 <<COMMENT1
-## ###########################################################
-## ##    .bashrc
-## ###########################################################
+## ####################################################
+## ##    Shell .*rc
+## ####################################################
+##=======================================
 ## ###########################################
 ## ##    Settings
 ## ###########################################
-##------------------------------------------
-## If not running interactively, do not do anything
+##=======================================
+## If not running interactively, do not do anything.
 case $- in *i*) ;; *) return;; esac
-### Shell Options, Change the setting of each shell option: help shopt
-## Append to the history file, do not overwrite it
-shopt -s histappend
+### Shell Options, Change the setting of each shell option: help shopt.
+## Append to the history file, do not overwrite it.
+#shopt -s histappend
 ## Check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-## Make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"##
-## Cool colors, but mc will not work in tty logins
+#shopt -s checkwinsize
+## Make less more friendly for non-text input files, see lesspipe(1).
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+## Cool colors, but mc will not work in tty logins.
 #export TERM=xterm-256color
-## Colored GCC warnings and errors
+## Colored GCC warnings and errors.
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 ## Enable color support
 if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)";  fi
 ## ~/.bash_aliases, instead of adding them here directly.
-if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
+#if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 ## Enable programmable completion features (you do not need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
-if ! shopt -oq posix; then if [ -f /usr/share/bash-completion/bash_completion ]; then . /usr/share/bash-completion/bash_completion; elif [ -f /etc/bash_completion ]; then . /etc/bash_completion; fi; fi
-## Use CapLock as second backspace
+#if ! shopt -oq posix; then if [ -f /usr/share/bash-completion/bash_completion ]; then . /usr/share/bash-completion/bash_completion; elif [ -f /etc/bash_completion ]; then . /etc/bash_completion; fi; fi
+## Use CapLock as second backspace.
 #setxkbmap -option caps:backspace
-## Use CapLock as second control key
-setxkbmap -option ctrl:nocaps
-## AWS Amazon Web Services specific settings add in the keys
-#export AWS_ACCESS_KEY_ID=''
-#export AWS_SECRET_ACCESS_KEY=''
-#export AWS_SESSION_TOKEN=''
-## ##############
-## #   Prompt   #
-## ##############
+## Use CapLock as second control key.
+#setxkbmap -option ctrl:nocaps
+## Use CapLock as second escape key.
+#setxkbmap -option caps:escape
+## Key sequence to kill the X server.
+#setxkbmap -option terminate:ctrl_alt_bksp
 ##------------------------------------------
+## #################################
+## ##   History
+## #################################
+##------------------------------------------
+## Increase the size of the .bash_history file
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000
+#export HISTFILESIZE='10000'
+#export HISTSIZE='5000'
+## append to the history file, do not overwrite it
+#shopt -s histappend
+## do not put duplicate lines in the history and do not add lines that start with a space
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+## Ignore more
+HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
+## Set time format
+#HISTTIMEFORMAT='%F %T '
+## Make screen sessions save history.
+#shopt -s histappend
+##=========================================
+## zsh
+HISTFILE=~/.zsh_history
+##=========================================
+## ####################################################
+## ##    START Prompt
+## ####################################################
+##-----------------------------
+## Text color
+#\e[1;30m ## grey
+#\e[1;31m ## red
+#\e[1;32m ## Green
+#\e[1;33m ## Yellow
+#\e[1;34m ## Blue
+#\e[1;35m ## purple
+#\e[1;36m ## cyan
+#\e[1;37m ## White
+## For other colors in zsh use $> colorgrid
+## Text style
+#txtred='\e[0;31m' ## Red- Regular
+#bldred='\e[1;31m' ## Red- Bold
+#undred='\e[4;31m' ## Red- Underline
+#bakred='\e[41m'   ## Red- Background
+##-----------------------------
+## set variable identifying the chroot you work in (used in the prompt below)
+#if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
+## set a fancy prompt (non-color, unless we know we "want" color)
+#case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
+## uncomment for a colored prompt, if the terminal has the capability.
+#force_color_prompt=yes
+#if [ -n "$force_color_prompt" ]; then if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then color_prompt=yes; else color_prompt=;     fi; fi
+#if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '; else PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '; fi; else PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '; fi
+#unset color_prompt force_color_prompt
+## If this is an xterm set the title to user@host:dir
+#case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
+##-----------------------------------------
 ## Initialize colors.
 autoload -U colors
 colors
-## Allow for functions in the prompt.
+## Allow for functions in the prompt is zsh.
 setopt PROMPT_SUBST
 autoload -U add-zsh-hook
 autoload -Uz compinit && compinit
 ## set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
-##------------------------------------------
-## set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
-## set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
-## uncomment for a colored prompt, if the terminal has the capability.
-force_color_prompt=yes
-if [ -n "$force_color_prompt" ]; then if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then color_prompt=yes; else color_prompt=;     fi; fi
-if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '; else PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '; fi; else PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '; fi
-unset color_prompt force_color_prompt
-## If this is an xterm set the title to user@host:dir
-#case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
-## #####################################
-## ##    Prompt
-## #####################################
+#case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
 ##-----------------------------------------
+## ########################################
+## ##    Timestamp git track prompt
+## ########################################
+## Timestamped best prompt, git branch with tracking
+## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
+## firefox https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015 blue:021 ltblue:031
+function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
+function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
+function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
+function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
+function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+## BASH
+#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
+## ZSH
+PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f
+⚡'
+##-----------------------------------------
+## ############################
+## ##    Other prompt
+## ############################
+#PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{blue}%1~%f%b %# '
+#PROMPT='%F{green}%B%m%F{blue}%~%f%b 😆 '
+#PROMPT='%F{green}%B%m:%F{blue}%~%f%b⚡ '
+#PROMPT='%F{green}%n@%B%m:%F{blue}%~%f%b⚡ '
+#PROMPT='%n@%B%m:%F{blue}%~%f%b⚡ '
+#PROMPT='%F{green}%n%f@%B%m:%F{blue}%~%f%b⚡ '
+#PROMPT='%F{green}%n%f@%F{green}%B%m:%F{blue}%~%f%b⚡ '
+#PROMPT='%F{blue}%~%f%b⚡ '
+## Minimal
+#PROMPT='%~%f%b⚡ '
+## Sc
+#PROMPT='%F{green}%\[Sc]:%F{blue}%~%f%b⚡ '
+#PROMPT='%{$fg_bold[red]%}➜ %{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$%{$fg_bold[blue]%} % %{$reset_color%}'
+##-----------------------------------------
+## Overme prompt
+#PROMPT='%F{green}%\[Overme]:%F{blue}%~%f%b⚡ '
+##------------------------------------------
 ## Mint Prompt
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
 ##-----------------------------------------
 ## Mint Prompt😆
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
+#PS1=s'%B%m%~%b 😆 '
 ##-----------------------------------------
 ### Prompt
 ## set a fancy prompt (non-color, overwrite the one in /etc/profile)
@@ -3157,62 +3152,166 @@ unset color_prompt force_color_prompt
 #PS1='\[\e[1;31m\][\u@\h \W]\$>\[\e[0m\] '
 ##------------------------------------------
 ## Set a colorful green bash prompt
-#PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] '
+#PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] 😆 '
 ##------------------------------------------
 ## Set a colorful green bash prompt
 #PS1='\[\e[1;32m\]\u@\h \W\$>\e[0m '
 ##------------------------------------------
 ## nuts with colors (figure 3):
 #PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
-##------------------------------------------
-## Timestamped best prompt, git branch with tracking
-## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
-## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015
-function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
-function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
-function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
-function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
-## BASH
-#> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
-## BASH
-#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
-## ZSH
-#> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
-#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
-#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
-## For bash
-#PS1="\[\033[01;36m\]\$(date --utc +"%Y%m%d_%H:%M:%S")\033[01;33m\]@\033[01;32m\]\h\[\033[01;34m\]\w\[\033[00;00m\]$(parse_git_branch)\[\033[00;31m\]$(parse_git_untracked)\[\033[01;33m\]$(parse_git_unstaged)\[\033[01;32m\]$(parse_git_tracked)\[\033[00;00m\]⚡ \e[0m"
-##-----------------------------------------
-##-----------------------------------------
+##=========================================
+## ##########################################################
+## ##    END Prompt
+## ##########################################################
+##=========================================
+## ##################################################
+## ##    START zsh
+## ##################################################
+## Comment out section if only using bash.
+##=========================================
+## https://linux.die.net/man/1/zshoptions
+##=========================================
+## ##################################
+## ##    zsh other Settings files
+## ##################################
+## Add deno completions to search path
+if [[ ":$FPATH:" != *":/home/$USER/.zsh/completions:"* ]]; then export FPATH="/home/$USER/.zsh/completions:$FPATH"; fi
+##=========================================
+## ##########################
+## ##    zsh bind keys
+## ##########################
+#export ZSH="/home/$USER/.zsh/key-bindings.zsh"
+setopt appendhistory autocd extendedglob nomatch zle
+unsetopt beep notify
+bindkey -v
+## Cntl+r history search
+bindkey '^r' history-incremental-search-backward
+## Ctrl+a - Go to beginning of line
+bindkey '^A' beginning-of-line
+## Ctrl+e - Go to end of line
+bindkey '^E' end-of-line
+## [PageUp] - Up a line of history
+#bindkey "${terminfo[kpp]}" up-line-or-history
+## [PageDown] - Down a line of history
+#bindkey "${terminfo[knp]}" down-line-or-history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+autoload -U edit-command-line
+## start typing + [Up-Arrow] - fuzzy find history forward. Has to be initialized
+#bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+## start typing + [Down-Arrow] - fuzzy find history backward. Has to be initialized
+#bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+## [Alt+k] - fuzzy find history forward. Has to be initialized
+#bindkey '^[k' up-line-or-beginning-search
+## [Alt+j] - fuzzy find history backward. Has to be initialized
+#bindkey '^[j' down-line-or-beginning-search
+## [Ctrl+x-Ctrl+e] - use $EDITOR to write a command
+export EDITOR=vim
+#bindkey '^x^e' edit-command-line
+## ###########################
+## ##    zsh options
+## ###########################
+## Uncomment the following line if you want to change the command execution time
+## stamp shown in the history command output.
+## You can set one of the optional three formats:
+## "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+## or set a custom format using the strftime function format specifications,
+## see 'man strftime' for details.
+## HIST_STAMPS="mm/dd/yyyy"
+#HIST_STAMPS="yyyy-mm-dd"
+setopt APPENDHISTORY
+setopt AUTOCD
+setopt EXTENDEDGLOB
+setopt NOMATCH
+setopt ZLE
+setopt AUTO_CD                # cd by typing directory name if it's not a command
+#setopt CORRECT_ALL            # autocorrect commands
+setopt AUTO_LIST              # automatically list choices on ambiguous completion
+setopt AUTO_MENU              # automatically use menu completion
+setopt ALWAYS_TO_END          # move cursor to end if word had one match
+# Changing/making/removing directory
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHDMINUS
+setopt AUTO_CD
+setopt MULTIOS
+setopt PROMPT_SUBST
+zstyle ':completion:*' MENU SELECT   # select completions with arrow keys
+zstyle ':completion:*' GROUP-NAME '' # group results by category
+zstyle ':completion:::::' COMPLETER _EXPAND _COMPLETE _IGNORED _APPROXIMATE #enable approximate matches for completion
 ##==========================================
-## ###############
-## ##   History
-## ###############
-##------------------------------------------
-## Increase the size of the .bash_history file
-export HISTFILESIZE=1000000000
-export HISTSIZE=1000000
-#export HISTFILESIZE='10000'
-#export HISTSIZE='5000'
-## append to the history file, do not overwrite it
-shopt -s histappend
-# do not put duplicate lines in the history and do not add lines that start with a space
-export HISTCONTROL=erasedups:ignoredups:ignorespace
-# Ignore more
-HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
-# Set time format
-#HISTTIMEFORMAT='%F %T '
-##==========================================
-## ###########################################
-## ##    Functions
-## ###########################################
-##------------------------------------------
+## #######################
+## ##    zsh history
+## #######################
+## https://www.soberkoder.com/better-zsh-history/
+## History command configuration
+#setopt EXTENDED_HISTORY       # record timestamp of command in HISTFILE
+#setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
+#setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
+#setopt HIST_REDUCE_BLANKS     # remove superfluous blanks from history items
+setopt INC_APPEND_HISTORY     # save history entries as soon as they are entered
+setopt SHARE_HISTORY          # share history between different instances of the shell
+#setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE      # ignore commands that start with space
+setopt HIST_VERIFY            # show command with history expansion to user before running it
+setopt HIST_IGNORE_ALL_DUPS   # remove older duplicate entries from history
+## #############################
+## ##    zsh git Settings
+## #############################
+autoload -Uz compaudit compinit
+autoload -U colors
+colors
+#compinit
+#compinit
+## End of lines added by compinstall END OF LINE SUCKS USE IN PROMT parse_git_branch below
+## vcs_info- information from git on right side of prompt
+#autoload -Uz vcs_info
+#precmd_vcs_info() { vcs_info }
+#precmd_functions+=( precmd_vcs_info )
+#setopt prompt_subst
+#RPROMPT=\$vcs_info_msg_0_
+# PROMPT=\$vcs_info_msg_0_'%# '
+#zstyle ':vcs_info:git:*' formats '%b'
+##-----------------------------------------
+## git branch, best prompt
+#parse_git_branch() {
+#     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+#}
+#setopt PROMPT_SUBST ; PS1='%F{green}%B%m:%F{blue}%~%f%b$(parse_git_branch)⚡'
+##-----------------------------------------
+## Set up fzf key bindings and fuzzy completion. Only need to run once?
+#source < (fzf --zsh)
+##-----------------------------------------
+## ######################
+## ##    zsh plugins
+## ######################
+## mkdir ~/.zsh && git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+## git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+## https://docs.docker.com/compose/completion/
+## ######################################################
+## ##    END zsh
+## ######################################################
+## ########################################
+## ##    man pages
+## ########################################
+## Color for man pages in less makes manpages a little easier to read:
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;34m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
 #===========================================
-## ######################
+## ###########################################
+## ##    START Functions and aliases
+## ###########################################
+#===========================================
+## ############################
 ## ##    System
-## ######################
-##------------------------------------------
+## ############################
 #===========================================
 ## Suspend to RAM low power
 function suspendnow() { dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend; }
@@ -3225,9 +3324,6 @@ function addfunction() { declare -f $1 >> ~/.bashrc ; }
 ##==========================================
 # Add an alias to .bashrc
 function bashrc() { echo "alias $1='$2'" >> .bashrc ; }
-##==========================================
-## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
-function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1".; fi ; }
 ##==========================================
 ## ls -l with octal permissions
 function lso() { ls -l ${1} | sed -e 's/--x/1/g' -e 's/-w-/2/g' -e 's/-wx/3/g' -e 's/r--/4/g' -e 's/r-x/5/g' -e 's/rw-/6/g' -e 's/rwx/7/g' -e 's/---/0/g' ; }
@@ -3253,7 +3349,7 @@ function cdb() { select dir in $(find -type d -name "$1" -not -path '*/\.*' -pru
 function whatinstalled() { which "$@" | xargs -r readlink -f | xargs -r dpkg -S ;}
 ##==========================================
 ## A function to find a file in the pwd downwards
-function fn() { find . -iname "*$1*" 2>/dev/null ; }
+function fn() { find . -iname "*$1*" -print; }
 ##==========================================
 ## swap 2 filenames around
 function swapname() { local TMPFILE=tmp.$$; mv "$1" $TMPFILE; mv "$2" "$1"; mv $TMPFILE "$2"; }
@@ -3281,18 +3377,23 @@ function greptext () { grep -iIHrn --color=always "$1" . ; }
 ## Share current directory through http 8000
 function webshare() { python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"; }
 function pyshare() { python –m SimpleHTTPServer 8000 ; }
+alias share="python3 -m http.server --directory ${1}"
 ##==========================================
-## #############
-## ##    GUI
-## #############
+## set the side buttons of "mouse name" to be same as the left click, and scroll push
+## does not last though switching computers
+function ms() { MOUSE_NAME='M585/M590 Mouse' && MOUSE_ID=$(xinput list | grep ${MOUSE_NAME} | head -n 1 | awk '{print $(NF-3)}' | sed 's/id=//') && xinput --set-button-map ${MOUSE_ID} 1 2 3 4 5 6 7 2 1 }
+##==========================================
+## #######################
+## ##     GUI
+## #######################
 ##------------------------------------------
 ##==========================================
 ## Transform Mint Linux 17/18 icons to create any color
 function iconcolors() { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#a7c6df" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/0b5a7d/888889/g" -e "s/a7c6df/$2/g" -e "s/308fba/$1/g" ; }
 ##==========================================
-## #################
+## ###########################
 ## ##    Search
-## #################
+## ###########################
 ##------------------------------------------
 ##==========================================
 ## Get definition from etymonline.com.
@@ -3301,7 +3402,7 @@ function define() { for term in "$@"; do url="etymonline.com/index.php?term=$ter
 ## Lookup on IMDB Internet Movie Database
 function imdb() { w3m -dump "http://www.imdb.com/find?s=all&q="${@}"&x=0&y=0" & }
 ##==========================================
-## Get the weather. Usage 'weather zipcode'. Example 'weather 94114' outputs 'San Francisco, CA | 54.9 degrees F | Overcast'.
+## Get thge weather. Usage 'weather zipcode'. Example 'weather 94114' outputs 'San Francisco, CA | 54.9 degrees F | Overcast'.
 #function weather() { curl -s "http://www.wunderground.com/q/zmw:$1.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'; }
 function weather() { curl wttr.in/"$1"; }
 ##==========================================
@@ -3339,6 +3440,16 @@ function thepiratebaymagnet() { curl -s  https://thepiratebay10.org/search/"$1"/
 function thepiratebaydl() { transmission-cli $(curl -s  https://thepiratebay10.org/search/'$1'/ | grep 'magnet:' | sed -r 's/.*(magnet:[^"]*).*/\1/g' |  sed -n "$2p" ) ; }
 ## After finished downloadeding transmission-cli will still be running seeding, to stop $> killall transmission-cli
 ##==========================================
+function lt() { ls -ltrsa "$@" | tail; }
+function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+function fname() { find . -iname "*$@*"; }
+## removes lines from $1 if they appear in $2
+function remove_lines_from() { grep -F -x -v -f $2 $1; }
+alias pp="ps axuf | pager"
+## Usage: echo 1 2 3 | sum
+alias sum="xargs | tr ' ' '+' | bc"
+function mcd() { mkdir $1 && cd $1; }
+##==========================================
 ## Not working. Changed site :(
 ## Play streaming media, find media at https://goo.gl/pdhhpQ or http://pub7.di.fm/ use as argument the string after Mount Point /
 ## Some favorite stations: di_bigbeat_aac.flv, di_bigbeat_aacplus, di_breaks_aacplus, di_classictrance_aacplus,
@@ -3346,10 +3457,9 @@ function thepiratebaydl() { transmission-cli $(curl -s  https://thepiratebay10.o
 #function streamfmls() { w3m -dump http://pub7.di.fm/ | grep 'Mount Point' | grep 'aac ' | sed 's/Mount Point \///g' | sed -e 's/ Login//g' -e 's/di_//g' -e 's/_aac//g' ; }
 #function streamfm() { mplayer http://pub7.di.fm/di_$1_aac?1 -user-agent "AudioAddict-di/3.2.0.3240 Android/5.1" ; }
 ##==========================================
-## ##############################
+## ##########################
 ## ##    Media Encode
-## ##############################
-##------------------------------------------
+## ##########################
 ##==========================================
 ## ???????rip audio from video ??????NOT WORKING??????
 ### ("$1" for output file & "$2" for input file)
@@ -3362,18 +3472,17 @@ function rip() { handbrake -i /dev/dvd -o ${HOME}/${1}.mp4 -L -U -F -f mp4 -e x2
 function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ##==========================================
 ## Convert video files to mp4 by changing container without reencoding. Useage: copy2mp4 *.mkv
-function copy2mp4() { avconv -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
+function copy2mp4() { ffmpeg -i  "$1" -c:v copy -c:a copy "$1".mp4 ; }
 ##==========================================
 ## Convert video files to mp4 reencoding sound to mp3. Useage: copy2mp4 *.mkv
-function copy2mp4mp3() { avconv -i  "$1" -c:v copy -c:a mp3 "$1".mp4 ; }
+function copy2mp4mp3() { ffmpeg -i  "$1" -c:v copy -c:a mp3 "$1".mp4 ; }
 ##==========================================
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
-function transcode2mp4() { avconv -i  "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
+function transcode2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ##=========================================
-## #################
-## ##    Random
-## #################
-##------------------------------------------
+## ######################################
+## ##     Random
+## ######################################
 ##==========================================
 ## #######
 ## # box #
@@ -3398,7 +3507,7 @@ function fortunecow() { fortune | cowsay -f $(ls /usr/share/cowsay/cows/| sed 's
 function fortunecowcat() { fortune | cowsay -f $(ls /usr/share/cowsay/cows/| sed 's/ /\n/g' | sed -e '/^$/d'| shuf -n1) | lolcat -a ; }
 ##==========================================
 ## Randow rainbow cow says Corporate BS slowly
-function corpcow() { curl -s http://cbsg.sourceforge.net/cgi-bin/live | grep -Eo '^<li>.*</li>' | sed s,\</\\?li\>,,g | shuf -n 1 | cowsay -f $(ls /usr/share/cowsay/cows/| sed 's/ /\n/g' | sed -e '/^$/d'| shuf -n1) | lolcat -a ; }
+#function corpcow() { curl -s http://cbsg.sourceforge.net/cgi-bin/live | grep -Eo '^<li>.*</li>' | sed s,\</\\?li\>,,g | shuf -n 1 | cowsay -f $(ls /usr/share/cowsay/cows/| sed 's/ /\n/g' | sed -e '/^$/d'| shuf -n1) | lolcat -a ; }
 ##==========================================
 ## ix, command line patebin
 ## Examples:
@@ -3417,7 +3526,7 @@ function ix() { local opts; local OPTIND; [ -f "$HOME/.netrc" ] && opts='-n'; wh
 function wifiscan() { iwlist $(ifconfig | grep wlan | awk '{print $1 }') scan | sed -ne 's#^[[:space:]]*\(Quality=\|Encryption key:\|ESSID:\)#\1#p' -e 's#^[[:space:]]*\(Mode:.*\)$#\1\n#p' ; }
 ##==========================================
 ## Cleanly list available wireless networks (using iwlist)
-function wifiscan2() { iwlist $(ifconfig | grep wlp3s0 | awk '{print $1 }') scan | sed -ne 's#^[[:space:]]*\(Quality=\|Encryption key:\|ESSID:\)#\1#p' -e 's#^[[:space:]]*\(Mode:.*\)$#\1\n#p' ; }
+function wifiscan2() { iwlist $(ifconfig | grep wlp59s0 | awk '{print $1 }') scan | sed -ne 's#^[[:space:]]*\(Quality=\|Encryption key:\|ESSID:\)#\1#p' -e 's#^[[:space:]]*\(Mode:.*\)$#\1\n#p' ; }
 ##==========================================
 ## Single use vnc-over-ssh connection Usage: sshvnc user@your.ip.add.ress
 function sshvnc() { ssh -f -L 5900:localhost:5900 $1 "x11vnc -safer -localhost -nopw -once -display :0" ; vinagre localhost:5900 ; }
@@ -3435,50 +3544,10 @@ function C2F() { echo "($1*1.8)+32" | bc ; }
 ## Search through .doc files
 function docgrep() { find -name '*.doc' | while read -r file; do catdoc "$file" | grep -l --label="$file" "$1"; done ; }
 ##==========================================
-## Append to all files in a folder: Usage: tag "your appended text"
+## Append to all files in a folder: Usage: tag "your text to append to all files"
 function tag() { for file in *.txt; do  echo ${1} >> "$file"; done }
 ##==========================================
-## #################
-## ##    Image
-## #################
-##------------------------------------------
-##==========================================
-## Resize images. Usage: resizeimg imagename.jpg 800
-function resizeimg() { convert "$1" -resize $2 "$1"-sm.jpg ; }
-##==========================================
-## Batch resize images in folder: Usage; batchsizejpg 600
-function batchsizejpg() {  for file in *.jpg; do convert $file -resize $1 sm-$file; done }
-##==========================================
-## Use imagemagik to batch overlay an image centered over a background image
-function overlay() { for file in *.jpg; do composite -gravity center "$1" "$file" "yt-$file"; done }
-##==========================================
-## ##########################
-## ##    Encryption
-## ##########################
-##------------------------------------------
-##==========================================
-## Function to make encrypted file hidden in a .gif. Usage: crypt folder_to_be_encrypted  image_to_use.gif
-function des3gif() { cp "$2" pic.gif && tar -zcvf stuff.tgz "$1" && openssl des3 -salt -in stuff.tgz -out encryptedstuff && zip encryptedstuff.zip encryptedstuff && cat encryptedstuff.zip >> pic.gif && cp pic.gif crypt.gif && rm  pic.gif && rm stuff.tgz && rm encryptedstuff && rm encryptedstuff.zip ; }
-##------------------------------------------
-## Function to de-encrypt an encrypted file hidden in a .gif image. Usage: decryptgif image_to_be_decrypted.gif
-function dedes3gif() { cp $1 encryptedstuff.zip && unzip encryptedstuff.zip & openssl enc -d -des3 -salt -out stuff.tgz -in encryptedstuff && tar -zxvf stuff.tgz && rm encryptedstuff.zip && rm encryptedstuff && rm stuff.tgz ; }
-##==========================================
-## Function to make encrypted file hidden in a .gif. Usage: crypt folder_to_be_encrypted  image_to_use.gif
-function aes256gif() { cp "$2" pic.gif && tar -zcvf stuff.tgz "$1" && enc -aes-256-cbc -salt -a -in stuff.tgz -out encryptedstuff && zip encryptedstuff.zip encryptedstuff && cat encryptedstuff.zip >> pic.gif && cp pic.gif crypt.gif && rm  pic.gif && rm stuff.tgz && rm encryptedstuff && rm encryptedstuff.zip ; }
-##------------------------------------------
-## Function to de-encrypt an encrypted file hidden in a .gif image. Usage: decryptgif image_to_be_decrypted.gif
-function deaes256gif() { cp $1 encryptedstuff.zip && unzip encryptedstuff.zip & openssl enc -aes-256-cbc -d -a -out stuff.tgz -in encryptedstuff && tar -zxvf stuff.tgz && rm encryptedstuff.zip && rm encryptedstuff && rm stuff.tgz ; }
-##==========================================
-## gpg encrypt decrypt Usage: "engpg filename" or "degpg filename"
-function engpg() { gpg -ac --no-options "$1"; }
-function degpg() { gpg --no-options "$1"; }
-##==========================================
-## uses openssl aes 256 cbc encryption to encrypt file salting it with password designated by user
-function aes256crypt() { echo "Encrypting $1..."; openssl enc -aes-256-cbc -salt -a -in $1 -out encrypted-$1 || { echo "File not found"; return 1; }; echo "Successfully encrypted"; }
-## uses openssl aes 256 cbc encryption decrypt file
-function aes256decrypt() { echo "Decrypting $1..."; openssl enc -aes-256-cbc -d -a -in $1 -out $2 || { echo "File not found"; return 1; }; echo "Successfully decrypted"; }
-##==========================================
-## Print a grid of colors
+## Print a grid of colors.
 function colorgrid() \
 {
     iter=16
@@ -3512,30 +3581,59 @@ function colorgrid() \
     done
 }
 ##==========================================
-## Put git branch in prompt
-parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+## ##################
+## ##    Image
+## ##################
+##==========================================
+## Resize images. Usage: resizeimg imagename.jpg 800
+function resizeimg() { convert "$1" -resize $2 "$1"-sm.jpg ; }
+##==========================================
+## Batch resize images in folder: Usage; batchsizejpg 600
+function batchsizejpg() {  for file in *.jpg; do convert $file -resize $1 sm-$file; done }
+##==========================================
+## Use imagemagik to batch overlay an image centered over a background image
+function overlay() { for file in *.jpg; do composite -gravity center "$1" "$file" "$1-$file"; done }
+##==========================================
+## #####################
+## ##    Encryption
+## #####################
+##==========================================
+## Function to make encrypted file hidden in a .gif. Usage: des3gif folder_to_be_encrypted  image_to_use.gif
+function des3gif() { cp "$2" pic.gif && tar -zcvf stuff.tgz "$1" && openssl des3 -salt -in stuff.tgz -out encryptedstuff && zip encryptedstuff.zip encryptedstuff && cat encryptedstuff.zip >> pic.gif && cp pic.gif crypt.gif && rm  pic.gif && rm stuff.tgz && rm encryptedstuff && rm encryptedstuff.zip ; }
+##------------------------------------------
+## Function to de-encrypt an encrypted file hidden in a .gif image. Usage: dedes3gif image_to_be_decrypted.gif
+function dedes3gif() { cp $1 encryptedstuff.zip && unzip encryptedstuff.zip & openssl enc -d -des3 -salt -out stuff.tgz -in encryptedstuff && tar -zxvf stuff.tgz && rm encryptedstuff.zip && rm encryptedstuff && rm stuff.tgz ; }
+##==========================================
+## Function to make encrypted file hidden in a .gif. Usage: crypt folder_to_be_encrypted  image_to_use.gif
+function aes256gif() { cp "$2" pic.gif && tar -zcvf stuff.tgz "$1" && enc -aes-256-cbc -salt -a -in stuff.tgz -out encryptedstuff && zip encryptedstuff.zip encryptedstuff && cat encryptedstuff.zip >> pic.gif && cp pic.gif crypt.gif && rm  pic.gif && rm stuff.tgz && rm encryptedstuff && rm encryptedstuff.zip ; }
+##------------------------------------------
+## Function to de-encrypt an encrypted file hidden in a .gif image. Usage: decryptgif image_to_be_decrypted.gif
+function deaes256gif() { cp $1 encryptedstuff.zip && unzip encryptedstuff.zip & openssl enc -aes-256-cbc -d -a -out stuff.tgz -in encryptedstuff && tar -zxvf stuff.tgz && rm encryptedstuff.zip && rm encryptedstuff && rm stuff.tgz ; }
+##==========================================
+## gpg encrypt decrypt Usage: "engpg filename" or "degpg filename"
+function engpg() { gpg -ac --no-options "$1"; }
+function degpg() { gpg --no-options "$1"; }
+##==========================================
+## uses openssl aes 256 cbc encryption to encrypt file salting it with password designated by user.
+function aes256crypt() { echo "Encrypting $1..."; openssl enc -aes-256-cbc -salt -a -in $1 -out encrypted-$1 || { echo "File not found"; return 1; }; echo "Successfully encrypted"; }
+## uses openssl aes 256 cbc encryption decrypt file
+function aes256decrypt() { echo "Decrypting $1..."; openssl enc -aes-256-cbc -d -a -in $1 -out $2 || { echo "File not found"; return 1; }; echo "Successfully decrypted"; }
+##==========================================
 ## #################################
 ## ##    Other Functions
 ## #################################
-##------------------------------------------
-## ###########################################
-## ##    Aliases
-## ###########################################
-##------------------------------------------
+##==========================================
 ## Use echo "alias name='app -a'" >> .bashrc to add new alias lines to .bashrc
 ##==========================================
-## ###################
+## ###########################
 ## ##    System
-## ###################
+## ###########################
 ##------------------------------------------
 alias root='sudo su'
 ## Make changes in .bashrc immediately available
 alias bashrc-reload='builtin exec bash'
 ## Install a app
-alias install='sudo apt-get install'
+alias ainstall='sudo apt-get install'
 ## Change owner of files in your home folder to you.
 alias chownhome='sudo chown -R $USER:$USER ~/'
 ## Only show button events for xev
@@ -3544,33 +3642,34 @@ alias xevs="xev | grep 'keycode\|button'"
 alias upowersuspend='dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
 alias sleepnow='upowersuspend'
 #alias start='dbus-launch startx'
-alias startx='sudo service mdm start'
-alias stopx='sudo service mdm stop'
+#alias startx='sudo service mdm start'
+alias startx='sudo systemctl start lightdm'
+#alias stopx='sudo service mdm stop'
+alias stopx='sudo systemctl stop lightdm'
 alias clr='echo -ne "\033c"'
 ## Displays file types in color. Prints warning messages first. Needs fixing, but works after warnings.
 alias filecolors='eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;pi:named pipe;so:socket;do:door;bd:block device;cd:character device;or:orphan symlink;mi:missing file;su:set uid;sg:set gid;tw:sticky other writable;ow:other writable;st:sticky;ex:executable;"|sed -e 's/:/="/g; s/\;/"\n/g') && { IFS=:; for i in $LS_COLORS; do echo -e "\e[${i#*=}m$( x=${i%=*}; [ "${!x}" ] && echo "${!x}" || echo "$x" )\e[m"; done; }'
-## list bash alias defined in .bash_profile or .bashrc
+## list bash alias defined in .bash_profile or .*rc
 alias showallaliases='compgen -A alias'
 ## list bash functions defined in .bash_profile or .bashrc
 alias showallfunctions='compgen -A function'
 ## Remove and replace /etc/hosts to block and unblock ad websites
 ## Block with host big file
-alias hoston='sudo cat /etc/hosts.big.sort.uniq > /etc/hosts'
+alias hoston='cat /etc/hosts.list | sudo tee /etc/hosts'
 ## Unblock with small hosts file
-alias hostoff='sudo cat /etc/hosts.default > /etc/hosts'
+alias hostoff='cat /etc/hosts.default | sudo tee /etc/hosts'
 ## show installed but unused linux headers, image, or modules
 alias unusedkernels="dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'"
 ## vim like exit
 alias :q='exit'
 ## !!!syntax error near unexpected token (
+## Works if you just run the command
 ## du with colored bar graph with reversed order to put the focus in the big ones.
 #alias filesize='du -x --max-depth=1|sort -rn|awk -F / -v c=$COLUMNS 'NR==1{t=$1} NR>1{r=int($1/t*c+.5); b="\033[1;31m"; for (i=0; i<r; i++) b=b"#"; printf " %5.2f%% %s\033[0m %s\n", $1/t*100, b, $2}'|tac'
-## List available wifi
-alias lswifi='nmcli device wifi list'
 ##==========================================
-## ###############################
+## #######################################
 ## ##    Command Parameters
-## ###############################
+## #######################################
 ##------------------------------------------
 #alias ..='cd ..'
 alias cdd='cdls'
@@ -3593,6 +3692,8 @@ alias ll='ls -l'
 alias lst='ls -lt --time=atime'
 ## Use function instead. Converts the symbolic permissions to octal (ie: numbers) when using 'ls -l': Use function instead.
 #alias lso="ls -l | sed -e 's/--x/1/g' -e 's/-w-/2/g' -e 's/-wx/3/g' -e 's/r--/4/g' -e 's/r-x/5/g' -e 's/rw-/6/g' -e 's/rwx/7/g' -e 's/---/0/g'"
+## UTC 24hr time.
+alias dateu='LC_TIME="C.UTF-8" ; date --utc +"%Y%m%d_%H:%M:%S"'
 ##==========================================
 ### grep - print lines matching a pattern. -I ignore bianaries -v not -
 alias grep='grep -I --color=auto'
@@ -3600,6 +3701,9 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 ##==========================================
 ### mc - Midnight Commander
+## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
+function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1".; fi ; }
+##----------------------------
 alias mcc='mc --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default'
 alias mce='mcedit --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default'
 alias mcg='mc -S gotar'
@@ -3610,7 +3714,9 @@ alias mctmux='TERM=xterm mc'
 #alias mc='mc -S gotar'
 #alias mcedit='mcedit -S gotar'
 ##==========================================
-### DOS centric aliases
+## #######################################
+## ##   DOS centric aliases
+## #######################################
 alias dir="ls -l"
 alias ipconfig="ifconfig"
 alias del="rm -iv"
@@ -3621,27 +3727,13 @@ alias move="mv -iv"
 alias rename="mv -iv"
 alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd'"
 ##==========================================
-# Git aliases
-alias giti="git init"
-alias gits="git status -sbu"
-alias gitco="git checkout"
-alias gitcob="git checkout -b"
-alias gitp="git push"
-alias gitm="git checkout master"
-alias gita="git add ."
-alias gitcm="git commit -m"
-alias gitpl="git pull"
-alias gitst="git stash"
-alias gitstl="git stash list"
-alias gitlg='git log --graph --oneline --decorate --all'
-##==========================================
-alias mplay='mplayer -vo caca'
 alias mplayerfb='sudo mplayer -vo fbdev2 -fs -zoom -x 1024 -y 600'
+## Ascii video
 alias asciiplay='mplayer -vo caca'
 alias gyt='googleyoutube'
 alias battery='upower -i $(upower -e | grep 'BAT') | grep -E "state|to\ full|percentage"'
 alias cornerclock='while sleep 1;do tput sc;tput cup 0 $(($(tput cols)-29));date;tput rc;done &'
-alias share='pyshare'
+#alias share='pyshare'
 alias lanip='for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done'
 ## Records voice until you stop talking.
 alias vrecord='sox -t alsa default ./recording_$(date +%F.%T).flac silence 1 0.1 5% 1 1.0 5%'
@@ -3649,22 +3741,325 @@ alias vrecord='sox -t alsa default ./recording_$(date +%F.%T).flac silence 1 0.1
 alias shotarea='sleep 5 && import -frame -strip -quality 75 "$HOME/$(date +%F.%T).png"'
 ## Search for apps faster
 alias apts='apt-cache search'
-## List computers on network
+## List computers on home network
 alias netlist='nmap -sn 192.168.1.0/24'
+## List path instead of listing
+#alias path='ls -d $PWD/*'
+alias path='realpath ./*'
 ##==========================================
-## added by Anaconda3 5.3.1 installer
-## >>> conda init >>>
-## !! Contents within this block are managed by 'conda init' !!
-#__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/eakinc/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-#if [ $? -eq 0 ]; then \eval "$__conda_setup"; else if [ -f "/home/eakinc/anaconda3/etc/profile.d/conda.sh" ]; then . "/home/eakinc/anaconda3/etc/profile.d/conda.sh"; CONDA_CHANGEPS1=false conda activate base; else \export PATH="/home/eakinc/anaconda3/bin:$PATH";     fi; fi
-#unset __conda_setup
-## <<< conda init <<<
+## ##################################
+## ##    GIT
+## ##################################
+## Make git log pretty and easy to read
+alias gitlog='git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'
+## List your most recently-used branches using Git
+## https://ses4j.github.io/2020/04/01/git-alias-recent-branches/
+alias gitshow="git reflog show --pretty=format:'%gs ~ %gd' --date=relative"
+# Git aliases
+alias giti="git init"
+alias gits="git status"
+alias gitss="git status -sbu"
+alias gitco="git checkout"
+alias gitb="git checkout -b"
+alias gitp="git push"
+alias gitm="git checkout main"
+alias gitn="git --no-pager"
+alias gita="git add"
+alias gitcm="git commit -m"
+alias gitpl="git pull"
+alias gitst="git stash"
+alias gitstl="git stash list"
+alias gitlg='git log --graph --oneline --decorate --all'
+## Amend the commit message
+alias gitamend='git commit --admend -m'
+alias gitfuckit='git add . && git commit -m "Untracted changes." && git push'
+alias gitlogs="git log --graph -n 5 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gitroot='cd $(git rev-parse --show-toplevel)'
+alias init-project='git init && python3 -m venv .venv && source .venv/bin/activate'
+alias gitfuckit='git add . && git commit -m "Untracted changes." && git push'
+alias gitfucked='git reset --hard origin/master'
+##-----------------------------------------
+## Git shortcuts.
+alias ans='cd ~/code/infrastructure/ansible'
+alias ter='cd ~/code/infrastructure/terraform'
+alias inf='cd ~/code/infrastructure'
+alias cli='cd ~/code/LinuxCommands'
+alias prj='cd ~/Projects'
+## ##################################
+## ##    END GIT
+## ##################################
+##==============================
+## Function to display regex note.
+function regexpattern() { echo '
+##===================================
+##Pattern         Pattern meaning
+   no character    ## matches ""
+   .               ## matches any character
+   .*              ## matches any string
+   c               ## matches "c"
+   p1 p2           ## matches p1 then p2
+   p1|p2           ## matches p1 or p2
+   p*              ## matches "" or p repeated
+   p+              ## matches p repeated, but not ""
+   p?              ## matches p or ""
+   p{n}            ## matches p repeated n times
+   p{n,m}          ## matches p repeated n to m times
+   .               ## matches any character
+   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+   (p)             ## matches p, remembers submatch
+   \n              ## matches string from nth submatch
+   \b              ## matches a word boundary
+   \w              ## matches a word character, e.g., alphanumeric
+   \W              ## matches a nonword character, e.g., punctuation
+   \s              ## matches a whitespace character, e.g., space, tab, return
+   \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
+   \d              ## matches a digit character, i.e., 0-9
+   \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
+   ^               ## matches start of line/string
+   $               ## matches end of line/string
+   [c1-c2]         ## matches $c_1$ through $c_2$
+##===================================
+## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
+## BRE Pattern     Pattern meaning
+   no character    ## matches ""
+   c               ## matches "c"
+   p1p2            ## matches p1 then p2
+   p1\|p2          ## matches p1 or p2
+   p*              ## matches "" or p repeated
+   p\+             ## matches p repeated, but not ""
+   p\?             ## matches p or ""
+   p\{n\}          ## matches p repeated n times
+   p\{n,m\}        ## matches p repeated n to m times
+   .               ## matches any character
+   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+   \(p\)           ## matches p, remembers submatch
+   \n              ## matches string from nth submatch
+   \b              ## matches a word boundary
+   [[:word:]]      ## matches a word character, e.g., alphanumeric
+   [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
+   [[:digit:]]     ## matches a digit character, i.e., 0-9
+   [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
+   [[:upper:]]     ## matches a upperspaced character
+   [[:lower:]]     ## matches a lowerspaced character
+   ^               ## matches start of line/string
+   $               ## matches end of line/string
+   [c1-c2]         ## matches $c_1$ through $c_2$
+##=================================== ' ; }
+##==========================================
+## pdsh The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. Make ssh the default protocol
+export PDSH_RCMD_TYPE=ssh
+##==========================================
+## Alias to get rid of old ssh certs
+alias rmcert="rm ~/.ssh/a-*"
+##==========================================
+## To use with Sc API
+#alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
+##==========================================
+## Brightness OLED
+function brt() { xrandr --output eDP-1 --brightness $1; }
+##==========================================
+## Clipboard exmpl: pbpaste | awk -F "-"  '{print $1}' | pbcopy
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+##==========================================
+## Function to backup to 512gb sdcard
+## Quick backup. Avoid dot files, downloaded files, and cache.
+function sdbackup() {rsync -avhut --delete --delete-excluded --update \
+--exclude="$1" \
+--exclude="$2" \
+--exclude="Downloads" \
+--exclude="Pictures" \
+--exclude="appimage" \
+--exclude="code" \
+--exclude="Learning" \
+--exclude="Music" \
+--exclude="temp" \
+--exclude="mnt" \
+--exclude="go" \
+--exclude="tmp" \
+--exclude="VirtualBox VMs" \
+--exclude=".cache" \
+--exclude=".dbus" \
+--exclude=".docker" \
+--exclude=".dotnet" \
+--exclude=".gem" \
+--exclude=".gnome" \
+--exclude=".gnupg" \
+--exclude=".gphoto" \
+--exclude=".gsutil" \
+--exclude=".hplip" \
+--exclude=".icons" \
+--exclude=".idea" \
+--exclude=".ipython" \
+--exclude=".java" \
+--exclude=".jupyter" \
+--exclude=".linuxmint" \
+--exclude=".local" \
+--exclude=".minikube" \
+--exclude=".mozilla" \
+--exclude=".mozilla.default" \
+--exclude=".npm" \
+--exclude=".nv" \
+--exclude=".pki" \
+--exclude=".psensor" \
+--exclude=".pyenv" \
+--exclude=".pyenv.old" \
+--exclude=".ssr" \
+--exclude=".terraform.d" \
+--exclude=".themes" \
+--exclude=".thunderbird" \
+--exclude=".unison" \
+--exclude=".vagrant.d" \
+--exclude=".vim" \
+--exclude=".vscode" \
+--exclude=".w3m" \
+--exclude=".zoom" \
+--exclude=".zoom.old" \
+--exclude=".arcrc" \
+--exclude=".dmrc" \
+--exclude=".face" \
+--exclude=".fehbg" \
+--exclude=".gitconfig" \
+--exclude=".gtkrc-2.0" \
+--exclude=".gtkrc-xfce" \
+--exclude=".ICEauthority" \
+--exclude=".lesshst" \
+--exclude=".profile" \
+--exclude=".sudo_as_admin_successful" \
+--exclude=".wget-hsts" \
+--exclude=".xsession-errors" \
+--exclude=".xsession-errors.old" \
+--exclude=".yarnrc" \
+--exclude=".zcompdump" \
+--exclude=".zprofile" \
+--exclude=".config/google-chrome.old" \
+--exclude=".config/Slack" \
+--exclude=".config/GIMP" \
+--exclude=".config/unifi" \
+/home/$USER/ /media/$USER/512SD/home/$USER ; }
+## Recover from backup
+function sdbackdown() {rsync -avhut --omit-dir-times --no-perms --update \
+--exclude="$1" \
+--exclude="$2" \
+--exclude='.config' \
+--exclude='.cache' \
+/media/$USER/512SD/home/$USER/ /home/$USER ; }
+## Quick backup to file server. Empty all browser cache before running.
+function optiplex() {rsync -avhut --delete --delete-excluded --update \
+--exclude="$1" \
+--exclude="$2" \
+--exclude='.cache' \
+/home/$USER $USER@192.168.0.76:/data/$USER ; }
+##==========================================
+## env
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init --path)"
+#eval "$(pyenv init -)"
+##==========================================
+### #################################
+### ##    Jira rc
+### #################################
+### Jira cli
+### https://github.com/ankitpokhrel/jira-cli
+### jira init
+### Make jira issue
+### SW
+#function jiracreateSW() { jira issue create --type Task --custom Teams="Hardware Implementation" --summary "[HOT] ${1}" -b"${2}" -a$(jira me) ; }
+### HOT. Useage:  jiracreate "Subject issue." "Description of the tasks."
+##function jiracreate() { jira issue create --type Task --summary "[HOT] ${1}" -b"${2}" -a$(jira me) ; }
+#function jiracreate() { jira issue create --type Task --summary "${1}" -b"${2}" -a$(jira me) ; }
+#alias jiraw="jira issue list -w"
+#alias jirawp="jiraw --plain --no-truncate"
+##alias jiratodo="jira issue list -s"To Do" -a$(jira me)"
+#alias jiraa="jira issue list -s~Done"
+#alias jiraaa="jira issue list --plain -s~Done"
+#alias jirame="jira issue list -s~Done -a$(jira me)"
+#alias jirals='jira issue list -w --plain | grep "STATUS\|Do\|Progress" | grep -v Done'
+### Create an issue. Usage: jirac "[HWI] Your issue summary."
+##alias jirac='jira issue create --type Task --custom Teams="Hardware Implementation" --summary'
+#alias jirav='jira issue view --plain'
+### jira reporter
+#alias jiramer="jira issue list -r$(jira me)"
+#alias jirapme="jira issue list --plain -a$(jira me)"
+#alias jirapmer="jira issue list --plain -r$(jira me)"
+##alias jirapmer="jira issue list -a$(jira me) --status Backlog"
+#alias jiraSW="cp /home/$USER/.config/.jira/.config_SW.yml /home/$USER/.config/.jira/.config.yml"
+#alias jiraHOT="cp /home/$USER/.config/.jira/.config_HOT.yml /home/$USER/.config/.jira/.config.yml"
+## #################################
+##==========================================
+## HTTP
+alias http="google-chrome http://"
+alias https="google-chrome https://"
+##==========================================
+## Large Language Model. https://github.com/simonw/llm
+## TOKENS AT BOTTOM
+## llm environment. Usage: Start environment: llmd ; Then:  llm "One uplifting sentence" ; To stop: deactivate ; cd
+alias llmd="cd ~/code/llm_env ; source env/bin/activate ;"
+## Usage: llmdd "One uplifting sentence"   This does not work for some reason?
+#alias llmdd="cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; "
+function llmddd() {cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; }
+function llmdddd() {cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} ${2}; deactivate ; cd ; }
+##==========================================
+## Get project from bucket. Usage: bucketproject <BUCKETNAMEHERE> Example: bucketproject sc-calibration
+function bucketproject() { gcloud projects list | grep $(curl -s -H "Authorization: Bearer `gcloud auth print-access-token`" https://storage.googleapis.com/storage/v1/b/${1}  | jq  -r .projectNumber) ; }
+##==========================================
+## some systems puthon fails due to being upgraded to python3.
+alias python="python3"
+##==========================================
+## Change hosts file to ad block. From 2021, but still useful. https://winhelp2002.mvps.org/hosts.txt
+alias hostsoff="sudo cp /etc/hosts.default /etc/hosts"
+alias hostson="sudo cp /etc/hosts.list /etc/hosts"
+##==========================================
+## tuios  https://github.com/Gaurav-Gosain/tuios
+alias ttuios="tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position" top
+##==========================================
+## ###########################################
+## ##    END Functions and aliases
+## ###########################################
+##==========================================
+## ########################################
+## ##    TOKENS SECRETS SENSITIVE
+## ########################################
+## AWS Amazon Web Services specific settings add in the keys
+#export AWS_ACCESS_KEY_ID='YOURKEYHERE'
+#export AWS_SECRET_ACCESS_KEY='YOURKEYHERE'
+#export AWS_SESSION_TOKEN='YOURKEYHERE'
+##=========================================
+## ##    GIT SECRETS
+## github.com token PW for my private/public repo. Usage: git push, # will ask for Username for 'https://github.com': and Password for 'https://USERNAME@github.com':
+#export GITPASS=YOURKEYHERE
+## Expires 2023/12/30
+export GIT_TOKEN=YOURKEYHERE
+export GITHUB_TOKEN=$GIT_TOKEN
+##=========================================
+## huggingface_token 20260121_20:08:41
+huggingface_token=YOURKEYHERE
+export HF_TOKEN=YOURKEYHERE
+##==========================================
+## OpenAI
+## Large Language Model. https://github.com/simonw/llm
+export OPENAI_TOKEN=YOURKEYHERE
+##==========================================
+### Jira
+export JIRA_API_TOKEN=YOURKEYHERE
+##==========================================
+
+##==========================================
+## ########################################
+## ##    END TOKENS SECRETS SENSITIVE
+## ########################################
+##==========================================
 ## ###########################################################
-## #                    END .bashrc                          #
+## ##    END .bashrc
 ## ###########################################################
-## #########################
-## #     added by echo     #
-## #########################
+## #####################################
+## ##    added by other process
+## #####################################
+##==========================================
+
 COMMENT1
 ## #####################################
 ## ##    Prompt
@@ -4226,40 +4621,39 @@ COMMENT1
 ## A handy way under Linux is to use a "compose key" ([Alt Gr] on my setup),
 ## which allows you to compose accented characters by entering the accent
 ## (umlaut, accent grave, ...) and the unaccented character separately.
-##
-#$> é   [Alt Gr]+'   e
-#$> è   [Alt Gr]+`   e
-#$> ü   [Alt Gr]+"   u
-#$> ô   [Alt Gr]+^   o
-#$> ç   [Alt Gr]+,   c
-#$> ñ   [Alt Gr]+~   n
-#$> å   [Alt Gr]+o   a
-#$> æ   [Alt Gr]+a   e
-#$> Œ   [Alt Gr]+O   E
-#$> ø   [Alt Gr]+/   o
-#$> ß   [Alt Gr]+s   s
-#$> î   [Alt Gr]+^   i
-#$> â   [Alt Gr]+^   a
-#$> ¢   [Alt Gr]+|   c
-#$> €   [Alt Gr]+e   =
-#$> £   [Alt Gr]+l   -
-#$> ½   [Alt Gr]+1   2
-#$> ⅓   [Alt Gr]+1   3
-#$> ©   [Alt Gr]+o   c
-#$> °   [Alt Gr]+0   *
-#$> µ   [Alt Gr]+/   u
-#$> ±   [Alt Gr]+=   +
-#$> ®   [Alt Gr]+o   r
-#$> ™   [Alt Gr]+t   m
-#$> ø   [Alt Gr]+o   /
-#$> ß   [Alt Gr]+s   s
-#$> ¶   [Alt Gr]+p   !
-#$> ²   [Alt Gr]+2   ^
-#$> ⁴   [Alt Gr]+4   ^
-#$> ¿   [Alt Gr]+?   ?
-#$> ¡   [Alt Gr]+!   !
-#$> ÷   [Alt Gr]+-   :
-
+## Had to comment because of spare quotes.
+#$> é  = [Alt Gr]+'   e
+#$> è  = [Alt Gr]+`   e
+#$> ü  = [Alt Gr]+"   u
+#$> ô  = [Alt Gr]+^   o
+#$> ç  = [Alt Gr]+,   c
+#$> ñ  = [Alt Gr]+~   n
+#$> å  = [Alt Gr]+o   a
+#$> æ  = [Alt Gr]+a   e
+#$> Œ  = [Alt Gr]+O   E
+#$> ø  = [Alt Gr]+/   o
+#$> ß  = [Alt Gr]+s   s
+#$> î  = [Alt Gr]+^   i
+#$> â  = [Alt Gr]+^   a
+#$> ¢  = [Alt Gr]+|   c
+#$> €  = [Alt Gr]+e   =
+#$> £  = [Alt Gr]+l   -
+#$> ½  = [Alt Gr]+1   2
+#$> ⅓  = [Alt Gr]+1   3
+#$> ©  = [Alt Gr]+o   c
+#$> °  = [Alt Gr]+0   *
+#$> µ  = [Alt Gr]+/   u
+#$> ±  = [Alt Gr]+=   +
+#$> ®  = [Alt Gr]+o   r
+#$> ™  = [Alt Gr]+t   m
+#$> ø  = [Alt Gr]+o   /
+#$> ß  = [Alt Gr]+s   s
+#$> ¶  = [Alt Gr]+p   !
+#$> ²  = [Alt Gr]+2   ^
+#$> ⁴  = [Alt Gr]+4   ^
+#$> ¿  = [Alt Gr]+?   ?
+#$> ¡  = [Alt Gr]+!   !
+#$> ÷  = [Alt Gr]+-   :
 ##==========================================
 ## Extra Characters
 <<COMMENT1
@@ -5255,15 +5649,15 @@ $> rsync -a --delete empty-dir/ target-dir/
 ## Im not clear on why its faster than find -delete, but it is.
 ## Benchmarks here: https://web.archive.org/web/20130929001850/http://linuxnote.net/jianingy/en/linux/a-fast-way-to-remove-huge-number-of-files.html
 ##==========================================
-$> "SELECT strftime('%d.%m.%Y %H:%M:%S', dateAdded/1000000, 'unixepoch', 'localtime'),url FROM moz_places, moz_bookmarks WHERE moz_places.id = moz_bookmarks.fk ORDER BY dateAdded;"; done
 ## get all bookmarks from all profiles from firefox
-$> for i in $(ls /home/marco/.mozilla/firefox/*\.*/places.sqlite); do sqlite3 $i "SELECT strftime('%d.%m.%Y %H:%M:%S', dateAdded/1000000, 'unixepoch', 'localtime'),url FROM moz_places, moz_bookmarks WHERE moz_places.id = moz_bookmarks.fk ORDER BY dateAdded;"; done
+$> "SELECT strftime('%d.%m.%Y %H:%M:%S', dateAdded/1000000, 'unixepoch', 'localtime'),url FROM moz_places, moz_bookmarks WHERE moz_places.id = moz_bookmarks.fk ORDER BY dateAdded;"; done
+$> for i in $(ls /home/$USER/.mozilla/firefox/*\.*/places.sqlite); do sqlite3 $i "SELECT strftime('%d.%m.%Y %H:%M:%S', dateAdded/1000000, 'unixepoch', 'localtime'),url FROM moz_places, moz_bookmarks WHERE moz_places.id = moz_bookmarks.fk ORDER BY dateAdded;"; done
 ##==========================================
 ## Show running services (using systemctl)
 $> command systemctl --no-page --no-legend --plain -t service --state=running
 ##==========================================
-$> echo Which way up? | flip.pl | cowsay | tac | sed -e "s,/,+,g" -e "s,\\\,/,g" -e "s,+,\\\,g" -e "s,_,-,g" -e "s,\^,v,g"
 ## Inverted cowsay
+$> echo Which way up? | flip.pl | cowsay | tac | sed -e "s,/,+,g" -e "s,\\\,/,g" -e "s,+,\\\,g" -e "s,_,-,g" -e "s,\^,v,g"
 ## Its quite fun to invert text using "flip.pl" (ref: http://ubuntuforums.org/showthread.php?t=2078323 ).
 ## Slightly more challenging is to flip a whole "cowsay". :-)
 ##==========================================
@@ -5274,8 +5668,8 @@ $> ASN=32934; for s in $(whois -H -h riswhois.ripe.net -- -F -K -i $ASN | grep -
 ## Convert all flac files in dir to mp3 320kbps using ffmpeg
 $> for FILE in *.flac; do ffmpeg -i "$FILE" -b:a 320k "${FILE[@]/%flac/mp3}"; done;
 ##==========================================
-$> sed 'X{N;s/\n//;}' file.txt
 ## Embed next line on the end of current line using sed (where X is the current line)
+$> sed 'X{N;s/\n//;}' file.txt
 ## N: On the current line, sed will display it on pattern space, plus a \n (new line); but s/\n//: Will get rid of new line displayed on pattern space, joining the current lines end with the start of the next line
 ##==========================================
 $> sudo mount -o remount,rw / && sudo cp /etc/hosts /etc/hosts.old && Fhttp://winhelp2002.mvps.org/hosts.txt && cp /etc/hosts ~/ && cat hosts.txt >> hosts && sudo cp hosts /etc/hosts
@@ -5303,10 +5697,11 @@ $> awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' 
 ## optional: -F treat search term as a literal, not a regular expression optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
 $> greptext () { grep -iIHrn --color=always "$1" . | less -r ; }
 ##==========================================
-##
+## Edit video. ffmpeg is better
 $> videnctool -compose --file=vid1.avi --start=00:00:30:12 --end=00:01:45:00 --file=vid2.avi --start=00:05:00:00 --end=00:07:12:25 --file=mypicture.png --duration=00:00:02:00 --file=vid3.avi --start=00:02:00:00 --end=00:02:45:10 --output=editedvid.avi
 $> videnctool -compose --file=vid1.avi --start=00:00:01:12 --end=00:01:45:00 --output=editedvid.avi
 ##==========================================
+## video. Make a smaller file for sharing.
 $> ffmpeg -i input-file.mp4 -c:v libvpx -crf 10 -b:v 1M -c:a libvorbis output-file.webm
 ##==========================================
 ## Cut out a part starting at 00:01:30 into the original file with a 5 seconds length and that it shouldnt be reencoded (if you want to re-encode it youll have to replace copy with audio and video codecs, for a list of available audio codecs issue mencoder -oac help, for a list of available video codecs issue mencoder -ovc help), then you issue:
@@ -5499,18 +5894,17 @@ $> ss -t -o state established '( dport = :443 || dport = :80 )'|grep tcp|awk '{ 
 $> for i in *.flac; do flac -d -c "${i}" |lame -h --preset 196 --ta "Artist Here" --tl "Disc Title Here" --add-id3v2 - "./MP3/$i.mp3"; done
 ## Transcode original FLAC files to downsampled MP3 files in exclusive folder
 ##==========================================
-$> transfer() { basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g');curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile"|xsel --clipboard;xsel --clipboard ; }
-## access to the internet(http://transfer.sh)
 ## This is an alias utilizing the transfer.sh service to make sharing files easier from the command line. transfer.sh uses xsel to copy the resulting URL to the clipboard.
+## access to the internet(http://transfer.sh)
+$> transfer() { basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g');curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile"|xsel --clipboard;xsel --clipboard ; }
 $> transfer() { if [ $# -eq 0 ]; then echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" |xsel --clipboard; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" |xsel --clipboard ; fi; xsel --clipboard; }
 ##==========================================
-$> get_iplayer --type=radio --channel "Radio 4 Extra" | grep : | awk '{ if ( NR > 1 ) { print } }'|sed 's/:.*//' |sed '$ d' > pidlist && while read p; do get_iplayer --get --fields=pid $p; done <pidlist && rm pidlist
 ## grab all m4a file from bbc radio 4 extra for some easy audio ebbok listening
 ## use get_iplay to download all listed content from http://www.bbc.co.uk/radio4extra run every night to make sure no episodes are missed
+$> get_iplayer --type=radio --channel "Radio 4 Extra" | grep : | awk '{ if ( NR > 1 ) { print } }'|sed 's/:.*//' |sed '$ d' > pidlist && while read p; do get_iplayer --get --fields=pid $p; done <pidlist && rm pidlist
 ##==========================================
-$> netstat -np | grep -v ^unix
 ## Examine processes generating traffic on your website
-## I often have to google this so I put it here for quick reference.
+$> netstat -np | grep -v ^unix
 ##==========================================
 ## Replace all spaces with underscore in all files in current folder
 #$> rename 's/ /_/g' *
@@ -5518,14 +5912,14 @@ $> netstat -np | grep -v ^unix
 # Take screenshot of Android device using adb and save to filesystem
 $> adb shell screencap -p | sed 's/\r$//' > FILENAME.PNG
 ##==========================================
-$> weather() { curl -s "http://www.wunderground.com/q/zmw:$1.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'; }
 ## Get simple weather info from a zip code
+$> weather() { curl -s "http://www.wunderground.com/q/zmw:$1.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'; }
 ##==========================================
 ## List all the currently loaded old kernel packages, that is other than the active one
 $> dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
 ##==========================================
-$> net rpc shutdown -I ipAddressOfWindowsPC -U username%password
 ## Shutdown a Windows machine from Linux
+$> net rpc shutdown -I ipAddressOfWindowsPC -U username%password
 ## This will issue a shutdown command to the Windows machine. username must be an administrator on the Windows machine. Requires samba-common package installed. Other relevant commands are:
 ## net rpc shutdown -r : reboot the Windows machine
 ## net rpc abortshutdown : abort shutdown of the Windows machine
@@ -5955,19 +6349,18 @@ $> function sprunge() { curl -s -F "sprunge=@$1" http://sprunge.us | xclip -sele
 ##==========================================
 ## Files, Text,
 ## Create simple text file from command line or script (EOF is just a token, can be any word)
-#cat > file.txt <<EOF
+$> cat << EOF > file.txt
 $> your text here
 $> more text here
-$> EOF
-## or with tee
-## Make multi line file and end with EOF
-#$> sudo tee /etc/path/file << EOF
+EOF
+## Make multi line file to make it owned by root.
+$> sudo tee /etc/path/file << EOF
 $> [multiline]
 $> name=Info here
 $> baseurl=https://site/
 $> setting=1
 $> enabled=1
-$> EOF
+EOF
 ##==========================================
 ## Files, Networking,
 ## Share a file between two computers
@@ -6174,7 +6567,7 @@ $> function qrcode() { echo "$1" | curl -F-=\<- qrenco.de ; }
 ##==========================================
 ## Bash scripts encryption and passphrase-protection
 ## This function will encrypt a bash script and will only execute it after providing the passphrase. Requires mcrypt to be installed on the system.
-$>  scrypt(){ [ -n "$1" ]&&{ echo '. <(echo "$(tail -n+2 $0|base64 -d|mcrypt -dq)"); exit;'>$1.scrypt;cat $1|mcrypt|base64 >>$1.scrypt;chmod +x $1.scrypt;};}
+$> scrypt(){ [ -n "$1" ]&&{ echo '. <(echo "$(tail -n+2 $0|base64 -d|mcrypt -dq)"); exit;'>$1.scrypt;cat $1|mcrypt|base64 >>$1.scrypt;chmod +x $1.scrypt;};}
 $> cat hello
 #!/bin/bash
 #> case "$1" in
@@ -6573,7 +6966,7 @@ $> X^2^
 ## ##    END Markdown
 ## ###############################
 ##==========================================
-##  multimedia. image. hardware camera. exif data
+## multimedia. image. hardware camera. exif data
 ## Read write exif data
 $> sudo apt-get install libimage-exiftool-perl
 ## Extract and view all EXIF metadata from an image or photo:
@@ -6839,26 +7232,19 @@ $> mkdir Dockerfile; cd Dockerfile
 $> echo '
 # Use an official Python runtime as a parent image
 FROM python:3.7-slim
-
 # Set the working directory to /app
 WORKDIR /app
-
 # Copy the current directory contents into the container at /app
 COPY . /app
-
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
-
 # Set proxy server, replace host:port with values for your servers
 #ENV http_proxy host:port
 #ENV https_proxy host:port
-
 # Make port 80 available to the world outside this container, can you 8080 or another port
 EXPOSE 80
-
 # Define environment variable
 ENV NAME World
-
 # Run app.py when the container launches
 CMD ["python", "app.py"]
 ' > Dockerfile
@@ -6909,9 +7295,11 @@ $> docker run -p 4000:80 friendlyhello
 $> w3m -dump http://localhost:4000
 ## run the app in the background, in detached mode:
 $> docker run -d -p 4000:80 friendlyhello
-## Check the running container, will show CONTAINER ID
+## Check the running container, will show CONTAINER ID and NAME at the end.
 $> docker container ls
-## Stop by CONTAINER ID
+## Stop by NAME.
+$> docker container stop friendlyhello
+## Stop by CONTAINER ID, or can use the name
 $> docker container stop 1fa4ab2cf395
 ## Can publish the images on Dockerhub, once published can be run on any machine
 ## Will pull and run Docker image
@@ -6945,10 +7333,8 @@ $> echo '
 #' > docker-compose.yml
 ## Remove leading #
 $> sed -i 's/^#//g' ./docker-compose.yml
-
-## https://docker-curriculum.com/
+$> firefox https://docker-curriculum.com/
 ## Read and do walkthrough on elasticsearch
-
 ## ######################
 ## ##    END Docker
 ## ######################
@@ -7105,7 +7491,7 @@ $>  "mp                              " ## pick buffer and put
 ##------------------------------------------
 ## enable the SSL module.
 $> sudo a2enmod ssl
-##  Generate the CSR. remember passphrase!
+## Generate the CSR. remember passphrase!
 $> sudo openssl req -new > new.ssl.csr
 #> fill out the questions normally have verified by a Certificate Signing Authority:
 ## writing new private key to 'privkey.pem'
@@ -7132,35 +7518,35 @@ $> sudo chmod 770 /etc/ssl/private/server.key
 $> sudo echo -e 'NameVirtualHost *:443\nNameVirtualHost *:80\n\n<VirtualHost *:80>\n    ServerAdmin email address here\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n</VirtualHost>\n\n<VirtualHost *:443>\n    ServerAdmin\n This e-mail address is being protected from spambots.\n\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n\n    SSLEngine on\n    SSLOptions +StrictRequire\n    SSLCertificateFile /etc/ssl/certs/server.crt\n    SSLCertificateKeyFile /etc/ssl/private/server.key\n</VirtualHost>\n' > /etc/apache2/sites-available/mydomain.net
 ## or multi line
 $> sudo echo '
-#NameVirtualHost *:443
-#NameVirtualHost *:80
-#
-#<VirtualHost *:80>
-#    ServerAdmin email address here
-#    ServerName mydomain.net
-#    ServerAlias www.mydomain.net
-#    DocumentRoot /var/www/mydomain.net/public_html/
-#    ErrorLog /var/www/mydomain.net/logs/error.log
-#    CustomLog /var/www/mydomain.net/logs/access.log combined
-#</VirtualHost>
-#
-#<VirtualHost *:443>
-#    ServerAdmin
-# This e-mail address is being protected from spambots.
-#
-#    ServerName mydomain.net
-#    ServerAlias www.mydomain.net
-#    DocumentRoot /var/www/mydomain.net/public_html/
-#
-#    ErrorLog /var/www/mydomain.net/logs/error.log
-#    CustomLog /var/www/mydomain.net/logs/access.log combined
-#
-#    SSLEngine on
-#    SSLOptions +StrictRequire
-#    SSLCertificateFile /etc/ssl/certs/server.crt
-#    SSLCertificateKeyFile /etc/ssl/private/server.key
-#</VirtualHost>
-#' > /etc/apache2/sites-available/mydomain.net
+$> NameVirtualHost *:443
+$> NameVirtualHost *:80
+$>
+$> <VirtualHost *:80>
+$>     ServerAdmin email address here
+$>     ServerName mydomain.net
+$>     ServerAlias www.mydomain.net
+$>     DocumentRoot /var/www/mydomain.net/public_html/
+$>     ErrorLog /var/www/mydomain.net/logs/error.log
+$>     CustomLog /var/www/mydomain.net/logs/access.log combined
+$> </VirtualHost>
+$>
+$> <VirtualHost *:443>
+$>     ServerAdmin
+$>  This e-mail address is being protected from spambots.
+$>
+$>     ServerName mydomain.net
+$>     ServerAlias www.mydomain.net
+$>     DocumentRoot /var/www/mydomain.net/public_html/
+$>
+$>     ErrorLog /var/www/mydomain.net/logs/error.log
+$>     CustomLog /var/www/mydomain.net/logs/access.log combined
+$>
+$>     SSLEngine on
+$>     SSLOptions +StrictRequire
+$>     SSLCertificateFile /etc/ssl/certs/server.crt
+$>     SSLCertificateKeyFile /etc/ssl/private/server.key
+$> </VirtualHost>
+$> ' > /etc/apache2/sites-available/mydomain.net
 ## Remove leading # in file
 $> sudo sed -i 's/^#//g' /etc/apache2/sites-available/mydomain.net
 ## for new domain run: sets up a symlink under /etc/apache2/sites-enabled that links to the configuration in /etc/apache2/sites-available
@@ -7170,8 +7556,8 @@ $> sudo a2ensite mydomain.net
 ## look through all text files in whole folders and subfolders for a pattern.
 $> grep -HrnF "pattern"
 ##==========================================
-## GUI
-## https://obsproject.com/
+## GUI. Video recording and live streaming app. BEST!
+$> firefox https://obsproject.com/
 ## video recording and live streaming
 $> sudo add-apt-repository ppa:obsproject/obs-studio
 $> sudo apt-get update
@@ -7205,13 +7591,15 @@ $> echo ${month%Dec}          ## % tells the shell you want to chop something of
 $> a="Hello World\!"          ## Have to escape the '!'.
 $> echo Goodbye${a#Hello}     ## Chop off a chunk from the beginning of a variable, instead of %, use #:
 ##==========================================
-#!/bin/bash
-## Read from input script.
+## bash. syntax.
+$> echo '#!/bin/bash
+$> ## Read from input script.
 $> clear
 $> read -p "Press enter to start."
 $> echo -e "Enter your name. "
 $> read name
-$> echo "Your name is $name"
+$> echo "Your name is $name"' > name.sh
+$> ./name.sh
 ##==========================================
 ## Standard error.
 ## 2>> appends standard error to a file >> appends command output
@@ -7574,18 +7962,18 @@ $> sudo apt-get install ansible
 ## Add ssh keys to servers
 ## Create hosts file, --- make headers [name] no spaces in names, followed by IP or URL.
 $> echo '
-#---
-### Groups of hosts delimited by [header] elements reflecting practical groups requiring scripting
-### Use qualified names or IP addresses
-### Group by tasks that need to be performed on the clients
-#[group1]
-#192.168.1.10                               ## Human readable description of computer
-#192.168.1.11                               ## Human readable description of computer
-#
-#[group2]
-#192.168.1.12                               ## Human readable description of computer
-#192.168.1.13                               ## Human readable description of computer
-#...' > ./ansible/hosts_inventory
+$> ---
+$> ## Groups of hosts delimited by [header] elements reflecting practical groups requiring scripting
+$> ## Use qualified names or IP addresses
+$> ## Group by tasks that need to be performed on the clients
+$> [group1]
+$> 192.168.1.10                               ## Human readable description of computer
+$> 192.168.1.11                               ## Human readable description of computer
+$>
+$> [group2]
+$> 192.168.1.12                               ## Human readable description of computer
+$> 192.168.1.13                               ## Human readable description of computer
+$> ...' > ./ansible/hosts_inventory
 ## Remove leading #
 $> sed -i 's/^#//g' ./ansible/hosts_inventory
 ## Ad-hoc commands;
@@ -7621,44 +8009,44 @@ $> ansible-playbook --inventory /home/$USER/.ansible/hosts /home/$USER/.ansible/
 ##------------------------------------------
 ## Create a playbook. Change to match your needs. Note instructions for sudo requiring task
 $> echo '
-#---
-### First script for group
-#- name: Script to test ancible              ## Label
-#  hosts: group1                             ## What hosts are efffected
-#  remote_user: user                         ## User on remote machine
-#  vars:                                     ## Set variables for use in script
-#
-#   tasks:                                   ##
-### First task
-#   - name: Human readable label for action  ## Label
-#     module: action                         ## using the module perform the action
-### Second task which requires sudo root privileges. Be sure to add --ask-become-pass to command line to propt for password
-#   - name: Human readable label for action  ## Label
-#     become: yes                            ## become defaults to root, to become another user substitute "yes" for the username
-#     module: action                         ## using the module perform the action
-#
-#
-### Second script for diff group
-#- name: Script to test ancible              ## Label
-#  hosts: group2                             ## What hosts are efffected
-#  remote_user: user                         ## User on remote machine
-#  vars:                                     ## Set variables for use in script
-#
-#   tasks:                                                 ##
-### First task
-#   - name: Human readable label for action                ## Label
-#     module: action                                       ## using the module perform the action
-### Second task which requires sudo root privileges. Be sure to add --ask-become-pass to command line
-#   - name: Human readable label for action                ## Label
-#     become: yes                                          ## become defaults to root, to become another user substitute "yes" for the username
-#      apt: name={{item}} state=present update_cache=yes   ## install web server software usinf apt and var substitution
-#      with_items:
-#      - php5-cli
-#      - apache2
-#      - mysql-server-5
-#' > ./playbook.yml
+$> ---
+$> ## First script for group
+$> - name: Script to test ancible              ## Label
+$>   hosts: group1                             ## What hosts are efffected
+$>   remote_user: user                         ## User on remote machine
+$>   vars:                                     ## Set variables for use in script
+$>
+$>    tasks:                                   ##
+$> ## First task
+$>    - name: Human readable label for action  ## Label
+$>      module: action                         ## using the module perform the action
+$> ## Second task which requires sudo root privileges. Be sure to add --ask-become-pass to command line to propt for password
+$>    - name: Human readable label for action  ## Label
+$>      become: yes                            ## become defaults to root, to become another user substitute "yes" for the username
+$>      module: action                         ## using the module perform the action
+$>
+$>
+$> ## Second script for diff group
+$> - name: Script to test ancible              ## Label
+$>   hosts: group2                             ## What hosts are efffected
+$>   remote_user: user                         ## User on remote machine
+$>   vars:                                     ## Set variables for use in script
+$>
+$>    tasks:                                                 ##
+$> ## First task
+$>    - name: Human readable label for action                ## Label
+$>      module: action                                       ## using the module perform the action
+$> ## Second task which requires sudo root privileges. Be sure to add --ask-become-pass to command line
+$>    - name: Human readable label for action                ## Label
+$>      become: yes                                          ## become defaults to root, to become another user substitute "yes" for the username
+$>       apt: name={{item}} state=present update_cache=yes   ## install web server software usinf apt and var substitution
+$>       with_items:
+$>       - php5-cli
+$>       - apache2
+$>       - mysql-server-5
+$> ' > ./playbook.yml
 ## Remove leading #
-$> sed -i 's/^#//g' ./playbook.yml
+$> sed -i 's/^$> //g' ./playbook.yml
 ##-------------------------------------------
 ## Run ansible playbook with a specified inventory file and playbook, uses -become line in playboook which requires sudo so use  --ask-become-pass
 $> ansible-playbook --inventory /home/$USER/.ansible/hosts /home/$USER/.ansible/playbook.yml --ask-become-pass
@@ -7720,10 +8108,10 @@ $> apt-get install lightdm xfce4
 $> sudo nano /etc/lightdm/lightdm.conf
 ## Add following lines to the lightdm.conf file:
 $> sudo echo '
-$#[SeatDefaults]
-$#allow-guest=false
-$#user-session=xfce
-' >> /etc/lightdm/lightdm.conf
+$> [SeatDefaults]
+$> allow-guest=false
+$> user-session=xfce
+$> ' >> /etc/lightdm/lightdm.conf
 ## Remove leading #
 $> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
 ## Save the file and restart the server:
@@ -7752,10 +8140,10 @@ $> systemctl isolate graphical.target
 $> apt-get install xorg lightdm lxde lxde-core lxsession-logout network-manager
 ## Add following lines to the /etc/lightdm/lightdm.conf file and restart the computer.
 $> sudo echo '
-$# [SeatDefaults]
-$# allow-guest=false
-$# user-session=LXDE
-$# ' > /etc/lightdm/lightdm.conf
+$> [SeatDefaults]
+$> allow-guest=false
+$> user-session=LXDE
+$> ' > /etc/lightdm/lightdm.conf
 ## Remove leading #
 $> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
 ##==========================================
@@ -7764,44 +8152,44 @@ $> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
 ## ####################################
 ##------------------------------------------
 ## Sample script with; var if then else elif fi
-# #!/bin/bash
-# echo -n "Enter a number: "
-# read VAR
-# if [[ $VAR -gt 10 ]]
-# then
-#   echo "Variable is greater than 10."
-# elif [[ $VAR -eq 10 ]]
-# then
-#   echo "Variable is equal to 10."
-# else
-#   echo "Variable is less than 10."
-# fi
+$> #!/bin/bash
+$> echo -n "Enter a number: "
+$> read VAR
+$> if [[ $VAR -gt 10 ]]
+$> then
+$>   echo "Variable is greater than 10."
+$> elif [[ $VAR -eq 10 ]]
+$> then
+$>   echo "Variable is equal to 10."
+$> else
+$>   echo "Variable is less than 10."
+$> fi
 ##---------------------------------------
 ## Sample script with nested; var if then else fi
-# #!/bin/bash
-# echo -n "Enter the first number: "
-# read VAR1
-# echo -n "Enter the second number: "
-# read VAR2
-# echo -n "Enter the third number: "
-# read VAR3
-#
-# if [[ $VAR1 -ge $VAR2 ]]
-# then
-#   if [[ $VAR1 -ge $VAR3 ]]
-#   then
-#     echo "$VAR1 is the largest number"
-#   else
-#     echo "$VAR3 is the largest number"
-#   fi
-# else
-#   if [[ $VAR2 -ge $VAR3 ]]
-#   then
-#     echo "$VAR2 is the largest number"
-#   else
-#     echo "$VAR3 is the largest number"
-#   fi
-# fi
+$> #!/bin/bash
+$> echo -n "Enter the first number: "
+$> read VAR1
+$> echo -n "Enter the second number: "
+$> read VAR2
+$> echo -n "Enter the third number: "
+$> read VAR3
+$>
+$> if [[ $VAR1 -ge $VAR2 ]]
+$> then
+$>   if [[ $VAR1 -ge $VAR3 ]]
+$>   then
+$>     echo "$VAR1 is the largest number"
+$>   else
+$>     echo "$VAR3 is the largest number"
+$>   fi
+$> else
+$>   if [[ $VAR2 -ge $VAR3 ]]
+$>   then
+$>     echo "$VAR2 is the largest number"
+$>   else
+$>     echo "$VAR3 is the largest number"
+$>   fi
+$> fi
 ##==========================================
 ## files. Make backup while using sed on file
 $> sed -i.bak '/pattern to match/d' ./infile
@@ -7842,7 +8230,7 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ##   web browser: Firefox, and Eww (Emacs);
 ##   simple file server: Emacs Web Server;
 ##   emacs: Emacs.
-#apt, snap, flatpack, and guix
+##   apt, snap, flatpack, and guix
 ##==========================================
 ## GUI. web browser
 ## press Ctrl+Shift+R in your browser to force a refresh of your local cache
@@ -7850,7 +8238,7 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ### multimedia. 3d. Unity3d
 ## Step 1: Installing Unity3d
 ## To install UnityHub go to this link
-https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-download.650455/
+$> firefox https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-download.650455/
 ## Scroll down to download the latest version.
 ## after downloading right-click on the file and go to properties and then permissions and then make executable.
 ## now just run it and use it.
@@ -7858,14 +8246,13 @@ https://forum.unity.com/threads/unity-hub-v2-0-beta-is-now-available-for-downloa
 $> sudo apt install libgconf-2-4
 ## To install Unity3d without UnityHub go to this link
 ## Scroll down to download the latest version.
-https://forum.unity.com/threads/unity-on-linux-release-notes-and-known-issues.350256/page-2
-## after downloading right-click on the file and go to properties and then permissions and then make executable.
-now just run it and use it.
+$> firefox https://forum.unity.com/threads/unity-on-linux-release-notes-and-known-issues.350256/page-2
+## After downloading right-click on the file and go to properties and then permissions and then make executable.
 ## You may need to install this additional dependency:
 $> sudo apt install libgconf-2-4
 ## Step 2: Installing Visual studio Code (VSCODE)
 ## To install VSCode go to this link
-https://code.visualstudio.com/
+$> firefox https://code.visualstudio.com/
 ## after installing
 ## go to mono project and install mono for VSCode in this link
 $> firefox https://www.mono-project.com/download/vs/
@@ -7895,18 +8282,18 @@ $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
 ## web. Get Your IP Geographic Location with curl and jq
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
 ##==========================================
-## fles, Directories that contain lots of files, this script may help:
-$> cat countum.sh << EOF
-#!/bin/bash
-# count_em - count files in all subdirectories under current directory.
-echo 'echo $(ls -a "$1" | wc -l) $1' >/tmp/count_em_$$
-chmod 700 /tmp/count_em_$$
-find . -mount -type d -print0 | xargs -0 -n1 /tmp/count_em_$$ | sort -n
-rm -f /tmp/count_em_$$
+## files. Directories that contain lots of files, this script may help:
+$> cat << EOF > countum.sh
+$> #!/bin/bash
+$> ## count_em - count files in all subdirectories under current directory.
+$> echo 'echo $(ls -a "$1" | wc -l) $1' >/tmp/count_em_$$
+$> chmod 700 /tmp/count_em_$$
+$> find . -mount -type d -print0 | xargs -0 -n1 /tmp/count_em_$$ | sort -n
+$> rm -f /tmp/count_em_$$
 EOF
 ##==========================================
-## http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux
-## use RSYNC to DELETE the large number of files
+## Use RSYNC to DELETE the large number of files.
+$> firefox http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux
 $> rsync -a --delete blanktest/ test/
 ##==========================================
 ## Problem with high inode useage
@@ -8171,55 +8558,54 @@ https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-conf
 ## ###############################################
 ## ##    Make a table
 ## ###############################################
-       ┌────────────────────────────────┬───────────────────────────────────────────────────┐
-       │Path                            │ Description                                       │
-       ├────────────────────────────────┼───────────────────────────────────────────────────┤
-       │$XDG_CONFIG_HOME/systemd/user   │ Fill in the content                               │
-       │                                │                                                   │
-       ├────────────────────────────────┼───────────────────────────────────────────────────┤
-       │/usr/lib/systemd/user           │ Units of packages that have been installed        │
-       │                                │                                                   │
-       └────────────────────────────────┴───────────────────────────────────────────────────┘
-
- ┌────────────────────────────────┬───────────────────────────────────────────────────┐
- │                                │                                                   │
- ├────────────────────────────────┼───────────────────────────────────────────────────┤
- │                                │                                                   │
- ├────────────────────────────────┼───────────────────────────────────────────────────┤
- │                                │                                                   │
- └────────────────────────────────┴───────────────────────────────────────────────────┘
-## Make a box
-┌──────────┐
-│          │
-│          │
-│          │
-│          │
-└──────────┘
-
-┌───────────────────────────────┐
-│                               │
-└───────────────────────────────┘
-|
-╢
-
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-╟──────────────────────────────────────────────────────────────────────╢
-║                                                                      ║
-╟─────────────┬──────────────┬───────────┬─────────────┬───────────────╢
-║             │              │           │             │               ║
-╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
-║             │              │           │             │               ║
-╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
-║             │              │           │             │               ║
-╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
-║             │              │           │             │               ║
-╟─────────────┴──────────────┴───────────┴─────────────┴───────────────╢
-║                                                                      ║
-╟──────────────────────────────────────────────────────────────────────╢
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
-
+$>        ┌────────────────────────────────┬───────────────────────────────────────────────────┐
+$>        │Path                            │ Description                                       │
+$>        ├────────────────────────────────┼───────────────────────────────────────────────────┤
+$>        │$XDG_CONFIG_HOME/systemd/user   │ Fill in the content                               │
+$>        │                                │                                                   │
+$>        ├────────────────────────────────┼───────────────────────────────────────────────────┤
+$>        │/usr/lib/systemd/user           │ Units of packages that have been installed        │
+$>        │                                │                                                   │
+$>        └────────────────────────────────┴───────────────────────────────────────────────────┘
+$>
+$>  ┌────────────────────────────────┬───────────────────────────────────────────────────┐
+$>  │                                │                                                   │
+$>  ├────────────────────────────────┼───────────────────────────────────────────────────┤
+$>  │                                │                                                   │
+$>  ├────────────────────────────────┼───────────────────────────────────────────────────┤
+$>  │                                │                                                   │
+$>  └────────────────────────────────┴───────────────────────────────────────────────────┘
+## Make a box.
+$> ┌──────────┐
+$> │          │
+$> │          │
+$> │          │
+$> │          │
+$> └──────────┘
+$>
+$> ┌───────────────────────────────┐
+$> │                               │
+$> └───────────────────────────────┘
+$> |
+$> ╢
+## Table.
+$> ╔══════════════════════════════════════════════════════════════════════╗
+$> ║                                                                      ║
+$> ╟──────────────────────────────────────────────────────────────────────╢
+$> ║                                                                      ║
+$> ╟─────────────┬──────────────┬───────────┬─────────────┬───────────────╢
+$> ║             │              │           │             │               ║
+$> ╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+$> ║             │              │           │             │               ║
+$> ╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+$> ║             │              │           │             │               ║
+$> ╟─────────────┼──────────────┼───────────┼─────────────┼───────────────╢
+$> ║             │              │           │             │               ║
+$> ╟─────────────┴──────────────┴───────────┴─────────────┴───────────────╢
+$> ║                                                                      ║
+$> ╟──────────────────────────────────────────────────────────────────────╢
+$> ║                                                                      ║
+$> ╚══════════════════════════════════════════════════════════════════════╝
 ## ###############################################
 ## ###############################################
 ##==========================================
@@ -8564,7 +8950,7 @@ $> Wireshark                ## network protocol analyzer.
 ##==========================================
 ## file. code. A one-liner version number incrementor
 ## For a project Im maintaining Ive written a release script, after bodging one too many releases. For this, I came up with this helpful little snippet to increment version numbers.
-inc_version() { awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1 ; }
+$> inc_version() { awk -F. -vOFS=. '{ $ver++; while(ver++<NF) $ver=0; print $0 }' ver=$1 ; }
 ## You just give it a version number on stdin, tell it which part you need incremented, and youll get it properly changed on stdout. Fields right of the one given get zeroed out.
 $> echo "1.2.3" | inc_version 3   ## 1.2.4
 $> echo "1.2.3" | inc_version 2   ## 1.3.0
@@ -8702,7 +9088,7 @@ $> uv run python app.py
 ## ##    Chromecast
 ## #######################################################
 ## multimedia. video. cast. Control chromecast with cli  Awesome!
-## https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
+$> firefox https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
 ##-------------------------------
 ## Chromecast from cli
 $> sudo apt install python3-pip python3-setuptools
@@ -8823,21 +9209,21 @@ $> apt install dconf-editor
 ## For the list of keys...
 ## CODE: SELECT ALL
 $> gsettings list-recursively org.gnome.Vino
-$@    org.gnome.Vino notify-on-connect true
-$@    org.gnome.Vino alternative-port uint16 5900
-$@    org.gnome.Vino disable-background false
-$@    org.gnome.Vino use-alternative-port false
-$@    org.gnome.Vino icon-visibility 'always'
-$@    org.gnome.Vino use-upnp false
-$@    org.gnome.Vino view-only false
-$@    org.gnome.Vino prompt-enabled false
-$@    org.gnome.Vino disable-xdamage true
-$@    org.gnome.Vino authentication-methods ['vnc']
-$@    org.gnome.Vino network-interface ''
-$@    org.gnome.Vino require-encryption false
-$@    org.gnome.Vino mailto ''
-$@    org.gnome.Vino lock-screen-on-disconnect false
-$@    org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
+$>    org.gnome.Vino notify-on-connect true
+$>    org.gnome.Vino alternative-port uint16 5900
+$>    org.gnome.Vino disable-background false
+$>    org.gnome.Vino use-alternative-port false
+$>    org.gnome.Vino icon-visibility 'always'
+$>    org.gnome.Vino use-upnp false
+$>    org.gnome.Vino view-only false
+$>    org.gnome.Vino prompt-enabled false
+$>    org.gnome.Vino disable-xdamage true
+$>    org.gnome.Vino authentication-methods ['vnc']
+$>    org.gnome.Vino network-interface ''
+$>    org.gnome.Vino require-encryption false
+$>    org.gnome.Vino mailto ''
+$>    org.gnome.Vino lock-screen-on-disconnect false
+$>    org.gnome.Vino vnc-password 'cGE1NXcwcmQ='
 ## The password key is not stored in plain text its hashed. To generate the hash from the plaintext password 'pa55w0rd' (do use something more secure!)
 ## CODE: SELECT ALL
 $> echo -n 'pa55w0rd' | base64 cGE1NXcwcmQ=
@@ -8848,7 +9234,7 @@ $> /usr/lib/vino/vino-server --sm-disable
 ## This is me connecting from my phone (with the settings as listed above).
 ##==========================================
 ## Install phabricator howto
-$> https://www.youtube.com/watch?v=yX3us669EvY
+$> firefox https://www.youtube.com/watch?v=yX3us669EvY
 ##==========================================
 ## GUI. VNC. Install x11vnc:
 $> sudo apt-get -y install x11vnc
@@ -8860,17 +9246,16 @@ $> sudo x11vnc --storepasswd /etc/x11vnc/vncpwd
 ## Create the systemd service file for the x11vnc service:
 $> sudo nano /lib/systemd/system/x11vnc.service
 ## Copy/Paste this code into the empty file:
-$#    [Unit]
-$#    Description=Start x11vnc at startup.
-$#    After=multi-user.target
-$#
-$#    [Service]
-$#    Type=simple
-$#    ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
-$#
-$#    [Install]
-$#    WantedBy=multi-user.target
-$#
+$>    [Unit]
+$>    Description=Start x11vnc at startup.
+$>    After=multi-user.target
+$>
+$>    [Service]
+$>    Type=simple
+$>    ExecStart=/usr/bin/x11vnc -auth guess -forever -noxdamage -repeat -rfbauth /etc/x11vnc/vncpwd -rfbport 5900 -shared
+$>
+$>    [Install]
+$>    WantedBy=multi-user.target
 ## Reload the services:
 $> sudo systemctl daemon-reload
 ## Enable the x11vnc service at boot time:
@@ -8938,9 +9323,9 @@ $> ./configure
 $> make
 ## Put it in /usr/local/bin
 $> sudo make install
-#@    install -d /usr/local/bin /usr/local/share/man/man1
-#@    install -s imgcat /usr/local/bin
-#@    install -m 644 docs/imgcat.1 /usr/local/share/man/man1
+$> install -d /usr/local/bin /usr/local/share/man/man1
+$> install -s imgcat /usr/local/bin
+$> install -m 644 docs/imgcat.1 /usr/local/share/man/man1
 ## Try it out, super cool
 $> imgcat face.png
 $> imgcat -H face.png
@@ -8967,8 +9352,8 @@ $> wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 ## Add autosuggestion
 $> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ## Add to ~/.zshrc
-#@ plugins=(git zsh-autosuggestions)
-#@ source $ZSH/oh-my-zsh.sh
+$> echo 'plugins=(git zsh-autosuggestions)
+$> source $ZSH/oh-my-zsh.sh' >> ~/.zshrc
 ##--------------------
 ## OR
 ## Manual (Git Clone)
@@ -8997,14 +9382,6 @@ $> echo $0
 $> cat /etc/shells
 ## Choose default shell, must sign back
 ##--------------------
-## Install Oh My zsh
-$> wget --no-check-certificate http://install.ohmyz.sh -O - | sh
-## Add autosuggestion
-$> git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-## Add to ~/.zshrc
-#@ plugins=(git zsh-autosuggestions)
-#@ source $ZSH/oh-my-zsh.sh
-##--------------------in to get new shell
 ## Make zsh default shell: need password
 $> chsh -s $(which zsh)
 $> chsh -s /bin/zsh
@@ -9030,9 +9407,9 @@ $> echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~
 $> source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh=
 ##==========================================
 ## Remove git tags
-git tag -d $(git for-each-ref --format='%(refname:short)' 'refs/tags/phabricator')
+$> git tag -d $(git for-each-ref --format='%(refname:short)' 'refs/tags/phabricator')
 ## Or nuke all tags then re-pull.
-git tag -l | xargs git tag -d; git pull --tags
+$> git tag -l | xargs git tag -d; git pull --tags
 ##==========================================
 ## gui mouse. Change functions of mouse buttons
 $> firefox http://xahlee.info/linux/linux_swap_mouse_buttons.html
@@ -9143,29 +9520,29 @@ $>  ]     ## end a sequence of non-printing characters
 $> sudo apt-get install pulseaudio-bluetooth
 ## add the following two lines to /etc/pulse/system.pa and
 $> sudo echo "load-module module-bluetooth-policy
-load-module module-bluetooth-discover" >> /etc/pulse/system.pa
+$> load-module module-bluetooth-discover" >> /etc/pulse/system.pa
 ##==========================================
 ### Redirects
 ##           || visible in terminal ||   visible in file   || existing
 ##   Syntax  ||  StdOut  |  StdErr  ||  StdOut  |  StdErr  ||   file
-#==========++==========+==========++==========+==========++===========
-$>     >     ||    no    |   yes    ||   yes    |    no    || overwrite
-$>     >>    ||    no    |   yes    ||   yes    |    no    ||  append
-$>           ||          |          ||          |          ||
-$>    2>     ||   yes    |    no    ||    no    |   yes    || overwrite
-$>    2>>    ||   yes    |    no    ||    no    |   yes    ||  append
-$>           ||          |          ||          |          ||
-$>    &>     ||    no    |    no    ||   yes    |   yes    || overwrite
-$>    &>>    ||    no    |    no    ||   yes    |   yes    ||  append
-$>           ||          |          ||          |          ||
-$>  | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
-$>  | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
-$>           ||          |          ||          |          ||
-$>  n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
-$>  n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
-$>           ||          |          ||          |          ||
-$> |& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
-$> |& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
+##==========++==========+==========++==========+==========++===========
+##     >     ||    no    |   yes    ||   yes    |    no    || overwrite
+##     >>    ||    no    |   yes    ||   yes    |    no    ||  append
+##           ||          |          ||          |          ||
+##    2>     ||   yes    |    no    ||    no    |   yes    || overwrite
+##    2>>    ||   yes    |    no    ||    no    |   yes    ||  append
+##           ||          |          ||          |          ||
+##    &>     ||    no    |    no    ||   yes    |   yes    || overwrite
+##    &>>    ||    no    |    no    ||   yes    |   yes    ||  append
+##           ||          |          ||          |          ||
+##  | tee    ||   yes    |   yes    ||   yes    |    no    || overwrite
+##  | tee -a ||   yes    |   yes    ||   yes    |    no    ||  append
+##           ||          |          ||          |          ||
+##  n.e. (*) ||   yes    |   yes    ||    no    |   yes    || overwrite
+##  n.e. (*) ||   yes    |   yes    ||    no    |   yes    ||  append
+##           ||          |          ||          |          ||
+## |& tee    ||   yes    |   yes    ||   yes    |   yes    || overwrite
+## |& tee -a ||   yes    |   yes    ||   yes    |   yes    ||  append
 ##==========================================
 ## Continuous gpu usage info, refresh interval of 1 second
 $> nvidia-smi -l 1
@@ -9175,11 +9552,11 @@ $> nvidia-smi -l 1
 $> sudo apt-get install intel-gpu-tools
 $> sudo intel_gpu_top
 ##==========================================
-😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚
-⚫ ⚓ 🐰 🕳 ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦 ❤️
-⚪ ⚫ 💰 🚺 🍤 🦐 🐠 🦀 🐙 🐡 🔊
-♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
-1  😞 ￼😐 ￼😃
+$> echo '😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚'
+$> echo '⚫ ⚓ 🐰 🕳 ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦 ❤️'
+$> echo '⚪ ⚫ 💰 🚺 🍤 🦐 🐠 🦀 🐙 🐡 🔊'
+$> echo '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓'
+$> echo '1  😞 ￼😐 ￼😃'
 ##==========================================
 ## tabnine. Not great
 $> firefox https://www.tabnine.com/install/sublime/
@@ -9196,13 +9573,12 @@ $> set rtp+=~/tabnine-vim to your .vimrc (replacing ~/tabnine-vim with the path 
 ## Quick ref for
 $> for i in {01..10}; do <BLA>$i <COMMAND>; done
 ##==========================================
-##
-## install gimp-webp on your Debian-based Linux machine.
-$ sudo apt-add-repository ppa:george-edison55/webp
-$ sudo apt-get update
-$ apt-get install gimp-webp
+## Install gimp-webp on your Debian-based Linux machine.
+$> sudo apt-add-repository ppa:george-edison55/webp
+$> sudo apt-get update
+$> apt-get install gimp-webp
 ##==========================================
-## check the dependencies of packages in the repository:
+## Check the dependencies of packages in the repository:
 $> apt-cache depends package-name
 ##==========================================
 ## git prompt, not as good
@@ -9214,17 +9590,18 @@ $> firefox https://devtalk.nvidia.com/default/topic/789888/set-fan-speed-without
 ## Recommended to run this one first:
 $> nvidia-xconfig --enable-all-gpus --separate-x-screens --allow-empty-initial-configuration
 ## All in one script:
-#X :0 &
-#sleep 5
-#nvidia-settings -a “[gpu:0]/GPUFanControlState=1”
-#nvidia-settings -a “[gpu:1]/GPUFanControlState=1”
-#nvidia-settings -a “[gpu:2]/GPUFanControlState=1”
-#nvidia-settings -a “[gpu:3]/GPUFanControlState=1”
-#nvidia-settings -a “[fan:0]/GPUTargetFanSpeed=100”
-#nvidia-settings -a “[fan:1]/GPUTargetFanSpeed=100”
-#nvidia-settings -a “[fan:2]/GPUTargetFanSpeed=100”
-#nvidia-settings -a “[fan:3]/GPUTargetFanSpeed=100”
-#killall Xorg
+$> echo 'X :0 &
+$> sleep 5
+$> nvidia-settings -a “[gpu:0]/GPUFanControlState=1”
+$> nvidia-settings -a “[gpu:1]/GPUFanControlState=1”
+$> nvidia-settings -a “[gpu:2]/GPUFanControlState=1”
+$> nvidia-settings -a “[gpu:3]/GPUFanControlState=1”
+$> nvidia-settings -a “[fan:0]/GPUTargetFanSpeed=100”
+$> nvidia-settings -a “[fan:1]/GPUTargetFanSpeed=100”
+$> nvidia-settings -a “[fan:2]/GPUTargetFanSpeed=100”
+$> nvidia-settings -a “[fan:3]/GPUTargetFanSpeed=100”
+$> killall Xorg' > nvidia-settings.sh
+$> ./nvidia-settings.sh
 ##==========================================
 ## git branch
 #parse_git_branch() {
@@ -9256,7 +9633,7 @@ $>  |--        ## If nonzero, will flush the output buffer after every write() o
 $>  $--        ## This UNIX-based variable holds the process number of the process running the Perl interpreter.
 $>  ?--        ## Holds the status of the last pipe close, back-quote string, or system() function.
 $>  &--        ## Holds the string that was matched by the last successful pattern match.
-$>  `-         ## Holds the string that preceded whatever was matched by the last successful pattern match.
+$>  `-       ` ## Holds the string that preceded whatever was matched by the last successful pattern match.
 $>  '--      ' ## Holds the string that followed whatever was matched by the last successful pattern match.
 $>  +--        ## Holds the string matched by the last bracket in the last successful pattern match. For example, the statement /Fieldname: (.*)|Fldname: (.*)/ && ($fName = $+); will find the name of a field even if you dont know which of the two possible spellings will be used.
 $>  *--        ## Changes the interpretation of the ^ and $ pattern anchors. Setting $* to 1 is the same as using the /m option with the regular expression matching and substitution operators. Normally, $* is equal to 0.
@@ -9320,7 +9697,7 @@ $> ffmpeg -i input.mkv -filter:v "fps=fps=30" -c:v libvpx -b:v 500k -c:a libvorb
 ## download music from youtube
 $> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
 ##==========================================
-## learn.
+## Learn.
 ##    1) learn what is Dockerfile
 ##    2) add some apps on top of base image with dockerfile
 ##    3) learn to mount volumes when docker run
@@ -9351,7 +9728,7 @@ $> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
 $> screen -S YOURSESSIONNAME
 ## reattach to screen session
 $> screen -ls
-$>screen -r YOURSESSIONNAME
+$> screen -r YOURSESSIONNAME
 ## You can quit that screen without attaching to it. First, find its session:
 $> screen -ls
 ## "detach" your screen session but leave your processes running.
@@ -9367,30 +9744,30 @@ $> screen -XS YOURSESSIONNAME quit
 ##==========================================
 ## Shell script
 ## An if statement in bash just runs some program and checks if the return code was zero. The '!' operator will negate the return code. So when you type something like this
-$# if ! some_program; then
-$#     some_operation;
-$# fi
+$> if ! some_program; then
+$>     some_operation;
+$> fi
 ## Bash will execute "some_program" and get its return code, it will then negate it and conditionally execute the program. So in this example, if "some_program" returned 1, the ! would turn it to a 0 and the if condition would be true.
 ## When you use the brackets what youre actually doing is calling a program called "test" that does a conditional comparison and returns 0 if it's true and 1 if it's false.
-$# if test "1" -eq "1"; then
-$#     some_operation;
-$# fi
+$> if test "1" -eq "1"; then
+$>     some_operation;
+$> fi
 ## or
-$# if [ "1" -eq "1" ]; then
-$#     some_operation;
-$# fi
+$> if [ "1" -eq "1" ]; then
+$>     some_operation;
+$> fi
 ## These do the same thing. The double brackets [[..]] are a Bash extension that is built into the language itself. Its less portable but often easier.
 ## Yes, you could also do this
-$#    if [ ! -f "file.txt" ]; then
-$#       some_operation;
-$#    fi
-## or even this if you really want to.
+$> if [ ! -f "file.txt" ]; then
+$>    some_operation;
+$> fi
+## Or even this if you really want to.
 $> [ ! -f "file.txt" ] && some_operation;
-##  create a file only if it doesnt already exist.
-$#    if ! test -f "/file" ;
-$#    then
-$#      sudo touch "/file"
-$#    fi
+## Create a file only if it doesnt already exist.
+$> if ! test -f "/file" ;
+$> then
+$>   sudo touch "/file"
+$> fi
 ##==========================================
 ## Make timestamped output file
 $> outputfile="output_$(date --utc +"%y_%m_%d_%H%M%S").mp4"
@@ -9399,17 +9776,17 @@ $> outputfile="output_$(date --utc +"%y_%m_%d_%H%M%S").mp4"
 $> curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
 $> sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ##==========================================
-## video. Script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
+## Video. Script that records an endless GIF from webcam and then broadcasts it to a loopback camera.
 $> sudo apt-get install v4l2loopback-utils
-## creates fake camera input
+## Creates fake camera input.
 $> sudo modprobe v4l2loopback
-## all your video devices can be listed with
+## All your video devices can be listed with.
 $> v4l2-ctl --list-device
-## Make a gif out of a video
+## Make a gif out of a video.
 $> ffmpeg -hide_banner -loglevel panic -i video.webm -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 video.gif
-## sends looped gif into it
+## Sends looped gif into it.
 $> ffmpeg -re -stream_loop -1 -i video.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p  /dev/video2
-## In zoom settings>Video pick correct
+## In zoom settings>Video pick correct.
 ##------------------------------------------
 ## Script
 ## You need those packages: (names are for void, on other disros they may differ)
@@ -9426,34 +9803,30 @@ $> modprobe v4l2loopback devices=2 card_label="Real","Fake"
 $> v4l2-ctl --list-device
 ## Now execute following command to make "Real" work (note that this command should work in background):
 $> gst-launch-1.0 v4l2src device=/dev/video0 ! tee name=t ! queue ! v4l2sink device=/dev/video2
-## Can make script
-$> cat > fake_cam.sh << EOF
-#/bin/sh
-## Usage
-## ./fake_cam.sh <dur>, where <dur> is the
-##                      duration of a gif.
-##                      Can be omitted.
-## Parameters
-SOURCE="/dev/video3"
-TARGET="/dev/video4"
-# Get time parameter
-DURATION=5
-[ $# -gt 0 ] && DURATION=$1
-## Generate name
-IMG=$(mktemp -u)
-# Record from webcam
-echo "Recording $DURATION seconds"
-gst-launch-1.0 -v v4l2src device=$SOURCE ! jpegenc ! avimux ! filesink location=$IMG.avi >/dev/null &
-PID=$!
-sleep $DURATION
-kill -9 $PID
-## Create endless gif
-echo "Generating GIF"
+## Write a script
+$> echo '#! /bin/sh
+$> ## Usage ./fake_cam.sh <dur>, where <dur> is the duration of a gif. Can be omitted.
+$> ## Parameters
+$> SOURCE="/dev/video3"
+$> TARGET="/dev/video4"
+$> ## Get time parameter
+$> DURATION=5
+$> [ $# -gt 0 ] && DURATION=$1
+$> ## Generate name
+$> IMG=$(mktemp -u)
+$> ## Record from webcam
+$> echo "Recording $DURATION seconds"
+$> gst-launch-1.0 -v v4l2src device=$SOURCE ! jpegenc ! avimux ! filesink location=$IMG.avi >/dev/null &
+$> PID=$!
+$> sleep $DURATION
+$> kill -9 $PID
+$> ## Create endless gif
+$> echo "Generating GIF"
 $> ffmpeg -hide_banner -loglevel panic -i $IMG.avi -vf "fps=50,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 $IMG.gif
-## Broadcast gif to the webcam
-echo "Broadcasting"
-ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET
-EOF
+$> ## Broadcast gif to the webcam
+$> echo "Broadcasting"
+$> ffmpeg -hide_banner -loglevel panic -re -stream_loop -1 -i $IMG.gif -f v4l2 -vcodec rawvideo -pix_fmt yuv420p $TARGET
+$> ' > fake_cam.sh
 ## Make executable
 $> chmod +x ./fake_cam.sh
 $> ./fake_cam.sh 5
@@ -9461,7 +9834,7 @@ $> ./fake_cam.sh 5
 ## web. Search with parameters
 $> intitle:"index of" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) -inurl:(hypem|unknownsecret|sirens|writeups|trimediacentral|articlescentral|listen77|mp3raid|mp3toss|mp3drug|theindexof|index_of|wallywashis|indexofmp3)
 ##==========================================
-## video. Use OBS to stream to video
+## video. Use OBS to stream to video. Best stream program.
 $> firefox https://obsproject.com/wiki/install-instructions#linux
 $> firefox https://www.youtube.com/watch?v=Eca509IDLdM
 $> sudo add-apt-repository ppa:obsproject/obs-studio
@@ -9491,7 +9864,7 @@ $> firefox https://chrome.google.com/webstore/detail/get-cookiestxt/bgaddhkoddaj
 $> yt-dlp --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ##==========================================
 ## multimedia. Collect audio from youtube
-$> youtube-dl -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
+$> yt-dlp -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
 ## learn. Tips and tricks from web
 <<Comment5
@@ -9641,24 +10014,23 @@ $> mkfs.ext4 -F -O ^64bit -L 'WDUSB4TB' '/dev/sdc1'
 ## install. Remove unused kernels
 $> apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
 ##==========================================
-## text. Write to file without echo to avoid "" and '' problems
-$> cat > shell.txt << EOF
+## text. Write to file without echo to avoid "" and '' problems.
+$> cat << EOF > shell.txt
 $> Your test with imbedded "" and ''
-$> EOF
 EOF
 ##==========================================
-## web. multimedia. Youtube search and play
-$> cat > ytfzf.sh << EOF
-## Youtube search and play
-#Usage: ytfzf.sh <search query>
-#     -h                    Show this help text
-#     -H                    Choose from history
-#     -D                    Delete history
-#     -m  <search query>    Audio only (for listening to music)
-#     -d  <search query>    Download to current directory
-#     -f  <search query>    Show available formats before proceeding
-#!/bin/sh
-[ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
+## web. multimedia. Youtube search and play.
+$> cat << EOF > ytfzf.sh
+$> #!/bin/sh
+$> ## Youtube search and play
+$> ## Usage: ytfzf.sh <search query>
+$> ##     -h                    Show this help text
+$> ##     -H                    Choose from history
+$> ##     -D                    Delete history
+$> ##     -m  <search query>    Audio only (for listening to music)
+$> ##     -d  <search query>    Download to current directory
+$> ##     -f  <search query>    Show available formats before proceeding
+$> [ -z "$*" ] || curl "https://www.youtube.com/results" -s -G --data-urlencode "search_query=$*" |  pup 'script' | grep  "^ *var ytInitialData" | sed $> 's/^[^=]*=//g;s/;$//' | jq '..|.videoRenderer?' | sed '/^null$/d' | jq '.title.runs[0].text,.longBylineText.runs[$> 0].text,.shortViewCountText.simpleText,.lengthText.simpleText,.publishedTimeText.simpleText,.videoId'| sed 's/^"//;s/"$//;s/\\"//g' | sed -E -n $> "s/(.{60}).*/\1/;N;s/\n(.{30}).*/\n\1/;N;N;N;N;s/\n/\t|/g;p" | column -t  -s "$(printf "\t")" | fzf --delimiter='\|' --nth=1,2  | sed -E $> 's_.*\|([^|]*)$_https://www.youtube.com/watch?v=\1_' | xargs -r -I'{}' mpv {}
 EOF
 ##==========================================
 ## os. Clear the MBR
@@ -9703,7 +10075,7 @@ $> firefox https://github.com/Sweets/hummingbird/
 ##==========================================
 ## web. html. Replacement of reserved charactors in html URLs
 << comment3
-#Character   Percent encoding
+$> #Character   Percent encoding
 $>    blank space   %20
 $>    "             %22
 $>    #             %23
@@ -9745,10 +10117,10 @@ $> onedrive --synchronize
 ## os. iso. make iso image
 $> mkisofs -o movies.iso /home/username/folder-name
 ##-------------------------------
-## os. iso. Pack the ISO.
+## os. iso. Pack the ISO. Change to your purpose.
 $> xorriso -as mkisofs -r \
 $>   -V 'Ubuntu 22.04 LTS AUTO (EFIBIOS)' \
-$>   -o ../ubuntu-22.04-autoinstall.iso \
+$>   -o ../ubuntu.iso \
 $>   --grub2-mbr ../BOOT/1-Boot-NoEmul.img \
 $>   -partition_offset 16 \
 $>   --mbr-force-bootable \
@@ -9763,7 +10135,7 @@ $>   -e '--interval:appended_partition_2:::' \
 $>   -no-emul-boot \
 $>   .
 ##==========================================
-## Compare hex dumps
+## Compare hex dumps.
 $> diff <(xxd file1) <(xxd file2)
 ##==========================================
 ## Batch-Convert text file containing youtube links to mp3
@@ -9775,21 +10147,20 @@ $> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
 ## scan multiple log subdirectories for the latest log files and tail them
 $> ls /var/log/* -ld | tr -s " " | cut -d" " -f9 | xargs -i{} sh -c 'echo "\n---{}---\n"; tail -n50 {}/ ls -tr {} | tail -n1'
 ##==========================================
-## Finding the fingerprint of a given certificate
+## Finding the fingerprint of a given certificate.
 $> openssl x509 -in cert.pem -fingerprint -noout
 ##==========================================
-## Compute newest kernel version from Makefile on Torvalds git repository
+## Compute newest kernel version from Makefile on Torvalds git repository.
 ## Get newest kernel version by parsing the most bleeding-edge Makefile possible. Useful for doing things like writing live ebuilds and/or self-updating PKGBUILDs for testing purposes. Breakdown: * wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile — retrieve Makefile and pipe to stdout * head -n5 — only the first 5 lines are relevant, thats where all the version variables are grep -E '\ \=\ [0-9]{1,}' — version variables always have an equals sign followed by a number * cut -d' ' -f3 — extract the individual numbers from the version variables * tr '\n' '.' — replace newlines with periods * sed -e "s/\.$//" — remove trailing period Show Sample Output
 $> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile | head -n5 | grep -E '\ \=\ [0-9]{1,}' | cut -d' ' -f3 | tr '\n' '.' | sed -e "s/\.$//"
 ##==========================================
-## shell. permissions. Run entire shell script as root
+## shell. permissions. Run entire shell script as root.
 ## Placing sudo in the shebang line of a shell script runs the entire thing as root.
 $> echo '#!/usr/bin/sudo /bin/bash' > script.sh
 ##------------------------------------------
-## shell. permissions. Run entire shell script as root
 ## shell. permissions. Placing sudo in the shebang line of a shell script runs the entire thing as root.
-$> sed "1i\
-$> #!/usr/bin/sudo /bin/bash" file_name.sh > new_filename.sh
+$> echo "#!/usr/bin/sudo /bin/bash
+$> ls -la " > run-as-root.sh
 ##==========================================
 ## os. app. package. Save a copy of all debian packages in the form in which they are installed and configured on your system
 ## A copy of all installed debian packages on your system will be put back together, with all changes in configuration files you made and placed in the current directory. Make sure you have enough disk space (say 2-3 GB). Break any time with Ctrl+C. Show Sample Output
@@ -9802,7 +10173,7 @@ $> find . -name "*.ipynb" -exec grep -l "symspellpy" {} \;
 $> for i in *.*; do 7z a "$i".7z "$i"; done
 ##==========================================
 ## files. Moving large number of files
-## if you want to move with command mv large list of files than you would get following error /bin/mv: Argument list too long alternavite with exec: find /source/directory -mindepth 1 -maxdepth 1 -name '*' -exec mv {} /target/directory \; Show Sample Output
+## If you want to move with command mv large list of files than you would get following error /bin/mv: Argument list too long alternavite with exec: find /source/directory -mindepth 1 -maxdepth 1 -name '*' -exec mv {} /target/directory \; Show Sample Output
 $> find /source/directory -mindepth 1 -maxdepth 1 -name '*' -print0 | xargs -0 mv -t /target/directory;
 ##==========================================
 ## multimedia. video. Rename all subtitles files with the same name of mp4 files in same folder
@@ -9837,8 +10208,8 @@ $> xwininfo
 $> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ##------------------------------------------
 ## os. gui. Make window transparent (50% opacity) in Gnome shell
-##     0x7FFFFFFF - 50% opacity
-##     0xFFFFFFFF - 100% opacity
+##  0x7FFFFFFF - 50% opacity
+##  0xFFFFFFFF - 100% opacity
 ## Click window to change its opacity. Source: https://unix.stackexchange.com/a/494289
 $> xprop -format _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0x7FFFFFFF
 ## Set opacity via providing window id (obtained from xwininfo):
@@ -9965,7 +10336,7 @@ $> vagrant init generic/ubuntu2404
 $> vagrant up
 $> vagrant ssh
 ## Create a vagrant vm configuration file
-$> cat > Vagrantfile << EOF
+$> cat << EOF > Vagrantfile
 dev = [
     {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
     {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
@@ -9988,7 +10359,6 @@ Vagrant.configure("2") do |config|
     end
 end
 EOF
-
 ## Start all the VMs
 $> vagrant up
 ## Start one vm
@@ -10022,22 +10392,16 @@ $> vagrant -f destroy
 $> wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
 ##==========================================
 ## multimedia. video. capture. use ffmpeg to record a smooth, reasonably sized screencast:
-$> cat > screenRecord.sh << EOF
-#! /bin/bash
-ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1
-
-EOF
+$> echo '#! /bin/bash
+$> ffmpeg -hide_banner -loglevel error -f x11grab -video_size 1920x1080 -framerate 30 -i :0 -vcodec libx264 -preset ultrafast -qp 0 -pix_fmt yuv444p $1' > screenRecord.sh
 $> screenRecord.sh ~/demo.mkv
 ## This is useless alone. But can be filled in.
-$> cat > CheckVid.sh << EOF
-#! /bin/bash
-
-if [ -z "$1" ]
-  then
-    echo "Please specify a valid destination:  screenRecord.sh ~/videos/cast.mkv"
-    exit
-fi
-EOF
+$> echo '#! /bin/bash
+$> if [ -z "$1" ]
+$>   then
+$>     echo "Please specify a valid destination:  screenRecord.sh ~/videos/cast.mkv"
+$>     exit
+$> fi' > CheckVid.sh
 ##==========================================
 ## os. ram. Mount a temporary ram partition
 ## Makes a partition in ram which is useful if you need a temporary working space as read/write access is fast. Be aware that anything saved in this partition will be gone after your computer is turned off.
@@ -10071,7 +10435,7 @@ $> ffmpeg -loop 1 -r 30 -i b10cac207d27ccaf0a2a4d25803c5626.jpg -t 120 -map 0:v:
 ## ###############################################
 ## ##    tmux Sessions
 ## ###############################################
-## -------------------------------------
+##-------------------------------------
 ## shell. multiplex. tmux Sessions
 ## Misc
 $> Ctrl + b :                         ## enter command mode
@@ -10083,7 +10447,7 @@ $> tmux list-keys                     ## list key bindings(shortcuts)
 $>     : list-keys                    ## list key bindings(shortcuts)
 $>     Ctrl + b ?                     ## list key bindings(shortcuts)
 $> tmux info                          ## show every session, window, pane, etc...
-## -------------------------------------
+##-------------------------------------
 $> tmux                               ## start a new session
 $> tmux new                           ## start a new session
 $> tmux new-session                   ## start a new session
@@ -10106,7 +10470,7 @@ $> tmux attach-session -t mysession   ## attach to a session with the name myses
 $>    Ctrl + b w                      ## preview session and window
 $>    Ctrl + b (                      ## move to previous session
 $>    Ctrl + b )                      ## move to next session
-## -------------------------------------
+##-------------------------------------
 ## Windows
 $>    Ctrl + b c                      ## preview session and window
 $>    Ctrl + b ,                      ## rename current window
@@ -10116,7 +10480,7 @@ $>    Ctrl + b n                      ## go to next window
 $>    Ctrl + b 0 ... 9                ## switch/select window by number
 $>    : swap-window -s 2 -t 1         ## reorder window, swap window number 2 (src) and 1 (dst)
 $>    : swap-window -t -1             ## move current window to the left by one position
-## -------------------------------------
+##-------------------------------------
 ## Panes
 $>    Ctrl + b ;                      ## toggle last active pane
 $>    Ctrl + b %                      ## split pane horizontally
@@ -10143,7 +10507,7 @@ $>    Ctrl + b Ctrl + right-arrow     ## resize current pane width (holding seco
 $>    Ctrl + b + left-arrow           ## resize current pane width (holding second key is optional)
 $>    Ctrl + b Ctrl + left-arrow      ## resize current pane width (holding second key is optional)
 $>    Ctrl + b x                      ## close current pane
-## -------------------------------------
+##-------------------------------------
 ## Copy mode (vi mode)
 $>    : setw -g mode-keys vi          ## use vi keys in buffer
 $>    Ctrl + b [                      ## enter copy mode
@@ -10174,7 +10538,7 @@ $>    : list-buffers                  ## show all buffers
 $>    : choose-buffer                 ## show all buffers and paste selected
 $>    : save-buffer buf.txt           ## save buffer contents to buf.txt
 $>    : delete-buffer -b 1            ## delete buffer_1
-## -------------------------------------
+##-------------------------------------
 ## ###############################################
 ## ##    END tmux Sessions
 ## ###############################################
@@ -10391,17 +10755,17 @@ $> sudo sed -i '\%^<Directory /var/www/>%,\%^</Directory>% s/AllowOverride None/
 ## OR use a text editor
 $> sudo mcedit /etc/apache2/apache2.conf
 ## Change this:
-$@<Directory /var/www/>
-$@  Options Indexes FollowSymLinks
-$@  AllowOverride None
-$@  Require all granted
-$@</Directory>
+$> <Directory /var/www/>
+$>   Options Indexes FollowSymLinks
+$>   AllowOverride None
+$>   Require all granted
+$> </Directory>
 ## To this:
-$@<Directory /var/www/>
-$@  Options Indexes FollowSymLinks
-$@  AllowOverride All
-$@  Require all granted
-$@</Directory>
+$> <Directory /var/www/>
+$>   Options Indexes FollowSymLinks
+$>   AllowOverride All
+$>   Require all granted
+$> </Directory>
 ## Restart apache
 $> sudo service apache2 restart
 ##------------------------------------------
@@ -10430,11 +10794,11 @@ $> sudo add-apt-repository ppa:certbot/certbot
 $> sudo apt-get update
 $> sudo apt-get install certbot python-certbot-apache
 $> sudo certbot --apache certonly
-#Enter email address (used for urgent renewal and security notices) (Enter 'c' tocancel): sflaptop@gmail.com
-#Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org
-#Please read the Terms of Service at
-#https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must agree in order to register with the ACME server at
-#https://acme-v02.api.letsencrypt.org/directory
+## Enter email address (used for urgent renewal and security notices) (Enter 'c' tocancel): sflaptop@gmail.com
+## Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org
+## Please read the Terms of Service at
+## https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must agree in order to register with the ACME server at
+## https://acme-v02.api.letsencrypt.org/directory
 ## Or
 $> wget https://dl.eff.org/certbot-auto
 $> sudo mv certbot-auto /usr/bin
@@ -10442,8 +10806,8 @@ $> sudo certbot --apache
 ## Auto-Renew with Cron
 ## Create script to renew certs
 $> sudo echo '
-##! /bin/bash
-#certbot renew -q' > /home/user/renew-certs.sh
+$> #! /bin/bash
+$> certbot renew -q' > /home/user/renew-certs.sh
 ## Make the script executable
 $> chmod +x renew-certs.sh
 $> crontab -l
@@ -10532,24 +10896,24 @@ $> sudo nano /etc/php/7.0/apache2/php.ini
 ##==========================================
 ### Wordpress
 ## Function install WordPress into current folder
-@> function installwordpress() {
-@>     gpasswd -a $USER www-data
-@>     wget http://wordpress.org/latest.tar.gz
-@>     tar xzvf latest.tar.gz
-@>     cp -rf wordpress/** ./
-@>     rm -R wordpress
-@>     cp wp-config-sample.php wp-config.php
-@>     wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
-@>     sed -i '/#@-/r wp.keys' wp-config.php
-@>     sed -i "/#@+/,/#@-/d" wp-config.php
-@>     mkdir wp-content/uploads
-@>     find . -type d -exec chmod 755 {} \;
-@>     find . -type f -exec chmod 644 {} \;
-@>     chown -R :www-data *
-@>     chmod 640 wp-config.php
-@>     rm -f latest.tar.gz
-@>     rm -f wp.keys
-@> }
+$> function installwordpress() {
+$>     gpasswd -a $USER www-data
+$>     wget http://wordpress.org/latest.tar.gz
+$>     tar xzvf latest.tar.gz
+$>     cp -rf wordpress/** ./
+$>     rm -R wordpress
+$>     cp wp-config-sample.php wp-config.php
+$>     wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/
+$>     sed -i '/#@-/r wp.keys' wp-config.php
+$>     sed -i "/#@+/,/#@-/d" wp-config.php
+$>     mkdir wp-content/uploads
+$>     find . -type d -exec chmod 755 {} \;
+$>     find . -type f -exec chmod 644 {} \;
+$>     chown -R :www-data *
+$>     chmod 640 wp-config.php
+$>     rm -f latest.tar.gz
+$>     rm -f wp.keys
+$> }
 ##------------------------------------------
 ## Function install WordPress into current folder oneliner
 $> function installwordpress() { gpasswd -a $USER www-data; wget http://wordpress.org/latest.tar.gz; tar xzvf latest.tar.gz; cp -rf wordpress/** ./; rm -R wordpress; cp wp-config-sample.php wp-config.php; wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/; sed -i '/#@-/r wp.keys' wp-config.php; sed -i "/#@+/,/#@-/d" wp-config.php; mkdir wp-content/uploads; find . -type d -exec chmod 755 {} \;; find . -type f -exec chmod 644 {} \;; chown -R :www-data *; chmod 640 wp-config.php; rm -f latest.tar.gz; rm -f wp.keys; }
@@ -10626,13 +10990,13 @@ $> mysqldump -u Your_Username -pYour_Password wp_wordpress_database_name > wp_wo
 ##-----------------------------------------
 ## Create database to import into
 $> mysql -u $USER -p
-$@ mysql> SHOW DATABASES;
-$@ mysql> CREATE DATABASE wp_wordpress_database_name;
-$@ mysql> SHOW DATABASES;
+$> mysql> SHOW DATABASES;
+$> mysql> CREATE DATABASE wp_wordpress_database_name;
+$> mysql> SHOW DATABASES;
 ## Create a wordpress database user and grant privileges on that database
-$@ mysql> CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'newuserspassword';
-$@ mysql> GRANT ALL PRIVILEGES ON  wp_wordpress_database_name* TO 'newuser'@'localhost';
-$@ mysql> EXIT;
+$> mysql> CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'newuserspassword';
+$> mysql> GRANT ALL PRIVILEGES ON  wp_wordpress_database_name* TO 'newuser'@'localhost';
+$> mysql> EXIT;
 ## Import database into mysql
 $> mysql -u Your_Username -p -h localhost wp_wordpress_database_name < /path/to/db_backup.sql
 ## Or if sudo mysql works like on AWS
@@ -10642,20 +11006,20 @@ $> sudo mysql -h localhost wp_wordpress_database_name < /path/to/wp_wordpress_da
 ## Rewrite url in wordpress database
 $> mysql -u YOURUSERNAME -p
 ## In mysql command  where '192.168.1.3' is old server address, and 'mynewurl.com' is new server URL. Can use an address instead.
-$@ mysql> SHOW DATABASES;
-$@ mysql> USE wp_YourWordpressDatabase;
+$> mysql> SHOW DATABASES;
+$> mysql> USE wp_YourWordpressDatabase;
 ## Check where site is directed rename to match your system
-$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
+$> mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
 ## Replace with new site
-$@ mysql> UPDATE wp_uniquename_posts SET guid = replace(guid, '192.168.1.3','mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_posts SET post_content = replace(post_content, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_links SET link_url = replace(link_url, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_links SET link_image = replace(link_image, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_postmeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_usermeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
-$@ mysql> UPDATE wp_uniquename_options SET option_value = replace(option_value, '192.168.1.3', 'mynewurl.com') WHERE option_name = 'home' OR option_name = 'siteurl';
+$> mysql> UPDATE wp_uniquename_posts SET guid = replace(guid, '192.168.1.3','mynewurl.com');
+$> mysql> UPDATE wp_uniquename_posts SET post_content = replace(post_content, '192.168.1.3', 'mynewurl.com');
+$> mysql> UPDATE wp_uniquename_links SET link_url = replace(link_url, '192.168.1.3', 'mynewurl.com');
+$> mysql> UPDATE wp_uniquename_links SET link_image = replace(link_image, '192.168.1.3', 'mynewurl.com');
+$> mysql> UPDATE wp_uniquename_postmeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
+$> mysql> UPDATE wp_uniquename_usermeta SET meta_value = replace(meta_value, '192.168.1.3', 'mynewurl.com');
+$> mysql> UPDATE wp_uniquename_options SET option_value = replace(option_value, '192.168.1.3', 'mynewurl.com') WHERE option_name = 'home' OR option_name = 'siteurl';
 ## Check where site is directed now
-$@ mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
+$> mysql> SELECT option_value FROM wp_uniquename_options WHERE option_name = 'home' OR option_name = 'siteurl';
 ##------------------------------------------
 ## Go to webite to check if it worked. Sometimes the site is cached and will try to go to old cache, restart browser or delete old history.
 $> firefox http://yoursite
@@ -10702,10 +11066,10 @@ $> chown -R mysql:mysql wp_databasename
 $> chmod -R 750 wp_databasename
 ## Sign into mysql and see if you can access database
 $> mysql -u root -p
-$@ mysql> SHOW DATABASES;
-$@ mysql> USE wp_database;
-$@ mysql> SHOW TABLES;
-$@ mysql> CHECK TABLE wp_commentsmeta;
+$> mysql> SHOW DATABASES;
+$> mysql> USE wp_database;
+$> mysql> SHOW TABLES;
+$> mysql> CHECK TABLE wp_commentsmeta;
 ## IF ok then export the .sql
 $> mysqldump -u Your_Username -p wp_databasename > wp_database_backup_20190118.sql
 $> mysqldump -u Your_Username -p -h '192.168.1.3' wp_databasename > wp_database_backup_20190118.sql
@@ -10721,18 +11085,18 @@ $> mysql -u root -p
 $@ mysql> USE databasename;
 ## Format: RENAME TABLE `oldtablename` TO `newtablename`;
 ## rename all the tables add any additional tables from plugins. Plugins may mess this up of course. Best practice is to remove and do procedure then reinstall reconfigure plugins.
-$@ mysql> RENAME TABLE wp_comments                  TO   wp_uniquename_comments                   ;
-$@ mysql> RENAME TABLE wp_links                     TO   wp_uniquename_links                      ;
-$@ mysql> RENAME TABLE wp_options                   TO   wp_uniquename_options                    ;
-$@ mysql> RENAME TABLE wp_postmeta                  TO   wp_uniquename_postmeta                   ;
-$@ mysql> RENAME TABLE wp_posts                     TO   wp_uniquename_posts                      ;
-$@ mysql> RENAME TABLE wp_term_relationships        TO   wp_uniquename_term_relationships         ;
-$@ mysql> RENAME TABLE wp_term_taxonomy             TO   wp_uniquename_term_taxonomy              ;
-$@ mysql> RENAME TABLE wp_termmeta                  TO   wp_uniquename_termmeta                   ;
-$@ mysql> RENAME TABLE wp_terms                     TO   wp_uniquename_terms                      ;
-$@ mysql> RENAME TABLE wp_usermeta                  TO   wp_uniquename_usermeta                   ;
-$@ mysql> RENAME TABLE wp_users                     TO   wp_uniquename_users                      ;
-$@ mysql> RENAME TABLE wp_commentmeta               TO   wp_uniquename_commentmeta                ;
+$> mysql> RENAME TABLE wp_comments                  TO   wp_uniquename_comments                   ;
+$> mysql> RENAME TABLE wp_links                     TO   wp_uniquename_links                      ;
+$> mysql> RENAME TABLE wp_options                   TO   wp_uniquename_options                    ;
+$> mysql> RENAME TABLE wp_postmeta                  TO   wp_uniquename_postmeta                   ;
+$> mysql> RENAME TABLE wp_posts                     TO   wp_uniquename_posts                      ;
+$> mysql> RENAME TABLE wp_term_relationships        TO   wp_uniquename_term_relationships         ;
+$> mysql> RENAME TABLE wp_term_taxonomy             TO   wp_uniquename_term_taxonomy              ;
+$> mysql> RENAME TABLE wp_termmeta                  TO   wp_uniquename_termmeta                   ;
+$> mysql> RENAME TABLE wp_terms                     TO   wp_uniquename_terms                      ;
+$> mysql> RENAME TABLE wp_usermeta                  TO   wp_uniquename_usermeta                   ;
+$> mysql> RENAME TABLE wp_users                     TO   wp_uniquename_users                      ;
+$> mysql> RENAME TABLE wp_commentmeta               TO   wp_uniquename_commentmeta                ;
 ## 4. Rename in wp_options
 ## in table wp_uniquename_options
 ## Look under the option_name column header and change wp_user_roles to wp_uniquename_user_roles.
@@ -10746,7 +11110,7 @@ $> mysql> UPDATE `wp_uniquename_usermeta` SET `meta_key` = REPLACE( `meta_key`, 
 ## Function to rename the table_prefix to a unique name /var/www/html/wp-config.php
 ## Usage: wordpressmysqltableprefix wordpress_databasename tableprefix_ newtableprefix_
 ## Example: wordpressmysqltableprefix wordpress wp_ wp_uniquename_
-$> function wordpressmysqltableprefix() { mysql -u root -p -e "USE $1; RENAME TABLE $2comments TO $3comments; RENAME TABLE $2links TO $3links; RENAME TABLE $2options TO $3options; RENAME TABLE $2postmeta TO $3postmeta; RENAME TABLE $2posts TO $3posts; RENAME TABLE $2term_relationships TO $3term_relationships; RENAME TABLE $2term_taxonomy TO $3term_taxonomy; RENAME TABLE $2termmeta TO $3termmeta; RENAME TABLE $2terms TO $3terms; RENAME TABLE $2usermeta TO $3usermeta; RENAME TABLE $2users TO $3users; RENAME TABLE $2commentmeta TO $3commentmeta; UPDATE `$3options` SET `option_name` = '$3user_roles' WHERE `option_name` = '$2user_roles'; UPDATE `$3usermeta` SET `meta_key` = REPLACE( `meta_key`, '$2', '$3' ); SHOW TABLES;" ; }"
+#$> function wordpressmysqltableprefix() { mysql -u root -p -e "USE $1; RENAME TABLE $2comments TO $3comments; RENAME TABLE $2links TO $3links; RENAME TABLE $2options TO $3options; RENAME TABLE $2postmeta TO $3postmeta; RENAME TABLE $2posts TO $3posts; RENAME TABLE $2term_relationships TO $3term_relationships; RENAME TABLE $2term_taxonomy TO $3term_taxonomy; RENAME TABLE $2termmeta TO $3termmeta; RENAME TABLE $2terms TO $3terms; RENAME TABLE $2usermeta TO $3usermeta; RENAME TABLE $2users TO $3users; RENAME TABLE $2commentmeta TO $3commentmeta; UPDATE `$3options` SET `option_name` = '$3user_roles' WHERE `option_name` = '$2user_roles'; UPDATE `$3usermeta` SET `meta_key` = REPLACE( `meta_key`, '$2', '$3' ); SHOW TABLES;" ; }"
 ##==========================================
 ## ########################
 ## ##    END Wordpress
@@ -10784,22 +11148,22 @@ $> printf '## Setup apache2 for Nextcloud\nAlias /nextcloud "/var/www/nextcloud/
 $> cat /etc/apache2/sites-available/nextcloud.conf
 ## Or use an editor to add setting to apache2 available sites
 $> sudo mcedit /etc/apache2/sites-available/nextcloud.conf
-## Add the folowing without the $@
-$@ ## Setup apache for Nextcloud
-$@ Alias /nextcloud "/var/www/nextcloud/"
-$@
-$@ <Directory /var/www/nextcloud/>
-$@  Options +FollowSymlinks
-$@  AllowOverride All
-$@
-$@ <IfModule mod_dav.c>
-$@  Dav off
-$@ </IfModule>
-$@
-$@ SetEnv HOME /var/www/nextcloud
-$@ SetEnv HTTP_HOME /var/www/nextcloud
-$@
-$@ </Directory>
+## Add the folowing
+$> ## Setup apache for Nextcloud
+$> Alias /nextcloud "/var/www/nextcloud/"
+$>
+$> <Directory /var/www/nextcloud/>
+$>  Options +FollowSymlinks
+$>  AllowOverride All
+$>
+$> <IfModule mod_dav.c>
+$>  Dav off
+$> </IfModule>
+$>
+$> SetEnv HOME /var/www/nextcloud
+$> SetEnv HTTP_HOME /var/www/nextcloud
+$>
+$> </Directory>
 ## Save that file in /etc/apache2/sites-available and then create a symlink to /etc/apache2/sites-enabled with the command:
 $> ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
 $> exit
@@ -10812,7 +11176,7 @@ $> sudo service apache2 restart
 $> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDENTIFIED BY '$2'; CREATE DATABASE $3; GRANT ALL PRIVILEGES ON $3.* TO $1@localhost IDENTIFIED BY '$2'; SHOW DATABASES;" ; }
 ## Put in root mysql password press enter
 ## Procede execution with a space so it does not go in .bash_history and expose the password, Example:
-$>  mysqlsetup $USER nextcloudpassword nextcloud
+$> mysqlsetup $USER nextcloudpassword nextcloud
 ##--------------------------------------------
 ## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
 ## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
@@ -11052,7 +11416,7 @@ $> uvx catt --device "Living Room TV" cast cat.png
 ## ###########################################
 ## ##    END Apps
 ## ###########################################
-
+##==========================================
 ## ##########################################################
 ## ##    END Packages
 ## ##########################################################
@@ -11092,9 +11456,8 @@ $> sudo apt-get install fonts-larabie-uncommon       ## fonts
 ## ##########################################################
 ##
 ##==========================================
-##`
 ## #############################################
-## ##    Claude Coder
+## ##    Claude Coder CLI
 ## #############################################
 ## Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
 $> firefox https://code.claude.com/docs/en/overview
@@ -11108,138 +11471,147 @@ $> curl -fsSL https://claude.ai/install.sh | bash
 $> mkdir -p ~/code/claude/.claude/
 $> cd ~/code/claude/
 $> touch ~/code/claude/.claude/settings.local.json
-#> {
-#>   "permissions": {
-#>     "allow": [
-#>       "WebFetch(domain:github.com)",
-#>       "WebFetch(domain:stackoverflow.com)",
-#>       "WebFetch(domain:raw.githubusercontent.com)",
-#>       "Bash(cat:*)",
-#>       "Bash(git init:*)",
-#>       "Bash(git config:*)",
-#>       "Bash(chmod:*)",
-#>       "Bash(curl:*)",
-#>       "Bash(wget:*)",
-#>       "Bash(antiword:*)",
-#>       "WebSearch"
-#>     ]
-#>   },
-#>   "hooks": {
-#>     "Stop": [
-#>       {
-#>         "hooks": [
-#>           {
-#>             "type": "command",
-#>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
-#>           }
-#>         ]
-#>       }
-#>     ]
-#>   }
-#> }
-#>
+$> echo '{
+$>   "permissions": {
+$>     "allow": [
+$>       "WebFetch(domain:github.com)",
+$>       "WebFetch(domain:stackoverflow.com)",
+$>       "WebFetch(domain:raw.githubusercontent.com)",
+$>       "Bash(cat:*)",
+$>       "Bash(git init:*)",
+$>       "Bash(git config:*)",
+$>       "Bash(chmod:*)",
+$>       "Bash(curl:*)",
+$>       "Bash(wget:*)",
+$>       "Bash(antiword:*)",
+$>       "WebSearch"
+$>     ]
+$>   },
+$>   "hooks": {
+$>     "Stop": [
+$>       {
+$>         "hooks": [
+$>           {
+$>             "type": "command",
+$>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
+$>           }
+$>         ]
+$>       }
+$>     ]
+$>   }
+$> }' > ~/code/claude/.claude/settings.local.json
 ##----------------------------
-## This auto files claudes memories.
+## This auto files claude memories.
 $> touch ~/code/claude/append-memory.sh
-#> #!/bin/bash
-#> # Hook script: appends Claude's last response summary to MEMORY.md
-#>
-#> INPUT=$(cat)
-#> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
-#> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
-#> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
-#>
-#> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
-#>   exit 0
-#> fi
-#>
-#> # Extract the last assistant message text from the JSONL transcript
-#> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
-#>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
-#>   if [ "$ROLE" = "assistant" ]; then
-#>     echo "$line" | jq -r '
-#>       [.message.content[] | select(.type == "text") | .text] | join("\n")
-#>     ' 2>/dev/null
-#>     break
-#>   fi
-#> done)
-#>
-#> if [ -z "$LAST_RESPONSE" ]; then
-#>   exit 0
-#> fi
-#>
-#> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-#>
-#> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
-#>
-#> exit 0
-
-
-
+$> cat <<'EOF' > ~/code/claude/append-memory.sh
+$> #!/bin/bash
+$> ## Hook script: appends Claude's last response summary to MEMORY.md
+$>
+$> INPUT=$(cat)
+$> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+$> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
+$> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
+$>
+$> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
+$>   exit 0
+$> fi
+$>
+$> ## Extract the last assistant message text from the JSONL transcript
+$> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
+$>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
+$>   if [ "$ROLE" = "assistant" ]; then
+$>     echo "$line" | jq -r '
+$>       [.message.content[] | select(.type == "text") | .text] | join("\n")
+$>     ' 2>/dev/null
+$>     break
+$>   fi
+$> done)
+$>
+$> if [ -z "$LAST_RESPONSE" ]; then
+$>   exit 0
+$> fi
+$>
+$> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+$>
+$> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
+$>
+$> exit 0
+EOF
+##--------------------------
 ## Specifies how you want the agent to act.
 $> touch CLAUDE.md ## Specifies how you want the agent to act.
-#> Hooks
-#>
-#> - A `Stop` hook is configured in `.claude/settings.local.json` that runs `append-memory.sh` after every response.
-#> - It appends Claude's last response (with timestamp) to `MEMORY.md`.
-#>
-#> # About Me
-#> - Name: YOURNAMEHERE
-#> - Location: Hawaii
-#> - Occupation: Engineer, Molecular Biologist
-#> - Email: YOUREMAILHERE@gmail.com
-#> - GitHub: https://github.com/YOURGITHUBHERE
-#> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
-#> ## This Environment
-#> - Linux, Ubuntu 24.04 'noble' based.
-#> - Uses Claude Code as a general-purpose personal assistant
-#> - sudo password: Ask me to enter when needed.
-#> ## Session Persistence
-#> - At the START of every session, read `MEMORY.md` and `TODO.md`.
-#> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
-
-
+$> echo '# Hooks
+$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
+$> - It appends Claude last response (with timestamp) to `MEMORY.md`.
+$> # About Me
+$> - Name: YOURNAMEHERE
+$> - Location: Hawaii
+$> - Occupation: Engineer, Molecular Biologist
+$> - Email: YOUREMAILHERE@gmail.com
+$> - GitHub: https://github.com/YOURGITHUBHERE
+$> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
+$> ## This Environment
+$> - Linux, Ubuntu 24.04 "noble" based.
+$> - Uses Claude Code as a general-purpose personal assistant
+$> - sudo password: Ask me to enter when needed.
+$> ## Session Persistence
+$> - At the START of every session, read `MEMORY.md` and `TODO.md`.
+$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.' > CLAUDE.md
 $> touch MEMORY.md ## A place for agent to add information to add context to next session.
 $> touch TODO.md   ## Have agent add items as you come up with new ideas.
-#>
 ##==========================================
-##
-
+## Start claude
+$> claude
+##==========================================
+## Claude Plugin sRun /plugin and go to the Discover tab to browse what’s available.
+$> claude
+$> /plugin
+##$> Discover tab
+##==========================================
+## Prompt claude
+$>
 ##==========================================
 
 
 ##==========================================
-
 ## #############################################
 ## ##    Using ollama
 ## #############################################
-## Install ollama
+## Install ollama.
 $> firefox https://ollama.com/download
 $> curl -fsSL https://ollama.com/install.sh | sh
-## Pull some models
-$> ollama pull llama3.2
+## Pull some models.
 $> ollama pull sd-turbo
 $> ollama pull llama3.2:1b
+## Pull latest
+$> ollama pull llama3.2
+## List the models downloads.
+$> ollama list
+## Run models.
+$> ollama run llama3.2:1b "Tell me about bash scripts."
 ##----------------------------
-## Open WebUI Docker image to run in a GUI
+## Open WebUI Docker image to run in a GUI.
 $> firefox https://github.com/open-webui/open-webui
 ## Docker with Open-Webui.
 $> sudo docker run -d  -p 8686:8080  --gpus=all  -v ollama:/root/.ollama  -v open-webui:/app/backend/data  --name open-webui  --restart always ghcr.io/open-webui/open-webui:ollama
-## Open the WebUI
+## Open the WebUI.
 $> firefox http://localhost:8686
+##==========================================
 
+
+## #############################################
 ##==========================================
 ## #############################################
 ## ##    Huggingface Models
 ## #############################################
 $> firefox https://huggingface.co/
 ## Install Huggingface cli.
-
+$> curl -LsSf https://hf.co/cli/install.sh | bash
 ## uv python package manager.
 ## Instal uv
 $> curl -LsSf https://astral.sh/uv/install.sh | sh
 ## OR
-$> pipx install uv
+$> pipx install uv.
 ## Go to project directory.
 $> cd ~/code/project/
 $> uv init
@@ -11259,6 +11631,11 @@ $> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
 ## FLUX requires access token.
 $> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
 $> uv run hf download black-forest-labs/.1-schnell
+##==========================================
+
+
+##==========================================
+## #############################################
 ##==========================================
 ## French AI startup Mistral tweeted
 $> firefox https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
@@ -11327,13 +11704,6 @@ $> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a 
 ## ##########################################################
 ## ##    END AI Models
 ## ##########################################################
-
-
-## ##########################################################
-## ##########################################################
-##==========================================
-
-
 ##==========================================
 ## ###########################################
 ## ##    Drivers
@@ -11501,13 +11871,87 @@ $> docker run -p 3000:3000 brytonsalisbury/mesh-mini:amd64
 ## ##    END Out of Band OOB managment
 ## ###############################################
 ##==========================================
+## ###################################
+## ##    TUI CLI
+## ###################################
+## A halfway point between GUI and cli.
+##==========================================
+## Midnight Commander.
+## Midnight Commander is a feature-rich, full-screen, text-mode application that allows you to copy, move, and delete files and entire directory trees.
+$> firefox https://midnight-commander.org/
+## Explore filesystem.
+$> mc -S gotar
+$> ctl+o  ## Get a prompt in folder.
+##---------------------------
+## Skins.
+## files. filebrowser. Make mc always display non-blue background
+$> echo "alias mc='mc -S gotan'" >> .bashrc
+##-------------------------
+## Try out new colors in mc, with -S skins from,
+$> ls /usr/share/mc/skins
+$> mc -S gotar
+$> mc -S sand256
+## Make gotar the default globally
+$> sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini
+$> sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini
+## Pick the default global mc skin. Usage; mcdefault skin-name    Expl. mcdefault gotar    To Reverse: mcdefault default-blue
+$> function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then sudo cp /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini  && sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1."; fi ; }
+##------------------------------------------
+## OR
+## Make own skin and put in ~/.local/share/mc/skins
+##------------------------------------------
+## Make gotar the default globally
+#function mcgotar() { sudo mv /usr/share/mc/skins/default.ini /usr/share/mc/skins/default-blue.ini ; sudo cp /usr/share/mc/skins/gotar.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now gotar. To reverse this change run mcblue default-blue." ; }
+##------------------------------------------
+## Change the default mc skin to whatever you want
+#function mcdefault() { if [ ! -f /usr/share/mc/skins/default-blue.ini ]; then echo "Run mcgotar first." && exit 0; else  sudo rm /usr/share/mc/skins/default.ini ; sudo cp /usr/share/mc/skins/$1.ini /usr/share/mc/skins/default.ini ; echo "The default midnight commander skin is now $1"; fi ; }
+##------------------------------------------
+## OR, not as good,  rewrite configs
+## or with long color picks
+$> mc --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
+## or yellow
+$> mc --colors normal=yellow,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
+## or blue
+$> mc --colors normal=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
+## or dark
+$> mc --colors normal=black,white:selected=white,black:marked=blue,white:markselect=black,white:errors=red,white:input=black,white:reverse=white,black:gauge=black,white:directory=black,white:executable=gray,white:stalledlink=lightgray,white:special=gray,white:core=red,white:
+## or by changing ~/.config/mc/ini
+## Make the colors permanent
+$> sed -i 's/base_color=/base_color=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default' ~/.config/mc/ini
+## Another
+$> sed -i 's/base_color=/base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default/' ~/.config/mc/ini
+## Undo the above change
+$> sed -i 's/base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default/base_color=/' ~/.config/mc/ini
+## Or in mcedit hold shift to highlight to copy, middle click to paste
+$> sudo mcedit ~/.config/mc/ini
+## Change [Colors] section to this;
+#$ [Colors]
+#$ base_color=lightgray,blue:normal=blue,default:selected=white,brightblue:marked=yellow,default:markselect=yellow,gray:directory=brightblue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default
+##------------------------------------------
+## Get 256 colors and use 256 color skins
+$> export TERM=xterm-256color # BREAKS mc in non gui tty logins
+$> mc -S sand256
+##------------------------------------------
+## mc - Midnight Commander
+$> alias mcc='mc --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default'
+$> alias mce='mcedit --colors normal=green,default:selected=brightmagenta,gray:marked=yellow,default:markselect=yellow,gray:directory=blue,default:executable=brightgreen,default:link=cyan,default:device=brightmagenta,default:special=lightgray,default:errors=red,default:reverse=green,default:gauge=green,default:input=white,gray:dnormal=green,gray:dfocus=brightgreen,gray:dhotnormal=cyan,gray:dhotfocus=brightcyan,gray:menu=green,default:menuhot=cyan,default:menusel=green,gray:menuhotsel=cyan,default:helpnormal=cyan,default:editnormal=green,default:editbold=blue,default:editmarked=gray,blue:stalelink=red,default'
+$> alias mcg='mc -S gotar'
+$> alias mceg='mcedit -S gotar'
+## Fix problem runnung mc in tmux
+$> alias mctmux='TERM=xterm mc'
+## Can run function 'mcdefault gotar' above if you want settings global- mcdefault gotar
+#alias mc='mc -S gotar'
+#alias mcedit='mcedit -S gotar'
+##-------------------------
 
-
+##-------------------------
 ##==========================================
 
 
 ##==========================================
-
+## ###################################
+## ##    END TUI CLI
+## ###################################
 
 ##==========================================
 
@@ -12148,12 +12592,12 @@ function killport() {
   sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
 }
 ## git.
-$> alias gc=‘git commit -am’
-$> alias gcane=‘git commit —amend —no-edit`
-$> alias gp=‘git push’
-$> alias gpfl=‘git push —force-with-lease’
-$> alias gs=‘git status’
-$> alias gd=‘git diff’
+$> alias gc='git commit -am'
+$> alias gcane='git commit —amend —no-edit'
+$> alias gp='git push'
+$> alias gpfl='git push —force-with-lease'
+$> alias gs='git status'
+$> alias gd='git diff'
 ##
 ## Recommit with the previous commit message
 gcr=‘git commit -am “$(cat “$(git rev-parse —git-dir)/COMMIT_EDITMSG”)”’
@@ -12655,7 +13099,7 @@ $> wget -qO - https://raw.githubusercontent.com/torvalds/linux/master/Makefile |
 ##==========================================
 ## scan multiple log subdirectories for the latest log files and tail them
 $> ls /var/log/* -ld | tr -s " " | cut -d" " -f9 | xargs -i{} sh -c 'echo "\n---{}---\n"; tail -n50 {}/`ls -tr {} | tail -n1`'
-`##==========================================
+##==========================================
 ## Show current network interface in use
 $> ip addr | awk '/state UP/ {print $2}' | sed 's/.$//'
 ##==========================================
@@ -12729,67 +13173,67 @@ $> sudo netdiscover -r 192.168.0.1/24
 ## ##    Android
 ## ########################################
 ## Android Debug Bridge version 1.0.25 adb
-$> -d                            - directs command to the only connected USB device
+$> -d                            ##- directs command to the only connected USB device
 $>                                 returns an error if more than one USB device is present.
-$> -e                            - directs command to the only running emulator.
+$> -e                            ##- directs command to the only running emulator.
 $>                                 returns an error if more than one emulator is running.
-$> -s <serial number>            - directs command to the USB device or emulator with
+$> -s <serial number>            ##- directs command to the USB device or emulator with
 $>                                 the given serial number. Overrides ANDROID_SERIAL
 $>                                 envivornment variable.
-$> -p <product name or path>     - simple product name like 'sooner', or
+$> -p <product name or path>     ##- simple product name like 'sooner', or
 $>                                 a relative/absolute path to a product
 $>                                 out directory like 'out/target/product/sooner'.
 $>                                 If -p is not specified, the ANDROID_PRODUCT_OUT
 $>                                 environment variable is used, which must
 $>                                 be an absolute path.
-$> devices                       - list all connected devices
-$> connect <host>:<port>         - connect to a device via TCP/IP
-$> disconnect <host>:<port>      - disconnect from a TCP/IP device
+$> devices                       ##- list all connected devices
+$> connect <host>:<port>         ##- connect to a device via TCP/IP
+$> disconnect <host>:<port>      ##- disconnect from a TCP/IP device
 ## device commands:
-$>  adb push <local> <remote>    - copy file/dir to device
-$>  adb pull <remote> <local>    - copy file/dir from device
-$>  adb sync [ <directory> ]     - copy host->device only if changed
+$>  adb push <local> <remote>    ##- copy file/dir to device
+$>  adb pull <remote> <local>    ##- copy file/dir from device
+$>  adb sync [ <directory> ]     ##- copy host->device only if changed
 $>                                 (see 'adb help all')
-$>  adb shell                    - run remote shell interactively
-$>  adb shell <command>          - run remote shell command
-$>  adb emu <command>            - run emulator console command
-$>  adb logcat [ <filter-spec> ] - View device log
-$>  adb forward <local> <remote> - forward socket connections
-$>                                 forward specs are one of:
-$>                                   tcp:<port>
-$>                                   localabstract:<unix domain socket name>
-$>                                   localreserved:<unix domain socket name>
-$>                                   localfilesystem:<unix domain socket name>
-$>                                   dev:<character device name>
-$>                                   jdwp:<process pid> (remote only)
-$>  adb jdwp                     - list PIDs of processes hosting a JDWP transport
-$>  adb install [-l] [-r] <file> - push this package file to the device and install it
-$>                                 ('-l' means forward-lock the app)
-$>                                 ('-r' means reinstall the app, keeping its data)
-$>  adb uninstall [-k] <package> - remove this app package from the device
-$>                                 ('-k' means keep the data and cache directories)
-$>  adb bugreport                - return all information from the device
-$>                                 that should be included in a bug report.
-$>  adb help                     - show this help message
-$>  adb version                  - show version num
+$>  adb shell                    ##- run remote shell interactively
+$>  adb shell <command>          ##- run remote shell command
+$>  adb emu <command>            ##- run emulator console command
+$>  adb logcat [ <filter-spec> ] ##- View device log
+$>  adb forward <local> <remote> ##- forward socket connections
+$>                               ##  forward specs are one of:
+$>                               ##    tcp:<port>
+$>                               ##    localabstract:<unix domain socket name>
+$>                               ##    localreserved:<unix domain socket name>
+$>                               ##    localfilesystem:<unix domain socket name>
+$>                               ##    dev:<character device name>
+$>                               ##    jdwp:<process pid> (remote only)
+$>  adb jdwp                     ##- list PIDs of processes hosting a JDWP transport
+$>  adb install [-l] [-r] <file> ##- push this package file to the device and install it
+$>                               ##  ('-l' means forward-lock the app)
+$>                               ##  ('-r' means reinstall the app, keeping its data)
+$>  adb uninstall [-k] <package> ##- remove this app package from the device
+$>                               ##  ('-k' means keep the data and cache directories)
+$>  adb bugreport                ##- return all information from the device
+$>                               ##  that should be included in a bug report.
+$>  adb help                     ##- show this help message
+$>  adb version                  ##- show version num
 ## DATAOPTS:
-$> (no option)                   - dont touch the data partition
-$>  -w                           - wipe the data partition
-$>  -d                           - flash the data partition
+$> (no option)                   ##- dont touch the data partition
+$>  -w                           ##- wipe the data partition
+$>  -d                           ##- flash the data partition
 ## scripting:
-$>  adb wait-for-device          - block until device is online
-$>  adb start-server             - ensure that there is a server running
-$>  adb kill-server              - kill the server if it is running
-$>  adb get-state                - prints: offline | bootloader | device
-$>  adb get-serialno             - prints: <serial-number>
-$>  adb status-window            - continuously print device status for a specified device
-$>  adb remount                  - remounts the /system partition on the device read-write
-$>  adb reboot [bootloader|recovery] - reboots the device, optionally into the bootloader or recovery program
-$>  adb root                     - restarts the adbd daemon with root permissions
-$>  adb usb                      - restarts the adbd daemon listening on USB
-$>  adb tcpip <port>             - restarts the adbd daemon listening on TCP on the specified port
+$>  adb wait-for-device          ##- block until device is online
+$>  adb start-server             ##- ensure that there is a server running
+$>  adb kill-server              ##- kill the server if it is running
+$>  adb get-state                ##- prints: offline | bootloader | device
+$>  adb get-serialno             ##- prints: <serial-number>
+$>  adb status-window            ##- continuously print device status for a specified device
+$>  adb remount                  ##- remounts the /system partition on the device read-write
+$>  adb reboot [bootloader|recovery] ##- reboots the device, optionally into the bootloader or recovery program
+$>  adb root                     ##- restarts the adbd daemon with root permissions
+$>  adb usb                      ##- restarts the adbd daemon listening on USB
+$>  adb tcpip <port>             ##- restarts the adbd daemon listening on TCP on the specified port
 ## networking:
-$>  adb ppp <tty> [parameters]   - Run PPP over USB.
+$>  adb ppp <tty> [parameters]   ##- Run PPP over USB.
 ##  Note: you should not automatically start a PPP connection.
 $> <tty> refers to the tty for PPP stream. Eg. dev:/dev/omap_csmi_tty1
 ##  [parameters] - Eg. defaultroute debug dump local notty usepeerdns
@@ -12839,13 +13283,9 @@ $> ip link show
 $> sudo ip link set dev <Device> up
 $> sudo ip link set dev wlp3s0 up
 ##==========================================
+## Re-encode video.
 $> ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 1 -an -f null /dev/null && \
 $> ffmpeg -i input.mp4 -c:v libvpx-vp9 -b:v 0 -crf 30 -pass 2 -c:a libopus output.webm
-
-##==========================================
-$> ssh ubuntu@192.168.0.190
-
-
 ##==========================================
 ## os. user. Add a new user with a home.
 $> sudo useradd -m -d /home/usernamehere usernamehere
