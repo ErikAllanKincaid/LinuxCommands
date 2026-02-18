@@ -110,10 +110,6 @@ firefox https://github.com/m4tt72/terminal
 firefox https://github.com/file-acomplaint/kakikun
 
 ##==================================
-## 20251208_02:23:37
-
-
-##==================================
 ## packemon - TUI tool for generating packets of arbitrary input and monitoring packets on any network interfaces
 firefox https://github.com/ddddddO/packemon
 
@@ -778,6 +774,7 @@ firefox https://github.com/nicolargo/glances
 firefox https://readeck.org/en/
 
 ##==================================
+## WORKS.
 ## dawn - Live tui Markdown Rendering Markdown renders as you write.
 firefox https://github.com/andrewmd5/dawn
 cd ~/code
@@ -786,6 +783,9 @@ mkdir ~/code/dawn-linux-x64
 tar --verbose --extract --file dawn-linux-x64.tar.gz -C ~/code/dawn-linux-x64
 ls ~/code/dawn-linux-x64/
 sudo cp ~/code/dawn-linux-x64/dawn /usr/local/bin/
+rm ~/code/dawn-linux-x64.tar.gz
+
+## Good, works but continuously re-draws.
 
 ##==================================
 ## Markdown Preview for (Neo)vim
@@ -1139,11 +1139,9 @@ firefox https://github.com/axsaucedo/kaos
 ##
 firefox https://medium.com/@lee.harding/building-a-real-time-hn-display-for-15-3ea1772051ff
 
-
 ##============================
 ## LL3M: Large Language 3D Modelers
 https://github.com/threedle/ll3m/
-
 
 ##============================
 ## Kimi K2.5 : Agentic cli coding tool like claude, from china, and newer.
@@ -1152,6 +1150,156 @@ https://www.kimi.com/code/docs/en/kimi-cli/guides/getting-started.html
 ##============================
 ## z.ai Add to clude for different AI
 https://docs.z.ai/devpack/tool/claude
+
+##============================
+## agent-cli
+https://github.com/basnijholt/agent-cli
+
+##============================
+# You can use Llama (such as Llama 3 or TinyLlama) as an agent to run terminal commands by leveraging frameworks like LangChain, Ollama, or specialized local CLI tools. These agents can interpret natural language, generate appropriate commands (e.g., ls, cd, pip install), execute them, and interpret the output to perform tasks autonomously. ￼
+# Methods to Run Llama as a Terminal Agent:
+# Ollama & Local Frameworks: Utilize Ollama to run Llama locally, connecting it to a Python script using LangChain's terminal tools or {Link: agent-cli https://github.com/basnijholt/agent-cli} to execute commands securely.
+# Specialized Tools: Use tools like shell_gpt or build custom scripts that wrap Llama responses in specific tokens (e.g., <|START_COMMAND_TOKEN|> and <|END_COMMAND_TOKEN|>) to define executable commands.
+# Local-First Agents: Implement open-source agents that use models like TinyLlama for a fully offline, privacy-focused terminal experience. ￼
+# Important Safety Considerations:
+# Security Risk: Giving an AI terminal control allows it to execute destructive commands (e.g., rm -rf /).
+# Sandboxing: Always run AI agents in a containerized environment (Docker), a virtual machine, or a dedicated, restricted user directory to prevent accidental system damage.
+# Human-in-the-Loop: Configure the agent to ask for permission before executing high-risk commands.
+
+##============================
+## Carbonyl is a Chromium based browser built to run in a terminal.
+## AI agents can use it to check code.
+https://fathy.fr/carbonyl
+https://github.com/fathyb/carbonyl
+
+##============================
+## Detectron2 is a platform for object detection, segmentation and other visual recognition tasks.
+https://github.com/facebookresearch/detectron2
+
+##============================
+## Voice command conversational AI assistant that can interact with your system.
+https://github.com/basnijholt/agent-cli
+
+##============================
+## nanoGPT : The simplest, fastest repository for training/finetuning medium-sized GPTs.
+https://github.com/karpathy/nanoGPT
+
+##============================
+## ChatGPT Desktop Application
+https://github.com/lencx/ChatGPT
+
+##============================
+## openWakeWord is an open-source wakeword library that can be used to
+## create voice-enabled applications and interfaces.
+## It includes pre-trained models for common words & phrases that work well in real-world environments.
+https://github.com/dscripka/openWakeWord
+
+##============================
+## Descriptive vision models
+ollama pull llava:13b
+ollama pull llava
+ollama pull moondream
+ollama pull qwen2.5vl:7b
+ollama pull qwen3vl:4b
+## Works great
+ollama run qwen3vl:4b "Describe this image " ./intro-1716917272.jpg
+
+
+##============================
+## TTS text to audio.
+## Kokoro with lang_code='a'
+
+mkdir -p /home/erik/code/claude/Narrator
+uv init --no-readme
+uv add kokoro soundfile
+## install pip in the uv env
+uv pip install pip
+
+##> Test Kokoro TTS with voice parameter.
+## Set voice type. There are 10 diff voice available.
+export KOKORO_VOICE="af_heart"
+
+uv run python -c "
+from kokoro import KPipeline
+import soundfile as sf
+p = KPipeline(lang_code='a')
+for _, _, audio in p('A rusty wheelbarrow sits in a patchy garden, bathed in warm afternoon light.', voice='af_heart'):
+    sf.write('test_kokoro.wav', audio, 24000)
+    print('Wrote test_kokoro.wav')
+    break
+"
+
+##> The kokoro test file `VisionNarrator/test_kokoro.wav` sounds great.
+vlc ./test_kokoro.wav
+
+
+##============================
+## kube-prometheus-stack
+## Installs core components of the kube-prometheus stack, a collection of Kubernetes manifests, Grafana dashboards, and Prometheus rules combined with documentation and scripts to provide easy to operate end-to-end Kubernetes cluster monitoring with Prometheus
+https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+
+##============================
+## Ralph is an autonomous AI agent loop that runs AI coding tools (Amp or Claude Code) repeatedly until all PRD items are complete.
+https://github.com/snarktank/ralph
+https://www.aihero.dev/getting-started-with-ralph
+
+##============================
+## Amp is the frontier coding agent that lets you wield the full power of leading models.
+https://ampcode.com/
+
+##============================
+## Mesh-Mini is a fork of MeshCommander. MeshCommander is the ultimate open source Intel® AMT management console.
+https://github.com/BrytonSalisbury/mesh-mini
+
+## A Docker image, where {architecture} is amd64 or arm64.
+docker pull brytonsalisbury/mesh-mini:amd64
+docker run -p 3300:3300 brytonsalisbury/mesh-mini:amd64
+## Add a vPro computer by IP.
+
+##============================
+## Meshcommander control ME vPro. Out of Band OOB managment.
+## Docker image run meshcommander.
+docker run -it --rm -p 3301:3301 docker.io/boxcutter/meshcmd MeshCommander
+
+##============================
+## Unofficial Repository for Latest Development Tools
+https://debian.griffo.io/
+sudo apt install zig ghostty lazygit yazi eza uv fzf zoxide bun tigerbeetle
+
+##============================
+## Tetro TUI - Cross-platform TUI Tetris Game.
+https://github.com/Strophox/tetro-tui
+
+##============================
+## docker_swarm
+https://thedecipherist.com/articles/docker_swarm_vs_kubernetes/
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
+
+##============================
+
 
 ##============================
 
