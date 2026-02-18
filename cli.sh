@@ -252,6 +252,13 @@ $>  /etc/bash.bashrc                     ## System wide bashrc
 $>  /etc/default/grub                    ## Configuration file, run update-grub after editing
 $>  /etc/X11/                            ## Config files for XWindows
 ##==========================================
+## Change laptop behavior.
+## Configuration for systemd login and behavior. Example: Suspend when lid closed 'HandleLidSwitch=suspend' etc.
+## HandlePowerKey=, HandleSuspendKey=, HandleHibernateKey=, HandleLidSwitch=: Actions; ignore, poweroff, suspend, hibernate, lock
+$> sudo vim /etc/systemd/logind.conf
+## Restart the systemd-logind service:
+$> sudo systemctl restart systemd-logind
+##==========================================
 ##==========================================
 ## tmux
 $> firefox https://tmuxcheatsheet.com/
@@ -1251,6 +1258,8 @@ $> git config --global user.email "youremail@gmail.com"
 $> git remote add origin https://github.com/YOURGITHUBACCOUNTHERE
 ## Set the github remote repo.
 $> git remote set-url origin https://github.com/YOURGITHUBACCOUNTHERE/REPO
+## Check the github remote repo.
+$> git remote -v
 ##==========================================
 ## git. Change Git Remote URL
 ## In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
@@ -3034,6 +3043,9 @@ if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b 
 ## Key sequence to kill the X server.
 #setxkbmap -option terminate:ctrl_alt_bksp
 ##------------------------------------------
+## Some systems puthon fails due to being upgraded to python3.
+alias python="python3"
+##==========================================
 ## #################################
 ## ##   History
 ## #################################
@@ -7016,9 +7028,9 @@ $> cat ~/.ssh/id_rsa.pub | ssh user@hostname 'cat >> .ssh/authorized_keys'
 ## append auto_switch=2 to load-module module-bluetooth-policy in /etc/pulse/default.pa
 $> echo 'load-module module-bluetooth-policy auto_switch=2' >>  /etc/pulse/default.pa
 ##==========================================
-## stream with youtube-dl and vlc, like so:
-$> youtube-dl -o - websitelink | vlc -
-$> youtube-dl -o - websitelink |
+## stream with youtube-dl and vlc. Not for youtube?
+$> yt-dlp -o - websitelink | vlc -
+$> yt-dlp -o - websitelink |
 ##==========================================
 ## BASH C language math syntax (including comma), !!no floating point numbers!!
 $> echo $((a=2,b=3,c=a*b,c))              # 6
@@ -7591,7 +7603,7 @@ $> echo ${month%Dec}          ## % tells the shell you want to chop something of
 $> a="Hello World\!"          ## Have to escape the '!'.
 $> echo Goodbye${a#Hello}     ## Chop off a chunk from the beginning of a variable, instead of %, use #:
 ##==========================================
-## bash. syntax.
+## bash. syntax. Script that accepts input and uses that input.
 $> echo '#!/bin/bash
 $> ## Read from input script.
 $> clear
@@ -7599,6 +7611,7 @@ $> read -p "Press enter to start."
 $> echo -e "Enter your name. "
 $> read name
 $> echo "Your name is $name"' > name.sh
+## Run the script.
 $> ./name.sh
 ##==========================================
 ## Standard error.
@@ -9062,6 +9075,7 @@ $> Ctrl + Alt + Shift + R
 $> cp -a
 ##==========================================
 ## uv python package manager.
+$> firefox https://github.com/astral-sh/uv
 ## Instal uv
 $> curl -LsSf https://astral.sh/uv/install.sh | sh
 ## OR
@@ -11456,14 +11470,84 @@ $> sudo apt-get install fonts-larabie-uncommon       ## fonts
 ## ##########################################################
 ##
 ##==========================================
+## Some models
+## Kokoro-82M
+## qwen3-vl:2b
+## qwen3-vl:4b
+## Qwen-Image-2512  model  Q4_K_M  13.1GB
+## qwen3-coder-32k
+
+
+
+##==========================================
+## #############################################
+## ##    Huggingface Models
+## #############################################
+$> firefox https://huggingface.co/
+## Install Huggingface cli.
+$> curl -LsSf https://hf.co/cli/install.sh | bash
+## uv python package manager.
+## Instal uv
+$> curl -LsSf https://astral.sh/uv/install.sh | sh
+## OR
+$> pipx install uv.
+## Go to project directory.
+$> cd ~/code/project/
+$> uv init
+$> uv venv
+$> source .venv/bin/activate
+## Install some packages.
+$> uv pip install huggingface_hub
+## Download models.
+$> uv run hf download stabilityai/sd-turbo
+$> uv run hf download stabilityai/sdxl-turbo
+## Get account at Hugging Face then get an Access Token: settings > access tokens > create new token.Can put in .zshrc
+$> firefox https://huggingface.co/docs/hub/en/security-tokens
+$> export HF_TOKEN=hf_exaadfhstyuj,T
+## Pull a model, Run something
+## SDXL requires access token.
+$> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
+## FLUX requires access token.
+$> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
+$> uv run hf download black-forest-labs/.1-schnell
+##==========================================
+## #############################################
+## ##    Using ollama
+## #############################################
+$> firefox https://ollama.com/
+## Install ollama.
+$> curl -fsSL https://ollama.com/install.sh | sh
+## Pull some models.
+$> ollama pull sd-turbo
+$> ollama pull llama3.2:1b
+## Pull latest
+$> ollama pull llama3.2
+## List the models downloads.
+$> ollama list
+## Run models.
+$> ollama run llama3.2:1b "Tell me about bash scripts."
+##----------------------------
+## Open WebUI Docker image to run in a GUI.
+$> firefox https://github.com/open-webui/open-webui
+## Docker with Open-Webui.
+$> sudo docker run -d  -p 8686:8080  --gpus=all  -v ollama:/root/.ollama  -v open-webui:/app/backend/data  --name open-webui  --restart always ghcr.io/open-webui/open-webui:ollama
+## Open the WebUI.
+$> firefox http://localhost:8686
+##==========================================
+## ##############################################
+##==========================================
+## #############################################
 ## #############################################
 ## ##    Claude Coder CLI
 ## #############################################
-## Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
+## ai. coder. Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
 $> firefox https://code.claude.com/docs/en/overview
 ##==========================================
 ## Install.
 $> curl -fsSL https://claude.ai/install.sh | bash
+## or
+## Install the Claude CLI tool via npm:
+$> npm install -g @anthropic-ai/claude-code.
 ##==========================================
 ## Make parameters files.
 ## Examples:
@@ -11556,87 +11640,125 @@ $> - Uses Claude Code as a general-purpose personal assistant
 $> - sudo password: Ask me to enter when needed.
 $> ## Session Persistence
 $> - At the START of every session, read `MEMORY.md` and `TODO.md`.
-$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.' > CLAUDE.md
+$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
+$> - When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
+$> ' > CLAUDE.md
 $> touch MEMORY.md ## A place for agent to add information to add context to next session.
 $> touch TODO.md   ## Have agent add items as you come up with new ideas.
 ##==========================================
 ## Start claude
 $> claude
+$> your prompt here
 ##==========================================
-## Claude Plugin sRun /plugin and go to the Discover tab to browse what’s available.
-$> claude
+## Allow claude to use browser.
+## Chrome browser.
+$> firefox https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn
+## Start with
+$> claude --chrome
+## Or in an existing session run.
+$> /chrome
+## Claude Plugin Run /plugin and go to the Discover tab to browse what’s available.
 $> /plugin
 ##$> Discover tab
 ##==========================================
 ## Prompt claude
 $>
 ##==========================================
-
-
+## Compacting. The memory of what you are currently working on is limited.
+## Claude will compact the conversation sometime forgeting key points.
+## Save key details to a file, quitting, and restarting the session. Have to set this up first.
+$> MEMORIZE:
+## Best Practices: To maintain context, consider manually compacting at natural stopping points.
+$> /compact
+## Start fresh without losing critical, accumulated knowledge.
+$> /clear
 ##==========================================
-## #############################################
-## ##    Using ollama
-## #############################################
-## Install ollama.
-$> firefox https://ollama.com/download
-$> curl -fsSL https://ollama.com/install.sh | sh
-## Pull some models.
-$> ollama pull sd-turbo
-$> ollama pull llama3.2:1b
-## Pull latest
-$> ollama pull llama3.2
-## List the models downloads.
-$> ollama list
-## Run models.
-$> ollama run llama3.2:1b "Tell me about bash scripts."
-##----------------------------
-## Open WebUI Docker image to run in a GUI.
-$> firefox https://github.com/open-webui/open-webui
-## Docker with Open-Webui.
-$> sudo docker run -d  -p 8686:8080  --gpus=all  -v ollama:/root/.ollama  -v open-webui:/app/backend/data  --name open-webui  --restart always ghcr.io/open-webui/open-webui:ollama
-## Open the WebUI.
-$> firefox http://localhost:8686
+## Local model
+## Use claude with local model using llmstudio or ollama.
+## Start Local Server: Ensure your local tool is running as a server (e.g.,
+$> ollama serve
+## or
+$> lms server start
+## Configure Environment Variables: Point Claude Code to your local server.
+$> export ANTHROPIC_BASE_URL=http://localhost:11434
+$> export ANTHROPIC_BASE_URL=http://localhost:1234
+$> export ANTHROPIC_AUTH_TOKEN=lmstudio
+## Run with Local Model.
+$> claude --model ollama/qwen2.5-coder.
 ##==========================================
 
-
-## #############################################
-##==========================================
-## #############################################
-## ##    Huggingface Models
-## #############################################
-$> firefox https://huggingface.co/
-## Install Huggingface cli.
-$> curl -LsSf https://hf.co/cli/install.sh | bash
-## uv python package manager.
-## Instal uv
-$> curl -LsSf https://astral.sh/uv/install.sh | sh
-## OR
-$> pipx install uv.
-## Go to project directory.
-$> cd ~/code/project/
-$> uv init
-$> uv venv
-$> source .venv/bin/activate
-## Install some packages.
-$> uv pip install huggingface_hub
-## Download models.
-$> uv run hf download stabilityai/sd-turbo
-$> uv run hf download stabilityai/sdxl-turbo
-## Get account at Hugging Face then get an Access Token: settings > access tokens > create new token.Can put in .zshrc
-$> firefox https://huggingface.co/docs/hub/en/security-tokens
-$> export HF_TOKEN=hf_exaadfhstyuj,T
-## Pull a model, Run something
-## SDXL requires access token.
-$> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
-## FLUX requires access token.
-$> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
-$> uv run hf download black-forest-labs/.1-schnell
 ##==========================================
 
 
 ##==========================================
-## #############################################
+## ##############################################
 ##==========================================
+## ##############################################
+## ##    Cline code
+## ##############################################
+## ai. coder. Cline, an AI assistant that can use your CLI aNd Editor.
+$> firefox https://github.com/cline/cline
+$> firefox https://cline.bot/blog/introducing-cline-cli-2-0
+## Can use with local models.
+##==========================================
+## Install Cline.
+$> curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash
+## Install Node JS.
+$> sudo apt install -y nodejs npm
+## Install Cline
+$> sudo npm install -g cline
+$> cline version
+##>     Cline CLI version: 2.4.0
+## Get runtime options.
+$> cline --help
+## Make cline use ollama with qwen3-coder-32k. Download it first.
+$> cline auth -p ollama -k ollama -m qwen3-coder-32k
+##==========================================
+## Set up your provider, if you use one, and API keys interactively from the terminal.
+$> cline auth
+## Adjust various settings, such as changing the default model or toggling "YOLO mode" (autonomous execution).
+$> cline config
+## Specific Settings: Modify specific settings
+$> cline config set <key>=<value>
+## Set the context window for Ollama. The lower default context window can fail on some tasks.
+$> cline config set ollama-api-options-ctx-num=32768
+## Check out the state..
+$> cat ~/.cline/data/globalState.json
+$> {
+$>   "remoteRulesToggles": {},
+$>   "remoteWorkflowToggles": {},
+$>   "actModeApiProvider": "ollama",
+$>   "planModeApiProvider": "ollama",
+$>   "actModeOllamaModelId": "qwen3-coder-32k",
+$>   "planModeOllamaModelId": "qwen3-coder-32k",
+$>   "welcomeViewCompleted": true,
+$>   "globalClineRulesToggles": {},
+$>   "globalWorkflowToggles": {}
+$> }%
+##===================================
+## Initialization of the project memory.
+$> node build/index.js initialize_memory_bank
+## Cline has a built-in Memory Bank pattern — a memory-bank/ directory with
+## structured files it reads at session start and writes to when things change:
+$> ls memory-bank/
+$> cat projectbrief.md     ## what the project is
+$> cat activeContext.md    ## current focus, recent changes  ← like your MEMORY.md
+$> cat progress.md         ## status, what's done/pending    ← like your TODO.md
+$> cat systemPatterns.md   ## architecture decisions
+$> cat techContext.md      ## stack, setup, hardware targets
+##===================================
+
+
+##===================================
+
+
+##===================================
+
+
+##===================================
+## #############################################
+##===================================
+##===================================
 ## French AI startup Mistral tweeted
 $> firefox https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
 ## a magnet link
@@ -11655,6 +11777,11 @@ $> firefox https://docs.mistral.ai/api
 ## You can then use the following command to start the server:
 $> python -u -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
 ##==========================================
+
+##==========================================
+## ##############################################
+## ##    Whisper
+## ##############################################
 ## text. audio. ai.
 ## Whisper. Converts audio to text. Transcription.
 $> firefox https://github.com/ggml-org/whisper.cpp
@@ -11673,6 +11800,8 @@ $> sox -t alsa default ./recording.wav silence 1 0.1 5% 1 2.0 5%
 ## Output to a file.
 $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt recording.txt
 ##==========================================
+## ##############################################
+##==========================================
 ## Stable-diffusion image generation command line interface.
 ## This ran on CPU. How to force GPU?
 $> mkdir -p ~/code/stable-diffusion-cli
@@ -11689,12 +11818,7 @@ $> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a 
 
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
+## ####################################
 
 
 ##==========================================
@@ -12039,6 +12163,14 @@ $> alias mctmux='TERM=xterm mc'
 ## ########################################
 ## ##    Unsorted
 ## ########################################
+## This removes many hidden Unicode characters.
+## or
+# Removes Zero-Width Spaces, Joiners, and Common Bidi Controls
+sed 's/[\u200B-\u200D\u202A-\u202E\u2060-\u206F]//g' input.txt > output.txt
+## or
+cat input.txt | tr -cd "[:print:]\n" > output.txt
+## or
+unicodefix -i input.txt > output.txt
 ##==========================================
 ## Mount USB drives in cli.
 ## Install udisks2.
