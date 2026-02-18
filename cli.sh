@@ -4050,23 +4050,23 @@ COMMENT1
 ## #####################################
 ## ##    Prompt
 ## #####################################
+## ########################################
+## ##    Timestamp git track prompt
+## ########################################
 ## Timestamped best prompt, git branch with tracking
 ## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
-## https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015
+$> firefox https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015 blue:021 ltblue:031
 $> function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
 $> function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
 $> function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
 $> function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
 $> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
-## ZSH
-#PS1='%B%F{011}%\S^%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f⚡'
 ## BASH
 $> PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
-##-----------------------------------------
-## #########################
-## ##    Prompt
-## #########################
+## ZSH
+$> PS1='%B%F{093}%\NAME:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f
+$> ⚡'
 ##------------------------------------------
 ## Initialize colors.
 $> autoload -U colors
@@ -4088,29 +4088,29 @@ $> if [ -n "$force_color_prompt" ]; then if [ -x /usr/bin/tput ] && tput setaf 1
 $> if [ "$color_prompt" = yes ]; then if [[ ${EUID} == 0 ]] ; then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '; else PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '; fi; else PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '; fi
 $> unset color_prompt force_color_prompt
 ## If this is an xterm set the title to user@host:dir
-#case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
+$> case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
 ##-----------------------------------------
 ## Mint Prompt
-#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+$> PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
 ##-----------------------------------------
 ## Mint Prompt😆
-#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
+$> PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
 ##-----------------------------------------
 ### Prompt
 ## set a fancy prompt (non-color, overwrite the one in /etc/profile)
-#PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$> '
+$> PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$> '
 ##------------------------------------------
 ## Set a colorful red bash prompt
-#PS1='\[\e[1;31m\][\u@\h \W]\$>\[\e[0m\] '
+$> PS1='\[\e[1;31m\][\u@\h \W]\$>\[\e[0m\] '
 ##------------------------------------------
 ## Set a colorful green bash prompt
-#PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] '
+$> PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] '
 ##------------------------------------------
 ## Set a colorful green bash prompt
-#PS1='\[\e[1;32m\]\u@\h \W\$>\e[0m '
+$> PS1='\[\e[1;32m\]\u@\h \W\$>\e[0m '
 ##------------------------------------------
 ## nuts with colors (figure 3):
-#PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
+$> PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
 ##------------------------------------------
 ## ##########################
 ## ##    More functions
