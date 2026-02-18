@@ -34,6 +34,11 @@ Type command.
          █   clicool   █
          ███████████████
 
+## Key of ^ symbols
+##             ## Comments
+$>             ## Command
+#>    Start    ## Output stdout after 4 spaces
+#$             ## Settings
 
 COMMENT1
 ############################################################
@@ -451,8 +456,8 @@ $> man sshfs # some options, -o port=PORT,follow_symlinks,compression=yes,allow_
 $> sshfs -o compression=yes,allow_other,IdentityFile="~/.ssh/key.pem" $USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt
 ##
 $> sudo nano /etc/fstab
-@> sshfs#root@xxx.xxx.xxx.xxx:/ /local/mnt
-@> sshfs#$USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
+$# sshfs#root@xxx.xxx.xxx.xxx:/ /local/mnt
+$# sshfs#$USER@xxx.xxx.xxx.xxx:/remote/path/ /local/mnt fuse auto,user,_netdev,reconnect,uid=1000,gid=1000,IdentityFile="/home/$USER/.ssh/key.pem",idmap=user,allow_other  0
 ##==========================================
 ## filesystem. web. networking. Mount folder/filesystem through SSH
 ## Install SSHFS from http://fuse.sourceforge.net/sshfs.html
@@ -7242,24 +7247,24 @@ $> docker run hello-world
 ## Define a container with Dockerfile, requirements.txt and app.py
 $> mkdir Dockerfile; cd Dockerfile
 $> echo '
-# Use an official Python runtime as a parent image
-FROM python:3.7-slim
-# Set the working directory to /app
-WORKDIR /app
-# Copy the current directory contents into the container at /app
-COPY . /app
-# Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
-# Set proxy server, replace host:port with values for your servers
-#ENV http_proxy host:port
-#ENV https_proxy host:port
-# Make port 80 available to the world outside this container, can you 8080 or another port
-EXPOSE 80
-# Define environment variable
-ENV NAME World
-# Run app.py when the container launches
-CMD ["python", "app.py"]
-' > Dockerfile
+$> # Use an official Python runtime as a parent image
+$> FROM python:3.7-slim
+$> # Set the working directory to /app
+$> WORKDIR /app
+$> # Copy the current directory contents into the container at /app
+$> COPY . /app
+$> # Install any needed packages specified in requirements.txt
+$> RUN pip install --trusted-host pypi.python.org -r requirements.txt
+$> # Set proxy server, replace host:port with values for your servers
+$> #ENV http_proxy host:port
+$> #ENV https_proxy host:port
+$> # Make port 80 available to the world outside this container, can you 8080 or another port
+$> EXPOSE 80
+$> # Define environment variable
+$> ENV NAME World
+$> # Run app.py when the container launches
+$> CMD ["python", "app.py"]
+$> ' > Dockerfile
 $> touch requirements.txt
 $> echo '
 Flask
@@ -7268,33 +7273,33 @@ Redis
 ## Put the python app in this file
 $> touch app.py
 $> echo '
-#from flask import Flask
-#from redis import Redis, RedisError
-#import os
-#import socket
-#
-### Connect to Redis
-#redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
-#
-#app = Flask(__name__)
-#
-#@app.route("/")
-#def hello():
-#    try:
-#        visits = redis.incr("counter")
-#    except RedisError:
-#        visits = "<i>cannot connect to Redis, counter disabled</i>"
-#
-#    html = "<h3>Hello {name}!</h3>" \
-#           "<b>Hostname:</b> {hostname}<br/>" \
-#           "<b>Visits:</b> {visits}"
-#    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
-#
-#if __name__ == "__main__":
-#    app.run(host='0.0.0.0', port=80)
-#' > app.py
-## Remove leading #
-$> sed -i 's/^#//g' ./app.py
+$> from flask import Flask
+$> from redis import Redis, RedisError
+$> import os
+$> import socket
+$>
+$> ## Connect to Redis
+$> redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+$>
+$> app = Flask(__name__)
+$>
+$> @app.route("/")
+$> def hello():
+$>     try:
+$>         visits = redis.incr("counter")
+$>     except RedisError:
+$>         visits = "<i>cannot connect to Redis, counter disabled</i>"
+$>
+$>     html = "<h3>Hello {name}!</h3>" \
+$>            "<b>Hostname:</b> {hostname}<br/>" \
+$>            "<b>Visits:</b> {visits}"
+$>     return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+$>
+$> if __name__ == "__main__":
+$>     app.run(host='0.0.0.0', port=80)
+$> ' > app.py
+## Remove leading $>
+$> sed -i 's/^$> //g' ./app.py
 ## run the build command
 $> docker build --tag=friendlyhello:v0.0.1 .
 $> docker image ls
@@ -7323,28 +7328,28 @@ $> chmod +x /usr/local/bin/docker-compose
 $> firefox https://docs.docker.com/get-started/part3/
 ## scale services with the Docker platform, write a docker-compose.yml file
 $> echo '
-#version: "3"
-#services:
-#  web:
-#    ## replace username/repo:tag with your name and image details
-#    image: username/repo:tag
-#    deploy:
-#      replicas: 5
-#      resources:
-#        limits:
-#          cpus: "0.1"
-#          memory: 50M
-#      restart_policy:
-#        condition: on-failure
-#    ports:
-#      - "4000:80"
-#    networks:
-#      - webnet
-#networks:
-#  webnet:
-#' > docker-compose.yml
-## Remove leading #
-$> sed -i 's/^#//g' ./docker-compose.yml
+$> version: "3"
+$> services:
+$>   web:
+$>     ## replace username/repo:tag with your name and image details
+$>     image: username/repo:tag
+$>     deploy:
+$>       replicas: 5
+$>       resources:
+$>         limits:
+$>           cpus: "0.1"
+$>           memory: 50M
+$>       restart_policy:
+$>         condition: on-failure
+$>     ports:
+$>       - "4000:80"
+$>     networks:
+$>       - webnet
+$> networks:
+$>   webnet:
+$> ' > docker-compose.yml
+## Remove leading $>
+$> sed -i 's/^$> //g' ./docker-compose.yml
 $> firefox https://docker-curriculum.com/
 ## Read and do walkthrough on elasticsearch
 ## ######################
@@ -7356,7 +7361,7 @@ $> firefox https://docker-curriculum.com/
 ## #########################
 ## man vim - Vi IMproved, a programmers text editor.  Vim  is a text editor that is upwards compatible to Vi.  It can be used to edit all kinds of plain text.  It is especially useful  for  editing programs.
 ##--------------------------------------------
-$>  vim filename            ## Open file in vim
+$> vim filename             ## Open file in vim
 $>  :Explore                ## File explorer
 $>  :Sex                    ## Split explore, open another file in slit pane
 $>  cntl+w+w                ## Change panes in split mode
@@ -7559,8 +7564,8 @@ $>     SSLCertificateFile /etc/ssl/certs/server.crt
 $>     SSLCertificateKeyFile /etc/ssl/private/server.key
 $> </VirtualHost>
 $> ' > /etc/apache2/sites-available/mydomain.net
-## Remove leading # in file
-$> sudo sed -i 's/^#//g' /etc/apache2/sites-available/mydomain.net
+## Remove leading $> in file
+$> sudo sed -i 's/^$> //g' /etc/apache2/sites-available/mydomain.net
 ## for new domain run: sets up a symlink under /etc/apache2/sites-enabled that links to the configuration in /etc/apache2/sites-available
 $> sudo a2ensite mydomain.net
 ## make sure your server address is in /etc/hosts with the IP address you're using for the server.
@@ -7627,6 +7632,7 @@ $> browsh
 $> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
 $> chmod 755 browsh_1.8.0_linux_amd64
 $> ./browsh_1.8.0_linux_amd64
+$> sudo mv ./browsh_1.8.0_linux_amd64 /usr/local/bin/browsh
 ##==========================================
 ## network. Displays the quantity of connections to port 80 on a per IP basis.
 $> clear;while x=0; do clear;date;echo "";echo "  [Count] | [IP ADDR]";echo "-------------------";netstat -np|grep :80|grep -v LISTEN|awk '{print $5}'|cut -d: -f1|uniq -c; sleep 5;done
@@ -7987,8 +7993,8 @@ $> [group2]
 $> 192.168.1.12                               ## Human readable description of computer
 $> 192.168.1.13                               ## Human readable description of computer
 $> ...' > ./ansible/hosts_inventory
-## Remove leading #
-$> sed -i 's/^#//g' ./ansible/hosts_inventory
+## Remove leading $>
+$> sed -i 's/^$> //g' ./ansible/hosts_inventory
 ## Ad-hoc commands;
 $> man ansible # -i --inventory, -m --module-name, -u --user, --become-user,
 ## Modules # -m  command, file-create a directory, copy-scp src=/path/file dest=/path/file, apt-
@@ -8058,7 +8064,7 @@ $>       - php5-cli
 $>       - apache2
 $>       - mysql-server-5
 $> ' > ./playbook.yml
-## Remove leading #
+## Remove leading $>
 $> sed -i 's/^$> //g' ./playbook.yml
 ##-------------------------------------------
 ## Run ansible playbook with a specified inventory file and playbook, uses -become line in playboook which requires sudo so use  --ask-become-pass
@@ -8079,10 +8085,10 @@ $> ssh-agent bash
 $> ssh-add /home/eakinc/.ssh/commandlinefun.pem
 ##----------------------------------------
 ## find the index of in ansible.txt
-$> hostname: |
+$> echo "hostname: |
 $>   {% for item in standard_network_info['hosts'] %}
 $>   item['loopback'] when item['name'] == ansible_hostname
-$>   {% endfor %}
+$>   {% endfor %}" >> playbook.yml
 ##==========================================
 ## ############################
 ## ##    END ansible
@@ -8103,7 +8109,8 @@ $> sudo cat /etc/passwd
 $> sudo 's%PUTINTHELINETOCHANGE%PUTINTHELINETOCHANGE:/bin/bash%'
 ## OR open in editor and add :/bin/bash to end of users entry in /etc/passwd
 ##==========================================
-## When experiencing The following signatures were invalid: BADSIG ... when refreshing the packages from the repository?
+## Fix for error:
+## "The following signatures were invalid: BADSIG ... when refreshing the packages from the repository?"
 $> sudo -s -H
 $> apt-get clean
 $> rm /var/lib/apt/lists/*
@@ -8157,15 +8164,15 @@ $> [SeatDefaults]
 $> allow-guest=false
 $> user-session=LXDE
 $> ' > /etc/lightdm/lightdm.conf
-## Remove leading #
-$> sed -i 's/^$#//g' /etc/lightdm/lightdm.conf
+## Remove leading $>
+$> sed -i 's/^$> //g' /etc/lightdm/lightdm.conf
 ##==========================================
 ## ####################################
 ## ##    Bash Sample Scripts
 ## ####################################
 ##------------------------------------------
-## Sample script with; var if then else elif fi
-$> #!/bin/bash
+## Sample script with nested inputs var, if then else fi
+$> echo '#!/bin/bash
 $> echo -n "Enter a number: "
 $> read VAR
 $> if [[ $VAR -gt 10 ]]
@@ -8176,10 +8183,12 @@ $> then
 $>   echo "Variable is equal to 10."
 $> else
 $>   echo "Variable is less than 10."
-$> fi
+$> fi' nested-script.sh
+## Run it
+$> ./nested-script.sh
 ##---------------------------------------
-## Sample script with nested; var if then else fi
-$> #!/bin/bash
+## Sample script3 with nested 3 inputs var, if then else fi
+$> echo '#!/bin/bash
 $> echo -n "Enter the first number: "
 $> read VAR1
 $> echo -n "Enter the second number: "
@@ -8202,7 +8211,9 @@ $>     echo "$VAR2 is the largest number"
 $>   else
 $>     echo "$VAR3 is the largest number"
 $>   fi
-$> fi
+$> fi' nested-script2.sh
+## Run it
+$> ./nested-script2.sh
 ##==========================================
 ## files. Make backup while using sed on file
 $> sed -i.bak '/pattern to match/d' ./infile
@@ -8230,7 +8241,8 @@ $> sudo apt-get install zathura qbittorrent rofi dmenu
 $> sudo apt-get install zsh nnn tmux fd fzf ripgrep vim openbox fluxbox nitrogen tint2 angrysearch drill-finder parallel
 $> sudo apt-get install wireguard-tools mpd ncmpc newsbueter pcmanfm screen rtorrent vrms
 $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
-### emacs hahaha
+##==========================================
+### emacs is... hahaha.
 ##   terminal emulator: Emacs;
 ##   text editor: Emacs;
 ##   file manager: Emacs;
@@ -8246,7 +8258,7 @@ $> sudo apt-get install urxvt fzf nnn exa bat gotop screen
 ##   apt, snap, flatpack, and guix
 ##==========================================
 ## GUI. web browser
-## press Ctrl+Shift+R in your browser to force a refresh of your local cache
+## press Ctrl+Shift+R in your browser to force a refresh of your local cache.
 ##==========================================
 ### multimedia. 3d. Unity3d
 ## Step 1: Installing Unity3d
@@ -8295,7 +8307,7 @@ $> sudo ln -s /usr/bin/code /usr/bin/vscode in the terminal
 ## web. Get Your IP Geographic Location with curl and jq
 $> curl -s https://ipvigilante.com/$(curl -s https://ipinfo.io/ip) | jq '.data.latitude, .data.longitude, .data.city_name, .data.country_name'
 ##==========================================
-## files. Directories that contain lots of files, this script may help:
+## files. Directories that contain lots of files, this script may help count them.
 $> cat << EOF > countum.sh
 $> #!/bin/bash
 $> ## count_em - count files in all subdirectories under current directory.
@@ -8304,6 +8316,8 @@ $> chmod 700 /tmp/count_em_$$
 $> find . -mount -type d -print0 | xargs -0 -n1 /tmp/count_em_$$ | sort -n
 $> rm -f /tmp/count_em_$$
 EOF
+## Run it.
+$> ./countum.sh
 ##==========================================
 ## Use RSYNC to DELETE the large number of files.
 $> firefox http://www.slashroot.in/which-is-the-fastest-method-to-delete-files-in-linux
@@ -10629,17 +10643,13 @@ $> sudo install -m 0755 -d /etc/apt/keyrings
 $> sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 $> sudo chmod a+r /etc/apt/keyrings/docker.asc
 ## Add the repository to Apt sources:
-$> echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  noble stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+$> echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 $> sudo apt-get update
 ## install
 $> sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ##
 ## nerdctl use full version
 $> wget https://github.com/containerd/nerdctl/releases/download/v2.0.2/nerdctl-full-2.0.2-linux-amd64.tar.gz
-#tar -zxf nerdctl-full-2.0.2-linux-amd64.tar.gz
 ## Extract to all the correct folders
 $> sudo tar Cxzvvf /usr/local nerdctl-full-2.0.2-linux-amd64.tar.gz
 ## Import docker containers. first, you save a tarball for it with docker
@@ -10655,7 +10665,6 @@ $> sudo nerdctl container ls
 $> sudo nerdctl --namespace k8s.io build --tag hello-world2:latest .
 ## Image not pulled. ## WHY?
 $> kubectl run nginx-check --image-pull-policy=Never --image=hello-world2:latest
-
 ##========================================
 ## #################################
 ## ##    END Docker
@@ -10681,11 +10690,7 @@ $> paprefs
 ## ##########################################################
 ## ##    END Sound
 ## ##########################################################
-## ######################################################
-
-
 ##==========================================
-
 ## ##########################################################
 ## ##    Packages
 ## ##########################################################
@@ -10715,9 +10720,9 @@ $> ssh user@192.168.1.1 -p 26
 ## Use openssl aes rsa encryption keys to connect securely to server
 ## Create keys. public keys to put on remote machines which will use that key to authenticate, and a private key you set strong permissions on, that you use to give you access to the remote.
 $> ssh-keygen -t rsa
-##   Generating public/private rsa key pair.
-##   Enter file in which to save the key (/Your/HomeDir/.ssh/id_rsa):
-##   Enter passphrase (empty for no passphrase):
+#>   Generating public/private rsa key pair.
+#>   Enter file in which to save the key (/Your/HomeDir/.ssh/id_rsa):
+#>   Enter passphrase (empty for no passphrase):
 ## defaults to 2048 bits, can change to higher bits with -b 4096, and -C and put in a comment
 $> ssh-keygen -t rsa -b 4096 -C 'Passwd_hint'
 ## Available encryption; “dsa”, “ecdsa”, “ed25519”, “rsa”. Change the key names appropriately.
