@@ -332,23 +332,24 @@ $> sudo systemctl stop lightdm
 $> sudo systemctl start lightdm
 ##------------------------------------------
 ## os. permissions. Command line only login.
+## GUI will not start. CLI only computer.
 $> sudo systemctl set-default multi-user.target
 ## GUi login.
 $> sudo systemctl set-default graphical.target
 ##------------------------------------------
-## Change /etc/default/grub
-$> sudo sed -i 's:quiet splash:quiet text:' /etc/default/grub
-$> sudo update-grub
-$> sudo reboot
+## DEPRECATED. Change /etc/default/grub
+#$> sudo sed -i 's:quiet splash:quiet text:' /etc/default/grub
+#$> sudo update-grub
+#$> sudo reboot
 ## To start the gui
-$> sudo service mdm start
+#$> sudo service mdm start
 ## To drop out of the gui back to commandline.
-$> sudo service mdm stop
+#$> sudo service mdm stop
 ##------------------------------------------
-## Auto Login to X, reverse above
-$> sudo sed -i 's:quiet text:quiet splash:' /etc/default/grub
-$> sudo update-grub
-$> sudo reboot
+## DEPRECATED. Auto Login to X, reverse above
+#$> sudo sed -i 's:quiet text:quiet splash:' /etc/default/grub
+#$> sudo update-grub
+#$> sudo reboot
 ##------------------------------------------
 ## Boot into command line only environment
 ## Press at grub for edit
