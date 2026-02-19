@@ -267,14 +267,14 @@ $> sudo systemctl restart systemd-logind
 ##==========================================
 ## Computers with both Intel graphics and Nvidia can have Nvidia Optimus to change between each card.
 ## Change to Nvidia
-sudo prime-select nvidia
-sudo reboot
+$> sudo prime-select nvidia
+$> sudo reboot
 ## Change to Intel
-sudo prime-select intel
-sudo reboot
+$> sudo prime-select intel
+$> sudo reboot
 ## Change to Nvidia On Demand
-sudo prime-select on-demand
-sudo reboot
+$> sudo prime-select on-demand
+$> sudo reboot
 ##==========================================
 ## tmux
 $> firefox https://tmuxcheatsheet.com/
