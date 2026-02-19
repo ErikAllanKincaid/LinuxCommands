@@ -300,32 +300,32 @@ $> mount -o loop sdimage.img /path/to/mount
 ## clone usb sticks with multiple partitions, notrunc - do not truncate the output file, noerror - continue after read errors
 $> sudo dd if=/dev/sdb of=/dev/sdc bs=4096 conv=notrunc,noerror
 ##==========================================
-## Drop into command line only environment
-$> sudo service mdm stop
+## DEPRECATE.Drop into command line only environment
+#$> sudo service mdm stop
 ## To get back into the gui
-$> sudo service mdm start
+#$> sudo service mdm start
 ##------------------------------------------
-## Systemd
+## DEPRECATE.Systemd
 ## Stop gui
-$> sudo systemctl stop mdm
+#$> sudo systemctl stop mdm
 ## Start gui
-$> sudo systemctl start mdm
+#$> sudo systemctl start mdm
 ##------------------------------------------
-## Command line only login system service
+## DEPRECATE. Command line only login system service
 ## Boot to text mode.  Stop mdm service from starting automatically on systemd
 ## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
-$> sudo systemctl disable mdm
-## Start gui
-$> sudo systemctl start mdm
-## boot to gui by default
-$> sudo systemctl enable mdm
+#$> sudo systemctl disable mdm
+### Start gui
+#$> sudo systemctl start mdm
+### boot to gui by default
+#$> sudo systemctl enable mdm
 ##------------------------------------------
 ## Drop into command line only environment lightdm
-$> sudo service lightdm stop
+$> sudo service stop lightdm
 ## To get back into the gui
-$> sudo service lightdm start
+$> sudo service start lightdm
 ##------------------------------------------
-## Systemd
+## Systemd drop into command line only environment lightdm
 ## Stop gui
 $> sudo systemctl stop lightdm
 ## Start gui
@@ -337,19 +337,18 @@ $> sudo systemctl set-default multi-user.target
 ## GUi login.
 $> sudo systemctl set-default graphical.target
 ##------------------------------------------
-## DEPRECATED. Change /etc/default/grub
-#$> sudo sed -i 's:quiet splash:quiet text:' /etc/default/grub
-#$> sudo update-grub
-#$> sudo reboot
-## To start the gui
-#$> sudo service mdm start
-## To drop out of the gui back to commandline.
-#$> sudo service mdm stop
-##------------------------------------------
-## DEPRECATED. Auto Login to X, reverse above
-#$> sudo sed -i 's:quiet text:quiet splash:' /etc/default/grub
-#$> sudo update-grub
-#$> sudo reboot
+## Change /etc/default/grub
+$> sudo sed -i 's:quiet splash:quiet splash $vt_handoff 3:' /etc/default/grub
+$> sudo update-grub
+$> sudo reboot
+# To start the gui.
+$> sudo service mdm start
+# To drop out of the gui back to commandline.
+$> sudo service mdm stop
+## Auto Login to X, reverse above.
+$> sudo sed -i 's:$vt_handoff 3::' /etc/default/grub
+$> sudo update-grub
+$> sudo reboot
 ##------------------------------------------
 ## Boot into command line only environment
 ## Press at grub for edit
