@@ -34,11 +34,12 @@ Type command.
          █   clicool   █
          ███████████████
 
-## Key of ^ symbols
-##             ## Comments
-$>             ## Command
-#>    Start    ## Output stdout after 4 spaces
-#$             ## Settings
+    ## Key of ^ symbols
+    ## Comments           ## Comments
+    $> Command            ## Command
+    $>    Command         ## Command inside the app with extra spaces
+    #>    Start           ## Output, stdout after 4 spaces
+    #$ Settings           ## Settings
 
 COMMENT1
 ############################################################
@@ -3022,9 +3023,7 @@ $> export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 ##=======================================
 ## If not running interactively, do not do anything.
 case $- in *i*) ;; *) return;; esac
-### Shell Options, Change the setting of each shell option: help shopt.
-## Append to the history file, do not overwrite it.
-#shopt -s histappend
+### Shell Options, Change the setting of each shell option:
 ## Check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
 #shopt -s checkwinsize
 ## Make less more friendly for non-text input files, see lesspipe(1).
@@ -3055,6 +3054,9 @@ alias python="python3"
 ## ##   History
 ## #################################
 ##------------------------------------------
+## help shopt.
+## Append to the history file, do not overwrite it.
+#shopt -s histappend
 ## Increase the size of the .bash_history file
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000
@@ -3070,9 +3072,6 @@ HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
 #HISTTIMEFORMAT='%F %T '
 ## Make screen sessions save history.
 #shopt -s histappend
-##=========================================
-## zsh
-HISTFILE=~/.zsh_history
 ##=========================================
 ## ####################################################
 ## ##    START Prompt
@@ -3137,46 +3136,11 @@ PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}
 ## ############################
 ## ##    Other prompt
 ## ############################
-#PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{blue}%1~%f%b %# '
-#PROMPT='%F{green}%B%m%F{blue}%~%f%b 😆 '
-#PROMPT='%F{green}%B%m:%F{blue}%~%f%b⚡ '
-#PROMPT='%F{green}%n@%B%m:%F{blue}%~%f%b⚡ '
-#PROMPT='%n@%B%m:%F{blue}%~%f%b⚡ '
-#PROMPT='%F{green}%n%f@%B%m:%F{blue}%~%f%b⚡ '
-#PROMPT='%F{green}%n%f@%F{green}%B%m:%F{blue}%~%f%b⚡ '
-#PROMPT='%F{blue}%~%f%b⚡ '
-## Minimal
-#PROMPT='%~%f%b⚡ '
-## Sc
-#PROMPT='%F{green}%\[Sc]:%F{blue}%~%f%b⚡ '
-#PROMPT='%{$fg_bold[red]%}➜ %{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$%{$fg_bold[blue]%} % %{$reset_color%}'
-##-----------------------------------------
-## Overme prompt
-#PROMPT='%F{green}%\[Overme]:%F{blue}%~%f%b⚡ '
-##------------------------------------------
-## Mint Prompt
-#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
 ##-----------------------------------------
 ## Mint Prompt😆
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
 #PS1=s'%B%m%~%b 😆 '
 ##-----------------------------------------
-### Prompt
-## set a fancy prompt (non-color, overwrite the one in /etc/profile)
-#PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$> '
-##------------------------------------------
-## Set a colorful red bash prompt
-#PS1='\[\e[1;31m\][\u@\h \W]\$>\[\e[0m\] '
-##------------------------------------------
-## Set a colorful green bash prompt
-#PS1='\[\e[1;32m\][\u@\h \W]\$>\[\e[0m\] 😆 '
-##------------------------------------------
-## Set a colorful green bash prompt
-#PS1='\[\e[1;32m\]\u@\h \W\$>\e[0m '
-##------------------------------------------
-## nuts with colors (figure 3):
-#PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;31m\] '
-##=========================================
 ## ##########################################################
 ## ##    END Prompt
 ## ##########################################################
@@ -3266,12 +3230,15 @@ zstyle ':completion:::::' COMPLETER _EXPAND _COMPLETE _IGNORED _APPROXIMATE #ena
 #setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
 #setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
 #setopt HIST_REDUCE_BLANKS     # remove superfluous blanks from history items
-setopt INC_APPEND_HISTORY     # save history entries as soon as they are entered
-setopt SHARE_HISTORY          # share history between different instances of the shell
+setopt INC_APPEND_HISTORY      # save history entries as soon as they are entered
+setopt SHARE_HISTORY           # share history between different instances of the shell
 #setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_SPACE      # ignore commands that start with space
-setopt HIST_VERIFY            # show command with history expansion to user before running it
-setopt HIST_IGNORE_ALL_DUPS   # remove older duplicate entries from history
+setopt HIST_IGNORE_SPACE       # ignore commands that start with space
+setopt HIST_VERIFY             # show command with history expansion to user before running it
+setopt HIST_IGNORE_ALL_DUPS    # remove older duplicate entries from history
+## zsh
+HISTFILE=~/.zsh_history
+##=========================================
 ## #############################
 ## ##    zsh git Settings
 ## #############################
@@ -4014,14 +3981,14 @@ alias ttuios="tuios --dockbar-position top --scrollback-lines 1000000 --window-t
 #export AWS_SECRET_ACCESS_KEY='YOURKEYHERE'
 #export AWS_SESSION_TOKEN='YOURKEYHERE'
 ##=========================================
-## ##    GIT SECRETS
+## GIT SECRETS
 ## github.com token PW for my private/public repo. Usage: git push, # will ask for Username for 'https://github.com': and Password for 'https://USERNAME@github.com':
 #export GITPASS=YOURKEYHERE
 ## Expires 2023/12/30
 export GIT_TOKEN=YOURKEYHERE
 export GITHUB_TOKEN=$GIT_TOKEN
 ##=========================================
-## huggingface_token 20260121_20:08:41
+## huggingface_token
 huggingface_token=YOURKEYHERE
 export HF_TOKEN=YOURKEYHERE
 ##==========================================
@@ -4845,10 +4812,7 @@ COMMENT1
 ## cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
 ## sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
 ## sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
-
-##
-##
-##
+##==========================================
 ## #################################################
 ## ##    GUI Control
 ## #################################################
@@ -5067,32 +5031,10 @@ $> find / -iname "manifest.json" -exec sed 's/\"update_url\": \"http/\"update_ur
 
 
 ##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
 ## #################################################
 ## ##    END GUI Control
 ## #################################################
 ##==========================================
-##
 ##
 ##
 ##==========================================
@@ -5629,8 +5571,8 @@ $> function idVendor () { find -L /sys/bus/usb/devices -maxdepth 2 -path "*/moda
 # NB, there should be a degree symbol right after the first "%d" NOT a question mark.
 # For some unknown reason, commandlinefu is not able to handle degree symbol correctly ("?")?
 ##==========================================
-$> rsync -a --delete empty-dir/ target-dir/
 ## Optimal way of deleting huge numbers of files
+$> rsync -a --delete empty-dir/ target-dir/
 ## This command works by rsyncing the target directory (containing the files you want to delete) with an empty directory. The '--delete' switch instructs rsync to remove files that are not present in the source directory. Since there are no files there, all the files will be deleted.
 ## Im not clear on why its faster than find -delete, but it is.
 ## Benchmarks here: https://web.archive.org/web/20130929001850/http://linuxnote.net/jianingy/en/linux/a-fast-way-to-remove-huge-number-of-files.html
@@ -5658,8 +5600,8 @@ $> for FILE in *.flac; do ffmpeg -i "$FILE" -b:a 320k "${FILE[@]/%flac/mp3}"; do
 $> sed 'X{N;s/\n//;}' file.txt
 ## N: On the current line, sed will display it on pattern space, plus a \n (new line); but s/\n//: Will get rid of new line displayed on pattern space, joining the current lines end with the start of the next line
 ##==========================================
-$> sudo mount -o remount,rw / && sudo cp /etc/hosts /etc/hosts.old && Fhttp://winhelp2002.mvps.org/hosts.txt && cp /etc/hosts ~/ && cat hosts.txt >> hosts && sudo cp hosts /etc/hosts
 ## Ad blocking on Ubuntu phone/tablet with hosts file
+$> sudo mount -o remount,rw / && sudo cp /etc/hosts /etc/hosts.old && Fhttp://winhelp2002.mvps.org/hosts.txt && cp /etc/hosts ~/ && cat hosts.txt >> hosts && sudo cp hosts /etc/hosts
 ## Will append lines to the hosts file to do some basic ad blocking.
 ##==========================================
 ## To play on chromecast
@@ -5781,19 +5723,19 @@ $> ffmpeg -i input.flv -vf scale=320:-1 -r 10 -f image2pipe -vcodec ppm - | conv
 ## you can use any common video format. if you do not need to change the size of gif output, just remove `-vf scale=320:-1`
 ## btw, 320:-1 means width is 320px and height would be set automatically
 ##==========================================
-$> sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ## Disable sleep mode via cli and systemd (Centos, Debian Ubuntu?)
+$> sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ## This causes computer to never power off or go into sleep mode. Disables sleep mode linux.
 ##==========================================
-$> pmset -g batt | awk '/^ /{print $5}'
 ## Display minutes remaining on Macbook battery
+$> pmset -g batt | awk '/^ /{print $5}'
 ## Remaining battery time is displayed in minutes
 ##==========================================
-$> printf "%x\n" $(seq 0 255) | xargs -n1 -IH echo -ne \\xH > test.dat
 ## Generate binary sequence data
+$> printf "%x\n" $(seq 0 255) | xargs -n1 -IH echo -ne \\xH > test.dat
 ##==========================================
-$> videospeed() { vname="$1"; speedc="$2"; vs=$(python3 -c "print(1/$speedc)"); aspeed=$(python3 -c "print(1*$speedc)"); ffmpeg -i "$vname" -filter:a "atempo=$aspeed" -filter:v "setpts=$vs*PTS" "${3:-converted_$1}"; }
 ## Speed up or slow down video (and audio)
+$> videospeed() { vname="$1"; speedc="$2"; vs=$(python3 -c "print(1/$speedc)"); aspeed=$(python3 -c "print(1*$speedc)"); ffmpeg -i "$vname" -filter:a "atempo=$aspeed" -filter:v "setpts=$vs*PTS" "${3:-converted_$1}"; }
 ## videospeed video_filename speedchange newfilename
 ## videospeed foo.mp4 0.5 foo_slow.mp4
 ## Range of 0.5 (50%) - 2.0 (200%) is valid.
@@ -5808,12 +5750,12 @@ $> tr -d '\r' < YourTextFile.txt | tr '\n' ' '
 ## Join lines and separate with spaces
 ## Read vmargs.txt, which is a text file that could either be DOS-style (\r\n) or UNIX-style (\n) line endings and join the lines with a space separator. Can this be shortened/made more elegant?
 ##==========================================
-$> ls -lart | lolcat -a
 ## Slow down the screen output of a command
+$> ls -lart | lolcat -a
 ## (example above is the 'ls' command with reduced output speed)
 ##==========================================
-$> id <username> | sed s/' '/'\n'/g | sed s/,/',\n '/g | sed s/'('/' ('/g | sed s/uid/' uid'/g | sed s/gid/' gid'/g | sed s/=/' = '/g
 ## Pretty-print user/group info for a given user
+$> id <username> | sed s/' '/'\n'/g | sed s/,/',\n '/g | sed s/'('/' ('/g | sed s/uid/' uid'/g | sed s/gid/' gid'/g | sed s/=/' = '/g
 ##==========================================
 ## Random news story dumped to terminal
 $> w3m -dump `lynx -dump -listonly "http://news.google.com" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*" | grep -v "google.com" | sort -R | uniq | head -n1`
@@ -5825,8 +5767,8 @@ $> links -dump `lynx -dump -listonly "http://news.google.com" | grep -Eo "(http|
 $> less -X YourTextFile.txt
 ## Do not clear the screen after viewing a file with less
 ##==========================================
-$> rsync -a --delete empty-dir/ target-dir/
 ## Optimal way of deleting huge numbers of files
+$> rsync -a --delete empty-dir/ target-dir/
 ## This command works by rsyncing the target directory (containing the files you want to delete) with an empty directory. The '--delete' switch instructs rsync to remove files that are not present in the source directory. Since there are no files there, all the files will be deleted.
 ## I'm not clear on why it's faster than 'find -delete', but it is.
 ## Benchmarks here: https://web.archive.org/web/20130929001850/http://linuxnote.net/jianingy/en/linux/a-fast-way-to-remove-huge-number-of-files.html
@@ -5838,8 +5780,11 @@ $> tree -isafF /var|grep -v "/$"|tr '[]' ' '|sort -k1nr|head
 $> du -a /var | sort -n -r | head -n 10
 ## Find top 10 largest files
 ##==========================================
-$> echo "$USER"|rev | espeak
-## Your name backwards
+## espeak. Make Linux speak.
+$> echo "Linux is fun" | espeak -s 110 -p 30 -k 20 -a 100 -v en+m1
+## -a Amplitude, 0 to 200, default is 100, -g <integer> Word gap units of 10mS, -k capital letters pitch (try -k20), -p Pitch adjustment, 0 to 99, default is 50, -s Speed in words per minute, default is 160, -v Voice, use --voices to find voice
+## Your name backwards.
+$> echo "$USER" | rev | espeak
 ##==========================================
 ## Make changes in .bashrc immediately available
 $> bashrc-reload() { builtin exec bash ; }
@@ -5994,8 +5939,8 @@ $> diff <(cd dir1 && find | sort) <(cd dir2 && find | sort)
 ## Quick access to ASCII code of a key
 $> showkey -a
 ##==========================================
-$> find . -type f -newermt "2010-01-01" ! -newermt "2010-06-01"
 ## Find files in a specific date range - in this case, the first half of last year.
+$> find . -type f -newermt "2010-01-01" ! -newermt "2010-06-01"
 ## -newermt = modification time of the file is more recent than this date
 ## GNU find allows any date specfication that GNU date would accept, e.g.
 $> find . -type f -newermt "3 years ago" ! -newermt "2 years ago"
@@ -6030,22 +5975,22 @@ $> grep -Fx -f file1 file2
 ## Differences between two files
 $> grep -v -Fx -f file1 file2
 ##==========================================
-$> bc <<< 'obase=60;299'
 ## Convert seconds into minutes and seconds
+$> bc <<< 'obase=60;299'
 ## This is a very simple way to input a large number of seconds and get a more useful value in minutes and seconds. Avoids useless use of echo.
 ##==========================================
 ## Create banner from output
 $> figlet
 ##==========================================
-$> grep -rl oldstring . | xargs sed -i -e 's/oldstring/newstring/'
 ## recursive search and replace old with new string, inside files
+$> grep -rl oldstring . | xargs sed -i -e 's/oldstring/newstring/'
 ## recursively traverse the directory structure from . down, look for string "oldstring" in all files, and replace it with "newstring", wherever found
 ## or
 $> grep -rl oldstring . | xargs perl -pi~ -e 's/oldstring/newstring'
 ##==========================================
 ## NOT WORKING
 ## Download Youtube video with wget!
-$> wget http://www.youtube.com/watch?v=dQw4w9WgXcQ -qO- | sed -n "/fmt_url_map/{s/[\'\"\|]/\n/g;p}" | sed -n '/^fmt_url_map/,/videoplayback/p' | sed -e :a -e '$q;N;5,$D;ba' | tr -d '\n' | sed -e 's/\(.*\),\(.\)\{1,3\}/\1/' | wget -i - -O surprise.flv
+#$> wget http://www.youtube.com/watch?v=dQw4w9WgXcQ -qO- | sed -n "/fmt_url_map/{s/[\'\"\|]/\n/g;p}" | sed -n '/^fmt_url_map/,/videoplayback/p' | sed -e :a -e '$q;N;5,$D;ba' | tr -d '\n' | sed -e 's/\(.*\),\(.\)\{1,3\}/\1/' | wget -i - -O surprise.flv
 ##==========================================
 ## Sort the size usage of a directory tree by gigabytes, kilobytes, megabytes, then bytes.
 $> du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e'
@@ -6540,9 +6485,9 @@ $> grep --color=auto -iH --label="$i" "$response"; done
 $> find -name '*.doc' | while read -r file; do unoconv --format html "$file" | grep -l --label="$file"
 ##==========================================
 ## modified to get rid of autogenerated subs (who the hell needs them, unnecessary clutter) + formatted to get the highest quality MP4 video every time. plug the link to the channel you want to download in on the end and away you go
-$> youtube-dl -f 43 -i https://www.youtube.com/user/MillennialWoes/videos
+$> yt-dlp -f 43 -i https://www.youtube.com/user/MillennialWoes/videos
 ##------------------------------------------
-$> youtube-dl --no-check-certificate --all-subs --no-mtime --no-overwrite --download-archive .archive --write-description --write-info-json --write-annotations --write-thumbnail --write-all-thumbnails --write-sub -f bestvideo[ext=mp4]+22,bestvideo[ext=mp4]+140 -o "%(upload_date)s - %(title)s [%(id)s].%(ext)s" https://www.youtube.com/user/MillionDollarExtreme
+$> yt-dlp --no-check-certificate --all-subs --no-mtime --no-overwrite --download-archive .archive --write-description --write-info-json --write-annotations --write-thumbnail --write-all-thumbnails --write-sub -f bestvideo[ext=mp4]+22,bestvideo[ext=mp4]+140 -o "%(upload_date)s - %(title)s [%(id)s].%(ext)s" https://www.youtube.com/user/MillionDollarExtreme
 ##==========================================
 ## Change owner of file moved to your home folder.
 $> alias chownhome='sudo chown -R $USER:$USER ~/'
@@ -7084,6 +7029,9 @@ $> tp=$(synclient -l | grep TouchpadOff | awk '{ print $3 }') && tp=$((tp==0)) &
 ##==========================================
 $> firefox https://www.maketecheasier.com/setup-wifi-on-raspberry-pi/
 ##==========================================
+## Read and do walkthrough on elasticsearch
+$> firefox https://docker-curriculum.com/
+##==========================================
 ## #########################
 ## ##    sed awk grep
 ## #########################
@@ -7190,11 +7138,12 @@ $> docker container run -it ubuntu /bin/bash
 ## Active Docker Containers
 $> docker container ls
 $> docker container ls -a
-## Remove Docker Container
+## Remove Docker Container by hash
 $> docker container rm 748fh3304412
 ## List Docker CLI commands
-$> docker
+$> docker --help
 $> docker container --help
+$> docker container run --help
 ## Display Docker version and info
 $> docker --version
 $> docker version
@@ -7210,6 +7159,7 @@ $> docker container ls -aq
 ## Run Docker container
 $> docker pull hellow-world
 $> docker run hello-world
+##------------------------------------------
 ### building an app the Docker way
 ## portable images are defined by a Dockerfile
 ## Python app Docker build
@@ -7279,7 +7229,7 @@ $> sudo service docker restart
 $> docker run -p 4000:80 friendlyhello
 ## Check the conection
 $> w3m -dump http://localhost:4000
-## run the app in the background, in detached mode:
+## run the app in the background, in detached mode, expose port :80 http in the container with port 4000 in the browser, http://localhost:4000.
 $> docker run -d -p 4000:80 friendlyhello
 ## Check the running container, will show CONTAINER ID and NAME at the end.
 $> docker container ls
@@ -7319,8 +7269,7 @@ $>   webnet:
 $> ' > docker-compose.yml
 ## Remove leading $>
 $> sed -i 's/^$> //g' ./docker-compose.yml
-$> firefox https://docker-curriculum.com/
-## Read and do walkthrough on elasticsearch
+##==========================================
 ## ######################
 ## ##    END Docker
 ## ######################
@@ -7331,141 +7280,141 @@ $> firefox https://docker-curriculum.com/
 ## man vim - Vi IMproved, a programmers text editor.  Vim  is a text editor that is upwards compatible to Vi.  It can be used to edit all kinds of plain text.  It is especially useful  for  editing programs.
 ##--------------------------------------------
 $> vim filename             ## Open file in vim
-$>  :Explore                ## File explorer
-$>  :Sex                    ## Split explore, open another file in slit pane
-$>  cntl+w+w                ## Change panes in split mode
-$>  :saveas                 ## Save current document as another name
-$>  vim +300 filename       ## Open file on line 300
-$>  vim +/term filename     ## Open file in vim at first instance of search term
-$>  vim ~/.vimrc            ## Write startup script
-$>  vim -x filename         ## add password and encryption to file
-$>  find . | vim -          ## send output to vim for editing and then save to file
-$>  h,j,k,l                 ## Move the cursor around the screen until you are comfortable.
-$>  <ESC>                   ## Normal mode.
-$>  :q! <ENTER>             ## Exit the editor, DISCARDING any changes you have made.
-$>  :w                      ## Save
-$>  :w filename             ## Save as
-$>  :wq                     ## Save the file with changes and exit
-$>  ZZ                      ## Save and close
-$>  x                       ## delete character under cursor
-$>  i                       ## insert mode, can write text <ESC> to leave insert mode and enter normal mode
-$>  a                       ## append mode append text to end of cursor location <ESC> to enter normal mode
-$>  A                       ## append text to end of line
-$>  dw                      ## Delete word
-$>  d$                      ## Delete to end of line
-$>  d^                      ## Delete backwards to begininng of line
-$>  d2w                     ## Delete 2 words
-$>  u                       ## undo
-$>  U                       ## undo all changes on line
-$>  CTRL-R                  ## redo, undo the undo
-$>  dd                      ## Delete line
-$>  p                       ## Put deleted text (paste)
-$>  0                       ## go to first position in line
-$>  ^                       ## go to first non space character in line
-$>  ce                      ## change text to end of line and enter insert mode
-$>  c$                      ## change text to end of line and enter insert mode
-$>  c^                      ## change text to first non space character and enter insert mode
-$>  c0                      ## change text to beginning of line and enter insert mode
-$>  cw                      ## change text in word and enter insert mode
-$>  c2w                     ## change text in two words and enter insert mode
-$>  p                       ## Put deleted text
-$>  ctrl-g                  ## Show info at bottom filename and line number
-$>  gg                      ## go to start of file
-$>  G                       ## go to end of file
-$>  250G                    ## go to line 250
-$>  /                       ## search
-$>  n                       ## search next
-$>  ?                       ## search backwards
-$>  cntl+o                  ## go back to one step
-$>  cntl+i                  ## go forward to one step
-$>  %                       ## cursor on ( [ { will file corresponding ) ] }
-$>  :s/this/that/           ## substitute first instance in line of this to that
-$>  :s/this/that/g          ## substitute all instances in line of this to that
-$>  :28,92s/this/that/g     ## substitute all instances in line 28-92 range of this to that
-$>  :%s/this/that/g         ## substitute all instances in file of this to that
-$>  :%s/this/that/gc        ## find all instances in line of this to that with confirmation to substitute
-$>  :! command              ## execute command
-$>  :r filename             ## retrieve and inserts text from a file
-$>  :r !command             ## retrieve and inserts output from command
-$>  o                       ## opens line below cursor and go into insert mode
-$>  O                       ## opens line above cursor and go into insert mode
-$>  e                       ## go to end of each word
-$>  R                       ## Replace text
-$>  V                       ## Select lines
-$>  cntl+v                  ## Select block
-$>  v                       ## Select characters
-$>  v MOVE CURSOR d         ## cut selected text (cut)
-$>  v MOVE CURSOR y         ## yank selected text (copy)
-$>  p                       ## Put yanked text (paste)
-$>  v MOVE CURSOR w name    ## selects text to write to file, write to file
-$>  CTRL-v                  ## select mult lines
-$>  :set option             ## turn option on
-$>  :set number             ## turn on line numbers or :set nu
-$>  :set nonumber           ## turn off line numbers or :set !nu
-$>  :set ignorecase         ## ignore upper/lower case when searching
-$>  :set incsearch          ## show partial matches for a search phrase
-$>  :set hlsearch           ## highlight all matching phrases
-$>  :set mouse=a            ## use mouse in term emulator
-$>  :e filename             ## edit another file
-$>  :split filename         ## split window and load another file
-$>  ctrl-w up arrow         ## move cursor up a window
-$>  ctrl-w ctrl-w           ## move cursor to another window (cycle)
-$>  ctrl-w_                 ## maximize current window
-$>  ctrl-w=                 ## make all equal size
-$>  10 ctrl-w+              ## increase window size by 10 lines
-$>  :vsplit file            ## vertical split
-$>  :sview file             ## same as split, but readonly
-$>  :hide                   ## close current window
-$>  :only                   ## keep only this window open
-$>  :ls                     ## show current buffers
-$>  :b 1                    ## open buffer #1 in this window
-$>  :b 2                    ## open buffer #2 in this window
-$>  :colo cntl+d            ## show available colorschemes
+$>     :Explore                ## File explorer
+$>     :Sex                    ## Split explore, open another file in slit pane
+$>     cntl+w+w                ## Change panes in split mode
+$>     :saveas                 ## Save current document as another name
+$>     vim +300 filename       ## Open file on line 300
+$>     vim +/term filename     ## Open file in vim at first instance of search term
+$>     vim ~/.vimrc            ## Write startup script
+$>     vim -x filename         ## add password and encryption to file
+$>     find . | vim -          ## send output to vim for editing and then save to file
+$>     h,j,k,l                 ## Move the cursor around the screen until you are comfortable.
+$>     <ESC>                   ## Normal mode.
+$>     :q! <ENTER>             ## Exit the editor, DISCARDING any changes you have made.
+$>     :w                      ## Save
+$>     :w filename             ## Save as
+$>     :wq                     ## Save the file with changes and exit
+$>     ZZ                      ## Save and close
+$>     x                       ## delete character under cursor
+$>     i                       ## insert mode, can write text <ESC> to leave insert mode and enter normal mode
+$>     a                       ## append mode append text to end of cursor location <ESC> to enter normal mode
+$>     A                       ## append text to end of line
+$>     dw                      ## Delete word
+$>     d$                      ## Delete to end of line
+$>     d^                      ## Delete backwards to begininng of line
+$>     d2w                     ## Delete 2 words
+$>     u                       ## undo
+$>     U                       ## undo all changes on line
+$>     CTRL-R                  ## redo, undo the undo
+$>     dd                      ## Delete line
+$>     p                       ## Put deleted text (paste)
+$>     0                       ## go to first position in line
+$>     ^                       ## go to first non space character in line
+$>     ce                      ## change text to end of line and enter insert mode
+$>     c$                      ## change text to end of line and enter insert mode
+$>     c^                      ## change text to first non space character and enter insert mode
+$>     c0                      ## change text to beginning of line and enter insert mode
+$>     cw                      ## change text in word and enter insert mode
+$>     c2w                     ## change text in two words and enter insert mode
+$>     p                       ## Put deleted text
+$>     ctrl-g                  ## Show info at bottom filename and line number
+$>     gg                      ## go to start of file
+$>     G                       ## go to end of file
+$>     250G                    ## go to line 250
+$>     /                       ## search
+$>     n                       ## search next
+$>     ?                       ## search backwards
+$>     cntl+o                  ## go back to one step
+$>     cntl+i                  ## go forward to one step
+$>     %                       ## cursor on ( [ { will file corresponding ) ] }
+$>     :s/this/that/           ## substitute first instance in line of this to that
+$>     :s/this/that/g          ## substitute all instances in line of this to that
+$>     :28,92s/this/that/g     ## substitute all instances in line 28-92 range of this to that
+$>     :%s/this/that/g         ## substitute all instances in file of this to that
+$>     :%s/this/that/gc        ## find all instances in line of this to that with confirmation to substitute
+$>     :! command              ## execute command
+$>     :r filename             ## retrieve and inserts text from a file
+$>     :r !command             ## retrieve and inserts output from command
+$>     o                       ## opens line below cursor and go into insert mode
+$>     O                       ## opens line above cursor and go into insert mode
+$>     e                       ## go to end of each word
+$>     R                       ## Replace text
+$>     V                       ## Select lines
+$>     cntl+v                  ## Select block
+$>     v                       ## Select characters
+$>     v MOVE CURSOR d         ## cut selected text (cut)
+$>     v MOVE CURSOR y         ## yank selected text (copy)
+$>     p                       ## Put yanked text (paste)
+$>     v MOVE CURSOR w name    ## selects text to write to file, write to file
+$>     CTRL-v                  ## select mult lines
+$>     :set option             ## turn option on
+$>     :set number             ## turn on line numbers or :set nu
+$>     :set nonumber           ## turn off line numbers or :set !nu
+$>     :set ignorecase         ## ignore upper/lower case when searching
+$>     :set incsearch          ## show partial matches for a search phrase
+$>     :set hlsearch           ## highlight all matching phrases
+$>     :set mouse=a            ## use mouse in term emulator
+$>     :e filename             ## edit another file
+$>     :split filename         ## split window and load another file
+$>     ctrl-w up arrow         ## move cursor up a window
+$>     ctrl-w ctrl-w           ## move cursor to another window (cycle)
+$>     ctrl-w_                 ## maximize current window
+$>     ctrl-w=                 ## make all equal size
+$>     10 ctrl-w+              ## increase window size by 10 lines
+$>     :vsplit file            ## vertical split
+$>     :sview file             ## same as split, but readonly
+$>     :hide                   ## close current window
+$>     :only                   ## keep only this window open
+$>     :ls                     ## show current buffers
+$>     :b 1                    ## open buffer #1 in this window
+$>     :b 2                    ## open buffer #2 in this window
+$>     :colo cntl+d            ## show available colorschemes
 ##
-$>  mk                                 ## 1) mark the first line: 2) move to last line
-$>  y'k                              ' ## 3a) yank:
-$>  d'k                              ' ## 3b) delete:4) move to destination line
-$>  P or p                             ## 5) put with
-$>  mk                                 ## 1) mark the first line:
-$>  ml                                 ## 2) mark the last line:
-$>  :'k,'ls/regex/power/g              ## Apply regex to an arbitrary number of lines
-$>  :'k,'ls/^/#/                       ## Add # to block of text
-$>  :'k,'ls/\ *$//                     ## Remove trailing whitespace of block of text
-$>  :%s#/path/to/log#/new/path/log#g   ## Search and replace PATHs, using different delimiter
-$>  :w !doas tee %                     ## Write file as root
-$>  :w !diff -u % -                    ## Diff the file on disk with the file in the buffer
-$>  :!cp % %.bak                       ## Make a backup of the file on disk
-$>  :%!sort                            ## Sort all lines
-$>  !}sort                             ## Sort paragraph.  } won't be shown in the command.
-$>  !Gsort                             ## Sort from current line to EOF.  G won't be shown in the command.
-$>  :%!uniq                            ## Uniq all lines
-$>  !}uniq                             ## Uniq paragraph.  } won't be shown in the command.
-$>  !Guniq                             ## Uniq from current line to EOF.  G won't be shown in the command.
-$>  :g/^CHAPTER /t.|s/./=/g            ## Underline all lines starting with CHAPTER
-$>  :g/pattern/?^ *def ?#              ## Search for "pattern", print the containing function (start with def) and line number
-$>  :g/pattern/?^$?+,//-s/^/#          ## Add # to paragraph containing "pattern", ie. comment out
-$>  :g/{$/+,/^}/-!sort                 ## Sort content of multiline CSS blocks
-$>  :g/^[^@].*{$/+,/}/-!sort           ## Sort content of multiline CSS blocks (media queries)
-$>  :g/<p>/+,/<\/p>/-!fmt -40          ## Reformat HTML paragraphs to a fixed width (40)
-$>  :%s/\(.*\), \(.*\)/\2 \1/          ## Swap "Lastname, Firstname" to "Firstname, Lastname"
-$>  :%j                                ## Join all lines
-$>  :g/pattern/t$                      ## Copy (t) lines containing "pattern"
-$>  :g/pattern/m$                      ## Move (m) lines containing "pattern"
-$>  :%!awk -F':' '{print $3}'          ## Select a column (3rd) from formated text seperated by ':'
-$>  mk                                 ## 1) mark the first line:
-$>  ml                                 ## 2) mark the last line:
-$>  :'k,'l!awk 'END{print "Total:", i}{i+=$1; print}'      ## Insert the sum of a list of numbers after an arbitrary number of lines
-$>  :'k,'l!awk 'END{print "Total:", i} ++i || 1'           ## Insert the sum of a list of numbers after an arbitrary number of lines
-$>  :?^$?+,// -w !mail -s "<subject>" email@example.com     ## Email the current paragraph
-$>  :set cedit=<CTRL-V><ESC>                               ## Enable and ) Set ESC key to enable history, or add to .exrc:
-$>  :<ESC>                                                 ## use ex history1
-$>  :Explore                           ##
+$>     mk                                 ## 1) mark the first line: 2) move to last line
+$>     y'k                              ' ## 3a) yank:
+$>     d'k                              ' ## 3b) delete:4) move to destination line
+$>     P or p                             ## 5) put with
+$>     mk                                 ## 1) mark the first line:
+$>     ml                                 ## 2) mark the last line:
+$>     :'k,'ls/regex/power/g              ## Apply regex to an arbitrary number of lines
+$>     :'k,'ls/^/#/                       ## Add # to block of text
+$>     :'k,'ls/\ *$//                     ## Remove trailing whitespace of block of text
+$>     :%s#/path/to/log#/new/path/log#g   ## Search and replace PATHs, using different delimiter
+$>     :w !doas tee %                     ## Write file as root
+$>     :w !diff -u % -                    ## Diff the file on disk with the file in the buffer
+$>     :!cp % %.bak                       ## Make a backup of the file on disk
+$>     :%!sort                            ## Sort all lines
+$>     !}sort                             ## Sort paragraph.  } won't be shown in the command.
+$>     !Gsort                             ## Sort from current line to EOF.  G won't be shown in the command.
+$>     :%!uniq                            ## Uniq all lines
+$>     !}uniq                             ## Uniq paragraph.  } won't be shown in the command.
+$>     !Guniq                             ## Uniq from current line to EOF.  G won't be shown in the command.
+$>     :g/^CHAPTER /t.|s/./=/g            ## Underline all lines starting with CHAPTER
+$>     :g/pattern/?^ *def ?#              ## Search for "pattern", print the containing function (start with def) and line number
+$>     :g/pattern/?^$?+,//-s/^/#          ## Add # to paragraph containing "pattern", ie. comment out
+$>     :g/{$/+,/^}/-!sort                 ## Sort content of multiline CSS blocks
+$>     :g/^[^@].*{$/+,/}/-!sort           ## Sort content of multiline CSS blocks (media queries)
+$>     :g/<p>/+,/<\/p>/-!fmt -40          ## Reformat HTML paragraphs to a fixed width (40)
+$>     :%s/\(.*\), \(.*\)/\2 \1/          ## Swap "Lastname, Firstname" to "Firstname, Lastname"
+$>     :%j                                ## Join all lines
+$>     :g/pattern/t$                      ## Copy (t) lines containing "pattern"
+$>     :g/pattern/m$                      ## Move (m) lines containing "pattern"
+$>     :%!awk -F':' '{print $3}'          ## Select a column (3rd) from formated text seperated by ':'
+$>     mk                                 ## 1) mark the first line:
+$>     ml                                 ## 2) mark the last line:
+$>     :'k,'l!awk 'END{print "Total:", i}{i+=$1; print}'      ## Insert the sum of a list of numbers after an arbitrary number of lines
+$>     :'k,'l!awk 'END{print "Total:", i} ++i || 1'           ## Insert the sum of a list of numbers after an arbitrary number of lines
+$>     :?^$?+,// -w !mail -s "<subject>" email@example.com     ## Email the current paragraph
+$>     :set cedit=<CTRL-V><ESC>                               ## Enable and ) Set ESC key to enable history, or add to .exrc:
+$>     :<ESC>                                                 ## use ex history1
+$>     :Explore                           ##
 $> firefox  https://github.com/tpope/vim-fugitive
-$>  :Gmove newname                     ## This will: Rename your file on disk. Rename the file in git repo. Reload the file into the current buffer.Preserve undo history.
-$>  :Gwrite                            ## If your file was not yet added to a git repo then first add it:
-$>  :retab                             ## Change tabs to spaces
-$>  "mdd                             " ## Select buff then dd erase line and copy to buffer "m. to put, pick buffer and put"
-$>  "mp                              " ## pick buffer and put
+$>     :Gmove newname                     ## This will: Rename your file on disk. Rename the file in git repo. Reload the file into the current buffer.Preserve undo history.
+$>     :Gwrite                            ## If your file was not yet added to a git repo then first add it:
+$>     :retab                             ## Change tabs to spaces
+$>     "mdd                             " ## Select buff then dd erase line and copy to buffer "m. to put, pick buffer and put"
+$>     "mp                              " ## pick buffer and put
 ## #########################
 ## ##    END vim
 ## #########################
@@ -7591,17 +7540,41 @@ $> ./name.sh
 ## Standard error.
 ## 2>> appends standard error to a file >> appends command output
 ##==========================================
-## Browser that uses firefox to render a page in a tty, psuedo page.
+## tui. web. Browser that uses firefox to render a page in a tty, psuedo page. Great if you have no gui.
 $> firefox https://www.brow.sh/docs/installation/
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
-$> sudo apt install ./browsh_1.8.0_linux_amd64.deb
-$> rm ./browsh_1.5.0_linux_amd64.deb
-$> browsh
-## awesome. Use static binary
+## Uses firefox as backend.
+$> sudo apt install firefox
+## Install. Awesome. Use static binary.
 $> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
 $> chmod 755 browsh_1.8.0_linux_amd64
 $> ./browsh_1.8.0_linux_amd64
 $> sudo mv ./browsh_1.8.0_linux_amd64 /usr/local/bin/browsh
+$> browsh
+## OR. Install.
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
+$> sudo apt install ./browsh_1.8.0_linux_amd64.deb
+$> rm ./browsh_1.5.0_linux_amd64.deb
+$> browsh
+##-----------------------
+## browsh Controls.
+## CTRL+L           ## Change URL, first click on URL.
+## CTRL+Backspace   ## Back.
+## CTRL+t           ## New tab.
+## CTRL+/           ## Cycle to next tab.
+## CTRL+w           ## Close tab.
+## CTRL+q           ## Exit app.
+## ALT+SHIFT+p      ## Take a screenshot.
+## CTRL+m           ## Toggles monochrome mode.
+##-----------------------
+## Some bookmarks.
+$> browsh "https://news.ycombinator.com/"
+$> browsh "https://www.reddit.com/r/commandline/"
+$> browsh "https://www.theregister.com/"
+$> browsh "https://www.wikipedia.org/"
+## Add the search term as the search button does not seem to work.
+$> browsh "https://duckduckgo.com/?q=browsh"
+## No video but can read comments.
+$> browsh "https://www.youtube.com/watch?v=OSwxD6e_Ftk"
 ##==========================================
 ## network. Displays the quantity of connections to port 80 on a per IP basis.
 $> clear;while x=0; do clear;date;echo "";echo "  [Count] | [IP ADDR]";echo "-------------------";netstat -np|grep :80|grep -v LISTEN|awk '{print $5}'|cut -d: -f1|uniq -c; sleep 5;done
@@ -11477,13 +11450,33 @@ $> uv run hf download stabilityai/sd-turbo
 $> uv run hf download stabilityai/sdxl-turbo
 ## Get account at Hugging Face then get an Access Token: settings > access tokens > create new token.Can put in .zshrc
 $> firefox https://huggingface.co/docs/hub/en/security-tokens
-$> export HF_TOKEN=hf_exaadfhstyuj,T
+$> export HF_TOKEN=YOURHFTOKENHERE
 ## Pull a model, Run something
 ## SDXL requires access token.
 $> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
 ## FLUX requires access token.
 $> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
 $> uv run hf download black-forest-labs/.1-schnell
+##===========================================
+## Run modelswith raw weights via hf:
+$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+$> hf download unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+## Then run with llama-cli or llama-server. More control, more setup.
+## Compile llama.cpp
+## llama-server run Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF
+$> llama-server -m /path/to/your/model/Qwen3-Coder-30B-A3B-Instruct-GGUF_Q5_K_XL.gguf \
+$>   --threads 8 \
+$>   --batch-size 512 \
+$>   --ctx-size 65536 \
+$>   --temp 0.7 \
+$>   --top-p 0.8 \
+$>   --top-k 20 \
+$>   --repeat-penalty 1.05 \
+$>   --flash-attn on \
+$>   --n-gpu-layers 48 \
+$>   -a qwen3-coder-30-a3b \
+$>   --host 0.0.0.0 \
+$>   --port 8888
 ##==========================================
 ## #############################################
 ## ##    Using ollama
@@ -11504,9 +11497,30 @@ $> ollama run llama3.2:1b "Tell me about bash scripts."
 ## Open WebUI Docker image to run in a GUI.
 $> firefox https://github.com/open-webui/open-webui
 ## Docker with Open-Webui.
-$> sudo docker run -d  -p 8686:8080  --gpus=all  -v ollama:/root/.ollama  -v open-webui:/app/backend/data  --name open-webui  --restart always ghcr.io/open-webui/open-webui:ollama
+$> sudo docker run -d -p 8686:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
 ## Open the WebUI.
 $> firefox http://localhost:8686
+##==========================================
+## Use qwen3-coder-32k
+$> ollama pull qwen3-coder:30b-a3b-q4_K_M
+## To run with 32k context: or set in Modelfile: PARAMETER num_ctx 32768
+$> ollama run qwen3-coder:30b-a3b-q4_K_M --verbose
+
+##==========================================
+## Ollama server typically runs in the background and exposes an API port 11434
+$> http://localhost:11434
+
+##==========================================
+## How to Use num_ctx in Ollama
+## num_ctx parameter in Ollama defines the size of the context window (short-term memory) in tokens that a model uses to generate responses, defaulting to 2048 or 4096 tokens
+## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.
+$> cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
+EOF
+## CLI: Use within the interactive terminal ollama run session.
+$>     /set parameter num_ctx 4096
+## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.API: Include "options": { "num_ctx": 4096 } in the JSON body of your request.
+## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.Environment Variable: Set the default context size using  before launching Ollama.
+$> export OLLAMA_CONTEXT_LENGTH=8192
 ##==========================================
 ## ##############################################
 ##==========================================
@@ -11636,7 +11650,7 @@ $> /plugin
 ##$> Discover tab
 ##==========================================
 ## Prompt claude
-$>
+$> claude -p "Explain how to comment in html code."
 ##==========================================
 ## Compacting. The memory of what you are currently working on is limited.
 ## Claude will compact the conversation sometime forgeting key points.
@@ -11657,10 +11671,27 @@ $> lms server start
 $> export ANTHROPIC_BASE_URL=http://localhost:11434
 $> export ANTHROPIC_BASE_URL=http://localhost:1234
 $> export ANTHROPIC_AUTH_TOKEN=lmstudio
-## Run with Local Model.
-$> claude --model ollama/qwen2.5-coder.
-##==========================================
 
+## Example
+$> export ANTHROPIC_BASE_URL="http://192.168.1.64:11434/v1"
+$> export ANTHROPIC_AUTH_TOKEN="sk-not-required"
+$> export ANTHROPIC_MODEL="qwen3-coder-32k"
+## Run with Local Model with parameters.
+$> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
+##==========================================
+## Cline sends complex, long prompts that often exceed Ollamas default 4k token limit.
+## You must create a custom Modelfile to increase the context window.
+## Create a new file (e.g., Modelfile_cline) with content like this:
+## Modelfile_cline
+## Replace with your chosen model
+## Recommended minimum is 32K; 64K+ is better if your hardware allows
+echo 'FROM qwen3-coder:30b
+PARAMETER num_ctx 32768' > Modelfile_cline
+## Create the new, configured model using the ollama create command:
+ollama create <new_model_name> -f Modelfile_cline
+## or
+cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
+EOF
 ##==========================================
 
 
@@ -11721,7 +11752,8 @@ $> cat progress.md         ## status, what's done/pending    ← like your TODO.
 $> cat systemPatterns.md   ## architecture decisions
 $> cat techContext.md      ## stack, setup, hardware targets
 ##===================================
-
+## use qwen note.
+$> export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && cline auth -p ollama -k ollama -m qwen3-coder-32k
 
 ##===================================
 
