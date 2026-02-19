@@ -341,10 +341,10 @@ $> sudo systemctl set-default graphical.target
 $> sudo sed -i 's:quiet splash:quiet splash $vt_handoff 3:' /etc/default/grub
 $> sudo update-grub
 $> sudo reboot
-# To start the gui.
-$> sudo service mdm start
+## Start gui
+$> sudo systemctl start lightdm
 # To drop out of the gui back to commandline.
-$> sudo service mdm stop
+$> sudo systemctl stop lightdm
 ## Auto Login to X, reverse above.
 $> sudo sed -i 's:$vt_handoff 3::' /etc/default/grub
 $> sudo update-grub
@@ -3735,12 +3735,13 @@ alias gitstl="git stash list"
 alias gitlg='git log --graph --oneline --decorate --all'
 ## Amend the commit message
 alias gitamend='git commit --admend -m'
-alias gitfuckit='git add . && git commit -m "Untracted changes." && git push'
 alias gitlogs="git log --graph -n 5 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gitroot='cd $(git rev-parse --show-toplevel)'
 alias init-project='git init && python3 -m venv .venv && source .venv/bin/activate'
 alias gitfuckit='git add . && git commit -m "Untracted changes." && git push'
 alias gitfucked='git reset --hard origin/master'
+## Make commit. Usage: gitcommit "Your commit message here."
+function gitcommit() { git add . && git commit -m ${1} && git push ; }
 ##-----------------------------------------
 ## Git shortcuts.
 alias ans='cd ~/code/infrastructure/ansible'
@@ -4092,6 +4093,9 @@ $> PS1='\[\e[1;36m\]\d \[\e[1;32m\]\t \[\e[1;33m\]\u@\[\e[1;35m\]\h:\w\$\[\e[0;3
 ## ##########################
 ## ##    More functions
 ## ##########################
+##==========================================
+## Make commit. Usage: gitcommit "Your commit message here."
+$> function gitcommit() { git add . && git commit -m ${1} && git push ; }
 ##==========================================
 ## Add an "alert" alias for long running commands.  Usage: sleep 10; alert
 $> alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
