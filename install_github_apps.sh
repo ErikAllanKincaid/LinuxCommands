@@ -535,6 +535,42 @@ tuios-web --dockbar-position top --scrollback-lines 1000000 --host 0.0.0.0 --por
 
 
 ##==================================
+## tui. web. Browser that uses firefox to render a page in a tty, psuedo page. Great if you have no gui.
+$> firefox https://www.brow.sh/docs/installation/
+## Uses firefox as backend.
+$> sudo apt install firefox
+## Install. Awesome. Use static binary.
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
+$> chmod 755 browsh_1.8.0_linux_amd64
+$> ./browsh_1.8.0_linux_amd64
+$> sudo mv ./browsh_1.8.0_linux_amd64 /usr/local/bin/browsh
+$> browsh
+## OR. Install.
+$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
+$> sudo apt install ./browsh_1.8.0_linux_amd64.deb
+$> rm ./browsh_1.5.0_linux_amd64.deb
+$> browsh
+##-----------------------
+## browsh Controls.
+## CTRL+L           ## Change URL, first click on URL.
+## CTRL+Backspace   ## Back.
+## CTRL+t           ## New tab.
+## CTRL+/           ## Cycle to next tab.
+## CTRL+w           ## Close tab.
+## CTRL+q           ## Exit app.
+## ALT+SHIFT+p      ## Take a screenshot.
+## CTRL+m           ## Toggles monochrome mode.
+##-----------------------
+## Some bookmarks.
+$> browsh "https://news.ycombinator.com/"
+$> browsh "https://www.reddit.com/r/commandline/"
+$> browsh "https://www.theregister.com/"
+$> browsh "https://www.wikipedia.org/"
+## Add the search term as the search button does not seem to work.
+$> browsh "https://duckduckgo.com/?q=browsh"
+## No video but can read comments.
+$> browsh "https://www.youtube.com/watch?v=OSwxD6e_Ftk"
+##==========================================
 ## Nerd Fonts
 ## install Nerd Fonts on Ubuntu, download your chosen font from the Nerd Fonts website
 https://www.nerdfonts.com/
