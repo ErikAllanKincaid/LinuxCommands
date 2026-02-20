@@ -360,14 +360,21 @@ $> $vt_handoff 3
 ## Start back into gui
 $> sudo init 5
 ##------------------------------------------
-## Command line only login system service
+## Command line only login system service.
 ## Boot to text mode.  Stop mdm service from starting automatically on systemd
 ## This doesnt actually 'disable' the service, it just prevents it from automatically starting.
+## mdm
 $> sudo systemctl disable mdm
 ## Start gui
 $> sudo systemctl start mdm
 ## boot to gui by default
 $> sudo systemctl enable mdm
+## OR lightdm
+$> sudo systemctl disable lightdm
+## Start gui
+$> sudo systemctl start lightdm
+## boot to gui by default
+$> sudo systemctl enable lightdm
 ##==========================================
 ## os. services. To disable a listed service from starting at boot try:
 $> sudo update-rc.d <service name> disable

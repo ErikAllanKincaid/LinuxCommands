@@ -122,7 +122,7 @@ firefox https://github.com/bahdotsh/wrkflw
 firefox https://github.com/aeilot/lsnotes
 
 ##==================================
-## Scooter - is an interactive find-and-replace terminal UI app. Search with either a fixed string or a regular expression, enter a replacement, and interactively toggle which instances you want to replace.
+## Scooter - is an interactive find-and-replace terminal TUI app. Search with either a fixed string or a regular expression, enter a replacement, and interactively toggle which instances you want to replace.
 firefox https://github.com/thomasschafer/scooter
 wget firefox https://github.com/thomasschafer/scooter/releases/download/v0.8.4/scooter-v0.8.4-x86_64-unknown-linux-musl.tar.gz
 mkdir scooter-v0.8.4-x86_64-unknown-linux-musl
@@ -613,6 +613,7 @@ firefox https://github.com/imsnif/diskonaut
 firefox https://antigravity.google/download/linux
 
 ##==================================
+## Works.
 ## TERM39 - A modern terminal multiplexer
 firefox https://github.com/alejandroqh/term39
 
@@ -641,8 +642,14 @@ firefox https://github.com/jorgerojas26/lazysql
 firefox https://github.com/drclcomputers/GoSheet
 
 ##==================================
+## Works.
 ## TERM39 - modern terminal multiplexer with classic MS-DOS aesthetic, built with Rust. Full-screen interface with window management and complete terminal emulation.  To boot to CLI, use `sudo systemctl set-default multi-user.target` and reboot. To revert, use `sudo systemctl set-default graphical.target`.
 firefox https://github.com/alejandroqh/term39
+wget https://github.com/alejandroqh/term39/releases/download/v1.2.0/term39-1.2.0-linux-64bit-x86-binary.tar.gz
+tar --extract --file="term39-1.2.0-linux-64bit-x86-binary.tar.gz" --gzip --verbose -C ./
+sudo mv term39 /usr/local/bin/
+sudo chmod +x /usr/local/bin/term39
+term39
 
 ##==================================
 ## Camera - camera application for the COSMIC desktop environment.
@@ -754,7 +761,7 @@ firefox https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
 firefox https://darkhz.github.io/bluetuith/
 
 ##==================================
-## lazydocker - A simple terminal UI for both docker and docker-compose
+## lazydocker - A simple terminal TUI for both docker and docker-compose
 firefox https://github.com/jesseduffield/lazydocker
 wget https://github.com/jesseduffield/lazydocker/releases/download/v0.24.3/lazydocker_0.24.3_Linux_x86_64.tar.gz
 mkdir lazydocker_0.24.3_Linux_x86_64
