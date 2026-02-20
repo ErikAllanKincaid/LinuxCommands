@@ -517,6 +517,7 @@ tar --extract --file tuios_0.5.1_Linux_x86_64.tar.gz --gzip --verbose -C ./tuios
 sudo cp ~/Downloads/tuios/tuios /usr/local/bin/
 tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position top
 
+
 ##-----------------------------------
 ## Web version
 wget https://github.com/Gaurav-Gosain/tuios/releases/download/v0.5.1/tuios-web_0.5.1_Linux_x86_64.tar.gz
