@@ -258,6 +258,11 @@ $>  /etc/bash.bashrc                     ## System wide bashrc
 $>  /etc/default/grub                    ## Configuration file, run update-grub after editing
 $>  /etc/X11/                            ## Config files for XWindows
 ##==========================================
+## Other system files. Do a search in this document for proc/
+## /proc                                ## All processes are files
+$> cat /proc/bus/input/devices          ## Input devices like mouse and keyboard.
+$> cat /proc/sys/vm/swappiness          ## Check your current swappiness setting on a scale of 0-100: The result will probably be 60.
+##==========================================
 ## Change laptop behavior.
 ## Configuration for systemd login and behavior. Example: Suspend when lid closed 'HandleLidSwitch=suspend' etc.
 ## HandlePowerKey=, HandleSuspendKey=, HandleHibernateKey=, HandleLidSwitch=: Actions; ignore, poweroff, suspend, hibernate, lock
@@ -678,11 +683,22 @@ $> apt-cache showpkg  PACKAGE_NAME
 ## Change the hostname.
 $> hostnamectl set-hostname 'new-hostname'
 ##==========================================
+## Remove old kernels.
+## Purge all the old kernels.
+$> sudo apt-get autoremove --purge
+## Remove particular kernels.
+## Find installed kernels.
+$> dpkg -l | grep linux-image
+## Purge the ones you do not want.
+$> sudo apt-get purge linux-image-x.x.x-x-generic
+## Remove kernels, keeping only 2:
+$> sudo purge-old-kernels --keep
+##==========================================
 ## ########################
 ## ##    ssh
 ## ########################
 ## networking. shell. ssh secure shell
-##------------------------------------------
+##==========================================
 ### ssh secure shell remote
 ## Install ssh server and client
 $> sudo apt-get install openssh-server openssh-sftp-server openssh-client sshfs
@@ -823,6 +839,33 @@ $> ssh-add ~/.ssh/id_ed25519
 $> git remote -v
 ## To change from a HTTPS URL to a SSH URL.
 $> git remote set-url origin git@github.com:YOURGITHUBACCOUNT/YOURREPO.git
+##==========================================
+## Jump through an accessible host to another host.
+$> ssh -J $USER@accessiblehost $USER@inaccessiblehost
+##==========================================
+## Port forward a port on your computer to port on a host.
+$> ssh -L 4000:HOST:80 $USER@HOST
+$> http://localhost:4000
+##==========================================
+### Setup on server !!!! Do not copy your private key over. !!!!
+## Transfer pub key to server:
+$> scp ~/.ssh/id_rsa.pub user@myserver.com:~/id_rsa.pub
+## in the server, add pub key to authorized_keys file
+$> cat id_rsa.pub >> ~/.ssh/authorized_keys
+## Or
+## append the contents of ~/.ssh/id_rsa.pub to the end of ~/.ssh/authorized_keys on the remote machine.
+$> cat .ssh/serername_id_rsa.pub | ssh $USER@192.168.1.101 'cat >> ~/.ssh/authorized_keys'
+## Or
+## Can use ssh-copy-id instead; the cat port technique above is more portable.
+$> ssh-copy-id
+## !!!! Do not copy your private key over. !!!!Z
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
 ## #########################
 ## ##    END ssh
 ## #########################
@@ -1627,10 +1670,6 @@ $> find START_DIRECTORY -name SEARCH_TERM -print
 ## ex. Find all txt files in everyone's home directory, write to a file, and display in less.
 $> find /home --name "*.txt" -print > find.list ; cat find.list | less
 ##==========================================
-## Check your current swappiness setting on a scale of 0-100:
-$> cat /proc/sys/vm/swappiness
-## The result will probably be 60.
-##==========================================
 ## Convert to Kindle .mobi, because amazon can't read epub like everything else does.
 $> ebook-convert "ebook.epub" "ebook.mobi"
 ##==========================================
@@ -1645,6 +1684,9 @@ $> ssh USER@192.168.1.11
 ## Find username and display.
 $> who
 ## Display or speak message on the recipents computer.
+$> DISPLAY=:0 notify-send 'Subject.' 'This is my message.'
+$> DISPLAY=:0 espeak 'This is my message.'
+## May need sudo, if you are signed in as another user.
 $> DISPLAY=:0 sudo -u username notify-send 'Subject.' 'This is my message.'
 $> DISPLAY=:0 sudo -u username espeak 'This is my message.'
 ##==========================================
@@ -1652,7 +1694,7 @@ $> DISPLAY=:0 sudo -u username espeak 'This is my message.'
 $> mplayer -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10:outfmt=rgb16 -vo caca tv://
 ##==========================================
 ## https://rg3.github.io/youtube-dl/
-## youtube-dl
+## youtube-dl DEPRECATED use yt-dlp as substitute.
 ## Download video files from a bunch of sites (here is a list https://rg3.github.io/youtube-dl/supportedsites.html).
 ## The options say: base filename on title, ignores errors and continue partial downloads. Also, stores some metadata into a .json file plz.
 ## Paste youtube users and playlists for extra fun.
@@ -1681,6 +1723,7 @@ $> syt() { pipe=`mktemp -u`; mkfifo -m 600 "$pipe" && for i in "$@"; do youtube-
 ##-------------------------------------
 ## youtube-dl play in text mode
 $> youtube-dl -x RICeErc0ni8 | mplayer -vo caca
+$> mplayer "$(yt-dlp -g -f best RICeErc0ni8)" -vo caca
 ##-------------------------------------
 ## Get playlist for Livestream on YouTube
 $> youtube-dl --list-formats <URL>; youtube-dl -f <STREAM_ID> -g <URL>
@@ -2114,24 +2157,84 @@ $> bashrc-reload() { builtin exec bash ; }
 ## Clear Screen
 $> printf "\033c"
 ##==========================================
+## #################################
+## ##    Regex patterns
+## #################################
+## Pattern         Pattern meaning
+$>   no character    ## matches ""
+$>   .               ## matches any character
+$>   .*              ## matches any string
+$>   c               ## matches "c"
+$>   p1 p2           ## matches p1 then p2
+$>   p1|p2           ## matches p1 or p2
+$>   p*              ## matches "" or p repeated
+$>   p+              ## matches p repeated, but not ""
+$>   p?              ## matches p or ""
+$>   p{n}            ## matches p repeated n times
+$>   p{n,m}          ## matches p repeated n to m times
+$>   .               ## matches any character
+$>   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+$>   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+$>   (p)             ## matches p, remembers submatch
+$>   \n              ## matches string from nth submatch
+$>   \b              ## matches a word boundary
+$>   \w              ## matches a word character, e.g., alphanumeric
+$>   \W              ## matches a nonword character, e.g., punctuation
+$>   \s              ## matches a whitespace character, e.g., space, tab, return
+$>   \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
+$>   \d              ## matches a digit character, i.e., 0-9
+$>   \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
+$>   ^               ## matches start of line/string
+$>   $               ## matches end of line/string
+$>   [c1-c2]         ## matches $c_1$ through $c_2$
+##===================================
+## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
+## BRE Pattern     Pattern meaning
+$>   no character    ## matches ""
+$>   c               ## matches "c"
+$>   p1p2            ## matches p1 then p2
+$>   p1\|p2          ## matches p1 or p2
+$>   p*              ## matches "" or p repeated
+$>   p\+             ## matches p repeated, but not ""
+$>   p\?             ## matches p or ""
+$>   p\{n\}          ## matches p repeated n times
+$>   p\{n,m\}        ## matches p repeated n to m times
+$>   .               ## matches any character
+$>   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
+$>   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
+$>   \(p\)           ## matches p, remembers submatch
+$>   \n              ## matches string from nth submatch
+$>   \b              ## matches a word boundary
+$>   [[:word:]]      ## matches a word character, e.g., alphanumeric
+$>   [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
+$>   [[:digit:]]     ## matches a digit character, i.e., 0-9
+$>   [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
+$>   [[:upper:]]     ## matches a upperspaced character
+$>   [[:lower:]]     ## matches a lowerspaced character
+$>   ^               ## matches start of line/string
+$>   $               ## matches end of line/string
+$>   [c1-c2]         ## matches $c_1$ through $c_2$
+##==========================================
 ## ####################################
 ## ##    Bash Sample Scripts
 ## ####################################
-##------------------------------------------
+## regex
+##  $@ .[{()\*+?|^$             ## Special characters
+##==========================================
 ## Sample script with; var if then else elif fi
 $> cat > elseif.sh << EOF
-#!/bin/bash
-echo -n "Enter a number: "
-read VAR
-if [[ $VAR -gt 10 ]]
-then
-echo "Variable is greater than 10."
-elif [[ $VAR -eq 10 ]]
-then
-echo "Variable is equal to 10."
-else
-echo "Variable is less than 10."
-fi
+$> #!/bin/bash
+$> echo -n "Enter a number: "
+$> read VAR
+$> if [[ $VAR -gt 10 ]]
+$> then
+$> echo "Variable is greater than 10."
+$> elif [[ $VAR -eq 10 ]]
+$> then
+$> echo "Variable is equal to 10."
+$> else
+$> echo "Variable is less than 10."
+$> fi
 EOF
 ##---------------------------------------
 ## Sample script with nested; var if then else fi
@@ -2160,10 +2263,9 @@ $>     echo "$VAR3 is the largest number"
 $>   fi
 $> fi
 ##==========================================
-## regex
-##  $@ .[{()\*+?|^$             ## Special characters
-##------------------------------------------
-## Bash regular expressions
+## #####################################
+## ##    Bash regular expressions
+## #####################################
 $>  if list; then list; [ elif list; then list; ] ... [ else list; ] fi
 $>  while list; do list; done
 $>  until list; do list; done
@@ -3055,6 +3157,9 @@ if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b 
 #if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 ## Enable programmable completion features (you do not need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 #if ! shopt -oq posix; then if [ -f /usr/share/bash-completion/bash_completion ]; then . /usr/share/bash-completion/bash_completion; elif [ -f /etc/bash_completion ]; then . /etc/bash_completion; fi; fi
+## #################################
+## ##   Keyboard
+## #################################
 ## Use CapLock as second backspace.
 #setxkbmap -option caps:backspace
 ## Use CapLock as second control key.
@@ -3084,7 +3189,7 @@ export HISTSIZE=1000000
 ## do not put duplicate lines in the history and do not add lines that start with a space
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 ## Ignore more
-HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
+#HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
 ## Set time format
 #HISTTIMEFORMAT='%F %T '
 ## Make screen sessions save history.
@@ -3121,16 +3226,6 @@ HISTIGNORE='ls:ll:ls -alh:pwd:clear:history'
 #unset color_prompt force_color_prompt
 ## If this is an xterm set the title to user@host:dir
 #case "$TERM" in xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"; ;; *) ;; esac
-##-----------------------------------------
-## Initialize colors.
-autoload -U colors
-colors
-## Allow for functions in the prompt is zsh.
-setopt PROMPT_SUBST
-autoload -U add-zsh-hook
-autoload -Uz compinit && compinit
-## set a fancy prompt (non-color, unless we know we "want" color)
-#case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
 ##-----------------------------------------
 ## ########################################
 ## ##    Timestamp git track prompt
@@ -3172,6 +3267,12 @@ PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}
 ## ##################################
 ## ##    zsh other Settings files
 ## ##################################
+## Lines configured by zsh-newuser-install
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+# End of lines configured by zsh-newuser-install
+## ###########################################
 ## Add deno completions to search path
 if [[ ":$FPATH:" != *":/home/$USER/.zsh/completions:"* ]]; then export FPATH="/home/$USER/.zsh/completions:$FPATH"; fi
 ##=========================================
@@ -3206,9 +3307,9 @@ autoload -U edit-command-line
 ## [Ctrl+x-Ctrl+e] - use $EDITOR to write a command
 export EDITOR=vim
 #bindkey '^x^e' edit-command-line
-## ###########################
+## ###########################################
 ## ##    zsh options
-## ###########################
+## ###########################################
 ## Uncomment the following line if you want to change the command execution time
 ## stamp shown in the history command output.
 ## You can set one of the optional three formats:
@@ -3237,6 +3338,16 @@ setopt PROMPT_SUBST
 zstyle ':completion:*' MENU SELECT   # select completions with arrow keys
 zstyle ':completion:*' GROUP-NAME '' # group results by category
 zstyle ':completion:::::' COMPLETER _EXPAND _COMPLETE _IGNORED _APPROXIMATE #enable approximate matches for completion
+## Initialize colors.
+autoload -U colors
+colors
+## Allow for functions in the prompt is zsh.
+setopt PROMPT_SUBST
+autoload -U add-zsh-hook
+autoload -Uz compinit && compinit
+## set a fancy prompt (non-color, unless we know we "want" color)
+#case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
+##-----------------------------------------
 ##==========================================
 ## #######################
 ## ##    zsh history
@@ -3382,7 +3493,7 @@ alias share="python3 -m http.server --directory ${1}"
 ##==========================================
 ## set the side buttons of "mouse name" to be same as the left click, and scroll push
 ## does not last though switching computers
-function ms() { MOUSE_NAME='M585/M590 Mouse' && MOUSE_ID=$(xinput list | grep ${MOUSE_NAME} | head -n 1 | awk '{print $(NF-3)}' | sed 's/id=//') && xinput --set-button-map ${MOUSE_ID} 1 2 3 4 5 6 7 2 1 }
+function ms() { MOUSE_NAME='M585/M590 Mouse' && MOUSE_ID=$(xinput list | grep ${MOUSE_NAME} | head -n 1 | awk '{print $(NF-3)}' | sed 's/id=//') && xinput --set-button-map ${MOUSE_ID} 1 2 3 4 5 6 7 2 1 ; }
 ##==========================================
 ## #######################
 ## ##     GUI
@@ -3716,6 +3827,9 @@ alias netlist='nmap -sn 192.168.1.0/24'
 ## List path instead of listing
 #alias path='ls -d $PWD/*'
 alias path='realpath ./*'
+## Make a history viewer.
+alias historyz='cat .zsh_history'
+alias historyb='cat .bash_history'
 ##==========================================
 ## ##################################
 ## ##    GIT
@@ -3759,65 +3873,6 @@ alias prj='cd ~/Projects'
 ## ##################################
 ## ##    END GIT
 ## ##################################
-##==============================
-## Function to display regex note.
-function regexpattern() { echo '
-##===================================
-##Pattern         Pattern meaning
-   no character    ## matches ""
-   .               ## matches any character
-   .*              ## matches any string
-   c               ## matches "c"
-   p1 p2           ## matches p1 then p2
-   p1|p2           ## matches p1 or p2
-   p*              ## matches "" or p repeated
-   p+              ## matches p repeated, but not ""
-   p?              ## matches p or ""
-   p{n}            ## matches p repeated n times
-   p{n,m}          ## matches p repeated n to m times
-   .               ## matches any character
-   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-   (p)             ## matches p, remembers submatch
-   \n              ## matches string from nth submatch
-   \b              ## matches a word boundary
-   \w              ## matches a word character, e.g., alphanumeric
-   \W              ## matches a nonword character, e.g., punctuation
-   \s              ## matches a whitespace character, e.g., space, tab, return
-   \S              ## matches a non-whitespace character, e.g., alphanumeric, punctuation
-   \d              ## matches a digit character, i.e., 0-9
-   \D              ## matches a non-digit character, e.g., alphanumeric, punctuation
-   ^               ## matches start of line/string
-   $               ## matches end of line/string
-   [c1-c2]         ## matches $c_1$ through $c_2$
-##===================================
-## POSIX basic regular expressions, operators {}, (), +, | and ? must be escaped with \
-## BRE Pattern     Pattern meaning
-   no character    ## matches ""
-   c               ## matches "c"
-   p1p2            ## matches p1 then p2
-   p1\|p2          ## matches p1 or p2
-   p*              ## matches "" or p repeated
-   p\+             ## matches p repeated, but not ""
-   p\?             ## matches p or ""
-   p\{n\}          ## matches p repeated n times
-   p\{n,m\}        ## matches p repeated n to m times
-   .               ## matches any character
-   [c1...cn]       ## matches $c_1$ or $c_2$ or ... or $c_n$
-   [^c1...cn]      ## matches any char but $c_1$ or ... or $c_n$
-   \(p\)           ## matches p, remembers submatch
-   \n              ## matches string from nth submatch
-   \b              ## matches a word boundary
-   [[:word:]]      ## matches a word character, e.g., alphanumeric
-   [[:space:]]     ## matches a whitespace character, e.g., space, tab, return
-   [[:digit:]]     ## matches a digit character, i.e., 0-9
-   [[:xdigit:]]    ## matches a hex digit character, i.e., A-F, a-f, 0-9
-   [[:upper:]]     ## matches a upperspaced character
-   [[:lower:]]     ## matches a lowerspaced character
-   ^               ## matches start of line/string
-   $               ## matches end of line/string
-   [c1-c2]         ## matches $c_1$ through $c_2$
-##=================================== ' ; }
 ##==========================================
 ## pdsh The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. Make ssh the default protocol
 export PDSH_RCMD_TYPE=ssh
@@ -4030,7 +4085,6 @@ export JIRA_API_TOKEN=YOURKEYHERE
 ## ##    added by other process
 ## #####################################
 ##==========================================
-
 COMMENT1
 ## #####################################
 ## ##    Prompt
@@ -4362,7 +4416,11 @@ $> set -o notify
 ## Disable [CTRL-D] which is used to exit the shell
 $> set -o ignoreeof
 ##==========================================
+## Print a grid of colors.
+$> function colorgrid() { iter=16 ; while [ $iter -lt 52 ] ; do second=$[$iter+36] ; third=$[$second+36] ; four=$[$third+36] ; five=$[$four+36] ; six=$[$five+36] ; seven=$[$six+36] ; if [ $seven -gt 250 ];then seven=$[$seven-251]; fi ; echo -en "\033[38;5;$(echo $iter)m█ " ; printf "%03d" $iter ; echo -en "   \033[38;5;$(echo $second)m█ " ; printf "%03d" $second ; echo -en "   \033[38;5;$(echo $third)m█ " ; printf "%03d" $third ; echo -en "   \033[38;5;$(echo $four)m█ " ; printf "%03d" $four ; echo -en "   \033[38;5;$(echo $five)m█ " ; printf "%03d" $five ; echo -en "   \033[38;5;$(echo $six)m█ " ; printf "%03d" $six ; echo -en "   \033[38;5;$(echo $seven)m█ " ; printf "%03d" $seven ; iter=$[$iter+1] ; printf '\r\n' ; done }
 ##==========================================
+
+
 ##==========================================
 ## #######################################
 ## ##    END More functions
@@ -8646,7 +8704,7 @@ $> function dl_video() { youtube-dl --output ~/Videos/"$2.%(ext)s" "$1" ; }
 ## git. files. Open browser from terminal to create PR after pushing something in Git in MAC
 $> git remote -v |grep origin|tail -1|awk '{print $2}'|cut -d"@" -f2|sed 's/:/\//g'|xargs -I {} open -a "Google Chrome" https://{}
 ##==========================================
-## multimedia. video.Convert Video
+## multimedia. video. Convert Video
 $> function webm2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a aac -strict experimental -loglevel error "${1%%.webm}.mp4" ; }
 ##
 $> function webm2mp3() { ffmpeg -i "$1" "${1%%.webm}.mp3" ; }
@@ -8843,9 +8901,8 @@ $> function mkv2mp4() { ffmpeg -i "$1" -vcodec copy -acodec copy "$1".mp4 ; }
 ## I put this command on my ~/.bashrc in order to learn something new about installed packages on my Debian/Ubuntu system each time I open a new terminal Show Sample Output
 $> dpkg-query --status $(dpkg --get-selections | awk '{print NR,$1}' | grep -oP "^$( echo $[ ( ${RANDOM} % $(dpkg --get-selections| wc -l) + 1 ) ] ) \K.*")
 ##==========================================
-## multimeddia. video. Vid options
-$> --input-depth 16 --output-depth 10 --ref 5 --qcomp 0.7 --no-fast-intra --no-cu-lossless --no-tskip-fast --no-pme --no-rd-refine --no-lossless --ctu 32 --max-tu-size 32 --no-strong-intra-smoothing --no-sao --no-sao-non-deblock --no-early-skip --no-rskip
-## vid options
+## multimeddia. video. ffmpeg scale.
+## Vid options: --input-depth 16 --output-depth 10 --ref 5 --qcomp 0.7 --no-fast-intra --no-cu-lossless --no-tskip-fast --no-pme --no-rd-refine --no-lossless --ctu 32 --max-tu-size 32 --no-strong-intra-smoothing --no-sao --no-sao-non-deblock --no-early-skip --no-rskip
 $> ffmpeg -i input -filter:v scale=-1:360 output
 ##==========================================
 ## networking. If iptables is enabled on the server, the following commands can be used to permit incoming SSH access. They must be run as root.
@@ -8854,8 +8911,8 @@ $> iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j AC
 ## If you want to save the rules permanently, on some systems that can be done with the command:
 $> service iptables save
 ##==========================================
-$> firefox https://www.linuxuprising.com/2019/02/how-to-downgrade-packages-to-specific.html
 ## Check availible packages including older ones
+$> firefox https://www.linuxuprising.com/2019/02/how-to-downgrade-packages-to-specific.html
 $> apt policy chromium-browser
 ##==========================================
 ## os. disks. file -s can give the UUID for a partition in a case where blkid will not:
@@ -9078,13 +9135,16 @@ $> uv run python app.py
 ## #######################################################
 ## ##    Chromecast
 ## #######################################################
-## multimedia. video. cast. Control chromecast with cli  Awesome!
+##==========================================
+## multimedia. video. cast. Control chromecast with catt cli.  Awesome!
 $> firefox https://www.linuxuprising.com/2018/05/command-line-chromecast-player-catt.html
 ##-------------------------------
 ## Chromecast from cli
 $> sudo apt install python3-pip python3-setuptools
-$> pip3 install --user catt
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> .zshrc
+## Install
+$> pipx install catt
+## OR
+$> uvx catt    ## Does not install just runs in uv env.
 ## usage
 $> catt --help
 ## usage: catt [OPTIONS] COMMAND [ARGS]...
@@ -9116,13 +9176,15 @@ $> catt volumedown    ## Turn down volume by a DELTA increment.
 $> catt volumeup      ## Turn up volume by a DELTA increment.
 $> catt write_config  ## Write the name of default Chromecast device to config file.
 ##==========================================
-## ############################################################
-## ##    vlc stream to chromcast from cli from remote.
-## ############################################################
+## vlc stream to chromcast from cli from remote.
 ## multimedia. video. Works
 ## vlc cast to chromecast.
 $> cvlc --sout "#chromecast"  --gnutls-dir-trust=/data  --sout-chromecast-ip=192.168.1.209 --demux-filter=demux_chromecast  /data/0107261101.mp4
-## ############################################################
+##==========================================
+##==========================================
+## #######################################################
+## ##    END Chromecast
+## #######################################################
 ##==========================================
 ## #######################################################
 ## ##    Keyboard shortcuts
@@ -11700,20 +11762,6 @@ $> export ANTHROPIC_MODEL="qwen3-coder-32k"
 ## Run with Local Model with parameters.
 $> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
 ##==========================================
-## Cline sends complex, long prompts that often exceed Ollamas default 4k token limit.
-## You must create a custom Modelfile to increase the context window.
-## Create a new file (e.g., Modelfile_cline) with content like this:
-## Modelfile_cline
-## Replace with your chosen model
-## Recommended minimum is 32K; 64K+ is better if your hardware allows
-echo 'FROM qwen3-coder:30b
-PARAMETER num_ctx 32768' > Modelfile_cline
-## Create the new, configured model using the ollama create command:
-ollama create <new_model_name> -f Modelfile_cline
-## or
-cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
-EOF
-##==========================================
 
 
 ##==========================================
@@ -11748,6 +11796,8 @@ $> cline config
 $> cline config set <key>=<value>
 ## Set the context window for Ollama. The lower default context window can fail on some tasks.
 $> cline config set ollama-api-options-ctx-num=32768
+## or 64mb
+$> cline config set ollama-api-options-ctx-num=65536
 ## Check out the state..
 $> cat ~/.cline/data/globalState.json
 $> {
@@ -11777,6 +11827,20 @@ $> cat techContext.md      ## stack, setup, hardware targets
 $> export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && cline auth -p ollama -k ollama -m qwen3-coder-32k
 
 ##===================================
+## Cline sends complex, long prompts that often exceed Ollamas default 4k token limit.
+## You must create a custom Modelfile to increase the context window.
+## Create a new file (e.g., Modelfile_cline) with content like this:
+## Modelfile_cline
+## Replace with your chosen model
+## Recommended minimum is 32K; 64K+ is better if your hardware allows
+echo 'FROM qwen3-coder:30b
+PARAMETER num_ctx 32768' > Modelfile_cline
+## Create the new, configured model using the ollama create command:
+ollama create <new_model_name> -f Modelfile_cline
+## or
+cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
+EOF
+##==========================================
 
 
 ##===================================
@@ -11829,7 +11893,10 @@ $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt record
 ##==========================================
 ## ##############################################
 ##==========================================
-## Stable-diffusion image generation command line interface.
+## ###############################################################
+## ##    Stable-diffusion
+## ###############################################################
+## Image generation command line interface.
 ## This ran on CPU. How to force GPU?
 $> mkdir -p ~/code/stable-diffusion-cli
 $> cd ~/code/stable-diffusion-cli
@@ -11902,7 +11969,7 @@ $> sudo ipmitool chassis power hard
 ## Power reset.
 $> sudo ipmitool chassis power reset
 ## Show users.
-$> sudo ipmitooluser list 1
+$> sudo ipmitool user list 1
 ## Sets password for a user. Long pass words are required unless set in the GUI.
 $> sudo ipmitool user set password 2 admin
 ## Show info.
@@ -11938,7 +12005,7 @@ $> sudo ipmitool lan set 1 access on
 ## Remotely. Rest of commands follow above but remote.
 $> sudo ipmitool -I lanplus -H 10.95.142.17 -U UN -P PW  lan set 1 ipaddr 10.96.1.17
 ## Set ipmi to DHCP. This should be the one to use.
-$> ipmitool lan set 1 ipsrc dhcp
+$> sudo ipmitool lan set 1 ipsrc dhcp
 ##===============================
 ## ## GUI WebUI. Lots of function avaiable in the WebUI. Use the IP of the IPMI.
 $> firefox https://192.168.1.17:443/
@@ -12098,6 +12165,27 @@ $> alias mctmux='TERM=xterm mc'
 ##-------------------------
 ##==========================================
 
+## #################################
+## ##    Terminal only OS
+## #################################
+##==========================================
+## List of programs to make a TUI desktop.
+## Windowing flaoting terminals. TUI - A modern terminal multiplexer
+$> term39
+## Terminal web browser.
+$> browsh
+## TUI file browser.
+$> mc
+## dawn - Live tui Markdown Rendering Markdown renders as you write.
+$> dawn
+## Systemd TUI
+$> systemd-manager-tui
+## Erys: - Terminal Interface for Jupyter Notebooks.
+$> erys
+##
+$>
+## #################################
+##==========================================
 
 ##==========================================
 ## ###################################
@@ -12390,6 +12478,14 @@ $> ffmpeg -ss 00:00:02 -i ./inputvid.mp4 -t 00:00:13 -vcodec copy -acodec copy .
 $> ffmpeg -i ./outputvid.mp4 -vcodec libx265 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm.mp4
 ## HVEC H264. Will play in browser.
 $> ffmpeg -i ./outputvid.mp4 -vcodec libx264 -vf "scale=-2:360" -crf 28 -preset fast ./outputvid_sm-264.mp4
+##==========================================
+## Stream audio to the stereo icecast server with ffmpeg.
+$> ffmpeg -re -i <your-audio-file> -f mp3 icecast://nbradio:nbradio@url.noise:8005/live
+##==========================================
+## Hash a password.
+$> openssl passwd -5 ubuntu
+##==========================================
+
 
 ##==========================================
 ## #################################

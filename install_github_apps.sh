@@ -653,6 +653,7 @@ firefox https://antigravity.google/download/linux
 ## Works.
 ## TERM39 - A modern terminal multiplexer
 firefox https://github.com/alejandroqh/term39
+term39 --mouse-device '/dev/input/mice' --theme dark --single-line  --framebuffer
 
 ##==================================
 ## Learn
@@ -1248,18 +1249,21 @@ ollama pull qwen3vl:4b
 ## Works great
 ollama run qwen3vl:4b "Describe this image " ./intro-1716917272.jpg
 
-
 ##============================
-## TTS text to audio.
+## Kokoro TTS text to audio.
+https://github.com/nazdridoy/kokoro-tts
+
 ## Kokoro with lang_code='a'
 
-mkdir -p /home/erik/code/claude/Narrator
+mkdir -p ./kokoro
+cd kokoro
 uv init --no-readme
 uv add kokoro soundfile
+source .venv/bin/activate
 ## install pip in the uv env
 uv pip install pip
 
-##> Test Kokoro TTS with voice parameter.
+##> Test Kokoro TTS with voice parameter. USE THE ONE FARTHER BELOW.
 ## Set voice type. There are 10 diff voice available.
 export KOKORO_VOICE="af_heart"
 
@@ -1268,14 +1272,60 @@ from kokoro import KPipeline
 import soundfile as sf
 p = KPipeline(lang_code='a')
 for _, _, audio in p('A rusty wheelbarrow sits in a patchy garden, bathed in warm afternoon light.', voice='af_heart'):
-    sf.write('test_kokoro.wav', audio, 24000)
-    print('Wrote test_kokoro.wav')
-    break
+sf.write('test_kokoro.wav', audio, 24000)
+print('Wrote test_kokoro.wav')
+break
 "
+
 
 ##> The kokoro test file `VisionNarrator/test_kokoro.wav` sounds great.
 vlc ./test_kokoro.wav
 
+##----------------------
+## Use a shell script. Put it in a file called `kokoro.sh`
+## install pip in the uv env
+mkdir -p ./kokoro-test
+cd kokoro-test
+uv init --no-readme
+uv add kokoro soundfile
+source .venv/bin/activate
+uv pip install pip
+
+## Put the below into a file called test_kokoro.sh
+
+cat > test_kokoro.sh << 'ENDSCRIPT'
+## Test kokoro TTS with a single voice. Set KOKORO_VOICE to override.
+## Usage: ./test_kokoro.sh ["text to synthesize"]
+export KOKORO_VOICE="${KOKORO_VOICE:-af_heart}"
+export KOKORO_TEXT="${1:-A rusty wheelbarrow sits in a patchy garden, bathed in warm afternoon
+light.}"
+export KOKORO_OUTFILE="kokoro_$(date +%Y%m%d_%H%M%S).wav"
+
+uv run python - <<'EOF'
+import os
+import numpy as np
+from kokoro import KPipeline
+import soundfile as sf
+
+voice = os.environ.get('KOKORO_VOICE', 'af_heart')
+text = os.environ.get('KOKORO_TEXT')
+outfile = os.environ.get('KOKORO_OUTFILE', 'kokoro.wav')
+p = KPipeline(lang_code='a')
+chunks = [audio for _, _, audio in p(text, voice=voice)]
+sf.write(outfile, np.concatenate(chunks), 24000)
+print(f'Wrote {outfile} ({len(chunks)} chunks, voice={voice})')
+EOF
+ENDSCRIPT
+
+
+chmod +x test_kokoro.sh
+
+## Run
+KOKORO_VOICE="af_sky" ./test_kokoro.sh '''Create voice-enabled applications and interfaces.'''
+
+KOKORO_VOICE="am_michael" ./test_kokoro.sh 'Create voice-enabled applications and interfaces.'
+
+## MAYBE you can add synthetic pauses by adding a silence tags measured in seconds. E.g. Hello[1s]Kokoro[0.2s]Web
 
 ##============================
 ## kube-prometheus-stack
@@ -1317,6 +1367,60 @@ https://github.com/Strophox/tetro-tui
 ##============================
 ## docker_swarm
 https://thedecipherist.com/articles/docker_swarm_vs_kubernetes/
+
+##============================
+## MIT lectures on tools.
+https://missing.csail.mit.edu/
+
+##============================
+## AGENTS.md  A simple, open format for guiding coding agents
+https://agents.md/
+
+##============================
+https://github.com/ErikAllanKincaid/VisionNarrator
+uv run python webui.py
+
+##============================
+## tkinter library to create simple GUI application
+https://realpython.com/python-gui-tkinter/
+
+##============================
+## Trovr  UI file manager that resembles GUI file managers
+https://github.com/NSPC911/rovr
+
+##============================
+## strace-tui  A terminal user interface (TUI) for visualizing and exploring strace output.
+https://github.com/Rodrigodd/strace-tui
+
+##============================
+## video-to-ascii  Watch (colour!) videos in your terminal.
+https://github.com/edavlis/video-to-ascii
+
+##============================
+## Oxicord is a high-performance, memory-safe Discord TUI client
+https://github.com/linuxmobile/oxicord
+
+##============================
+## Glow  Render markdown on the CLI
+https://github.com/charmbracelet/glow
+
+##============================
+## Crush  Your new coding bestie
+https://github.com/charmbracelet/crush
+
+##============================
+## Create agents that remember everything, learn continuously, and improve themselves over time.
+https://docs.letta.com/letta-code
+
+##============================
+##============================
+## MarkText Next generation wyswig markdown editor
+## A simple and elegant open-source markdown editor that focused on speed and usability.
+https://github.com/marktext/marktext
+wget https://github.com/marktext/marktext/releases/download/v0.17.1/marktext-x86_64.AppImage
+chmod +x marktext-x86_64.AppImage
+sudo mv marktext-x86_64.AppImage /usr/local/bin/marktext
+
 
 ##============================
 
