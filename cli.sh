@@ -10390,27 +10390,27 @@ $> vagrant up
 $> vagrant ssh
 ## Create a vagrant vm configuration file
 $> cat << EOF > Vagrantfile
-dev = [
-    {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
-    {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
-]
-
-os = 'generic/ubuntu1804'
-
-Vagrant.configure("2") do |config|
-    dev.each do |host|
-        config.vm.define host['name'] do |t|
-            t.vm.box = os
-            t.vm.hostname = host['name']
-            t.vm.network(:private_network, ip: host['ip'])
-        end
-    end
-    config.disksize.size = '15GB'
-    config.ssh.insert_key = false
-    config.vm.provider "virtualbox" do |v|
-      v.memory = 1024
-    end
-end
+$> dev = [
+$>     {'name' => 'server0001.dev.commandline.fun', 'ip' => '192.168.42.101' },
+$>     {'name' => 'server0002.dev.commandline.fun', 'ip' => '192.168.42.102' },
+$> ]
+$>
+$> os = 'generic/ubuntu1804'
+$>
+$> Vagrant.configure("2") do |config|
+$>     dev.each do |host|
+$>         config.vm.define host['name'] do |t|
+$>             t.vm.box = os
+$>             t.vm.hostname = host['name']
+$>             t.vm.network(:private_network, ip: host['ip'])
+$>         end
+$>     end
+$>     config.disksize.size = '15GB'
+$>     config.ssh.insert_key = false
+$>     config.vm.provider "virtualbox" do |v|
+$>       v.memory = 1024
+$>     end
+$> end
 EOF
 ## Start all the VMs
 $> vagrant up
@@ -10604,9 +10604,6 @@ $> gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,
 ##==========================================
 ## os. web. install and aсtivate a clean copy of Windows on any PC.
 $> firefox https://rentry.org/installwindows
-##==========================================
-## Static linked-terminal editor
-$> firefox
 ##==========================================
 ## os. multimedia. mac pci video cam
 ## As at 8/3/2020 follow the instructions Here.
@@ -10903,8 +10900,8 @@ $> function mysqlsetup() { mysql -u root -p -e "CREATE USER '$1'@'localhost' IDE
 $> mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
 ## Remove the passwords from .bash_history and .mysql_history.
 ## Put space before this command so this command does not show in the hisory and defeat the purpose.
-$>  sed -i 's/Your_Password//g' ~/.bash_history
-$>  sed -i 's/Your_Password//g' ~/.mysql_history
+$> sed -i 's/Your_Password//g' ~/.bash_history
+$> sed -i 's/Your_Password//g' ~/.mysql_history
 ##=========================================
 ## PHP only allows 2MB files upload by default. For uploading bigger files to your server, increase the upload size in php.ini file.
 ## search for upload_max_filesize and for post_max_size on the file and change both numbers to whatever you need.
@@ -11501,12 +11498,12 @@ $> sudo apt-get install fonts-larabie-uncommon       ## fonts
 ##
 ##==========================================
 ## Some models
-## Kokoro-82M
-## qwen3-vl:2b
-## qwen3-vl:4b
+## Kokoro-82M           ## Awesome Text to speech
+## qwen3-vl:2b          ## Pretty good at explaining images.
+## qwen3-vl:4b          ## Great at OCR, explaining images.
 ## Qwen-Image-2512  model  Q4_K_M  13.1GB
-## qwen3-coder-32k
-
+## qwen3-coder-30B-32k  ## Pretty good at small coding jobs.
+## Qwen3.5-27B-A3B      ## https://unsloth.ai/docs/models/qwen3.5
 
 
 ##==========================================
@@ -11541,8 +11538,8 @@ $> uv run hf download stabilityai/stable-diffusion-xl-base-1.0
 $> firefox https://huggingface.co/black-forest-labs/FLUX.1-schnell
 $> uv run hf download black-forest-labs/.1-schnell
 ##===========================================
-## Run modelswith raw weights via hf:
-$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+## Run models with raw weights via hf:
+#$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
 $> hf download unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
 ## Then run with llama-cli or llama-server. More control, more setup.
 ## Compile llama.cpp
@@ -11562,7 +11559,7 @@ $>   --host 0.0.0.0 \
 $>   --port 8888
 ##==========================================
 ## #############################################
-## ##    Using ollama
+## ##    ollama AI framework
 ## #############################################
 $> firefox https://ollama.com/
 ## Install ollama.
@@ -11570,7 +11567,7 @@ $> curl -fsSL https://ollama.com/install.sh | sh
 ## Pull some models.
 $> ollama pull sd-turbo
 $> ollama pull llama3.2:1b
-## Pull latest
+## Pull latest.
 $> ollama pull llama3.2
 ## List the models downloads.
 $> ollama list
@@ -11584,26 +11581,35 @@ $> sudo docker run -d -p 8686:8080 --gpus=all -v ollama:/root/.ollama -v open-we
 ## Open the WebUI.
 $> firefox http://localhost:8686
 ##==========================================
-## Use qwen3-coder-32k
+## Use qwen3-coder-32k.
 $> ollama pull qwen3-coder:30b-a3b-q4_K_M
-## To run with 32k context: or set in Modelfile: PARAMETER num_ctx 32768
+## To run with 32k context: or set in Modelfile: PARAMETER num_ctx 32768 see below.
 $> ollama run qwen3-coder:30b-a3b-q4_K_M --verbose
-
 ##==========================================
 ## Ollama server typically runs in the background and exposes an API port 11434
 $> http://localhost:11434
-
 ##==========================================
-## How to Use num_ctx in Ollama
+## How to Use num_ctx in Ollama.
 ## num_ctx parameter in Ollama defines the size of the context window (short-term memory) in tokens that a model uses to generate responses, defaulting to 2048 or 4096 tokens
+## Create a custom Modelfile with extended context:
+$> cat > /tmp/Modelfile <<'EOF'
+$> FROM qwen3-coder:30b
+$> PARAMETER num_ctx 32768
+EOF
+## Create new model with new context.
+$> ollama create qwen3-coder-32k -f /tmp/Modelfile
+## Verify it loads on both GPUs:
+$> nvtop
+$> ollama run qwen3-coder-32k "say hello"0
+## OR
 ## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.
 $> cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
 EOF
 ## CLI: Use within the interactive terminal ollama run session.
-$>     /set parameter num_ctx 4096
-## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.API: Include "options": { "num_ctx": 4096 } in the JSON body of your request.
-## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.Environment Variable: Set the default context size using  before launching Ollama.
-$> export OLLAMA_CONTEXT_LENGTH=8192
+$>     /set parameter num_ctx 32768
+## Modelfile: Add PARAMETER num_ctx 32768 to a custom Modelfile.API: Include "options": { "num_ctx": 4096 } in the JSON body of your request.
+## Modelfile: Add PARAMETER num_ctx 32768 to a custom Modelfile.Environment Variable: Set the default context size using  before launching Ollama.
+$> export OLLAMA_CONTEXT_LENGTH=32768
 ##==========================================
 ## ##############################################
 ##==========================================
@@ -11613,6 +11619,7 @@ $> export OLLAMA_CONTEXT_LENGTH=8192
 ## #############################################
 ## ai. coder. Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
 $> firefox https://code.claude.com/docs/en/overview
+## Very good but costs $$$ each month.
 ##==========================================
 ## Install.
 $> curl -fsSL https://claude.ai/install.sh | bash
@@ -11620,8 +11627,35 @@ $> curl -fsSL https://claude.ai/install.sh | bash
 ## Install the Claude CLI tool via npm:
 $> npm install -g @anthropic-ai/claude-code.
 ##==========================================
+## Setup payments on the web.
+$> anthropic.com
+##==========================================
 ## Make parameters files.
 ## Examples:
+## Specifies how you want the agent to act.
+$> touch CLAUDE.md ## Specifies how you want the agent to act.
+$> echo '# Hooks
+$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
+$> - It appends Claude last response (with timestamp) to `MEMORY.md`.
+$> # About Me
+$> - Name: YOURNAMEHERE
+$> - Location: Hawaii
+$> - Occupation: Engineer
+$> - Email: YOUREMAILHERE@gmail.com
+$> - GitHub: https://github.com/YOURGITHUBHERE
+$> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
+$> ## This Environment
+$> - Linux, Ubuntu 24.04 "noble" based.
+$> - Uses Claude Code as a general-purpose personal assistant
+$> - sudo password: Ask me to enter when needed.
+$> ## Session Persistence
+$> - At the START of every session, read `MEMORY.md` and `TODO.md`.
+$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
+$> - When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
+$> ' > CLAUDE.md
+$> touch MEMORY.md ## A place for agent to add information to add context to next session.
+$> touch TODO.md   ## Have agent add items as you come up with new ideas.
+##==========================================
 ## Allows agent to work with some files without asking.
 $> mkdir -p ~/code/claude/.claude/
 $> cd ~/code/claude/
@@ -11693,30 +11727,6 @@ $>
 $> exit 0
 EOF
 ##--------------------------
-## Specifies how you want the agent to act.
-$> touch CLAUDE.md ## Specifies how you want the agent to act.
-$> echo '# Hooks
-$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
-$> - It appends Claude last response (with timestamp) to `MEMORY.md`.
-$> # About Me
-$> - Name: YOURNAMEHERE
-$> - Location: Hawaii
-$> - Occupation: Engineer, Molecular Biologist
-$> - Email: YOUREMAILHERE@gmail.com
-$> - GitHub: https://github.com/YOURGITHUBHERE
-$> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
-$> ## This Environment
-$> - Linux, Ubuntu 24.04 "noble" based.
-$> - Uses Claude Code as a general-purpose personal assistant
-$> - sudo password: Ask me to enter when needed.
-$> ## Session Persistence
-$> - At the START of every session, read `MEMORY.md` and `TODO.md`.
-$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
-$> - When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
-$> ' > CLAUDE.md
-$> touch MEMORY.md ## A place for agent to add information to add context to next session.
-$> touch TODO.md   ## Have agent add items as you come up with new ideas.
-##==========================================
 ## Start claude
 $> claude
 $> your prompt here
@@ -11762,13 +11772,113 @@ $> export ANTHROPIC_MODEL="qwen3-coder-32k"
 ## Run with Local Model with parameters.
 $> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
 ##==========================================
-
-
+## #############################################
+## #############################################
 ##==========================================
+## ##############################################
+## ##    Letta code cli
+## ##############################################
+## Create agents that remember everything, learn continuously, and improve themselves over time.
+$> firefox https://docs.letta.com/letta-code/quickstart
+##==========================================
+## Setup ollama first.
+## Register with letta.
+$> firefox https://app.letta.com/login?redirect=/
+## Install letta.
+$> sudo npm i -g @letta-ai/letta-code
+## Get letta working with local model.
+##  1. Install Docker on X10SRA (container runtime to run the Letta server)
+$> sudo apt update
+$> sudo apt-get install -y docker.io
+$> sudo usermod -aG docker $USER
+##  2. Pull an embedding model into Ollama (Letta needs this for memory/search)
+$> ollama pull mxbai-embed-large
+$> ollama list | grep embed
+##  3. Verify context window on your qwen3-coder model (Letta needs 16K+ to function)
+$> ollama show qwen3-coder-32k --modelfile 2>/dev/null | grep -i "num_ctx\|context\|parameter"
+##  4. Launch the Letta server container with Ollama connection.
+$> docker run -d \
+$>   --name letta-server \
+$>   --network host \
+$>   -v ~/.letta/.persist/pgdata:/var/lib/postgresql/data \
+$>   -e OLLAMA_BASE_URL="http://localhost:11434/v1" \
+$>   letta/letta:latest
+## Check container.
+$> docker container ls | grep letta
+## Check docker logs.
+$> docker ps -a --filter name=letta-server --format "table {{.Status}}\t{{.Ports}}"; echo "---"; docker logs letta-server 2>&1 | tail -20
+## Query. Check Letta server health and available models.
+$> curl -s http://localhost:8283/api/health 2> /dev/null ; echo "---" ; curl -s http://localhost:8283/v1/models 2>/dev/null | python3 -m json.tool 2>/dev/null | head -40
+$> curl -s http://localhost:8283/v1/health; echo "---"; curl -s http://localhost:8283/v1/providers | python3 -m json.tool 2>/dev/null | head -60
+$> docker logs letta-server 2>&1 | grep -i -E "ollama|model|provider" | tail -20
+$> docker exec letta-server printenv | grep -i ollama; echo "---"
+$> docker exec letta-server curl -s http://localhost:11434/v1/models 2>/dev/null | head -20; echo "---";
+$> docker exec letta-server curl -s http://localhost:11434/api/tags 2>/dev/null | python3 -m json.tool 2>/dev/null | head -10
+## Restart. On first boot, the container initializing its PostgreSQL database while also trying to sync providers.
+$> docker restart letta-server && sleep 10 && docker logs letta-server 2>&1 | grep -i ollama | tail -10
+##-------------------------
+##  5. Connect Letta Code to the local server.
+$> LETTA_BASE_URL="http://localhost:8283" letta --new-agent
+##-------------------------
+##  6. Create an agent using the local model.
+## Prompt
+$>     Hey Letta! What model are you running on?
+## If not qwen
+$>     /model
+## pick
+$>     ollama/qwen3-coder-32k:latest
+##=========================
+## To make the docker leta server persistant.
+$> docker update --restart unless-stopped letta-server
+##=========================
+## point to local agent
+$> cp ~/.letta/settings.json ~/.letta/settings.json.bak
+## To switch back to cloud later, just restore the backup:
+$> cp ~/.letta/settings.json.bak ~/.letta/settings.json
+##=========================
+## Name the agent
+## Named it "Erik-Local". You can also rename it from within the interactive TUI
+$>     /profile save <name>
+## Or via the API:
+$> curl -X PATCH http://localhost:8283/v1/agents/<agent-id> \
+$>   -H 'Content-Type: application/json' \
+$>   -d '{"name": "WhateverYouWant"}'
+##==========================
+## Letta Code CLI crash fix for self-hosted local server
+##  Problem: Letta Code TUI crashes with currentQuestion.options is not iterable
+##  when connected to a self-hosted Letta server instead of Letta Cloud. The local
+##  server returns a question object without an options array.
+## Backup first
+$> sudo cp /usr/lib/node_modules/@letta-ai/letta-code/letta.js \
+$> /usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak
+## Apply fix
+$> sudo sed -i 's/\.\.\.currentQuestion\.options,/...(currentQuestion.options || []),/' /usr/lib/node_modules/@letta-ai/letta-code/letta.js
+## Check it
+$> diff /usr/lib/node_modules/@letta-ai/letta-code/letta.js \
+$> /usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak
+## Restore if needed
+$> sudo cp /usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak \
+$> /usr/lib/node_modules/@letta-ai/letta-code/letta.js
+##==========================
+## to start
+## Start docker server.
+$> docker run -d \
+$>   --name letta-server \
+$>   --network host \
+$>   -v ~/.letta/.persist/pgdata:/var/lib/postgresql/data \
+$>   -e OLLAMA_BASE_URL="http://localhost:11434/v1" \
+$>   letta/letta:latest
+## Letta pointed to the local server
+$> LETTA_BASE_URL="http://localhost:8283" letta
+## Make sure pointed to qwen in the tui
+$>     /model
+$>     qwen3-coder-32k
+##-------------------
+## ##############################################
 ## ##############################################
 ##==========================================
 ## ##############################################
-## ##    Cline code
+## ##    Cline code cli
 ## ##############################################
 ## ai. coder. Cline, an AI assistant that can use your CLI aNd Editor.
 $> firefox https://github.com/cline/cline
@@ -11833,12 +11943,12 @@ $> export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && cline auth -p ollama -k
 ## Modelfile_cline
 ## Replace with your chosen model
 ## Recommended minimum is 32K; 64K+ is better if your hardware allows
-echo 'FROM qwen3-coder:30b
-PARAMETER num_ctx 32768' > Modelfile_cline
+$> echo 'FROM qwen3-coder:30b
+$> PARAMETER num_ctx 32768' > Modelfile_cline
 ## Create the new, configured model using the ollama create command:
-ollama create <new_model_name> -f Modelfile_cline
+$> ollama create <new_model_name> -f Modelfile_cline
 ## or
-cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
+$> cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
 EOF
 ##==========================================
 
@@ -11893,6 +12003,51 @@ $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt record
 ##==========================================
 ## ##############################################
 ##==========================================
+## text. audio. ai.
+## Kokoro TTS text to audio.
+$> https://github.com/nazdridoy/kokoro-tts
+## Kokoro with lang_code='a'
+$> mkdir -p ./kokoro-test
+$> cd kokoro-test
+$> uv init --no-readme
+$> uv add kokoro soundfile
+$> source .venv/bin/activate
+## Install pip in the uv env
+$> uv pip install pip
+## Set voice type. There are 10 diff voice available.
+$> export KOKORO_VOICE="af_heart"
+## Put the below into a file called test_kokoro.sh
+$> cat > test_kokoro.sh << 'ENDSCRIPT'
+$> ## Test kokoro TTS with a single voice. Set KOKORO_VOICE to override.
+$> ## Usage: ./test_kokoro.sh ["text to synthesize"]
+$> export KOKORO_VOICE="${KOKORO_VOICE:-af_heart}"
+$> export KOKORO_TEXT="${1:-A rusty wheelbarrow sits in a patchy garden, bathed in warm afternoon
+$> light.}"
+$> export KOKORO_OUTFILE="kokoro_$(date +%Y%m%d_%H%M%S).wav"
+$>
+$> uv run python - <<'EOF'
+$> import os
+$> import numpy as np
+$> from kokoro import KPipeline
+$> import soundfile as sf
+$>
+$> voice = os.environ.get('KOKORO_VOICE', 'af_heart')
+$> text = os.environ.get('KOKORO_TEXT')
+$> outfile = os.environ.get('KOKORO_OUTFILE', 'kokoro.wav')
+$> p = KPipeline(lang_code='a')
+$> chunks = [audio for _, _, audio in p(text, voice=voice)]
+$> sf.write(outfile, np.concatenate(chunks), 24000)
+$> print(f'Wrote {outfile} ({len(chunks)} chunks, voice={voice})')
+$> EOF
+ENDSCRIPT
+## Make executable
+$> chmod +x test_kokoro.sh
+## Run
+$> KOKORO_VOICE="af_sky" ./test_kokoro.sh '''Create voice-enabled applications and interfaces.'''
+## Diff voice
+$> KOKORO_VOICE="am_michael" ./test_kokoro.sh 'Create voice-enabled applications and interfaces.'
+## MAYBE you can add synthetic pauses by adding a silence tags measured in seconds. E.g. Hello[1s]Kokoro[0.2s]Web
+##============================
 ## ###############################################################
 ## ##    Stable-diffusion
 ## ###############################################################
@@ -11908,9 +12063,6 @@ $> curl -L -O https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main
 ## Generate image. Each prompt overwrite as output.png. To save as name use --output
 $> ./sd-cli -m ./v1-5-pruned-emaonly.safetensors -p "a lovely cat" --output "cat.png"
 $> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a diaphanous dress and a crown standing in front of a very large window, overlooking a futuristic city."
-##==========================================
-
-
 ##==========================================
 ## ####################################
 
@@ -12039,18 +12191,18 @@ $> meshcmd
 $> sudo meshcmd AmtInfo
 ## Get AMT information on remote machine
 $> sudo meshcmd AmtInfo --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
-    #> Intel AMT v16.1.25, activated in Admin Control Mode ( ACM).
-    #> Wired Enabled, DHCP, 88:34:34:34:34:D2, 192.168.1.201
-    #> Wireless Disabled, DHCP, 00:00:00:00:00:00
-    #> DNS suffix: localdomain
-    #> Connection Status: Unknown, CIRA: Disconnected.
+#>     Intel AMT v16.1.25, activated in Admin Control Mode ( ACM).
+#>     Wired Enabled, DHCP, 88:34:34:34:34:D2, 192.168.1.201
+#>     Wireless Disabled, DHCP, 00:00:00:00:00:00
+#>     DNS suffix: localdomain
+#>     Connection Status: Unknown, CIRA: Disconnected.
 ## Get BIOS info
 $> sudo meshcmd SMBios --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
 ## HANGS
 $> sudo meshcmd AmtUUID --hostname 192.168.1.201 --user admin --password YOUPASSWORDHERE
 ## Scan does NOT seem to work.
 $> sudo meshcmd AmtScan --scan 192.168.1.201/24 --hostname 192.168.1.200 --user admin --password YOUPASSWORDHERE
-    #> No Intel AMT found.
+#>     No Intel AMT found.
 ## Log does NOT seem work.
 $> sudo meshcmd AmtEventLog --hostname 192.168.1.201 --user admin --password 'YOUPASSWORDHERE'
 ## Serial Over Lan SOL.
@@ -12191,81 +12343,6 @@ $>
 ## ###################################
 ## ##    END TUI CLI
 ## ###################################
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
-
-##==========================================
-
 
 ##==========================================
 
@@ -12596,46 +12673,46 @@ $> alias quickdict='compgen -c | fzf | xargs tldr'
 $> alias commanddict='compgen -c | fzf | xargs man'
 $> alias dirsize='du -hc . | tail -n 1'
 ## Functions
-gitignore() {
-        local gitrootdir="$(git rev-parse --show-toplevel)"
-        git rm --cached "$1" -r
-        echo "$1" >> "$gitrootdir/.gitignore"
-}
+$> gitignore() {
+$>         local gitrootdir="$(git rev-parse --show-toplevel)"
+$>         git rm --cached "$1" -r
+$>         echo "$1" >> "$gitrootdir/.gitignore"
+$> }
 ##
-update() {
-        sudo nala update &&
-        sudo nala upgrade -y &&
-        sudo deb-get upgrade -y &&
-        pacstall -Up &&
-        sudo nala autopurge &&
-        sudo nala clean
-}
+$> update() {
+$>         sudo nala update &&
+$>         sudo nala upgrade -y &&
+$>         sudo deb-get upgrade -y &&
+$>         pacstall -Up &&
+$>         sudo nala autopurge &&
+$>         sudo nala clean
+$> }
 ##
-countfiles() {
-    local directory="$1"
-    local count=$(find "$directory" -type f | wc -l)
-    echo "Number of files in $directory: $count"
-}
+$> countfiles() {
+$>     local directory="$1"
+$>     local count=$(find "$directory" -type f | wc -l)
+$>     echo "Number of files in $directory: $count"
+$> }
 ##
-cl() {
-    DIR="$*";
-        # if no DIR given, go home
-        if [ $# -lt 1 ]; then
-                DIR=$HOME;
-    fi;
-    builtin cd "${DIR}" && \
-    # use your preferred ls command
-        ls
-}
-sounddev() {
-        echo "Sources (Inputs):"
-        pactl list sources short
-        echo
-        echo "Sinks (Sources):"
-        pactl list sinks short
-        echo
-        echo "pactl set-default-{sink, source} #"
-}
+$> cl() {
+$>     DIR="$*";
+$>         # if no DIR given, go home
+$>         if [ $# -lt 1 ]; then
+$>                 DIR=$HOME;
+$>     fi;
+$>     builtin cd "${DIR}" && \
+$>     # use your preferred ls command
+$>         ls
+$> }
+$> sounddev() {
+$>         echo "Sources (Inputs):"
+$>         pactl list sources short
+$>         echo
+$>         echo "Sinks (Sources):"
+$>         pactl list sinks short
+$>         echo
+$>         echo "pactl set-default-{sink, source} #"
+$> }
 ##---------------------------------
 ## git
 $> alias gs='git status'
@@ -12716,8 +12793,8 @@ $> alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
 $> alias -s {txt,yml,yaml,conf,md,list}="nvim"
 $> alias -s html="firefox"
 $> alias -s org="firefox"
-$ $> alias -g C='| wc -l'
-$ grep $> alias ~/.zsh/* C
+$> alias -g C='| wc -l'
+$> grep $> alias ~/.zsh/* C
 $> alias -g WL='| wc -l'
 $> alias -g CA="2>&1 | cat -A"
 $> alias -g DN="2> /dev/null"
@@ -12834,18 +12911,18 @@ $> alias ll="ls -lah"
 $> alias drma='docker rm -f $(docker ps -a -q)'
 $> alias fixperms='sudo chown -R $(whoami):$(whoami) . && sudo chmod -R a=,a+rX,u+w,g+w .'
 ##
-function upd() {
-  if [[ $OSTYPE == "linux"* ]]; then
-    sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
-  fi
-  if [[ $OSTYPE == "darwin"* && $(command -v brew) != "" ]]; then
-    brew update && brew upgrade
-  fi
-}
-
-function killport() {
-  sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
-}
+$> function upd() {
+$>   if [[ $OSTYPE == "linux"* ]]; then
+$>     sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+$>   fi
+$>   if [[ $OSTYPE == "darwin"* && $(command -v brew) != "" ]]; then
+$>     brew update && brew upgrade
+$>   fi
+$> }
+##
+$> function killport() {
+$>   sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
+$> }
 ## git.
 $> alias gc='git commit -am'
 $> alias gcane='git commit —amend —no-edit'
@@ -12890,35 +12967,35 @@ $> alias h='eval "$(history -p \!\! | awk '\''{print $1}'\'')" --help'
 ##
 $> inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 ##
-if [[ $inside_get_repo ]]; then
-    $> alias rm='git rm'
-elif [[ -e "/usr/bin/trash" ]]; then
-    $> alias rm='trash'
-else
-    $> alias rm='rm -i'
-fi
+$> if [[ $inside_get_repo ]]; then
+$>     $> alias rm='git rm'
+$> elif [[ -e "/usr/bin/trash" ]]; then
+$>     $> alias rm='trash'
+$> else
+$>     $> alias rm='rm -i'
+$> fi
 ##-------------------------
 ## New cd with functions
-function _cd {
-    # typing just `_cd` will take you $HOME ;)
-    if [ "$1" == "" ]; then
-          pushd "$HOME" > /dev/null
-          # use `_cd -` to visit previous directory
-    elif [ "$1" == "-" ]; then
-          pushd "$OLDPWD" > /dev/null
-          # use `_cd -n` to go n directories back in history
-    elif [[ "$1" =~ ^-[0-9]+$ ]]; then
-          for i in `seq 1 ${1/-/}`; do
-              popd > /dev/null
-          done
-          # use `_cd -- <path>` if your path begins with a dash
-    elif [ "$1" == "--" ]; then
-          shift pushd -- "$@" > /dev/null
-          # basic case: move to a dir and add it to history
-    else
-          pushd "$@" > /dev/null
-    fi
-}
+$> function _cd {
+$>     # typing just `_cd` will take you $HOME ;)
+$>     if [ "$1" == "" ]; then
+$>           pushd "$HOME" > /dev/null
+$>           # use `_cd -` to visit previous directory
+$>     elif [ "$1" == "-" ]; then
+$>           pushd "$OLDPWD" > /dev/null
+$>           # use `_cd -n` to go n directories back in history
+$>     elif [[ "$1" =~ ^-[0-9]+$ ]]; then
+$>           for i in `seq 1 ${1/-/}`; do
+$>               popd > /dev/null
+$>           done
+$>           # use `_cd -- <path>` if your path begins with a dash
+$>     elif [ "$1" == "--" ]; then
+$>           shift pushd -- "$@" > /dev/null
+$>           # basic case: move to a dir and add it to history
+$>     else
+$>           pushd "$@" > /dev/null
+$>     fi
+$> }
 ## replace standard `cd` with enhanced version, ensure tab-completion works
 $> alias cd='_cd'
 $> complete -d cd
@@ -13047,22 +13124,22 @@ $> alias i3asus="cp ~/.dotfiles/i3/.config/i3/config ~/.config/i3/"
 $> alias yt="yt-dlp -f $1 $2"
 ## save last command from history to a file
 ## tip, add a comment to end of command before saving, ex: ls --color=auto # colored ls output
-a sl='fc -ln -1 | sed "s/^\s*//" >> ~/.saved_commands.txt'
+$> a sl='fc -ln -1 | sed "s/^\s*//" >> ~/.saved_commands.txt'
 ## short-cut to grep that file
-a slg='< ~/.saved_commands.txt grep'
+$> a slg='< ~/.saved_commands.txt grep'
 ## Corrections.
-  aliases = {
-    "x" = "exit";
-    "celar" = "clear";
-    "tf" = "terraform";
-    "kubeclt" = "kubectl";
-    "edit" = "cd /home/jsh/git/jsh-nix/";
-    "nixfmt" = "nixpkgs-fmt";
-    "osbuild" = "nix build .#nixosConfigurations.$(hostname).config.system.build.toplevel";
-    "osinstall" = "./result/bin/switch-to-configuration switch";
-    "tvfb" = "filebot -r -rename * -non-strict --format /home/jsh/TV/\"{n.space('_')}-{y}/{s00e00}-{t.space('_')}\"";
-    "moviefb" = "filebot -rename * -non-strict --format \"{n.space('_')}-{y}\"";
-  };
+$>   aliases = {
+$>     "x" = "exit";
+$>     "celar" = "clear";
+$>     "tf" = "terraform";
+$>     "kubeclt" = "kubectl";
+$>     "edit" = "cd /home/jsh/git/jsh-nix/";
+$>     "nixfmt" = "nixpkgs-fmt";
+$>     "osbuild" = "nix build .#nixosConfigurations.$(hostname).config.system.build.toplevel";
+$>     "osinstall" = "./result/bin/switch-to-configuration switch";
+$>     "tvfb" = "filebot -r -rename * -non-strict --format /home/jsh/TV/\"{n.space('_')}-{y}/{s00e00}-{t.space('_')}\"";
+$>     "moviefb" = "filebot -rename * -non-strict --format \"{n.space('_')}-{y}\"";
+$>   };
 ##
 $> alias lsd='ls -l | grep ^d'
 $> alias lslrt='find . -printf '\''%T@ %t %p\n'\'' | sort -k 1 -n | cut -d'\'' '\'' -f2-'
@@ -13131,10 +13208,10 @@ $> yay -Sy gtk2-patched-filechooser-icon-view gtk3-patched-filechooser-icon-view
 ##==========================================
 ## files. Viewing CSV Files in a Better Format
 $> function view_csv {
-    if [ -z "$1" ]; then echo "Usage: view_csv <file.csv>"
-    else cat "$1" | column -s, -t | less -F -S -X -K
-    fi
-}
+$>     if [ -z "$1" ]; then echo "Usage: view_csv <file.csv>"
+$>     else cat "$1" | column -s, -t | less -F -S -X -K
+$>     fi
+$> }
 ## This bash function comes in pretty handy when viewing csv files directly on the terminal. Here’s the explanation for this one liner.
 ##    cat "$1" ## Reads the content of the specified CSV file.
 ##    column -s, -t ## Uses the column command to format the content into a table
@@ -13150,35 +13227,35 @@ $> function view_csv {
 ## files. Checking Recently Modified Files
 ## This Bash function, recently_modified, proves to be quite handy for my team when keeping track of the latest modifications made to various files on the server.
 $> function recently_modified() {
-    recent_file=$(ls -t | head -n1)
-    echo "Most recently modified file: $recent_file"
-}
+$> $>     recent_file=$(ls -t | head -n1)
+$>     echo "Most recently modified file: $recent_file"
+$> }
 ##==========================================
 ## files. compression. Compressing Multiple Files
 $> function compress_files() {
-    if [ -z "$1" ]; then echo "Usage: compress_files <archive_name.zip> <file1> <file2> ..."
-    else zip -r "$1" "${@:2}"
-    fi
-}
+$>     if [ -z "$1" ]; then echo "Usage: compress_files <archive_name.zip> <file1> <file2> ..."
+$>     else zip -r "$1" "${@:2}"
+$>     fi
+$> }
 ##==========================================
 ## files. Searching text in files
 $> function search_text_in_files() {
-    if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: search_text_in_files <directory> <search_term>"
-    else grep -rnw "$1" -e "$2"
-    fi
-}
+$>     if [ -z "$1" ] || [ -z "$2" ]; then echo "Usage: search_text_in_files <directory> <search_term>"
+$>     else grep -rnw "$1" -e "$2"
+$>     fi
+$> }
 ##==========================================
 ## os. ram. Checking high usage memory processes
-function process_with_most_memory() { ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head }
+$> function process_with_most_memory() { ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head }
 ##==========================================
 ## Listing Open Ports
-function list_open_ports() { netstat -tuln }
+$> function list_open_ports() { netstat -tuln }
 ##--------------------
 ## Listening Ports for specific process
-function find_listening_ports() { if [ -z "$1" ]; then echo "Usage: find_listening_ports <pid>"
-    else ss -tulnp | grep "$1"
-    fi
-}
+$> function find_listening_ports() { if [ -z "$1" ]; then echo "Usage: find_listening_ports <pid>"
+$>     else ss -tulnp | grep "$1"
+$>     fi
+$> }
 ##==========================================
 ## ###################################################
 ## ##    tailscale headscale
@@ -13415,11 +13492,8 @@ $> ffmpeg $(yt-dlp -g 'https://de.pornhub.com/view_video.php?viewkey=ph637366806
 ## If you as the sole user of a computer at home only don’t like needing to repeatedly type a password each time you run a command, using ‘NOPASSWD’ in sudoers for your specific username is for you.
 $> echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 ##==========================================
-https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
-https://darkhz.github.io/bluetuith/
-
-
-
+$> firefox https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
+$> firefox https://darkhz.github.io/bluetuith/
 ##==========================================
 ## Watch the network for activity to discover devices
 $> sudo netdiscover -r 192.168.0.1/24
@@ -13502,11 +13576,10 @@ $> adb push "video.mkv" /sdcard/
 $> adb pull "/storage/emulated/0/Download/video.mp4" /home/$USER/Downloads
 ##---------------------------
 $> adb shell sm set-force-adoptable true
-
 ##=======================================================
-##  Formats the card as an EXT4 drive with 128-bit AES encryption that is mounted as part of the system and set as the preferred storage. You’ll even be prompted to move your data over to it, and, as you’d expect, new data is saved on this “adopted storage” by default.
-
-
+## Android
+## Formats the card as an EXT4 drive with 128-bit AES encryption that is mounted as part of the system and set as the preferred storage.
+## You’ll even be prompted to move your data over to it, and, as you’d expect, new data is saved on this “adopted storage” by default.
 ##=======================================================
 ## network. Route add default gateway. Add route default gateway on shell
 $> route add default gw 192.168.10.1 //OR// ip route add default via 192.168.10.1 dev eth0 //OR// ip route add default via 192.168.10.1
@@ -13514,13 +13587,13 @@ $> route add default gw 192.168.10.1 //OR// ip route add default via 192.168.10.
 ## network. wifi. Wifi power setting
 $> cat /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 ## By default there is:
-    ## [connection]
-    ## wifi.powersave = 3
+#>     [connection]
+#>     wifi.powersave = 3
 ## Possible values for the wifi.powersave field are:
-    ## NM_SETTING_WIRELESS_POWERSAVE_DEFAULT (0): use the default value
-    ## NM_SETTING_WIRELESS_POWERSAVE_IGNORE  (1): dont touch existing setting
-    ## NM_SETTING_WIRELESS_POWERSAVE_DISABLE (2): disable powersave
-    ## NM_SETTING_WIRELESS_POWERSAVE_ENABLE  (3): enable powersave
+#>     NM_SETTING_WIRELESS_POWERSAVE_DEFAULT (0): use the default value
+#>     NM_SETTING_WIRELESS_POWERSAVE_IGNORE  (1): dont touch existing setting
+#>     NM_SETTING_WIRELESS_POWERSAVE_DISABLE (2): disable powersave
+#>     NM_SETTING_WIRELESS_POWERSAVE_ENABLE  (3): enable powersave
 ## Change the value to 2.
 $> sudo sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 ## To take effect, just run:
@@ -13551,9 +13624,9 @@ $> sudo userdel -r usernamehere
 ## Get the current wifi password of a Connected Device with NMCLI
 $> nmcli device wifi show-password
 ## Comes with a QR code, so make sure your trust the source, if running from a device other than your own.
-
 ##==========================================
 ## Text Editor
+##------------------------------
 ## Sublime
 ## Adding a Line
 $> Alt+Shift+⬆          ## To add the line above to the selection:
@@ -13763,35 +13836,35 @@ $> sudo echo 0 > /sys/class/video4linux/video0/shield/state
 ## os, swap. Reset your swap space
 $> sudo swapoff -a && sudo swapon -a
 ##==========================================
-## ??????????
+## Screenshot of term with background
 $> alias gayscrotum='scrot -u poop.png && convert poop.png \( +clone -background black -shadow 50x50x50x50+10+10+10+10 \) +swap -background none -layers merge +repage poopy.png && rm poop.png'
 ##==========================================
-[alias]
-    a = commit --amend
-    allfiles = "!f() { git log --name-only --diff-filter=A --pretty=format: | sort -u; }; f"
-    cfg = config --list
-    changedfiles = "diff-tree --no-commit-id -r --name-only"
-    cam = commit -am
-    cm = commit -m
-    co = checkout
-    cob = checkout -b
-    discard = reset HEAD --hard
-    discardchunk = checkout -p
-    ol = "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-    others = "ls-files --others --ignored --exclude-from=.gitignore"
-    rmuntracked = clean -df
-    root = rev-parse --show-toplevel
-    s = status
-    searchfiles = "log --name-status --source --all -S"
-    searchtext = "!f() { git grep \"$*\" $(git rev-list --all); }; f"
-    uncommit = reset --soft HEAD^
-    unstage = reset HEAD --
-    wip = "!f() { git add . && git commit -m 'Work in progress'; }; f"
-diff-all = !"for name in $(git diff --name-only $1); do git difftool -y $1 $name & done"
-diff-changes = diff --name-status -r
-diff-stat = diff --stat --ignore-space-change -r
-diff-staged = diff --cached
-diff-upstream = !git fetch origin && git diff master origin/master
+$> [alias]
+$> a = commit --amend
+$> allfiles = "!f() { git log --name-only --diff-filter=A --pretty=format: | sort -u; }; f"
+$> cfg = config --list
+$> changedfiles = "diff-tree --no-commit-id -r --name-only"
+$> cam = commit -am
+$> cm = commit -m
+$> co = checkout
+$> cob = checkout -b
+$> discard = reset HEAD --hard
+$> discardchunk = checkout -p
+$> ol = "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+$> others = "ls-files --others --ignored --exclude-from=.gitignore"
+$> rmuntracked = clean -df
+$> root = rev-parse --show-toplevel
+$> s = status
+$> searchfiles = "log --name-status --source --all -S"
+$> searchtext = "!f() { git grep \"$*\" $(git rev-list --all); }; f"
+$> uncommit = reset --soft HEAD^
+$> unstage = reset HEAD --
+$> wip = "!f() { git add . && git commit -m 'Work in progress'; }; f"
+$> diff-all = !"for name in $(git diff --name-only $1); do git difftool -y $1 $name & done"
+$> diff-changes = diff --name-status -r
+$> diff-stat = diff --stat --ignore-space-change -r
+$> diff-staged = diff --cached
+$> diff-upstream = !git fetch origin && git diff master origin/master
 ##==========================================
 ## Docker
 $> docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/html:rw -d nginx
@@ -13808,7 +13881,7 @@ $> sudo apt-get remove blueberry
 $> sudo apt-get install blueman
 ##-----------------------
 ## This was only partly effective.
-https://wiki.archlinux.org/title/bluetooth_headset
+$> fiefox https://wiki.archlinux.org/title/bluetooth_headset
 ## Find necessary info about the bluetooth device (while it is connected!)
 $> pactl list | grep -Pzo '.*bluez_card(.*\n)*'
 ## Use field "Name:: and "Ports:"  headset-output. Set to 50000 - 70000 buffer
@@ -13818,21 +13891,20 @@ $> pactl set-port-latency-offset bluez_card.7D_4D_C1_D8_F1_AA headset-output 125
 $> sudo service bluetooth restart
 ##==========================================
 ## How to open DMG file in Linux [Ubuntu , Linux Mint , Kali Linux]
-1. sudo apt update
-2. sudo apt-get install p7zip-full
-3. 7z x [image].dmg
-4. mkdir ftmount
-5. sudo mount -t hfsplus 5.hfsx ftmount
+$> sudo apt update
+$> sudo apt-get install p7zip-full
+$> 7z x [image].dmg
+$> mkdir ftmount
+$> sudo mount -t hfsplus 5.hfsx ftmount
 ## *************
 ## for umount
-6. sudo umount ftmount
-
+$>  sudo umount ftmount
 ##==========================================
 ## PDF fill out anotate
-https://www.sejda.com/desktop
+$> fiefox https://www.sejda.com/desktop
 ##==========================================
 ## Awesome git tui
-https://github.com/jesseduffield/lazygit
+$> fiefox https://github.com/jesseduffield/lazygit
 ## Ubuntu
 $> LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 $> curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -13840,33 +13912,32 @@ $> tar xf lazygit.tar.gz lazygit
 $> sudo install lazygit /usr/local/bin
 ## Verify the correct installation of lazygit:
 $> lazygit --version
-
 ##==========================================
+## git tricks
+$> git add -A
+$> git commit -F <(git diff --cached --compact-summary)
 ##
-    >git add -A
-    >git commit -F <(git diff --cached --compact-summary)
-
 $> git checkout `git rev-list --max-parents=0 HEAD | tail -n 1`
 $> git push origin HEAD:master
 ##==========================================
-##
-https://lock.cmpxchg8b.com/linux123.html
+## Lotus 1-2-3 For Linux
+$> fiefox https://lock.cmpxchg8b.com/linux123.html
 $> sudo apt-get install build-essential gcc-multilib lib32ncurses-dev
 ##==========================================
 ## Raspberrypi headless with raspberrian OS
 ## Create some files on the root / of the sd card
 ## Username password
-echo "$USER:$(echo 'mypassword' | openssl passwd -6 -stdin)" > mount/path/userconf.txt
+$> echo "$USER:$(echo 'mypassword' | openssl passwd -6 -stdin)" > mount/path/userconf.txt
 ## Enable ssh
-touch mount/path/ssh
+$> touch mount/path/ssh
 ## WiFi network info
-echo 'country=US
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-network={
-    ssid="NETWORK-NAME"
-    psk="NETWORK-PASSWORD"
-}' > mount/path/wpa_supplicant.conf
+$> echo 'country=US
+$> ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+$> update_config=1
+$> network={
+$>     ssid="NETWORK-NAME"
+$>     psk="NETWORK-PASSWORD"
+$> }' > mount/path/wpa_supplicant.conf
 ## Now availible on network
 ## Remove old known hosts
 $> ssh-keygen -R raspberrypi.local
@@ -13894,11 +13965,12 @@ $> sudo ip address add 192.168.42.1/24 dev vboxnet0
 $> * 192.168.42.0/24
 $> echo '* 192.168.42.0/24' > /etc/vbox/networks.conf
 ##==========================================
-#!/bin/sh
-if [ "$1" == "install" ] then;
-        # Second argument == package name
-        (do install stuff) $2;
-fi
+## Sample script to install stuff as example.
+$> #!/bin/sh
+$> if [ "$1" == "install" ] then;
+$>         # Second argument == package name
+$>         (do install stuff) $2;
+$> fi
 ##==========================================
 ## mount, copy files to partition, unmount
 $> install udisks2
@@ -13942,7 +14014,6 @@ $>  t  # branch_on_substitute
 $>  w  # append_pattern_to_file_now
 $>  x  # swap_pattern_and_hold
 $>  y  # transform_chars
-
 ##==========================================
 ## NEW STUFF TO ADD TO FILE
 ## Cool pipes
@@ -13952,7 +14023,7 @@ $> | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 $> | tr "[:lower:]" "[:upper:]"
 ## or
 $> | tr "a-z" "A-Z"
-## Change newlines to spaces
+## Change newlines to spaces.
 $> | sed ':a;N;$!ba;s/\n/ /g'
 ## Explanation:
 ## Create a label via :a.
@@ -13969,7 +14040,6 @@ $> dpkg -L fzf | grep -e key-bindings | grep bash
 $> dpkg -L fzf | grep -e key-bindings | grep zsh
 $> source [.../key-bindings.bash] ==  . [.../key-bindings.bash]
 $> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
-
 ##==========================================
 ## python. package. uv
 $> curl https://astral.sh/uv/install.sh -Lo uv-install.sh (view),
@@ -13979,9 +14049,9 @@ $> bash uv-install.sh
 $> sed -i 's/^$> //g ' -e 's/^@> //g' cli.sh
 ##==========================================
 ## script. if else statement.
-if (condition) {
-} else {
-}
+$> if (condition) {
+$> } else {
+$> }
 ##==========================================
 ## Thinkpad MiPi web cam.
 $> firefox https://forums.lenovo.com/t5/Ubuntu/MiPi-Camera-and-Ubuntu-Linux-New-kernel-6-5-new-problems/m-p/5282319
@@ -14004,8 +14074,6 @@ $> apt install fzf
 $> dpkg -L fzf | grep -e key-bindings | grep bash
 $> source [.../key-bindings.bash] ==  . [.../key-bindings.bash]
 $> [ctrl-r] / ^r - history search -- ^t -- file ((term-) arg) search
-
-
 ##==========================================
 ## Install a bunch of good stuff
 $> firefox https://tuxmate.com/

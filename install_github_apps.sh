@@ -64,7 +64,7 @@ ls
 vlc 'You Cant Teach Love 2024 1080p WEB-DL HEVC x265 5.1 BONE.mkv'
 fusermount -u mnt
 cd ~
-umount /home/erik/mnt
+umount /home/$USER/mnt
 
 
 ##==================================
@@ -140,7 +140,7 @@ export PATH="$PATH:~/bin"
 ## Add to path
 echo '
 ## Add home bin to path.
-export PATH="$PATH:/home/erik/bin"
+export PATH="$PATH:/home/$USER/bin"
 
 ' >> .zshrc
 
@@ -165,7 +165,7 @@ uv pip install -r requirements.txt
 scp ./fist.jpg ops@192.168.1.43:/home/ops/code/TripoSG/
 ## Run the generation model.
 IMAGE = fist.jpg
-uv run python -m scripts.inference_triposg --image-input /home/erik/code/TripoSG/$IMAGE
+uv run python -m scripts.inference_triposg --image-input /home/$USER/code/TripoSG/$IMAGE
 
 ## Convert to stl
 echo 'import trimesh
@@ -189,13 +189,13 @@ cp -r ~/code/TripoSG ~/code/TripoSG.default
 udisksctl mount -b /dev/sdb1
     ==== AUTHENTICATING FOR org.freedesktop.udisks2.filesystem-mount-other-seat ====
     Authentication is required to mount Micron_5210_MTFDDAK7T6QDE (/dev/sdb1)
-    Authenticating as: erik,,, (erik)
+    Authenticating as: $USER,,, ($USER)
     Password: 
     ==== AUTHENTICATION COMPLETE ====
-Mounted /dev/sdb1 at /media/erik/9e26fd33-d451-4dc6-b107-150ddfcd76f9
-ls -la /media/erik/9e26fd33-d451-4dc6-b107-150ddfcd76f9/
-mkdir -p /media/erik/9e26fd33-d451-4dc6-b107-150ddfcd76f9/code
-cp -r ~/code/TripoSG /media/erik/9e26fd33-d451-4dc6-b107-150ddfcd76f9/code/
+Mounted /dev/sdb1 at /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9
+ls -la /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9/
+mkdir -p /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9/code
+cp -r ~/code/TripoSG /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9/code/
 udisksctl unmount -b /dev/sdb1
 
 ## Get out of the env.
@@ -328,8 +328,8 @@ firefox https://github.com/stabldev/torrra
 ##==================================
 ## WORKS!
 ## Basalt; TUI Application to manage Obsidian notes. TUI Application to manage Obsidian vaults and notes directly from the terminal
-firefox https://github.com/erikjuhani/basalt
-wget https://github.com/erikjuhani/basalt/releases/download/basalt%2Fv0.11.2/basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz
+firefox https://github.com/$USERjuhani/basalt
+wget https://github.com/$USERjuhani/basalt/releases/download/basalt%2Fv0.11.2/basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz
 mkdir basalt-0.11.2-x86_64-unknown-linux-musl
 tar --extract --file="basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz" --gzip --verbose -C ./basalt-0.11.2-x86_64-unknown-linux-musl/
 ls ./basalt-0.11.2-x86_64-unknown-linux-musl/target/x86_64-unknown-linux-musl/release/
@@ -866,8 +866,8 @@ firefox https://github.com/Cyxuan0311/PNANA
 
 
 ##============================
-sudo mv /etc/apt/sources.list.d/official-package-repositories.list.20250114 /home/erik/Desktop/
-#sudo mv /home/erik/Desktop/official-package-repositories.list  /etc/apt/sources.list.d/
+sudo mv /etc/apt/sources.list.d/official-package-repositories.list.20250114 /home/$USER/Desktop/
+#sudo mv /home/$USER/Desktop/official-package-repositories.list  /etc/apt/sources.list.d/
 
 ##============================
 #fd . --base-directory /usr/share/zoneinfo -E right -E posix | sed 's_^./__' | fzf --multi | while read tz; do printf '%20s: %s\n' "$tz" "$(TZ=$tz date)"; done
@@ -1162,13 +1162,6 @@ npm -v
 
 
 
-
-
-
-
-
-
-
 ##============================
 ## Kilo code. Claude code competitor.
 firefox https://kilo.ai/install
@@ -1377,7 +1370,7 @@ https://missing.csail.mit.edu/
 https://agents.md/
 
 ##============================
-https://github.com/ErikAllanKincaid/VisionNarrator
+https://github.com/$USERAllanKincaid/VisionNarrator
 uv run python webui.py
 
 ##============================
@@ -1409,10 +1402,140 @@ https://github.com/charmbracelet/glow
 https://github.com/charmbracelet/crush
 
 ##============================
-## Create agents that remember everything, learn continuously, and improve themselves over time.
+## WORKS
+## Letta code cli tui - Create agents that remember everything, learn continuously, and improve themselves over time.
 https://docs.letta.com/letta-code
+## Register with letta
+https://app.letta.com/login?redirect=/
+## Install letta
+sudo npm i -g @letta-ai/letta-code
+## Get letta working with local model
+$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+##  1. Install Docker on X10SRA (container runtime to run the Letta server)
+sudo apt update
+sudo apt-get install -y docker.io
+sudo usermod -aG docker $USER
+##  2. Pull an embedding model into Ollama (Letta needs this for memory/search)
+ollama pull mxbai-embed-large
+ollama list | grep embed
+##  3. Verify context window on your qwen3-coder model (Letta needs 16K+ to function)
+ollama show qwen3-coder-32k --modelfile 2>/dev/null | grep -i "num_ctx\|context\|parameter"
+##  4. Launch the Letta server container with Ollama connection
+docker run -d \
+  --name letta-server \
+  --network host \
+  -v ~/.letta/.persist/pgdata:/var/lib/postgresql/data \
+  -e OLLAMA_BASE_URL="http://localhost:11434/v1" \
+  letta/letta:latest
+## Check container
+docker container ls | grep letta
+## Check docker
+docker ps -a --filter name=letta-server --format "table {{.Status}}\t{{.Ports}}"; echo "---"; docker logs letta-server 2>&1 | tail -20
+## Query. Check Letta server health and available models
+curl -s http://localhost:8283/api/health 2> /dev/null ; echo "---" ; curl -s http://localhost:8283/v1/models 2>/dev/null | python3 -m json.tool 2>/dev/null | head -40
+curl -s http://localhost:8283/v1/health; echo "---"; curl -s http://localhost:8283/v1/providers | python3 -m json.tool 2>/dev/null | head -60
+docker logs letta-server 2>&1 | grep -i -E "ollama|model|provider" | tail -20
+docker exec letta-server printenv | grep -i ollama; echo "---"
+docker exec letta-server curl -s http://localhost:11434/v1/models 2>/dev/null | head -20; echo "---";
+docker exec letta-server curl -s http://localhost:11434/api/tags 2>/dev/null | python3 -m json.tool 2>/dev/null | head -10
 
-##============================
+## Restart. On first boot, the container initializing its PostgreSQL database while also trying to sync providers.
+docker restart letta-server && sleep 10 && docker logs letta-server 2>&1 | grep -i ollama | tail -10
+
+##  5. Connect Letta Code to the local server
+LETTA_BASE_URL="http://localhost:8283" letta --new-agent
+## Use this to start
+LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
+
+
+##  6. Create an agent using the local model
+##    Pick ollama/qwen3-coder-32k:latest
+## Prompt
+Hey Letta! What model are you running on?
+## If not qwen
+/model
+## Pick ollama/qwen3-coder-32k:latest
+
+##-------------------
+## To make the docker leta server persistant.
+docker update --restart unless-stopped letta-server
+
+##-------------------
+## point to local agent
+cp ~/.letta/settings.json ~/.letta/settings.json.bak
+## To switch back to cloud later, just restore the backup:
+cp ~/.letta/settings.json.bak ~/.letta/settings.json
+
+##-------------------
+## Name the agent
+## Named it "$USER-Local". You can also rename it from within the interactive TUI
+/profile save <name>
+## Or via the API:
+curl -X PATCH http://localhost:8283/v1/agents/<agent-id> \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "WhateverYouWant"}'
+
+##-------------------
+## Letta Code CLI crash fix for self-hosted local server
+
+##  Problem: Letta Code TUI crashes with currentQuestion.options is not iterable
+##  when connected to a self-hosted Letta server instead of Letta Cloud. The local
+##  server returns a question object without an options array.
+
+Backup/restore:
+# Backup first
+sudo cp /usr/lib/node_modules/@letta-ai/letta-code/letta.js \
+/usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak
+
+# Apply fix
+sudo sed -i 's/\.\.\.currentQuestion\.options,/...(currentQuestion.options || []),/' /usr/lib/node_modules/@letta-ai/letta-code/letta.js
+
+## Check it
+diff /usr/lib/node_modules/@letta-ai/letta-code/letta.js \
+/usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak
+
+## Restore if needed
+sudo cp /usr/lib/node_modules/@letta-ai/letta-code/letta.js.bak \
+/usr/lib/node_modules/@letta-ai/letta-code/letta.js
+
+##-------------------
+## to start
+## Start docker server.
+
+
+##-------------------
+## Find the agent key. then you can look there for human.md and persona.md
+cat /home/$USER/.letta/agents/agent-59122954-0ef0-4fff-998b-37936491472c/memory/system/persona.md
+cat /home/$USER/.letta/agents/agent-59122954-0ef0-4fff-998b-37936491472c/memory/system/human.md
+
+## Alter these to the needs of the  agent.
+.../memory/system/human.md
+.../memory/system/persona.md
+
+##----------------------------
+## Add environmental variables.
+echo "EXA_API_KEY=your_key_here" >> ~/.letta/agents/YOUR_AGENT_ID/memory/system/.env
+
+cat /home/$USER/.letta/agents/agent-59122954-0ef0-4fff-998b-37936491472c/memory/system/.env
+
+echo "EXA_API_KEY=yourkey" >> /home/$USER/.letta/agents/agent-59122954-0ef0-4fff-998b-37936491472c/memory/system/.env
+
+LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
+
+
+##----------------------------
+
+
+##----------------------------
+
+
+##----------------------------
+
+
+##----------------------------
+
+
+
 ##============================
 ## MarkText Next generation wyswig markdown editor
 ## A simple and elegant open-source markdown editor that focused on speed and usability.
@@ -1421,23 +1544,87 @@ wget https://github.com/marktext/marktext/releases/download/v0.17.1/marktext-x86
 chmod +x marktext-x86_64.AppImage
 sudo mv marktext-x86_64.AppImage /usr/local/bin/marktext
 
+##============================
+## OpenCode
+https://opencode.ai/docs
+## GPU-accelerated terminal is highly recommended for running OpenCode.
+## Setup ollama first.
+## Install.
+curl -fsSL https://opencode.ai/install | bash
+## Configure
+mkdir -p ~/.config/opencode/
+cat >  ~/.config/opencode/opencode.json << EOF
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3-coder-32k": {
+          "name": "Qwen 3 Coder 30B (32k ctx)"
+        }
+      }
+    }
+  }
+}
+EOF
+#3 Check it.
+cat ~/.config/opencode/opencode.json
+## Open
+opencode
+## Choose model
+    /models
+## In a directory with code run the init.
+    /init
+
+
+
+
+
+
+
 
 ##============================
 
 
-##============================
-
 
 ##============================
+## ultralytics
+https://docs.ultralytics.com/models/sam/#how-can-i-use-the-segment-anything-model-sam-for-image-segmentation
+## YOLO11n-seg
+## Segmentation model
+https://docs.ultralytics.com/tasks/segment/#val
+##
+sudo docker run -it --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest
+## Mount volume
+sudo docker run -it -v ./:/mnt/ --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest
+## Run this in container
+yolo segment predict model=yolo26n-seg.pt source='https://ultralytics.com/images/bus.jpg'
+## Use local image
+## default.jpg
+yolo segment predict model=yolo26n-seg.pt source='/mnt/default.jpg'
+cp /ultralytics/runs/segment/predict/default.jpg /mnt/default-segmented.jpg
 
 
 ##============================
+## Qwen 3.5
+https://unsloth.ai/docs/models/qwen3.5
+## Download
+hf download unsloth/Qwen3.5-35B-A3B-GGUF:MXFP4_MOE
+hf download unsloth/Qwen3.5-27B-GGUF:UD-Q4_K_XL
+
+hf download unsloth/Qwen3.5-27B-GGUF --include ":*.UD-Q4_K_XL"
 
 
-##============================
+#$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
 
+huggingface-cli download unsloth/Qwen3.5-27B-GGUF --filename Qwen3.5-27B-Q4_K_M.gguf --local-dir ./qwen3.5-27b-gguf-model
 
-##============================
+hf download unsloth/Qwen3.5-27B-GGUF --filename Qwen3.5-27B-Q4_K_M.gguf
 
 
 ##============================
