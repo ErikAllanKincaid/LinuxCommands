@@ -359,6 +359,175 @@ http://localhost:9090
 firefox https://github.com/danihek/hellwal
 
 ##==================================
+## Works. Costs money.
+## Claude Coder CLI
+## ai. coder. Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
+$> firefox https://code.claude.com/docs/en/overview
+## Very good but costs $$$ each month.
+##-------------------------------------
+## Install.
+$> curl -fsSL https://claude.ai/install.sh | bash
+## or
+## Install the Claude CLI tool via npm:
+$> npm install -g @anthropic-ai/claude-code.
+##-------------------------------------
+## Setup payments on the web.
+$> anthropic.com
+##-------------------------------------
+## Make parameters files.
+## Examples:
+## Specifies how you want the agent to act.
+$> touch CLAUDE.md ## Specifies how you want the agent to act.
+$> echo '# Hooks
+$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
+$> - It appends Claude last response (with timestamp) to `MEMORY.md`.
+$> # About Me
+$> - Name: YOURNAMEHERE
+$> - Location: Hawaii
+$> - Occupation: Engineer
+$> - Email: YOUREMAILHERE@gmail.com
+$> - GitHub: https://github.com/YOURGITHUBHERE
+$> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
+$> ## This Environment
+$> - Linux, Ubuntu 24.04 "noble" based.
+$> - Uses Claude Code as a general-purpose personal assistant
+$> - sudo password: Ask me to enter when needed.
+$> ## Session Persistence
+$> - At the START of every session, read `MEMORY.md` and `TODO.md`.
+$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
+$> - When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
+$> ' > CLAUDE.md
+$> touch MEMORY.md ## A place for agent to add information to add context to next session.
+$> touch TODO.md   ## Have agent add items as you come up with new ideas.
+##-------------------------------------
+## Allows agent to work with some files without asking.
+$> mkdir -p ~/code/claude/.claude/
+$> cd ~/code/claude/
+$> touch ~/code/claude/.claude/settings.local.json
+$> echo '{
+$>   "permissions": {
+$>     "allow": [
+$>       "WebFetch(domain:github.com)",
+$>       "WebFetch(domain:stackoverflow.com)",
+$>       "WebFetch(domain:raw.githubusercontent.com)",
+$>       "Bash(cat:*)",
+$>       "Bash(git init:*)",
+$>       "Bash(git config:*)",
+$>       "Bash(chmod:*)",
+$>       "Bash(curl:*)",
+$>       "Bash(wget:*)",
+$>       "Bash(antiword:*)",
+$>       "WebSearch"
+$>     ]
+$>   },
+$>   "hooks": {
+$>     "Stop": [
+$>       {
+$>         "hooks": [
+$>           {
+$>             "type": "command",
+$>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
+$>           }
+$>         ]
+$>       }
+$>     ]
+$>   }
+$> }' > ~/code/claude/.claude/settings.local.json
+##----------------------------
+## This auto files claude memories.
+$> touch ~/code/claude/append-memory.sh
+$> cat <<'EOF' > ~/code/claude/append-memory.sh
+$> #!/bin/bash
+$> ## Hook script: appends Claude's last response summary to MEMORY.md
+$>
+$> INPUT=$(cat)
+$> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+$> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
+$> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
+$>
+$> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
+$>   exit 0
+$> fi
+$>
+$> ## Extract the last assistant message text from the JSONL transcript
+$> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
+$>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
+$>   if [ "$ROLE" = "assistant" ]; then
+$>     echo "$line" | jq -r '
+$>       [.message.content[] | select(.type == "text") | .text] | join("\n")
+$>     ' 2>/dev/null
+$>     break
+$>   fi
+$> done)
+$>
+$> if [ -z "$LAST_RESPONSE" ]; then
+$>   exit 0
+$> fi
+$>
+$> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+$>
+$> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
+$>
+$> exit 0
+EOF
+##--------------------------
+## Start claude
+$> claude
+$> your prompt here
+##-------------------------------------
+## Allow claude to use browser.
+## Chrome browser.
+$> firefox https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn
+## Start with
+$> claude --chrome
+## Or in an existing session run.
+$> /chrome
+## Claude Plugin Run /plugin and go to the Discover tab to browse what’s available.
+$> /plugin
+##$> Discover tab
+##-------------------------------------
+## Prompt claude
+$> claude -p "Explain how to comment in html code."
+##-------------------------------------
+## Compacting. The memory of what you are currently working on is limited.
+## Claude will compact the conversation sometime forgeting key points.
+## Save key details to a file, quitting, and restarting the session. Have to set this up first.
+$> MEMORIZE:
+## Best Practices: To maintain context, consider manually compacting at natural stopping points.
+$> /compact
+## Start fresh without losing critical, accumulated knowledge.
+$> /clear
+##-------------------------------------
+## Local model
+## Use claude with local model using llmstudio or ollama.
+## Start Local Server: Ensure your local tool is running as a server (e.g.,
+$> ollama serve
+## or
+$> lms server start
+## Configure Environment Variables: Point Claude Code to your local server.
+$> export ANTHROPIC_BASE_URL=http://localhost:11434
+$> export ANTHROPIC_BASE_URL=http://localhost:1234
+$> export ANTHROPIC_AUTH_TOKEN=lmstudio
+
+## Example
+$> export ANTHROPIC_BASE_URL="http://192.168.1.64:11434/v1"
+$> export ANTHROPIC_AUTH_TOKEN="sk-not-required"
+$> export ANTHROPIC_MODEL="qwen3-coder-32k"
+## Run with Local Model with parameters.
+$> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
+##-------------------------------------
+
+ ▐▛███▜▌   Claude Code v2.1.55
+▝▜█████▛▘  Opus 4.6 · Claude Pro
+  ▘▘ ▝▝    ~/code/claude
+
+
+
+##=====================================
+## Claude Code Container - A Docker container for running Claude Code in "dangerously skip permissions" mode.
+firefox https://github.com/tintinweb/claude-code-container
+
+##============================
 ## Claude Code Container A Docker container for running Claude Code
 firefox https://github.com/tintinweb/claude-code-container
 
@@ -517,7 +686,6 @@ tar --extract --file tuios_0.5.1_Linux_x86_64.tar.gz --gzip --verbose -C ./tuios
 sudo cp ~/Downloads/tuios/tuios /usr/local/bin/
 tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position top
 
-
 ##-----------------------------------
 ## Web version
 wget https://github.com/Gaurav-Gosain/tuios/releases/download/v0.5.1/tuios-web_0.5.1_Linux_x86_64.tar.gz
@@ -570,6 +738,7 @@ $> browsh "https://www.wikipedia.org/"
 $> browsh "https://duckduckgo.com/?q=browsh"
 ## No video but can read comments.
 $> browsh "https://www.youtube.com/watch?v=OSwxD6e_Ftk"
+
 ##==========================================
 ## Nerd Fonts
 ## install Nerd Fonts on Ubuntu, download your chosen font from the Nerd Fonts website
@@ -848,23 +1017,6 @@ firefox https://github.com/SwagRGB/spek-cli
 ## pnana - modern terminal text editor
 firefox https://github.com/Cyxuan0311/PNANA
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-## ############################################
-## ############################################
-
-
 ##============================
 sudo mv /etc/apt/sources.list.d/official-package-repositories.list.20250114 /home/$USER/Desktop/
 #sudo mv /home/$USER/Desktop/official-package-repositories.list  /etc/apt/sources.list.d/
@@ -1015,29 +1167,23 @@ uvx catt --device "Living Room TV" cast cat.png
 
 
 ##============================
-## ollama
-
+## ollama - Command line tool to run AI models
 firefox https://ollama.com/download
 curl -fsSL https://ollama.com/install.sh | sh
-##
 ## NOPE
 firefox https://ollama.com/x/z-image-turbo
 ollama pull x/z-image-turbo
 ollama run x/z-image-turbo "a photorealistic image of a cat wearing sunglasses"
     Error: 500 Internal Server Error: image runner failed: Error: insufficient memory for image generation: need 21 GB, have 11 GB (exit: exit status 1)
-
 ## WORKS
 ## Only describes the image not create it.
 ollama run llama3.2-vision "a photorealistic image of a cat wearing sunglasses"
-
 ## WORKS
 ## Only describes the image not create it.
 ollama run llava "a photorealistic image of a cat wearing sunglasses"
-
 ## NOPE
 ollama run x/z-image-turbo:fp8 "a photorealistic image of a cat wearing sunglasses"
     Error: 500 Internal Server Error: image runner failed: Error: insufficient memory for image generation: need 21 GB, have 11 GB (exit: exit status 1)
-
 ##--------------------------------
 ## ## ollama docker
 https://hub.docker.com/r/ollama/ollama
@@ -1058,11 +1204,6 @@ https://ollama.com/blog/launch
 
 
 ##============================
-## Claude Code Container - A Docker container for running Claude Code in "dangerously skip permissions" mode.
-firefox https://github.com/tintinweb/claude-code-container
-
-
-##============================
 ## WORKS!!
 ## Whisper
 firefox https://github.com/ggml-org/whisper.cpp
@@ -1080,12 +1221,6 @@ sudo apt install vox
 sox -t alsa default ./recording.wav silence 1 0.1 5% 1 2.0 5%
 ## Output to a file.
 ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt recording.txt
-
-##
-
-
-
-
 
 
 
@@ -1448,7 +1583,7 @@ LETTA_BASE_URL="http://localhost:8283" letta --new-agent
 LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
 
 
-##  6. Create an agent using the local model
+## Create an agent using the local model
 ##    Pick ollama/qwen3-coder-32k:latest
 ## Prompt
 Hey Letta! What model are you running on?
@@ -1524,6 +1659,13 @@ LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
 
 
 ##----------------------------
+⚡LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="75c7d##############d610" letta
+
+   ██████    Letta Code v0.16.9
+ ██      ██  qwen3-coder-32k:latest · http://localhost:8283
+ ██  ██  ██  ~/code/letta
+ ██      ██
+   ██████
 
 
 ##----------------------------
@@ -1533,10 +1675,16 @@ LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
 
 
 ##----------------------------
-
+##============================
+# WORKS!
+## Qwen 3.5
+https://unsloth.ai/docs/models/qwen3.5
+## Download
+ollama pull qwen3.5:27b-q4_K_M
 
 
 ##============================
+## WORKS!
 ## MarkText Next generation wyswig markdown editor
 ## A simple and elegant open-source markdown editor that focused on speed and usability.
 https://github.com/marktext/marktext
@@ -1545,9 +1693,11 @@ chmod +x marktext-x86_64.AppImage
 sudo mv marktext-x86_64.AppImage /usr/local/bin/marktext
 
 ##============================
+## WORKS!
 ## OpenCode
 https://opencode.ai/docs
 ## GPU-accelerated terminal is highly recommended for running OpenCode.
+## See RESEARCH_opencode.md
 ## Setup ollama first.
 ## Install.
 curl -fsSL https://opencode.ai/install | bash
@@ -1572,7 +1722,7 @@ cat >  ~/.config/opencode/opencode.json << EOF
   }
 }
 EOF
-#3 Check it.
+## Check it.
 cat ~/.config/opencode/opencode.json
 ## Open
 opencode
@@ -1580,19 +1730,88 @@ opencode
     /models
 ## In a directory with code run the init.
     /init
+##------------------------------
+## Use qwen3.5
+## Setup ollama first.
+ollama pull qwen3.5:27b-q4_K_M
+## Make mod file. Have to use 16k because I have SO little vRAM. Normal would be higher. 64k or higher.
+## Does not seem to follow "/no_think", still thinks. Have to pass directive in config instead.
+cat << 'EOF' > /tmp/qwen35-NoThink-16K.Modelfile
+FROM qwen3.5:27b-q4_K_M
+TEMPLATE {{ .Prompt }}
+RENDERER qwen3.5
+PARSER qwen3.5
+SYSTEM "/no_think"
+PARAMETER num_ctx 16384
+PARAMETER temperature 0.7
+PARAMETER top_k 20
+PARAMETER top_p 0.8
+EOF
+## Modify model
+ollama create qwen3.5:27b_NoThink-16K -f /tmp/qwen35-NoThink-16K.Modelfile
+## Add line to share over network.
+sudo vim /etc/systemd/system/ollama.service
+## Add
+Environment="OLLAMA_HOST=0.0.0.0"
+## Write config "reasoningEffort": "none" to stop 'Thinking' in config.
+cat << 'EOF' > ~/.config/opencode/opencode.json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (X10SRA)",
+      "options": {
+        "baseURL": "http://X10SRA.localdomain:11434/v1"
+      },
+      "models": {
+        "qwen3.5:27b_NoThink-16K": {
+          "name": "Qwen3.5 27B NoThink-16K",
+          "tools": true,
+          "options": {
+            "reasoningEffort": "none"
+          }
+        }
+      }
+    }
+  }
+}
+EOF
+##---------------
+## start
+opencode
+## Choose model
+    /models
+## In a directory with code run the init.
+    /init
+## Add an AGENTS.md file with code instructions.
+cat ./AGENTS.md
+##-----------------------------
+## Session is saved with a hash. Very cool.
+                                   ▄
+  █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀▀ █▀▀█ █▀▀█ █▀▀█
+  █  █ █  █ █▀▀▀ █  █ █    █  █ █  █ █▀▀▀
+  ▀▀▀▀ █▀▀▀ ▀▀▀▀ ▀  ▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀
 
+  Session   Segmentation models: research, recommendations, a…
+  Continue  opencode -s ses_363526311ffeWsQdSskGHJzoGg
 
+##
+##-----------------------------
+## Problems
+- Does not leave previous output on screen when closed.
+- Have to shift + mouse to copy text.
+- Can not paste with middle click.
+-
 
-
-
-
-
+##-----------------------------
 
 ##============================
 
 
 
 ##============================
+## WORKS!
 ## ultralytics
 https://docs.ultralytics.com/models/sam/#how-can-i-use-the-segment-anything-model-sam-for-image-segmentation
 ## YOLO11n-seg
@@ -1611,68 +1830,133 @@ cp /ultralytics/runs/segment/predict/default.jpg /mnt/default-segmented.jpg
 
 
 ##============================
-## Qwen 3.5
-https://unsloth.ai/docs/models/qwen3.5
-## Download
-hf download unsloth/Qwen3.5-35B-A3B-GGUF:MXFP4_MOE
-hf download unsloth/Qwen3.5-27B-GGUF:UD-Q4_K_XL
+## NetWatch - Real-time network diagnostics in your terminal — like htop for your network.
+https://github.com/matthart1983/netwatch
 
-hf download unsloth/Qwen3.5-27B-GGUF --include ":*.UD-Q4_K_XL"
+##============================
+## WORKS
+## voxcii - Terminal-based ASCII 3D model viewer. Supports OBJ and STL models
+https://github.com/ashish0kumar/voxcii
+sudo apt install ncurses libncurses-dev libncursesw5-dev
+git clone https://github.com/ashish0kumar/voxcii
+cd voxcii
+make
+ls $HOME/.config/btop
+##
+./voxcii test.stl
 
+##============================
+## giggles  batteries-included react framework for building terminal apps.
+https://github.com/zion-off/giggles
 
-#$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+##============================
+## Obsidian CLI is a command line interface that lets you control Obsidian from your terminal for scripting, automation, and integration with external tools.
+https://help.obsidian.md/cli
 
-huggingface-cli download unsloth/Qwen3.5-27B-GGUF --filename Qwen3.5-27B-Q4_K_M.gguf --local-dir ./qwen3.5-27b-gguf-model
+##============================
+## microgpt, a single file of 200 lines of pure Python with no dependencies that trains and inferences a GPT.
+http://karpathy.github.io/2026/02/12/microgpt/
+https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95
+https://www.youtube.com/watch?v=VMj-3S1tku0
 
-hf download unsloth/Qwen3.5-27B-GGUF --filename Qwen3.5-27B-Q4_K_M.gguf
+##============================
+## SAS Audio Processor component of Signals & Sorcery, a music production application.
+## A suite of 25 audio processing tools — trim, normalize, compress, EQ, reverb, pitch-shift, time-stretch, key detection, MIDI extraction, and more — exposed as MCP tools
+https://github.com/shiehn/sas-audio-processor
+
+##============================
+## WORKS
+## btop, Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
+https://github.com/aristocratos/btop
+git clone https://github.com/aristocratos/btop
+cd btop
+sudo make install
+sudo make setcap
+make help
+sudo btop
+
+##============================
+## dbcli, Database CLI built for AI agents. One command to understand any database.
+https://github.com/JustVugg/dbcli
+
+##============================
+## Claude Lamp, A physical RGB lamp that pulses when Claude Code needs your attention.
+https://github.com/reynico/esp32-claude-lamp
+
+##============================
+## U2m.io – Free URL shortener with bulk API, QR codes, and geo analytics (u2m.io)
+https://u2m.io/
+
+##============================
+## Skills are reusable capabilities for AI agents. Install them with a single command to enhance your agents with access to procedural knowledge.
+https://skills.sh/
+
+##============================
+## engram 🧠 engram logs every command you run — and its output — into a local SQLite database.
+https://github.com/TLJQ/engram
+
+##============================
+## Grafos turns your Terraform code into interactive visual graphs, enforces compliance policies with natural language, and gives your team an intelligent assistant that understands your infrastructure.
+https://grafos.ai/
+
+##============================
+## peek - Describe and rename images from the terminal using vision LLMs.
+https://github.com/Aayush9029/peek
+
+##============================
+## go-easy - 🟢 Google APIs made easy — Gmail, Drive & Calendar. For AI agents and humans.
+https://github.com/marcfargas/go-easy
+
+##============================
+## xytz - YouTube from your terminal
+https://github.com/xdagiz/xytz
+
+##============================
+## etcdotica is a lightweight, file-based overlay that synchronizes system configuration with a Git repository.
+https://github.com/senotrusov/etcdotica
+
+##============================
+## The open platform for cloud coding agents.
+https://openhands.dev/
+
+##============================
+
 
 
 ##============================
 
 
-##============================
-
 
 ##============================
 
-
-##============================
 
 
 ##============================
 
 
-##============================
-
 
 ##============================
 
-
-##============================
 
 
 ##============================
 
 
-##============================
-
 
 ##============================
 
-
-##============================
 
 
 ##============================
 
 
-##============================
-
 
 ##============================
 
 
+
 ##============================
+
 
 
 ##============================
