@@ -339,7 +339,7 @@ $> sudo systemctl start lightdm
 ## os. permissions. Command line only login.
 ## GUI will not start. CLI only computer.
 $> sudo systemctl set-default multi-user.target
-## GUi login.
+## GUI will start. GUI login.
 $> sudo systemctl set-default graphical.target
 ##------------------------------------------
 ## Change /etc/default/grub
@@ -11773,7 +11773,6 @@ $> export ANTHROPIC_MODEL="qwen3-coder-32k"
 $> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
 ##==========================================
 ## #############################################
-## #############################################
 ##==========================================
 ## ##############################################
 ## ##    Letta code cli
@@ -11874,6 +11873,9 @@ $> LETTA_BASE_URL="http://localhost:8283" letta
 $>     /model
 $>     qwen3-coder-32k
 ##-------------------
+## Use this to start
+$> LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="75c7d2f5-ce83-46c0-ba5a-6935ce70d610" letta
+##==========================================
 ## ##############################################
 ## ##############################################
 ##==========================================
@@ -11951,14 +11953,66 @@ $> ollama create <new_model_name> -f Modelfile_cline
 $> cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
 EOF
 ##==========================================
-
-
-##===================================
-
-
-##===================================
 ## #############################################
 ##===================================
+## #############################################
+## ##    OpenCode cli
+## #############################################
+##
+##===================================
+## OpenCode
+$> firefox https://opencode.ai/docs
+## GPU-accelerated terminal is highly recommended for running OpenCode.
+## Setup ollama first.
+## Install.
+$> curl -fsSL https://opencode.ai/install | bash
+##===================================
+## Write config
+$> mkdir -p ~/.config/opencode
+$> cat << 'EOF' > ~/.config/opencode/opencode.json
+$> {
+$>   "$schema": "https://opencode.ai/config.json",
+$>   "provider": {
+$>     "ollama": {
+$>       "npm": "@ai-sdk/openai-compatible",
+$>       "name": "Ollama (local)",
+$>       "options": {
+$>         "baseURL": "http://localhost:11434/v1"
+$>       },
+$>       "models": {
+$>         "qwen3.5:27b_NoThink-16K": {
+$>           "name": "Qwen3.5 27B NoThink-16K",
+$>           "tools": true,
+$>           "options": {
+$>             "reasoningEffort": "none"
+$>           }
+$>         }
+$>       }
+$>     }
+$>   }
+$> }
+EOF
+## Run OpenCode
+$> opencode
+
+##===================================
+
+
+##===================================
+
+
+##===================================
+
+
+##===================================
+
+
+##===================================
+
+
+##===================================
+
+## #############################################
 ##===================================
 ## French AI startup Mistral tweeted
 $> firefox https://twitter.com/MistralAI/status/1706877320844509405?ref=404media.co
@@ -12003,8 +12057,10 @@ $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt record
 ##==========================================
 ## ##############################################
 ##==========================================
-## text. audio. ai.
-## Kokoro TTS text to audio.
+## ##############################################
+## ##    Kokoro TTS text to audio.
+## ##############################################
+## text. audio. ai. TTS text to audio.
 $> https://github.com/nazdridoy/kokoro-tts
 ## Kokoro with lang_code='a'
 $> mkdir -p ./kokoro-test
@@ -12047,6 +12103,8 @@ $> KOKORO_VOICE="af_sky" ./test_kokoro.sh '''Create voice-enabled applications a
 ## Diff voice
 $> KOKORO_VOICE="am_michael" ./test_kokoro.sh 'Create voice-enabled applications and interfaces.'
 ## MAYBE you can add synthetic pauses by adding a silence tags measured in seconds. E.g. Hello[1s]Kokoro[0.2s]Web
+##============================
+## ##############################################
 ##============================
 ## ###############################################################
 ## ##    Stable-diffusion
@@ -12093,6 +12151,29 @@ $> sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
 $> sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
 $> sudo apt-get update
 $> sudo apt-get -y install cuda-toolkit-13-1
+##==========================================
+## Install the NVIDIA Container Toolkit on Ubuntu
+## NVIDIA GPU drivers and Docker already installed.
+## Configure the NVIDIA Container Toolkit repository and GPG key:
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+## Install the NVIDIA Container Toolkit packages:
+sudo apt-get install -y nvidia-container-toolkit
+## Use with docker.
+sudo nvidia-ctk runtime configure --runtime=docker
+## Restart the Docker daemon for the changes to take effect:
+sudo systemctl restart docker
+## Test the installation by running a sample CUDA container to ensure that the container can access the GPU:
+sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+sudo docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
+sudo docker run --rm --gpus all nvidia/cuda:13.0-base nvidia-smi
+##==========================================
+
+
+##==========================================
+
+
 ##==========================================
 ## ###########################################
 ## ##    END Drivers
