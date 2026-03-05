@@ -1892,7 +1892,7 @@ https://u2m.io/
 https://skills.sh/
 
 ##============================
-## engram 🧠 engram logs every command you run — and its output — into a local SQLite database.
+## engram – 🧠 engram logs every command you run — and its output — into a local SQLite database.
 https://github.com/TLJQ/engram
 
 ##============================
@@ -1918,6 +1918,160 @@ https://github.com/senotrusov/etcdotica
 ##============================
 ## The open platform for cloud coding agents.
 https://openhands.dev/
+
+##============================
+## zclaw is an ESP32-resident AI agent written in C. It runs as a practical assistant over Telegram or host relay, with scheduling, GPIO control, memory, and a tight firmware budget.
+https://zclaw.dev/
+
+##============================
+## Bruin is a data pipeline tool that brings together data ingestion, data transformation with SQL, Python & R, and data quality into a single framework. It works with all the major data platforms and runs on your local machine, an EC2 instance, or GitHub Actions.
+https://github.com/bruin-data/bruin
+
+##============================
+## Tribe - Openclaw
+https://github.com/orgs/TRIBE-INC/repositories
+
+##============================
+## Amplifier brings AI assistance to your command line with a modular, extensible architecture.
+https://github.com/microsoft/amplifier
+
+##============================
+## TerminalPhone is a single, self-contained Bash script that provides anonymous, end-to-end encrypted voice and text communication between two or more parties over the Tor network.
+https://gitlab.com/here_forawhile/terminalphone
+
+##============================
+## Uptime Kuma is a monitoring tool that allows anyone to monitor any web services such HTTP/HTTPS websites, Apps, TCP Ports, SSL certificates and even MySQL databases.
+https://uptimekuma.org/
+
+##============================
+## nanoclaw  An AI assistant that runs agents securely in their own containers.
+https://github.com/qwibitai/nanoclaw
+git clone https://github.com/qwibitai/NanoClaw.git
+cd NanoClaw
+claude
+    /setup
+
+
+##============================
+## GoForGo - 🚀 Interactive Go tutorial CLI
+https://github.com/stonecharioteer/goforgo
+
+##============================
+## BananaOS - Homemade OS made with AI coder claude
+https://github.com/Banaxi-Tech/BananaOS
+git clone https://github.com/Banaxi-Tech/BananaOS
+cd BananaOS
+make qemu-system-i386 -cdrom bananaos.img -m 128M
+## Retro mode:
+qemu-system-i386 -cpu 486 -cdrom bananaos.img -m 11.2M
+
+
+##============================
+## rtk - Rust Token Killer High-performance CLI proxy to minimize LLM token consumption.
+## BananaOS is one of the first Vibecoded Operating System Projects, designed for learning and exploration of low-level system programming.
+https://github.com/rtk-ai/rtk
+
+##============================
+https://hackaday.com/2026/03/04/neither-android-nor-ios-diy-smartphone-runs-on-esp32/
+https://unsloth.ai/docs/models/qwen3.5/fine-tune
+
+##============================
+## jcode - A blazing-fast, fully autonomous AI coding agent with a gorgeous TUI, multi-model support, swarm coordination, persistent memory
+https://github.com/1jehuang/jcode
+
+##============================
+## gws - One CLI for all of Google Workspace — built for humans and AI agents.
+https://github.com/googleworkspace/cli
+https://justin.poehnelt.com/posts/rewrite-your-cli-for-ai-agents/
+
+
+
+
+
+
+##============================
+## Git city – visualize GitHub as a city, one building per contributor
+https://www.thegitcity.com/
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
 
 ##============================
 
