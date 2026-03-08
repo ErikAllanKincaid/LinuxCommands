@@ -946,7 +946,7 @@ $> sudo ip route show
 ##==========================================
 ## Saved connections.
 $> nmcli connection show
-$> nmcli --show-secrets connection show "Auto TARDIS"
+$> nmcli --show-secrets connection show "Auto YOURSSID"
 ## Show a prettified list of nearby wireless APs
 $> nmcli device wifi list
 ## Get the current wifi password of a Connected Device with NMCLI
@@ -1110,9 +1110,18 @@ $> sudo cp ./termshark_2.4.0_linux_x64/termshark /usr/local/bin/
 $> networkInterface=$(ip -br a | grep 192 | awk '{print $1}')
 ## Capture packets on the network.
 $> sudo termshark -i=$networkInterface
+##==========================================
+## Force wifi to use a particular BSSID by MAC
+$> sudo nmcli connection modify "Auto YOURSSID" 802-11-wireless.bssid 7E:00:00:00:00:2A
+$> sudo nmcli connection down "Auto YOURSSID" && sudo nmcli connection up "Auto TARDIS"
+##==========================================
 
 
 ##==========================================
+
+
+##==========================================
+
 
 ##==========================================
 ## ####################################################
@@ -7349,6 +7358,20 @@ $> ' > docker-compose.yml
 ## Remove leading $>
 $> sed -i 's/^$> //g' ./docker-compose.yml
 ##==========================================
+## Copy a docker image from one computer to another.
+## Find it. Use the image name and tag
+$> docker image ls
+## Save to  tar file.
+$> docker save -o /path/to/external/drive/myimage.tar myimage:latest
+## On the Destination Computer
+$> docker load -i /path/to/external/drive/myimage.tar
+##Note: The docker load command automatically handles decompression for gzip, bzip2, and xz files, so the command remains the same even if you compressed it.
+## Verify the image.
+$> docker image ls
+##==========================================
+
+
+##==========================================
 ## ######################
 ## ##    END Docker
 ## ######################
@@ -11997,19 +12020,6 @@ $> opencode
 
 ##===================================
 
-
-##===================================
-
-
-##===================================
-
-
-##===================================
-
-
-##===================================
-
-
 ##===================================
 
 ## #############################################
@@ -12031,8 +12041,6 @@ $>    --model="/mnt/model/"
 $> firefox https://docs.mistral.ai/api
 ## You can then use the following command to start the server:
 $> python -u -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --model mistralai/Mistral-7B-v0.1
-##==========================================
-
 ##==========================================
 ## ##############################################
 ## ##    Whisper
@@ -12210,7 +12218,6 @@ $> sudo ipmitool sdr elist all
 $> sudo ipmitool mac list
 ## Some info is only available in raw format. Needs to be parsed.
 $> sudo ipmitool raw 0x30 0x9F
-
 ##===============================
 ## Use remotely.
 ## Check Power Status of IPMI Server
@@ -12397,7 +12404,6 @@ $> alias mctmux='TERM=xterm mc'
 
 ##-------------------------
 ##==========================================
-
 ## #################################
 ## ##    Terminal only OS
 ## #################################
@@ -12424,7 +12430,6 @@ $>
 ## ###################################
 ## ##    END TUI CLI
 ## ###################################
-
 ##==========================================
 
 
@@ -12432,7 +12437,6 @@ $>
 
 
 ##==========================================
-
 ## ########################################
 ## ##    Unsorted
 ## ########################################
@@ -12868,14 +12872,14 @@ $> alias weather='curl wttr.in/'
 $> alias grep='grep --color=auto'
 $> alias cp="cp -i"
 $> alias mv='mv -i'
-$> alias rm='rm -iv' $> alias c='clear'
+$> alias rm='rm -iv'
+$> alias c='clear'
 $> alias cpu5='ps auxf | sort -nr -k 3 | head -5'
 $> alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
 $> alias -s {txt,yml,yaml,conf,md,list}="nvim"
-$> alias -s html="firefox"
+$> alias -s htmlf="firefox"
 $> alias -s org="firefox"
 $> alias -g C='| wc -l'
-$> grep $> alias ~/.zsh/* C
 $> alias -g WL='| wc -l'
 $> alias -g CA="2>&1 | cat -A"
 $> alias -g DN="2> /dev/null"
@@ -14161,7 +14165,8 @@ $> firefox https://tuxmate.com/
 $> sudo apt install -y btop htop fastfetch eza bat fzf ripgrep zoxide tldr wget curl aria2 ranger ncdu fd-find tmux zellij rsync zsh python3 nodejs golang neovim vlc mpv audacity obs-studio ffmpeg handbrake torbrowser-launcher google-chrome-stable
 
 ##==========================================
-
+## Use uv pip install with the --active flag to install into the activated venv:
+$> uv pip install --active opencv-python numpy av
 
 ##==========================================
 
