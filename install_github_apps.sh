@@ -1,6 +1,6 @@
 ##==================================
 ## ############################################
-## ##   cool git repos
+## ##   cool git repos etc
 ## ############################################
 ##==================================
 ##==================================
@@ -522,6 +522,11 @@ $> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
   ▘▘ ▝▝    ~/code/claude
 
 
+##-------------------------------------
+## Claude Code forgets everything between sessions. Claude Subconscious adds a persistent memory layer underneath:
+https://github.com/letta-ai/claude-subconscious
+
+##-------------------------------------
 
 ##=====================================
 ## Claude Code Container - A Docker container for running Claude Code in "dangerously skip permissions" mode.
@@ -1994,8 +1999,21 @@ https://justin.poehnelt.com/posts/rewrite-your-cli-for-ai-agents/
 https://www.thegitcity.com/
 
 ##============================
+## jadx - Dex to Java decompiler – Command line and GUI tools for producing Java source code from Android Dex and Apk files
+https://github.com/skylot/jadx/releases/tag/v1.5.5
+
+##============================
+## LazyTail - Terminal-Based Log Viewer A fast, universal terminal-based log viewer with live filtering, follow mode, and AI assistant integration via MCP.
+https://github.com/raaymax/lazytail
+
+##============================
+## Traffick.sh - A tiny, POSIX-compliant script that acts like top or htop, but for your nftables rules.
+https://gist.github.com/Strykar/72c20bb021347eafe4294511f21791be
 
 
+##============================
+## bandwhich - This is a CLI utility for displaying current network utilization by process, connection and remote IP/hostname
+https://github.com/imsnif/bandwhich
 
 ##============================
 
@@ -2098,19 +2116,7 @@ https://www.thegitcity.com/
 
 
 ##============================
-
-
-
-##============================
-
-
-
-##============================
-
-
-
-##============================
-
-
+https://devin.ai/
+https://windsurf.com/
 
 ##============================
