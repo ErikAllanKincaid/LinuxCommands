@@ -1347,7 +1347,29 @@ $> git remote set-url origin git@github.com:$USER/LinuxCommands.git
 $> git diff --name-status main origin/main
 $> git diff --name-status master origin/master
 ##==========================================
-
+## Github cli
+## Quick gh tour -- most useful commands.
+$> gh repo list                           ## list your repos
+$> gh repo clone HITHUBUSERNAME/reponame  ## clone a repo
+$> gh repo create my-project --private    ## create new repo
+## PRs
+$> gh pr list                             ## list open PRs in current repo
+$> gh pr view 123                         ## view a PR
+$> gh pr checkout 123                     ## check out a PR branch locally
+$> gh pr create                           ## open interactive PR creation
+## Issues
+$> gh issue list                          ## list open issues
+$> gh issue create                        ## create an issue
+$> gh issue view 42                       ## view an issue
+## Workflows / CI
+$> gh run list                            ## list recent workflow runs
+$> gh run view                            ## view a run's status
+$> gh run watch                           ## watch a run in real time
+## Misc
+$> gh repo view --web                     ## open current repo in browser
+$> gh gist create file.txt                ## create a gist
+$> gh api /user                           ## raw API calls
+## GitHub REST API when the higher-level commands do not cover what you need.
 
 ##==========================================
 
@@ -11490,7 +11512,9 @@ $> uvx catt --device "Living Room TV" cast cat.png
 ## ##########################################################
 ## ##    Fonts
 ## ##########################################################
-## Material Design fonts
+## Nerd fonts
+$> firefox https://www.nerdfonts.com/
+## Install one. Material Design font.
 $> wget https://github.com/Templarian/MaterialDesign-Font/raw/refs/heads/master/MaterialDesignIconsDesktop.ttf
 $> sudo mkdir /usr/share/fonts/truetype/nerd-fonts
 $> sudo mv ./MaterialDesignIconsDesktop.ttf /usr/share/fonts/truetype/nerd-fonts/
@@ -11636,7 +11660,6 @@ $> export OLLAMA_CONTEXT_LENGTH=32768
 ##==========================================
 ## ##############################################
 ##==========================================
-## #############################################
 ## #############################################
 ## ##    Claude Coder CLI
 ## #############################################
@@ -11859,7 +11882,7 @@ $> cp ~/.letta/settings.json ~/.letta/settings.json.bak
 $> cp ~/.letta/settings.json.bak ~/.letta/settings.json
 ##=========================
 ## Name the agent
-## Named it "Erik-Local". You can also rename it from within the interactive TUI
+## Named it "Local". You can also rename it from within the interactive TUI
 $>     /profile save <name>
 ## Or via the API:
 $> curl -X PATCH http://localhost:8283/v1/agents/<agent-id> \
@@ -11979,9 +12002,10 @@ EOF
 ## #############################################
 ##===================================
 ## #############################################
-## ##    OpenCode cli
+## ##    OpenCode cli by Alibaba
 ## #############################################
-##
+## Great CLI Coder BEST local.
+$> firefox https://github.com/Alibaba-NLP
 ##===================================
 ## OpenCode
 $> firefox https://opencode.ai/docs
@@ -11990,21 +12014,71 @@ $> firefox https://opencode.ai/docs
 ## Install.
 $> curl -fsSL https://opencode.ai/install | bash
 ##===================================
-## Write config
-$> mkdir -p ~/.config/opencode
+## TUI Hints
+##-----------
+## The tui does not have easy copy and paste and no middle click paste.
+## To copy out of the TUI hold down the SHIFT key and choose text to copy.
+## To paste into TUI copy text the paste with SHIFT + Ctl + v
+##-----------
+## Temporarily free, BigPickle model. Awesome, try it.
+##-----------
+##===================================
+## Local model
+## Add qwen3.5:9b-q4_K_M to OpenCode
+## Pull model.
+$> ollama pull qwen3.5:9b
+## Test model in ollama.
+$> ollama run qwen3.5:9b "What model are you running?"
+## Modify qwen3.5 9B
+$> mkdir -p ~/code/opencode/qwen3.5
+## Export the base Modelfile.
+$> ollama show qwen3.5:9b --modelfile
+## Write to file.
+$> ollama show qwen3.5:9b --modelfile > ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+## Check it.
+$> cat ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+## Add these lines. And get rid of license. Edit: No think not obeyed DROP IT.
+$> cat << 'EOF' > ./qwen35-9B-64K.Modelfile
+$> FROM qwen3.5:9b
+$> TEMPLATE {{ .Prompt }}
+$> RENDERER qwen3.5
+$> PARSER qwen3.5
+$> PARAMETER num_ctx 65536
+$> PARAMETER temperature 0.7
+$> PARAMETER top_k 20
+$> PARAMETER top_p 0.8
+EOF
+## Create the new tag
+$> ollama create qwen3.5:9b-64K -f ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+## Test model.
+## Works
+$> ollama run qwen3.5:9b-64K "What model are you running?"
+## Add it too OpenCode
+##-----------------------------------------
+## Add qwen3.5 9B at 64K context
+$> mkdir -p ~/code/opencode/config-copy/
+$> cp -r ~/.config/opencode ~/code/opencode/config-copy/
+## Write it to config
 $> cat << 'EOF' > ~/.config/opencode/opencode.json
 $> {
 $>   "$schema": "https://opencode.ai/config.json",
 $>   "provider": {
 $>     "ollama": {
 $>       "npm": "@ai-sdk/openai-compatible",
-$>       "name": "Ollama (local)",
+$>       "name": "Ollama (X10SRA)",
 $>       "options": {
-$>         "baseURL": "http://localhost:11434/v1"
+$>         "baseURL": "http://X10SRA.localdomain:11434/v1"
 $>       },
 $>       "models": {
 $>         "qwen3.5:27b_NoThink-16K": {
 $>           "name": "Qwen3.5 27B NoThink-16K",
+$>           "tools": true,
+$>           "options": {
+$>             "reasoningEffort": "none"
+$>           }
+$>         },
+$>         "qwen3.5:9b-64K": {
+$>           "name": "Qwen3.5 9B 64K",
 $>           "tools": true,
 $>           "options": {
 $>             "reasoningEffort": "none"
@@ -12015,11 +12089,12 @@ $>     }
 $>   }
 $> }
 EOF
-## Run OpenCode
+##-----------------------------------------
+## Try in opencode
 $> opencode
-
-##===================================
-
+## Chose new qwen3.5:9b-64K
+$>     /models
+##-----------------------------------------
 ##===================================
 
 ## #############################################
