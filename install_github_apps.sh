@@ -2016,20 +2016,20 @@ https://gist.github.com/Strykar/72c20bb021347eafe4294511f21791be
 https://github.com/imsnif/bandwhich
 
 ##============================
-
-
-
-##============================
-
-
+## LazyTail - Terminal-Based Log Viewer
+https://github.com/raaymax/lazytail
 
 ##============================
-
-
+## bookokrat - Terminal EPUB/PDF reader focused on speed, smooth navigation, and Vim-style workflows.
+https://github.com/bugzmanov/bookokrat
 
 ##============================
+## vmsan - 🔥 Firecracker microVM sandbox toolkit
+https://github.com/angelorc/vmsan
 
-
+##============================
+## Mermaid Live Editor - Edit, preview and share mermaid charts/diagrams
+https://github.com/mermaid-js/mermaid-live-editor
 
 ##============================
 
