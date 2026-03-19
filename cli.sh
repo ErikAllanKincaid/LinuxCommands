@@ -858,10 +858,10 @@ $> cat .ssh/serername_id_rsa.pub | ssh $USER@192.168.1.101 'cat >> ~/.ssh/author
 ## Or
 ## Can use ssh-copy-id instead; the cat port technique above is more portable.
 $> ssh-copy-id
-## !!!! Do not copy your private key over. !!!!Z
+## !!!! Do not copy your private key over. !!!!
 ##==========================================
-
-
+## Force older rsa protocol. Needed for some Gl.iNet routers
+$> ssh -oHostKeyAlgorithms=+ssh-rsa root@192.168.8.1
 ##==========================================
 
 
@@ -1059,7 +1059,7 @@ $> sudo apt-get install ytalk
 ## Both parties run talk <user-you-want-to-talk-to>@<host-IP-or-name> #on both
 $> talk user@host
 ##==========================================
-## ##     samba
+## ##    samba
 ## Disable Samba from listening on the samba ports:
 $> sudo ufw deny Samba
 ## To disable the samba server from running:
@@ -1115,8 +1115,11 @@ $> sudo termshark -i=$networkInterface
 $> sudo nmcli connection modify "Auto YOURSSID" 802-11-wireless.bssid 7E:00:00:00:00:2A
 $> sudo nmcli connection down "Auto YOURSSID" && sudo nmcli connection up "Auto TARDIS"
 ##==========================================
-
-
+## Temorarily assign an ip address to a interface
+$> sudo ip addr add 192.168.1.2/24 dev eth0
+##==========================================
+## Show your wifi password including a qrcode
+$> nmcli dev wifi show-password
 ##==========================================
 
 
@@ -1127,7 +1130,6 @@ $> sudo nmcli connection down "Auto YOURSSID" && sudo nmcli connection up "Auto 
 ## ####################################################
 ## ##    END Networking
 ## ####################################################
-##
 ##
 ##
 ## #######################################################
@@ -1240,9 +1242,9 @@ $> wget -mEp --convert-links -r -c -np -e robots=off --random-wait --limit-rate=
 ## man wget ; recursive -r, from text file list -i, continue interupted download -c, Do not ascend to the parent directory -np or --no-parent, send to background -b.
 ##==========================================
 ##==========================================
-##  ###########################################
-##  ##    Text
-##  ###########################################
+## ###########################################
+## ##    Text
+## ###########################################
 ##==========================================
 ## Create and start writing a file. Commit with cntl+d.
 $> cat > test.txt
@@ -4857,7 +4859,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 🖥 💋
 ☠️ ⚠️ 🎉 🐢
 🐈 😠 💩 💨
-🐟
+🐟 🩸
 壁紙はんぱねぇ。
 
     ¯\_(ツ)_/¯
@@ -11775,6 +11777,8 @@ EOF
 ##--------------------------
 ## Start claude
 $> claude
+## Generate a CLAUDE.md configuration prompt if you do not have on.
+$> /init
 $> your prompt here
 ##==========================================
 ## Allow claude to use browser.
@@ -12002,10 +12006,12 @@ EOF
 ## #############################################
 ##===================================
 ## #############################################
-## ##    OpenCode cli by Alibaba
+## ##    OpenCode cli
 ## #############################################
 ## Great CLI Coder BEST local.
-$> firefox https://github.com/Alibaba-NLP
+$> firefox https://opencode.ai/docs
+## Desktop app for completeness.
+$> wget https://github.com/anomalyco/opencode/releases/download/v1.2.24/opencode-electron-linux-x86_64.AppImage
 ##===================================
 ## OpenCode
 $> firefox https://opencode.ai/docs
@@ -12013,6 +12019,14 @@ $> firefox https://opencode.ai/docs
 ## Setup ollama first.
 ## Install.
 $> curl -fsSL https://opencode.ai/install | bash
+## Authorize to pay. Or use environment variables or a .env file to manage API keys without an interactive login.
+$> opencode auth login
+## Upgrade.
+$> opencode upgrade
+## Run with cloud based models.
+$> opencode
+$>     /models
+$>     Big Pickle
 ##===================================
 ## TUI Hints
 ##-----------
@@ -12023,39 +12037,41 @@ $> curl -fsSL https://opencode.ai/install | bash
 ## Temporarily free, BigPickle model. Awesome, try it.
 ##-----------
 ##===================================
-## Local model
-## Add qwen3.5:9b-q4_K_M to OpenCode
+## Run with Local model
+## Qwen 3.5 by Alibaba
+$> firefox https://github.com/Alibaba-NLP
+## Add qwen3.5:9b-q8_K_M to OpenCode
 ## Pull model.
-$> ollama pull qwen3.5:9b
+$> ollama pull qwen3.5:9b-q8_0
 ## Test model in ollama.
-$> ollama run qwen3.5:9b "What model are you running?"
+$> ollama run qwen3.5:9b-q8_0 "What model are you running?"
 ## Modify qwen3.5 9B
 $> mkdir -p ~/code/opencode/qwen3.5
 ## Export the base Modelfile.
-$> ollama show qwen3.5:9b --modelfile
+$> ollama show qwen3.5:9b-q8_0 --modelfile
 ## Write to file.
-$> ollama show qwen3.5:9b --modelfile > ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+$> ollama show qwen3.5:9b-q8_0 --modelfile > ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
 ## Check it.
-$> cat ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+$> cat ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
 ## Add these lines. And get rid of license. Edit: No think not obeyed DROP IT.
-$> cat << 'EOF' > ./qwen35-9B-64K.Modelfile
-$> FROM qwen3.5:9b
+$> cat << 'EOF' > ./qwen35-9B-128K.Modelfile
+$> FROM qwen3.5:9b-q8_0
 $> TEMPLATE {{ .Prompt }}
 $> RENDERER qwen3.5
 $> PARSER qwen3.5
-$> PARAMETER num_ctx 65536
+$> PARAMETER num_ctx 131072
 $> PARAMETER temperature 0.7
 $> PARAMETER top_k 20
 $> PARAMETER top_p 0.8
 EOF
 ## Create the new tag
-$> ollama create qwen3.5:9b-64K -f ~/code/opencode/qwen3.5/qwen35-9B-64K.Modelfile
+$> ollama create qwen3.5:9b-128K -f ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
 ## Test model.
 ## Works
-$> ollama run qwen3.5:9b-64K "What model are you running?"
+$> ollama run qwen3.5:9b-128K "What model are you running?"
 ## Add it too OpenCode
 ##-----------------------------------------
-## Add qwen3.5 9B at 64K context
+## Add qwen3.5 9B at 128K context
 $> mkdir -p ~/code/opencode/config-copy/
 $> cp -r ~/.config/opencode ~/code/opencode/config-copy/
 ## Write it to config
@@ -12067,7 +12083,7 @@ $>     "ollama": {
 $>       "npm": "@ai-sdk/openai-compatible",
 $>       "name": "Ollama (X10SRA)",
 $>       "options": {
-$>         "baseURL": "http://X10SRA.localdomain:11434/v1"
+$>         "baseURL": "http://YOUR.SERVER.IP.HERE:11434/v1"
 $>       },
 $>       "models": {
 $>         "qwen3.5:27b_NoThink-16K": {
@@ -12077,8 +12093,8 @@ $>           "options": {
 $>             "reasoningEffort": "none"
 $>           }
 $>         },
-$>         "qwen3.5:9b-64K": {
-$>           "name": "Qwen3.5 9B 64K",
+$>         "qwen3.5:9b-q8_0-128K": {
+$>           "name": "Qwen3.5 9B-q8_0 128K",
 $>           "tools": true,
 $>           "options": {
 $>             "reasoningEffort": "none"
@@ -12092,11 +12108,125 @@ EOF
 ##-----------------------------------------
 ## Try in opencode
 $> opencode
-## Chose new qwen3.5:9b-64K
+## Chose new Qwen3.5 9B-q8_0 128K
 $>     /models
+$>     Qwen3.5 9B-q8_0 128K
+##-----------------------------------------
+## OR. Write config with a bunch of sub-agents.
+$> cat << 'EOF' > ~/.config/opencode/opencode.json
+$> {
+$>   "$schema": "https://opencode.ai/config.json",
+$>   "agent": {
+$>     "build": {
+$>       "disable": false,
+$>       "mode": "primary",
+$>       "model": "opencode/big-pickle",
+$>       "prompt": "{file:./AGENTS.md}",
+$>       "tools": {
+$>         "write": true,
+$>         "edit": true,
+$>         "bash": true
+$>       }
+$>     },
+$>     "plan": {
+$>       "disable": false,
+$>       "mode": "primary",
+$>       "model": "opencode/big-pickle",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false
+$>       }
+$>     },
+$>     "code-reviewer": {
+$>       "disable": false,
+$>       "description": "Reviews code for bugs, performance issues, and best practices. Use after any new code is written or modified.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a code reviewer. Focus on bug finding, performance, and maintainability. Return structured findings: list issues by severity (critical, warning, suggestion). Do not modify files.",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false
+$>       }
+$>     },
+$>     "explorer": {
+$>       "disable": false,
+$>       "description": "Read-only codebase explorer. Use for finding files, searching for patterns, tracing code paths, and answering questions about existing code. Never modifies files.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a read-only codebase explorer. Search, read, and summarize. Never write or edit files. Return a concise summary of findings with file paths and line numbers.",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false
+$>       }
+$>     },
+$>     "tester": {
+$>       "disable": false,
+$>       "description": "Writes and runs tests. Use after new code is written to generate unit and integration tests for the implementation.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a test writer. Write thorough unit and integration tests. Run them with bash to confirm they pass. Only write test files, do not modify production code.",
+$>       "tools": {
+$>         "write": true,
+$>         "edit": true,
+$>         "bash": true
+$>       }
+$>     },
+$>     "git-scribe": {
+$>       "disable": false,
+$>       "description": "Writes git commit messages. Use after code changes are finalized to generate a clear, descriptive commit message explaining what changed and why.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a git commit message writer. Read the git diff and staged files. Write a commit message: one short subject line, blank line, then a concise body explaining the why. Do not commit, only output the message.",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false
+$>       }
+$>     },
+$>     "researcher": {
+$>       "disable": false,
+$>       "description": "Web researcher. Use for all web searches, documentation lookups, and internet research. Preferred over searching the web directly to save tokens.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a web researcher. Find complete information on the subject. Provide concise distillation of findings. Include URL attribution for every claim.",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false,
+$>         "browser": true
+$>       }
+$>     }
+$>   },
+$>   "provider": {
+$>     "ollama": {
+$>       "npm": "@ai-sdk/openai-compatible",
+$>       "name": "Ollama (X10SRA)",
+$>       "options": {
+$>         "baseURL": "http://YOUR.SERVER.IP.HERE:11434/v1"
+$>       },
+$>       "models": {
+$>         "qwen3.5:9b-q8_0-128K": {
+$>           "name": "Qwen3.5 9B Q8 128K",
+$>           "tools": true,
+$>           "options": {
+$>             "reasoningEffort": "none"
+$>           }
+$>         }
+$>       }
+$>     }
+$>   }
+$> }
+EOF
+## Try in opencode
+$> opencode
+## Choose new big pickle as the primary agent.
+$>     /models
+$>     Big Pickle
 ##-----------------------------------------
 ##===================================
-
 ## #############################################
 ##===================================
 ## French AI startup Mistral tweeted
@@ -12141,7 +12271,7 @@ $> ~/code/whisper.cpp/build/bin/whisper-cli -f recording.wav --output-txt record
 ## ##############################################
 ##==========================================
 ## ##############################################
-## ##    Kokoro TTS text to audio.
+## ##    Kokoro TTS text to speech audio.
 ## ##############################################
 ## text. audio. ai. TTS text to audio.
 $> https://github.com/nazdridoy/kokoro-tts
@@ -12904,7 +13034,7 @@ $> alias rm='trash'
 ## homelab
 $> alias deploy="docker stack deploy --resolve-image=never --with-registry-auth -c docker-compose.yml"
 $> alias remove="docker stack rm"
-##
+## ls
 $> alias la='ls -Alh' # show hidden files
 $> alias ls='ls -aFh --color=always'
 $> alias lx='ls -lXBh' # sort by extension
@@ -13031,29 +13161,28 @@ $> alias         pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── �
 #by name : https://archive.archlinux.org/packages
 #$COLOR_LIGHT_GREY
 #\" ; paru"
-#$> alias         ip='ip   --color                   '
+$> alias ip='ip --color'
 ##
 ## no qalc, 20°Cx2 doesn't equals 40°C
-#$> alias       qalc='echo -en "\e]2;🧮 qalc\a"; qalc --set="temp 1"'
+$> alias qalc='echo -en "\e]2;🧮 qalc\a"; qalc --set="temp 1"'
 ##
-#$> alias rh#'=' systemctl      reboot    #'
-#$> alias  'rs#'=' systemctl soft-reboot    #'
-#$> alias pwr_cya=' systemctl hibernate      #'
-#$> alias pwr_sby=' systemctl hybrid-sleep   #'
-#$> alias pwr_zzz=' xset dpms force  off     #'
+$> alias rh#='systemctl reboot'
+$> alias rs#='systemctl soft-reboot'
+$> alias pwr_cya='systemctl hibernate'
+$> alias pwr_sby='systemctl hybrid-sleep'
+$> alias pwr_zzz='xset dpms force  off'
 #
-#$> alias cls=' echo -ne "\033c"                 #' # clear for real
-#$> alias :x=' exit 0                           #'
-#$> alias :X=' :x                               #'
-#$> alias :q=' :x                               #'
-#$> alias :Q=' :x                               #'
-#$> alias l='lsd        --long     --almost-all --group-dirs first --hyperlink=always         '
-#$> alias sl=' l                                                                               '
-#$> alias powershell='echo -en "\e]2;🪟 Poweshell\a"; pwsh    '
-#$> alias vs='sudo     $EDITOR'
-#$> alias Sw='sudo     $EDITOR'
-#$> alias :Sw='sudo     $EDITOR'
-#export MANPAGER="nvim    +Man! '+colorscheme base16-eighties' -"
+$> alias cls='echo -ne "\033c"'                 ## clear for real
+$> alias :x='exit 0'
+$> alias :X=':x'
+$> alias :q=':x'
+$> alias :Q=':x'
+$> alias l='lsd --long --almost-all --group-dirs first --hyperlink=always'
+$> alias powershell='echo -en "\e]2;🪟 Poweshell\a"; pwsh'
+$> alias vs='sudo $EDITOR'
+$> alias Sw='sudo $EDITOR'
+$> alias :Sw='sudo $EDITOR'
+$> export MANPAGER="nvim +Man! '+colorscheme base16-eighties' -"
 ##
 $> alias ii="xdg-open" # just like Windows
 ##
@@ -13080,9 +13209,7 @@ $>     brew update && brew upgrade
 $>   fi
 $> }
 ##
-$> function killport() {
-$>   sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9
-$> }
+$> function killport() { sudo lsof -i :$1 | grep LISTEN | awk '{ print $2 }' | xargs kill -9 ; }
 ## git.
 $> alias gc='git commit -am'
 $> alias gcane='git commit —amend —no-edit'
@@ -13092,7 +13219,7 @@ $> alias gs='git status'
 $> alias gd='git diff'
 ##
 ## Recommit with the previous commit message
-gcr=‘git commit -am “$(cat “$(git rev-parse —git-dir)/COMMIT_EDITMSG”)”’
+$> gcr=‘git commit -am “$(cat “$(git rev-parse —git-dir)/COMMIT_EDITMSG”)”’
 ## ffmpeg-normalize for normalizing volume levels of videos
 ## Example: normalize video.mp4
 $> alias normalize='ffmpeg-normalize -v'
@@ -13306,14 +13433,13 @@ $> alias lslrt='find . -printf '\''%T@ %t %p\n'\'' | sort -k 1 -n | cut -d'\'' '
 $> alias lsrt='find . -type f -printf '\''%T@ %P\n'\'' | sort -n | awk '\''{print }'\'''
 $> alias memacs='emacs -mm'
 $> alias mkdir='mkdir -p'
-$> alias more='/usr/bin/less'
 $> alias mv='mv -i'
 $> alias rm='rm -i'
-#$> alias rebuild=sudo nixos-rebuild
-#$> alias jfu='journalctl -fu'
-#$> alias jru=‘journalctl -ru'
-#$> alias python=‘python3’ # or vice Versa depending on os
-#$> alias copy=‘xclip -selection c’
+$> alias rebuild='sudo nixos-rebuild'
+$> alias jfu='journalctl -fu'
+$> alias jru='journalctl -ru'
+$> alias python='python3' ## or vice Versa depending on os
+$> alias copy='xclip -selection c'
 ##
 $> alias ffmpeg='ffmpeg -hide_banner'
 $> alias pacman='sudo pacman'
@@ -13330,8 +13456,8 @@ $> alias pwgen='cat /dev/urandom | head -c 1024 | base64 | head -c 16 ; echo'
 $> alias wanip='dig +short myip.opendns.com @208.67.220.220'
 ## display password and QR code for currently connected WiFi network
 $> alias wifipwd='nmcli dev wifi show-password'
-$> alias ls='exa --group-directories-first'
-$> alias ll='exa -l --group-directories-first'
+$> alias ls='eza --group-directories-first'
+$> alias ll='eza -l --group-directories-first'
 $> alias yt2mp3="yt-dlp -x --audio-format mp3 -o '%(title)s.%(ext)s'"
 $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --cookies '/home/vorthas/Software/0-Configuration/youtube.com_cookies.txt'"
 ## ############################
@@ -13357,8 +13483,12 @@ $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --coo
 
 
 ##==========================================
-
-
+## pass -- the standard Unix password manager. GPG-encrypted, command line:
+$> sudo apt install pass
+$> pass init "your-gpg-key-id"
+$> pass insert openclaw/gateway-token
+## retrieve it
+$> pass openclaw/gateway-token
 ##==========================================
 ## gui, web. Search_provider_overrides in chrome
 $> cat /etc/chromium/master_preferences
