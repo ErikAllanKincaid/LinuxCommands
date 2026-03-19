@@ -1686,6 +1686,11 @@ LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
 https://unsloth.ai/docs/models/qwen3.5
 ## Download
 ollama pull qwen3.5:27b-q4_K_M
+## BEST!!!!
+ollama pull qwen3.5:9b-q8_0
+## OmniCoder-9B
+https://huggingface.co/Tesslate/OmniCoder-9B
+
 
 
 ##============================
@@ -1990,10 +1995,6 @@ https://github.com/googleworkspace/cli
 https://justin.poehnelt.com/posts/rewrite-your-cli-for-ai-agents/
 
 
-
-
-
-
 ##============================
 ## Git city – visualize GitHub as a city, one building per contributor
 https://www.thegitcity.com/
@@ -2009,7 +2010,6 @@ https://github.com/raaymax/lazytail
 ##============================
 ## Traffick.sh - A tiny, POSIX-compliant script that acts like top or htop, but for your nftables rules.
 https://gist.github.com/Strykar/72c20bb021347eafe4294511f21791be
-
 
 ##============================
 ## bandwhich - This is a CLI utility for displaying current network utilization by process, connection and remote IP/hostname
@@ -2032,68 +2032,100 @@ https://github.com/angelorc/vmsan
 https://github.com/mermaid-js/mermaid-live-editor
 
 ##============================
+## Gemini online
+https://aistudio.google.com/prompts/new_chat?model=gemini-3.1-pro-preview
+
+##============================
+## Quadlet is an opinionated tool for easily running podman system containers under systemd in an optimal way.
+https://github.com/containers/quadlet
+
+cat ~/.config/containers/systemd/ollama.container
+[Unit]
+Description=Ollama server
+
+[Container]
+Image=docker.io/ollama/ollama:0.17.5
+PublishPort=11434:11434
+ContainerName=ollama
+AddDevice=nvidia.com/gpu=all
+Volume=ollama:/root/.ollama
+SecurityLabelDisable=true
+Environment=OLLAMA_CONTEXT_LENGTH=128000
+Environment=OLLAMA_ORIGINS="*"
+Environment=OLLAMA_API_KEY=b1a3aaf5c29c47f982954592669d9e85.yDE6g8EEITGww8u4FLg8Fb3j
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target
 
 
 
 ##============================
-
-
-
-##============================
-
-
+## Vite  -  Frontend Tooling
+https://github.com/vitejs/vite
 
 ##============================
-
-
-
-##============================
-
-
+## pycoclaw  -  OpenClaw-class agents on ESP32
+https://pycoclaw.com/
 
 ##============================
-
-
-
-##============================
-
-
+## Tiiny Pocket Lab: The First Pocket-Size AI Supercomputer (tiiny.ai)
+https://tiiny.ai/
 
 ##============================
-
-
-
-##============================
-
-
+## piclaw — A pi-based general-purpose agent. PiClaw is a Docker-based sandbox for running the Pi Coding Agent
+https://github.com/rcarmo/piclaw
 
 ##============================
-
-
-
-##============================
-
-
+## list of TUI applications
+https://github.com/rothgar/awesome-tuis
 
 ##============================
-
-
-
-##============================
-
-
+## envsh — secrets manager that can't read your secrets. Encrypted locally with your SSH keys.
+https://envsh.dev/
 
 ##============================
-
-
-
-##============================
-
-
+## PostCLI — local-first toolkit that puts your entire Substack workflow in the terminal, in a TUI, or behind an AI agent.
+https://github.com/postcli/substack
 
 ##============================
+## OpenClaw — Personal AI Assistant
+https://docs.openclaw.ai/start/getting-started
+https://github.com/openclaw/openclaw
+## Build Your Own OpenClaw
+https://github.com/czl9707/build-your-own-openclaw
+## Pickle-Bot — yet another lightweight version of Openclaw.
+https://github.com/czl9707/pickle-bot
 
+##============================
+## claude-duet — Share your Claude Code session with a friend — real-time collaboration for AI pair programming.
+https://github.com/EliranG/claude-duet
 
+##============================
+## grafana-cli — Agent-first CLI for Grafana and Grafana Cloud. Built for engineers working with AI coding agents like Codex and Claude Code.
+https://machinedreams.blog/posts/the-cli-first-world/
+https://github.com/matiasvillaverde/grafana-cli
+
+##============================
+## batctl — Battery charge threshold manager for Linux laptops
+https://github.com/Ooooze/batctl
+
+##============================
+## APTUI is a terminal user interface (TUI) written in Go for managing APT packages. Browse, search, install, remove and upgrade packages — all without leaving the terminal.
+https://github.com/mexirica/aptui
+
+##============================
+## yaad — AI-native memory, recall and reminder on the terminal — locally with Ollama.
+## Save anything from your terminal — commands, notes, URLs, facts, reminders — and recall it later with natural language. Everything runs locally. No cloud, no accounts.
+https://github.com/KunalSin9h/yaad
+
+##============================
+## Devopsiphai — A Claude Code skill that audits the operational health of a project in production.
+https://github.com/sanhajio/devopsiphai
+
+##============================
+## cook — Workflow loops for Claude Code, Codex, and OpenCode.
+https://rjcorwin.github.io/cook/
 
 ##============================
 
