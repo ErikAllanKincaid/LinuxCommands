@@ -362,159 +362,159 @@ firefox https://github.com/danihek/hellwal
 ## Works. Costs money.
 ## Claude Coder CLI
 ## ai. coder. Claude Code is an agentic coding tool that reads your codebase, edits files, runs commands, and integrates with your development tools.
-$> firefox https://code.claude.com/docs/en/overview
+firefox https://code.claude.com/docs/en/overview
 ## Very good but costs $$$ each month.
 ##-------------------------------------
 ## Install.
-$> curl -fsSL https://claude.ai/install.sh | bash
+curl -fsSL https://claude.ai/install.sh | bash
 ## or
 ## Install the Claude CLI tool via npm:
-$> npm install -g @anthropic-ai/claude-code.
+npm install -g @anthropic-ai/claude-code.
 ##-------------------------------------
 ## Setup payments on the web.
-$> anthropic.com
+anthropic.com
 ##-------------------------------------
 ## Make parameters files.
 ## Examples:
 ## Specifies how you want the agent to act.
-$> touch CLAUDE.md ## Specifies how you want the agent to act.
-$> echo '# Hooks
-$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
-$> - It appends Claude last response (with timestamp) to `MEMORY.md`.
-$> # About Me
-$> - Name: YOURNAMEHERE
-$> - Location: Hawaii
-$> - Occupation: Engineer
-$> - Email: YOUREMAILHERE@gmail.com
-$> - GitHub: https://github.com/YOURGITHUBHERE
-$> - LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
-$> ## This Environment
-$> - Linux, Ubuntu 24.04 "noble" based.
-$> - Uses Claude Code as a general-purpose personal assistant
-$> - sudo password: Ask me to enter when needed.
-$> ## Session Persistence
-$> - At the START of every session, read `MEMORY.md` and `TODO.md`.
-$> - If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
-$> - When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
-$> ' > CLAUDE.md
-$> touch MEMORY.md ## A place for agent to add information to add context to next session.
-$> touch TODO.md   ## Have agent add items as you come up with new ideas.
+touch CLAUDE.md ## Specifies how you want the agent to act.
+echo '# Hooks
+- A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
+- It appends Claude last response (with timestamp) to `MEMORY.md`.
+# About Me
+- Name: YOURNAMEHERE
+- Location: Hawaii
+- Occupation: Engineer
+- Email: YOUREMAILHERE@gmail.com
+- GitHub: https://github.com/YOURGITHUBHERE
+- LinkedIn: https://www.linkedin.com/in/YOURLINKEDIN
+## This Environment
+- Linux, Ubuntu 24.04 "noble" based.
+- Uses Claude Code as a general-purpose personal assistant
+- sudo password: Ask me to enter when needed.
+## Session Persistence
+- At the START of every session, read `MEMORY.md` and `TODO.md`.
+- If the user says "RESUME:" — read both files `MEMORY.md` and `TODO.md`, check `git log` on active projects, and give a status report.
+- When user writes 'MEMORIZE:' add what was done to MEMORY.md or `MEMORY/` project file.
+' > CLAUDE.md
+touch MEMORY.md ## A place for agent to add information to add context to next session.
+touch TODO.md   ## Have agent add items as you come up with new ideas.
 ##-------------------------------------
 ## Allows agent to work with some files without asking.
-$> mkdir -p ~/code/claude/.claude/
-$> cd ~/code/claude/
-$> touch ~/code/claude/.claude/settings.local.json
-$> echo '{
-$>   "permissions": {
-$>     "allow": [
-$>       "WebFetch(domain:github.com)",
-$>       "WebFetch(domain:stackoverflow.com)",
-$>       "WebFetch(domain:raw.githubusercontent.com)",
-$>       "Bash(cat:*)",
-$>       "Bash(git init:*)",
-$>       "Bash(git config:*)",
-$>       "Bash(chmod:*)",
-$>       "Bash(curl:*)",
-$>       "Bash(wget:*)",
-$>       "Bash(antiword:*)",
-$>       "WebSearch"
-$>     ]
-$>   },
-$>   "hooks": {
-$>     "Stop": [
-$>       {
-$>         "hooks": [
-$>           {
-$>             "type": "command",
-$>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
-$>           }
-$>         ]
-$>       }
-$>     ]
-$>   }
-$> }' > ~/code/claude/.claude/settings.local.json
+mkdir -p ~/code/claude/.claude/
+cd ~/code/claude/
+touch ~/code/claude/.claude/settings.local.json
+echo '{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cat:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(antiword:*)",
+      "WebSearch"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
+          }
+        ]
+      }
+    ]
+  }
+}' > ~/code/claude/.claude/settings.local.json
 ##----------------------------
 ## This auto files claude memories.
-$> touch ~/code/claude/append-memory.sh
-$> cat <<'EOF' > ~/code/claude/append-memory.sh
-$> #!/bin/bash
-$> ## Hook script: appends Claude's last response summary to MEMORY.md
-$>
-$> INPUT=$(cat)
-$> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
-$> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
-$> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
-$>
-$> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
-$>   exit 0
-$> fi
-$>
-$> ## Extract the last assistant message text from the JSONL transcript
-$> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
-$>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
-$>   if [ "$ROLE" = "assistant" ]; then
-$>     echo "$line" | jq -r '
-$>       [.message.content[] | select(.type == "text") | .text] | join("\n")
-$>     ' 2>/dev/null
-$>     break
-$>   fi
-$> done)
-$>
-$> if [ -z "$LAST_RESPONSE" ]; then
-$>   exit 0
-$> fi
-$>
-$> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-$>
-$> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
-$>
-$> exit 0
+touch ~/code/claude/append-memory.sh
+cat <<'EOF' > ~/code/claude/append-memory.sh
+#!/bin/bash
+## Hook script: appends Claude's last response summary to MEMORY.md
+
+INPUT=$(cat)
+TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
+MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
+
+if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
+  exit 0
+fi
+
+## Extract the last assistant message text from the JSONL transcript
+LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
+  ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
+  if [ "$ROLE" = "assistant" ]; then
+    echo "$line" | jq -r '
+      [.message.content[] | select(.type == "text") | .text] | join("\n")
+    ' 2>/dev/null
+    break
+  fi
+done)
+
+if [ -z "$LAST_RESPONSE" ]; then
+  exit 0
+fi
+
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
+
+exit 0
 EOF
 ##--------------------------
 ## Start claude
-$> claude
-$> your prompt here
+claude
+your prompt here
 ##-------------------------------------
 ## Allow claude to use browser.
 ## Chrome browser.
-$> firefox https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn
+firefox https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn
 ## Start with
-$> claude --chrome
+claude --chrome
 ## Or in an existing session run.
-$> /chrome
+/chrome
 ## Claude Plugin Run /plugin and go to the Discover tab to browse what’s available.
-$> /plugin
-##$> Discover tab
+/plugin
+##Discover tab
 ##-------------------------------------
 ## Prompt claude
-$> claude -p "Explain how to comment in html code."
+claude -p "Explain how to comment in html code."
 ##-------------------------------------
 ## Compacting. The memory of what you are currently working on is limited.
 ## Claude will compact the conversation sometime forgeting key points.
 ## Save key details to a file, quitting, and restarting the session. Have to set this up first.
-$> MEMORIZE:
+MEMORIZE:
 ## Best Practices: To maintain context, consider manually compacting at natural stopping points.
-$> /compact
+/compact
 ## Start fresh without losing critical, accumulated knowledge.
-$> /clear
+/clear
 ##-------------------------------------
 ## Local model
 ## Use claude with local model using llmstudio or ollama.
 ## Start Local Server: Ensure your local tool is running as a server (e.g.,
-$> ollama serve
+ollama serve
 ## or
-$> lms server start
+lms server start
 ## Configure Environment Variables: Point Claude Code to your local server.
-$> export ANTHROPIC_BASE_URL=http://localhost:11434
-$> export ANTHROPIC_BASE_URL=http://localhost:1234
-$> export ANTHROPIC_AUTH_TOKEN=lmstudio
+export ANTHROPIC_BASE_URL=http://localhost:11434
+export ANTHROPIC_BASE_URL=http://localhost:1234
+export ANTHROPIC_AUTH_TOKEN=lmstudio
 
 ## Example
-$> export ANTHROPIC_BASE_URL="http://192.168.1.64:11434/v1"
-$> export ANTHROPIC_AUTH_TOKEN="sk-not-required"
-$> export ANTHROPIC_MODEL="qwen3-coder-32k"
+export ANTHROPIC_BASE_URL="http://192.168.1.64:11434/v1"
+export ANTHROPIC_AUTH_TOKEN="sk-not-required"
+export ANTHROPIC_MODEL="qwen3-coder-32k"
 ## Run with Local Model with parameters.
-$> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
+claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
 ##-------------------------------------
 
  ▐▛███▜▌   Claude Code v2.1.55
@@ -659,7 +659,7 @@ firefox https://github.com/ShadowNetter-Official/gospy
 firefox https://www.pavlinbg.com/posts/python-speech-to-text-guide
 
 ##==================================
-## TUI tool for generating packets of arbitrary input and monitoring packets on any network interfaces (default: eth0)
+## packemon TUI tool for generating packets of arbitrary input and monitoring packets on any network interfaces (default: eth0)
 firefox https://github.com/ddddddO/packemon
 
 ##==================================
@@ -709,20 +709,20 @@ tuios-web --dockbar-position top --scrollback-lines 1000000 --host 0.0.0.0 --por
 
 ##==================================
 ## tui. web. Browser that uses firefox to render a page in a tty, psuedo page. Great if you have no gui.
-$> firefox https://www.brow.sh/docs/installation/
+firefox https://www.brow.sh/docs/installation/
 ## Uses firefox as backend.
-$> sudo apt install firefox
+sudo apt install firefox
 ## Install. Awesome. Use static binary.
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
-$> chmod 755 browsh_1.8.0_linux_amd64
-$> ./browsh_1.8.0_linux_amd64
-$> sudo mv ./browsh_1.8.0_linux_amd64 /usr/local/bin/browsh
-$> browsh
+wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64
+chmod 755 browsh_1.8.0_linux_amd64
+./browsh_1.8.0_linux_amd64
+sudo mv ./browsh_1.8.0_linux_amd64 /usr/local/bin/browsh
+browsh
 ## OR. Install.
-$> wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
-$> sudo apt install ./browsh_1.8.0_linux_amd64.deb
-$> rm ./browsh_1.5.0_linux_amd64.deb
-$> browsh
+wget https://github.com/browsh-org/browsh/releases/download/v1.8.0/browsh_1.8.0_linux_amd64.deb
+sudo apt install ./browsh_1.8.0_linux_amd64.deb
+rm ./browsh_1.5.0_linux_amd64.deb
+browsh
 ##-----------------------
 ## browsh Controls.
 ## CTRL+L           ## Change URL, first click on URL.
@@ -735,14 +735,14 @@ $> browsh
 ## CTRL+m           ## Toggles monochrome mode.
 ##-----------------------
 ## Some bookmarks.
-$> browsh "https://news.ycombinator.com/"
-$> browsh "https://www.reddit.com/r/commandline/"
-$> browsh "https://www.theregister.com/"
-$> browsh "https://www.wikipedia.org/"
+browsh "https://news.ycombinator.com/"
+browsh "https://www.reddit.com/r/commandline/"
+browsh "https://www.theregister.com/"
+browsh "https://www.wikipedia.org/"
 ## Add the search term as the search button does not seem to work.
-$> browsh "https://duckduckgo.com/?q=browsh"
+browsh "https://duckduckgo.com/?q=browsh"
 ## No video but can read comments.
-$> browsh "https://www.youtube.com/watch?v=OSwxD6e_Ftk"
+browsh "https://www.youtube.com/watch?v=OSwxD6e_Ftk"
 
 ##==========================================
 ## Nerd Fonts
@@ -1550,7 +1550,7 @@ https://app.letta.com/login?redirect=/
 ## Install letta
 sudo npm i -g @letta-ai/letta-code
 ## Get letta working with local model
-$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
 ##  1. Install Docker on X10SRA (container runtime to run the Letta server)
 sudo apt update
 sudo apt-get install -y docker.io
@@ -2128,6 +2128,239 @@ https://github.com/sanhajio/devopsiphai
 https://rjcorwin.github.io/cook/
 
 ##============================
+## greenboost: transparently extend GPU VRAM using system RAM/NVMe
+https://gitlab.com/IsolatedOctopi/nvidia_greenboost
+
+##============================
+## claude-plugins-official: Connect a Telegram bot to your Claude Code with an MCP server.
+https://github.com/anthropics/claude-plugins-official/blob/main/external_plugins/telegram/README.md
+
+##============================
+## sonars: hows everything listening on localhost, with Docker container names, Compose projects, resource usage, and clickable URLs. You can kill processes, tail logs, shell into containers, and more — all by port number.
+https://github.com/RasKrebs/sonar
+
+##============================
+## code from Linux Application Development By Example - The Fundamental APIs by Arnold Robbins.
+https://github.com/arnoldrobbins/LinuxByExample-2e
+
+##============================
+## Docker TUI — single-binary Docker terminal UI
+## View & manage containers and volumes, Start/stop multiple containers at once, container groups as reusable snippets, Fuzzy search
+https://github.com/Bhavesh164/docker-tui
+
+##============================
+## termaid — Render Mermaid diagrams in your terminal or Python app.
+https://github.com/fasouto/termaid
+
+##============================
+## Nibble is a CLI tool for local network scanning that focuses on speed and ease of use.
+## Select a network interface, and Nibble scans your local subnet. Lists hosts, hardware manufacturer, open ports and their services.
+https://github.com/backendsystems/nibble
+
+##============================
+## zellij - Terminal Multiplexer. Floating Panes + Command Panes + Scrollback Editing
+https://zellij.dev/about/
+https://github.com/zellij-org/zellij
+
+##============================
+## darya is a lightweight disk usage tool built for the terminal.
+https://github.com/mrkatebzadeh/darya
+
+##============================
+## Simutil - A terminal UI for launching Android Emulators / iOS Simulators
+## Launch, connect, manage your devices and more — all from the terminal
+https://github.com/dungngminh/simutil
+
+##============================
+## gh-dash - TUI for GitHub that does not break your flow.
+https://github.com/dlvhdr/gh-dash
+
+##============================
+## Buddy (short for Block-based Unicode Direct-color Display Yield) is a live terminal video player that renders in true 24-bit color.
+https://github.com/JVSCHANDRADITHYA/buddy
+
+##============================
+## PX7 Terminal Radio is a lightweight, feature-rich command-line internet radio player
+https://github.com/px7nn/px7-radio
+
+##============================
+## tennis is a small CLI for printing stylish CSV tables in your terminal.
+https://github.com/gurgeous/tennis
+
+##============================
+## GlazePKG (gpk) - See every package on your system — one gorgeous terminal dashboard.
+https://github.com/neur0map/glazepkg
+
+##============================
+## Panther - A self-hosted AI agent daemon that runs on your machine and talks back through the apps you already use.
+https://github.com/PantherApex/Panther
+
+##============================
+## Nusgmon - Network Usage Monitor. Lightweight Python CLI (command-line interface) network usage monitor for Linux. Designed to run as a systemd service.
+https://github.com/LUCKYS1NGHH/nusgmon
+
+##============================
+## octoally AI Coding Session Orchestration DashboardThe dashboard for Claude Code & OpenAI Codex. Launch, monitor, and manage AI coding sessions with RuFlo multi-agent orchestration — all from one place.
+https://github.com/ai-genius-automations/octoally
+## Install:
+curl -fsSL https://raw.githubusercontent.com/ai-genius-automations/hivecommand/main/scripts/install.sh | bash
+
+
+##============================
+## Helios: Real Real-Time Long Video Generation Model
+https://github.com/PKU-YuanGroup/Helios
+https://huggingface.co/BestWishYsh/Helios-Distilled
+## Journal article
+https://arxiv.org/abs/2603.04379
+
+## Get the code
+git clone https://github.com/PKU-YuanGroup/Helios.git
+## Download the model. HUGE 139GB
+hf download BestWishYsh/Helios-Distilled
+
+
+
+
+
+##============================
+## Heltec_htit-wb32laf
+https://heltec.org/project/wifi-lora-32-v3/
+
+##============================
+## Nvidia Nemotron model
+https://huggingface.co/bartowski/nvidia_Nemotron-Cascade-2-30B-A3B-GGUF/tree/main
+
+
+##============================
+## Fyn: An uv fork with new features, bug fixes, stripped telemetry (github.com/duriantaco)
+https://github.com/duriantaco/fyn
+
+##============================
+## Pochi is an AI agent designed for software development.
+## It operates within your IDE, using a toolkit of commands to write and refactor code autonomously across your entire project.
+
+##============================
+## rewrite of GNU ls with lots of added features like colors, icons, tree-view, more formatting options
+https://github.com/lsd-rs/lsd
+
+##============================
+## Localias - Local reverse proxy — stable .localhost URLs for development.  Use http://myapp.localhost:7777 instead of http://localhost:4231.
+https://github.com/thirukguru/localias
+
+##============================
+## lazycut - Terminal-based video trimming tool. Mark in/out points and export trimmed clips with aspect ratio control.
+https://github.com/ozemin/lazycut
+
+##============================
+## ghgrab - "grab anything you want" - simple, pretty terminal tool that lets you search and download files from GitHub without leaving your CLI.
+https://github.com/abhixdd/ghgrab
+
+##============================
+## Rclone is a command-line program to manage files on cloud storage.
+https://rclone.org/
+
+##============================
+## snakeware is a free Linux distro with a Python userspace inspired by the Commodore 64. You are booted directly into a Python interpreter, which you can use to do whatever you want with your computer.
+https://github.com/joshiemoore/snakeware
+
+##==========================================
+## Xonsh is a Python-powered shell. Full-featured, cross-platform and AI-friendly. The language is a superset of Python 3 with seamless integration of shell functionality and commands.
+https://github.com/xonsh/xonsh
+
+##============================
+## Velxio: Arduino & Embedded Board Emulator. A fully local, open-source multi-board emulator. Write Arduino C++ or Python, compile it, and simulate it with real CPU emulation and 48+ interactive electronic components — all running in your browser.
+## 19 boards · 5 CPU architectures: AVR8 (ATmega / ATtiny), ARM Cortex-M0+ (RP2040), RISC-V RV32IMC/EC (ESP32-C3 / CH32V003), Xtensa LX6/LX7 (ESP32 / ESP32-S3 via QEMU), and ARM Cortex-A53 (Raspberry Pi 3 Linux via QEMU).
+https://github.com/davidmonterocrespo24/velxio
+
+##============================
+## Nixbook OS - A set-and-forget modern operating system designed for simplicity, speed, and peace of mind.
+## The goal is to create a "chromebook like" unbreakable computer to give to basic users who know nothing about Linux do not need to ever worry about updates / upgrades.
+https://github.com/mkellyxp/nixbook
+
+##============================
+## A curated list of delightful Bash scripts and resources.
+https://github.com/awesome-lists/awesome-bash
+
+##============================
+## bashoneliners
+https://www.bashoneliners.com/oneliners/newest/
+
+
+##============================
+## Claude Code source had been exposed
+https://github.com/instructkr/claw-code
+
+##============================
+## The first commercially viable model with 1-bit weights.
+https://prismml.com/
+https://huggingface.co/prism-ml/Bonsai-8B-gguf
+https://huggingface.co/collections/prism-ml/bonsai
+
+##============================
+## Start Codex stronger, then let OMX add better prompts, workflows, and runtime help when the work grows.
+https://github.com/Yeachan-Heo/oh-my-codex
+
+##============================
+## Ink provides the same component-based UI building experience that React offers in the browser, but for command-line apps.
+https://github.com/vadimdemedes/ink
+
+
+
+##============================
+## stream-exectoolr, tool replacing xargs (ie, running a bash command for multiple inputs)
+https://github.com/davidporter-id-au/stream-exec
+
+##============================
+## Learn Claude Code by doing, not reading.
+https://claude.nagdy.me/
+
+##============================
+## Jami is a free/libre, end-to-end encrypted, and private communication software.
+https://jami.net/
+
+##============================
+## Ansizalizer -  versatile terminal UI application for converting images to ANSI art.
+https://github.com/Zebbeni/ansizalizer
+
+##============================
+## Sheets - Spreadsheets in your terminal.
+https://github.com/maaslalani/sheets
+
+##============================
+## NetWatch - Real-time network diagnostics in your terminal.
+https://github.com/matthart1983/netwatch
+
+##============================
+## gwt - git worktree manager for zsh.
+https://github.com/davidv1213/gwt
+
+##============================
+## store - manages symlinks for your dotfiles without requiring mirrored directory structures. Each "store" is a directory in your repository that gets symlinked to a target location on your filesystem.
+https://github.com/cushycush/store
+
+##============================
+## markdown-to-book - CLI tool that converts Markdown files into print-ready books for Amazon KDP.
+https://github.com/vpuna/markdown-to-book
+
+##============================
+## Advanced Search for YouTube. Improve your search results with advanced search prefixes.
+https://playlists.at/youtube/search/
+
+##============================
+## GuppyLM - A ~9M parameter LLM that talks like a small fish.
+## This project exists to show that training your own language model is not magic. No PhD required. No massive GPU cluster. One Colab notebook, 5 minutes, and you have a working LLM that you built from scratch
+https://github.com/arman-bd/guppylm
+
+##============================
+## Locker - Open-source file storage platform. A self-hostable alternative to Dropbox and Google Drive.
+https://github.com/zmeyer44/Locker
+
+##============================
+## Hippo - Memory storage for agents in SQL
+## Storage: SQLite backbone + markdown/YAML mirrors. Git-trackable and human-readable.
+https://github.com/kitfunso/hippo-memory
+
+##============================
 
 
 
@@ -2150,5 +2383,17 @@ https://rjcorwin.github.io/cook/
 ##============================
 https://devin.ai/
 https://windsurf.com/
+https://bhoite.com/sculptures/boron-lander/
+https://github.com/mkellyxp/nixbook
+
+
+
+
+
+
+
+
+
+
 
 ##============================
