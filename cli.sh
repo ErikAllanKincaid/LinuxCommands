@@ -2,7 +2,7 @@
 echo '
 
 ## Edit out all the "$>" to view the file better, but do NOT run the whole thing.. hahah..
-#> sed -i 's/^$> //g'
+#> sed -i 's/^$> //g' ./cli.sh
 
 Hello World
 
@@ -34,11 +34,11 @@ Type command.
          █   clicool   █
          ███████████████
 
-    ## Key of ^ symbols
+## Key of ^ symbols
     ## Comments           ## Comments
     $> Command            ## Command
     $>    Command         ## Command inside the app with extra spaces
-    #>    Start           ## Output, stdout after 4 spaces
+    #>    Stdout          ## Output, stdout after 4 spaces
     #$ Settings           ## Settings
 
 COMMENT1
@@ -239,24 +239,24 @@ $> eval $(echo "rs:global default;fi:normal file;di:directory;ln:symbolic link;p
 ##==========================================
 ##==========================================
 ## Configuration files and what they do
-$>  /etc/profile                         ## System wide environment variables for all users
-$>  /etc/fstab                           ## Drives and their associated mount points. Edit this file to add cdroms, DOS partitions and drives at startup.
-$>  /etc/rc.d/rc.local                   ## Bash script that is executed at the end of login process
-$>  /etc/hostname                        ## Conatains full hostname
-$>  /etc/cron.*                          ## There are 4 directories that automatically execute all scripts within the directory at intervals of hour, day, week or month
-$>  /etc/hosts                           ## List of know host names and IP addresses on the machine.
-$>  /etc/httpd/conf                      ## Paramters for the Apache web server
-$>  /etc/apache2/apache2.conf            ## Paramters for the Apache2 web server
-$>  /etc/inittab                         ## Specifies the run level that the machine should boot into
-$>  /etc/resolv.conf                     ## Defines IP addresses of DNS servers
-$>  /etc/smb.conf                        ## Config file for the SAMBA server. Allows file and print sharing with Microsoft clients
-$>  /etc/X11/XF86Config                  ## Config file for XWindows
-$>  ~/.xinitrc                           ## Defines the windows manager loaded by X
-$>  /etc/modules                         ## Kernel modules loaded at boot
-$>  /etc/lsb-release                     ## Distribution release information
-$>  /etc/bash.bashrc                     ## System wide bashrc
-$>  /etc/default/grub                    ## Configuration file, run update-grub after editing
-$>  /etc/X11/                            ## Config files for XWindows
+$> cat /etc/profile                         ## System wide environment variables for all users
+$> cat /etc/fstab                           ## Drives and their associated mount points. Edit this file to add cdroms, DOS partitions and drives at startup.
+$> cat /etc/rc.d/rc.local                   ## Bash script that is executed at the end of login process
+$> cat /etc/hostname                        ## Contains full hostname
+$> cat /etc/cron.*                          ## There are 4 directories that automatically execute all scripts within the directory at intervals of hour, day, week or month
+$> cat /etc/hosts                           ## List of know host names and IP addresses on the machine.
+$> cat /etc/httpd/conf                      ## Paramters for the Apache web server
+$> cat /etc/apache2/apache2.conf            ## Paramters for the Apache2 web server
+$> cat /etc/inittab                         ## Specifies the run level that the machine should boot into
+$> cat /etc/resolv.conf                     ## Defines IP addresses of DNS servers
+$> cat /etc/smb.conf                        ## Config file for the SAMBA server. Allows file and print sharing with Microsoft clients
+$> cat /etc/X11/XF86Config                  ## Config file for XWindows
+$> cat ~/.xinitrc                           ## Defines the windows manager loaded by X
+$> cat /etc/modules                         ## Kernel modules loaded at boot
+$> cat /etc/lsb-release                     ## Distribution release information
+$> cat /etc/bash.bashrc                     ## System wide bashrc
+$> cat /etc/default/grub                    ## Configuration file, run update-grub after editing
+$> cat /etc/X11/                            ## Config files for XWindows
 ##==========================================
 ## Other system files. Do a search in this document for proc/
 ## /proc                                ## All processes are files
@@ -763,15 +763,15 @@ $> ssh -i .ssh/servername_id_rsa $USER@server
 ##------------------------------------------
 ## Log in to remote server without explicit call of the key file by adding it to IdentitiyFile setting in ~/.ssh/config
 $> echo '
-$>  Host servername
-$>  User $USER
-$>  Hostname 192.168.1.101
-$>  Port 22
-$>  PreferredAuthentications publickey
-$>  IdentityFile "/home/$USER/.ssh/keyfile"
-$>  #BatchMode yes
-$>  #EscapeChar none
-$>  ' >> ~/.ssh/config
+$> Host servernahjjme
+$> User $USER
+$> Hostname 192.168.1.101
+$> Port 22
+$> PreferredAuthentications publickey
+$> IdentityFile "/home/$USER/.ssh/keyfile"
+$> #BatchMode yes
+$> #EscapeChar none
+$> ' >> ~/.ssh/config
 ## Or use printf to add multiline info to ~/.ssh/config
 $> printf '\nHost servername\nUser $USER\nHostname 192.168.1.101\nPort 22\nPreferredAuthentications publickey\nIdentityFile "/home/$USER/.ssh/id_rsa"\n#BatchMode yes\n#EscapeChar none\n' >>  ~/.ssh/config
 ## Or use editor to add above info
@@ -1166,6 +1166,18 @@ $> ls -la /media/$USER/9e26fd33-d451-4dc6-b107-150ddfcd76f9/
 ## Unmount
 $> udisksctl unmount -b /dev/sdb1
 ##==========================================
+## mount, copy files to partition, unmount
+$> install udisks2
+## mount, notice the sdb1, select the device sdb not the partition.
+## It will output the mountpoint.
+$> udisksctl mount -b /dev/sdb1
+## copy files to partition
+$> cp -r ./files /media/$USER/MOUNTPOINT/
+## unmount, you must enter the device sdb not the partition
+$> udisksctl unmount -b /dev/sdb1
+## Turn off the drive
+$> udisksctl power-off -b /dev/sdb
+##==========================================
 ##
 ## #######################################################
 ## ##    END System
@@ -1256,6 +1268,58 @@ $> cntl+d
 ## ###########################################################
 ## Revisioning tool. Keeps all revisions of files
 ##-------------------------------------
+##====================================
+## TLDR
+## Install git.
+$> sudo apt install git
+## Set up who you are.
+$> git config --global user.name "Your Name"
+$> git config --global user.email "your_email@whatever.com"
+## Make a directory.
+$> mkdir -p ~/code/repo ; cd  ~/code/repo
+## Create a file.
+$> echo 'Hello world.' > file.txt
+## Keep track with git.
+## Files go from: Untracked changes -> Stage the changes -> Commit the changes
+## Keep track with git.           ##     ┌─────────────────┐
+$> git init                       ##     │    Repo         │
+## Check the file.                ##     ├─────────────────┤
+$> git status                     ##     │file.txt in repo │
+##                                ##     └─────────────────┘
+## Add a line to the file.                       ▼
+$> echo 'This is a new line.' >> file.txt
+## Check the file.                ##     ┌─────────────────┐
+$> git status                     ##     │Untacked changes │
+## Check the changes.             ##     ├─────────────────┤
+$> git diff file.txt              ##     │file.txt changed │
+##                                ##     └─────────────────┘
+## Stage the file.                               ▼
+$> git add file.txt               ##     ┌─────────────────┐
+## Check the file.                ##     │    Stage        │
+$> git status                     ##     ├─────────────────┤
+## Check the changes.             ##     │ file.txt staged │
+$> git diff file.txt              ##     └─────────────────┘
+## Commit the file with changes.                 ▼
+## Always use -m add a message to explain what was changed.
+## Commit changes.                ##     ┌─────────────────┐
+$> git commit -m "Added a line."  ##     │    Commited     │
+## Check the file.                ##     ├─────────────────┤
+$> git status                     ##     │file.txt commited│
+##                                ##     └─────────────────┘
+## Now the changes can be found in the commit log.
+$> git log
+## Do it again.
+$> echo 'This is another new line.' >> file.txt
+$> git status
+$> git diff file.txt
+$> git add file.txt
+$> git status
+$> git commit -m "Added another line."
+$> git status
+$> git log --pretty=format:"%h %s" --graph
+##====================================
+## Install
+$> sudo apt install git
 ## Set up your name and e-mail. Run the following commands to let git know your name and e-mail address. If git is already installed, skip down to the end of the line.
 $> git config --global user.name "Your Name"
 $> git config --global user.email "your_email@whatever.com"
@@ -1273,16 +1337,16 @@ $> git init
 ## Add the “Hello, World” page to the repository.
 $> git add hello.html
 $> git commit -m "First Commit"
-    #   [master (root-commit) 0e94c37] First Commit
-    #    1 file changed, 1 insertion(+)
-    #    create mode 100644 hello.html
+##   [master (root-commit) 0e94c37] First Commit
+##    1 file changed, 1 insertion(+)
+##    create mode 100644 hello.html
 ## Check the status of the repository
 ## Use the git status command, to check the current state of the repository.
 $> git status
 ## Change file
 $> echo '<H1>Hello world.<H1>' > hello.html
+## Git sees changes
 $> git status
-    # Git sees changes
 ## Stage changes
 $> git add hello.html
 $> git status
@@ -1372,7 +1436,9 @@ $> gh repo view --web                     ## open current repo in browser
 $> gh gist create file.txt                ## create a gist
 $> gh api /user                           ## raw API calls
 ## GitHub REST API when the higher-level commands do not cover what you need.
-
+##==========================================
+## The 20 most-changed files in the last year.
+$> git log --format=format: --name-only --since="1 year ago" | sort | uniq -c | sort -nr | head -20
 ##==========================================
 
 
@@ -2562,7 +2628,7 @@ $> echo $(date) $(whoami) >> log           ## writes the date and the user to th
 $> echo $(cat /home/$USER/test.txt)        ## print /home/$USER/Test info
 $> echo 'File content is:' `<test.txt`     ## prints the contents of /home/$USER/test.txt. print user: Test info
 ## The special bash command exec can manipulate channels over ranges of commands:  exec
-$>
+$> exec
 ## pipe redirect output of command through pipe | as input to another command
 $> du -cks * | sort -rn | head             ## prints files in current dir in order of size of content
 ## Substitution. <(command) expands output of running command.
@@ -3099,28 +3165,6 @@ $> awk '/^[[:space:]]*$/{p++;next} {for(i=0;i<p;i++){printf "\n"}; p=0; print}' 
 ##------------------------------------------
 
 ##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
-
-##------------------------------------------
 ## center all text in the middle of 79-column width. In method 1,
 ## spaces at the beginning of the line are significant, and trailing
 ## spaces are appended at the end of the line. In method 2, spaces at
@@ -3190,6 +3234,11 @@ if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b 
 #if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 ## Enable programmable completion features (you do not need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 #if ! shopt -oq posix; then if [ -f /usr/share/bash-completion/bash_completion ]; then . /usr/share/bash-completion/bash_completion; elif [ -f /etc/bash_completion ]; then . /etc/bash_completion; fi; fi
+##==================================
+## File types in different colors.
+## wget https://raw.githubusercontent.com/trapd00r/LS_COLORS/refs/heads/master/lscolors.sh
+source ~/lscolors.sh
+##==================================
 ## #################################
 ## ##   Keyboard
 ## #################################
@@ -3231,23 +3280,49 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 ## ####################################################
 ## ##    START Prompt
 ## ####################################################
-##-----------------------------
-## Text color
-#\e[1;30m ## grey
-#\e[1;31m ## red
-#\e[1;32m ## Green
-#\e[1;33m ## Yellow
-#\e[1;34m ## Blue
-#\e[1;35m ## purple
-#\e[1;36m ## cyan
-#\e[1;37m ## White
-## For other colors in zsh use $> colorgrid
+##==========================================
+## Print out the bash prompt control characters and colors. Some things do not print correctly.
+#function bashprompt() { echo "## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background" ; }
+## Print out the bash prompt control characters and colors.
+#function bashprompt() { echo '## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background' ; }
+function bashprompt() { echo "## bash prompt \n  \u    ## current username \n  \h    ## hostname (short, up to first dot) \n  \H    ## full hostname \n  \w    ## current working directory (~ for home) \n  \W    ## basename of current directory only \n  \\$    ## $ for normal users, # for root \n  \d    ## date (e.g., Mon Mar 01) \n  \t    ## current time (24-hour, HH:MM:SS) \n  \T    ## current time (12-hour, HH:MM:SS) \n  \@    ## current time (12-hour, am/pm) \n  \n    ## newline \n  \!    ## history number of this command \n  \#    ## command number of this command \n  \j   ## the number of jobs currently managed by the shell \n ## Text color \n  \e[1;30m   ## grey \n  \e[1;31m   ## red \n  \e[1;32m   ## Green \n  \e[1;33m   ## Yellow \n  \e[1;34m   ## Blue \n  \e[1;35m   ## purple \n  \e[1;36m   ## cyan \n  \e[1;37m   ## White \n ## Text style \n  txtred='\e[0;31m' ## Red- Regular \n  bldred='\e[1;31m' ## Red- Bold \n  undred='\e[4;31m' ## Red- Underline \n  bakred='\e[41m'   ## Red- Background" ; }
+##==========================================
+## Bash prompt
+## text color
+# \e[1;30m   ## grey
+# \e[1;31m   ## red
+# \e[1;32m   ## Green
+# \e[1;33m   ## Yellow
+# \e[1;34m   ## Blue
+# \e[1;35m   ## purple
+# \e[1;36m   ## cyan
+# \e[1;37m   ## White
 ## Text style
-#txtred='\e[0;31m' ## Red- Regular
-#bldred='\e[1;31m' ## Red- Bold
-#undred='\e[4;31m' ## Red- Underline
-#bakred='\e[41m'   ## Red- Background
-##-----------------------------
+# txtred='\e[0;31m' ## Red- Regular
+# bldred='\e[1;31m' ## Red- Bold
+# undred='\e[4;31m' ## Red- Underline
+# bakred='\e[41m'   ## Red- Background
+## bash prompt
+# \u    ## current username
+# \h    ## hostname (short, up to first dot)
+# \H    ## full hostname
+# \w    ## current working directory (~ for home)
+# \W    ## basename of current directory only
+# \$    ## $ for normal users, # for root
+# \d    ## date (e.g., Mon Mar 01)
+# \t    ## current time (24-hour, HH:MM:SS)
+# \T    ## current time (12-hour, HH:MM:SS)
+# \@    ## current time (12-hour, am/pm)
+# \n    ## newline
+# \!    ## history number of this command
+# \#    ## command number of this command
+# \j    ## the number of jobs currently managed by the shell
+##==========================================
+## Print out the zsh prompt control characters.
+function zshprompt() { print "## zsh PROMPT \n  %n   ## Username - john_doe \n  %m   ## Hostname (short) - mycomputer \n  %M   ## Hostname (full) - mycomputer.local \n  %~   ## Current working directory (HOME abbreviated with ~) - ~/projects/myproj \n  %1~  ## Basename of current working directory  - myproj \n  %d   ## Current working directory (full path) - /home/john_doe/projects/myproj \n  %*   ## Current time (24-hour HH:MM:SS) - 14:30:45 \n  %@   ## Current time (12-hour am/pm) - 02:30pm \n  %j   ## Number of background jobs - 2 \n  %!   ## Command number in history - 123 \n  %#   ## Prompt character ($ for user, # for root) - $ or # \n ## Text style \n  %B / %b: Start / Stop Bold. \n  %U / %u: Start / Stop Underline. \n  %S / %s: Start / Stop Standout (Highlight). \n  %F{color} / %f: Start / Stop Foreground Color. \n  %K{color} / %k: Start / Stop Background Color. \n ## For colors in zsh use $> colorgrid" ; }
+## Print a grid of colors.
+function colorgrid() { iter=16 ; while [ $iter -lt 52 ] ; do second=$[$iter+36] ; third=$[$second+36] ; four=$[$third+36] ; five=$[$four+36] ; six=$[$five+36] ; seven=$[$six+36] ; if [ $seven -gt 250 ];then seven=$[$seven-251]; fi ; echo -en "\033[38;5;$(echo $iter)m█ " ; printf "%03d" $iter ; echo -en "   \033[38;5;$(echo $second)m█ " ; printf "%03d" $second ; echo -en "   \033[38;5;$(echo $third)m█ " ; printf "%03d" $third ; echo -en "   \033[38;5;$(echo $four)m█ " ; printf "%03d" $four ; echo -en "   \033[38;5;$(echo $five)m█ " ; printf "%03d" $five ; echo -en "   \033[38;5;$(echo $six)m█ " ; printf "%03d" $six ; echo -en "   \033[38;5;$(echo $seven)m█ " ; printf "%03d" $seven ; iter=$[$iter+1] ; printf '\r\n' ; done }
+##==========================================
 ## set variable identifying the chroot you work in (used in the prompt below)
 #if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then debian_chroot=$(cat /etc/debian_chroot); fi
 ## set a fancy prompt (non-color, unless we know we "want" color)
@@ -3272,15 +3347,21 @@ function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/
 function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
 function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
 function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+#function lastcommand() { echo $? : }
 ## BASH
 #PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
 ## ZSH
-PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f
-⚡'
+PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_branch)%f%F{011}$(parse_git_untracked)%f%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%f%{$reset_color%}%b%f
+%j⚡'
+##=========================================
 ##-----------------------------------------
 ## ############################
 ## ##    Other prompt
 ## ############################
+##-----------------------------------------
+## git branch prompt
+#parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' ; }
+#setopt PROMPT_SUBST ; PS1='%F{green}%B%m:%F{blue}%~%f%b$(parse_git_branch)⚡'
 ##-----------------------------------------
 ## Mint Prompt😆
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
@@ -3293,7 +3374,7 @@ PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}
 ## ##################################################
 ## ##    START zsh
 ## ##################################################
-## Comment out section if only using bash.
+## Comment out entire section if using bash.
 ##=========================================
 ## https://linux.die.net/man/1/zshoptions
 ##=========================================
@@ -3312,7 +3393,7 @@ if [[ ":$FPATH:" != *":/home/$USER/.zsh/completions:"* ]]; then export FPATH="/h
 ## ##########################
 ## ##    zsh bind keys
 ## ##########################
-#export ZSH="/home/$USER/.zsh/key-bindings.zsh"
+#export ZSH="/home/erik/.zsh/key-bindings.zsh"
 setopt appendhistory autocd extendedglob nomatch zle
 unsetopt beep notify
 bindkey -v
@@ -3418,12 +3499,6 @@ colors
 # PROMPT=\$vcs_info_msg_0_'%# '
 #zstyle ':vcs_info:git:*' formats '%b'
 ##-----------------------------------------
-## git branch, best prompt
-#parse_git_branch() {
-#     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-#}
-#setopt PROMPT_SUBST ; PS1='%F{green}%B%m:%F{blue}%~%f%b$(parse_git_branch)⚡'
-##-----------------------------------------
 ## Set up fzf key bindings and fuzzy completion. Only need to run once?
 #source < (fzf --zsh)
 ##-----------------------------------------
@@ -3474,7 +3549,9 @@ function bashrc() { echo "alias $1='$2'" >> .bashrc ; }
 function lso() { ls -l ${1} | sed -e 's/--x/1/g' -e 's/-w-/2/g' -e 's/-wx/3/g' -e 's/r--/4/g' -e 's/r-x/5/g' -e 's/rw-/6/g' -e 's/rwx/7/g' -e 's/---/0/g' ; }
 ##==========================================
 ## cd then ls. Also made alias cdd for this function
-function cdls() { cd ${1} && ls -h --color=always --group-directories-first ; }
+function cdls() { cd ${1} && ls -lah --color=always --group-directories-first ; }
+## Creates a directory and immediately changes into it
+$> function mkcd() { mkdir -p "$1" && cd "$1" ; }
 ##==========================================
 ## List contents of directory by size.
 function dusize () { du -sk ./* | sort -n | awk 'BEGIN{ pref[1]="K"; pref[2]="M"; pref[3]="G";} { total = total + $1; x = $1; y = 1; while( x > 1024 ) { x = (x + 1023)/1024; y++; } printf("%g%s\t%s\n",int(x*10)/10,pref[y],$2); } END { y = 1; while( total > 1024 ) { total = (total + 1023)/1024; y++; } printf("Total: %g%s\n",int(total*10)/10,pref[y]); }' ; }
@@ -3549,7 +3626,7 @@ function imdb() { w3m -dump "http://www.imdb.com/find?s=all&q="${@}"&x=0&y=0" & 
 ##==========================================
 ## Get thge weather. Usage 'weather zipcode'. Example 'weather 94114' outputs 'San Francisco, CA | 54.9 degrees F | Overcast'.
 #function weather() { curl -s "http://www.wunderground.com/q/zmw:$1.1.99999" | grep "og:title" | cut -d\" -f4 | sed 's/&deg;/ degrees F/'; }
-function weather() { curl wttr.in/"$1"; }
+function weather() { curl wttr.in/"$1" ; }
 ##==========================================
 ## search google from cli
 function google() { Q="$@";GOOG_URL='https://www.google.com/search?tbs=li:1&q=';AGENT="Mozilla/4.0";stream=$(curl -A "$AGENT" -skLm 10 "${GOOG_URL}${Q//\ /+}");echo "$stream" | grep -o "href=\"/url[^\&]*&amp;" | sed 's/href=".url.q=\([^\&]*\).*/\1/' | sed 's/%3Fv%3D/?v=/';}
@@ -3692,9 +3769,6 @@ function docgrep() { find -name '*.doc' | while read -r file; do catdoc "$file" 
 ## Append to all files in a folder: Usage: tag "your text to append to all files"
 function tag() { for file in *.txt; do  echo ${1} >> "$file"; done }
 ##==========================================
-## Print a grid of colors.
-function colorgrid() { iter=16 ; while [ $iter -lt 52 ] ; do second=$[$iter+36] ; third=$[$second+36] ; four=$[$third+36] ; five=$[$four+36] ; six=$[$five+36] ; seven=$[$six+36] ; if [ $seven -gt 250 ];then seven=$[$seven-251]; fi ; echo -en "\033[38;5;$(echo $iter)m█ " ; printf "%03d" $iter ; echo -en "   \033[38;5;$(echo $second)m█ " ; printf "%03d" $second ; echo -en "   \033[38;5;$(echo $third)m█ " ; printf "%03d" $third ; echo -en "   \033[38;5;$(echo $four)m█ " ; printf "%03d" $four ; echo -en "   \033[38;5;$(echo $five)m█ " ; printf "%03d" $five ; echo -en "   \033[38;5;$(echo $six)m█ " ; printf "%03d" $six ; echo -en "   \033[38;5;$(echo $seven)m█ " ; printf "%03d" $seven ; iter=$[$iter+1] ; printf '\r\n' ; done }
-##==========================================
 ## ##################
 ## ##    Image
 ## ##################
@@ -3704,6 +3778,9 @@ function resizeimg() { convert "$1" -resize $2 "$1"-sm.jpg ; }
 ##==========================================
 ## Batch resize images in folder: Usage; batchsizejpg 600
 function batchsizejpg() {  for file in *.jpg; do convert $file -resize $1 sm-$file; done }
+##==========================================
+## Batch cleanup images in folder: Usage; batchcleanjpg "53%"
+function batchcleanjpg() {  for file in *.jpg; do convert $file -threshold $1 Clean-$file ; done }
 ##==========================================
 ## Use imagemagik to batch overlay an image centered over a background image
 function overlay() { for file in *.jpg; do composite -gravity center "$1" "$file" "$1-$file"; done }
@@ -3861,8 +3938,8 @@ alias netlist='nmap -sn 192.168.1.0/24'
 #alias path='ls -d $PWD/*'
 alias path='realpath ./*'
 ## Make a history viewer.
-alias historyz='cat .zsh_history'
-alias historyb='cat .bash_history'
+alias histz='cat .zsh_history'
+alias histb='cat .bash_history'
 ##==========================================
 ## ##################################
 ## ##    GIT
@@ -3917,100 +3994,103 @@ alias rmcert="rm ~/.ssh/a-*"
 #alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 ##==========================================
 ## Brightness OLED
-function brt() { xrandr --output eDP-1 --brightness $1; }
+function brt() { xrandr --output eDP-1 --brightness $1 ; }
 ##==========================================
 ## Clipboard exmpl: pbpaste | awk -F "-"  '{print $1}' | pbcopy
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 ##==========================================
-## Function to backup to 512gb sdcard
-## Quick backup. Avoid dot files, downloaded files, and cache.
-function sdbackup() {rsync -avhut --delete --delete-excluded --update \
---exclude="$1" \
---exclude="$2" \
---exclude="Downloads" \
---exclude="Pictures" \
---exclude="appimage" \
---exclude="code" \
---exclude="Learning" \
---exclude="Music" \
---exclude="temp" \
---exclude="mnt" \
---exclude="go" \
---exclude="tmp" \
---exclude="VirtualBox VMs" \
---exclude=".cache" \
---exclude=".dbus" \
---exclude=".docker" \
---exclude=".dotnet" \
---exclude=".gem" \
---exclude=".gnome" \
---exclude=".gnupg" \
---exclude=".gphoto" \
---exclude=".gsutil" \
---exclude=".hplip" \
---exclude=".icons" \
---exclude=".idea" \
---exclude=".ipython" \
---exclude=".java" \
---exclude=".jupyter" \
---exclude=".linuxmint" \
---exclude=".local" \
---exclude=".minikube" \
---exclude=".mozilla" \
---exclude=".mozilla.default" \
---exclude=".npm" \
---exclude=".nv" \
---exclude=".pki" \
---exclude=".psensor" \
---exclude=".pyenv" \
---exclude=".pyenv.old" \
---exclude=".ssr" \
---exclude=".terraform.d" \
---exclude=".themes" \
---exclude=".thunderbird" \
---exclude=".unison" \
---exclude=".vagrant.d" \
---exclude=".vim" \
---exclude=".vscode" \
---exclude=".w3m" \
---exclude=".zoom" \
---exclude=".zoom.old" \
---exclude=".arcrc" \
---exclude=".dmrc" \
---exclude=".face" \
---exclude=".fehbg" \
---exclude=".gitconfig" \
---exclude=".gtkrc-2.0" \
---exclude=".gtkrc-xfce" \
---exclude=".ICEauthority" \
---exclude=".lesshst" \
---exclude=".profile" \
---exclude=".sudo_as_admin_successful" \
---exclude=".wget-hsts" \
---exclude=".xsession-errors" \
---exclude=".xsession-errors.old" \
---exclude=".yarnrc" \
---exclude=".zcompdump" \
---exclude=".zprofile" \
---exclude=".config/google-chrome.old" \
---exclude=".config/Slack" \
---exclude=".config/GIMP" \
---exclude=".config/unifi" \
-/home/$USER/ /media/$USER/512SD/home/$USER ; }
-## Recover from backup
-function sdbackdown() {rsync -avhut --omit-dir-times --no-perms --update \
---exclude="$1" \
---exclude="$2" \
---exclude='.config' \
---exclude='.cache' \
-/media/$USER/512SD/home/$USER/ /home/$USER ; }
-## Quick backup to file server. Empty all browser cache before running.
-function optiplex() {rsync -avhut --delete --delete-excluded --update \
---exclude="$1" \
---exclude="$2" \
---exclude='.cache' \
-/home/$USER $USER@192.168.0.76:/data/$USER ; }
+### Function to backup to 512gb sdcard
+### Quick backup. Avoid dot files, downloaded files, and cache.
+#function sdbackup() { rsync -avhut --delete --delete-excluded --update \
+#--exclude="$1" \
+#--exclude="$2" \
+#--exclude="Downloads" \
+#--exclude="Pictures" \
+#--exclude="appimage" \
+#--exclude="code" \
+#--exclude="Learning" \
+#--exclude="Music" \
+#--exclude="temp" \
+#--exclude="mnt" \
+#--exclude="go" \
+#--exclude="tmp" \
+#--exclude="VirtualBox VMs" \
+#--exclude=".cache" \
+#--exclude=".dbus" \
+#--exclude=".docker" \
+#--exclude=".dotnet" \
+#--exclude=".gem" \
+#--exclude=".gnome" \
+#--exclude=".gnupg" \
+#--exclude=".gphoto" \
+#--exclude=".gsutil" \
+#--exclude=".hplip" \
+#--exclude=".icons" \
+#--exclude=".idea" \
+#--exclude=".ipython" \
+#--exclude=".java" \
+#--exclude=".jupyter" \
+#--exclude=".linuxmint" \
+#--exclude=".local" \
+#--exclude=".minikube" \
+#--exclude=".mozilla" \
+#--exclude=".mozilla.default" \
+#--exclude=".npm" \
+#--exclude=".nv" \
+#--exclude=".pki" \
+#--exclude=".psensor" \
+#--exclude=".pyenv" \
+#--exclude=".pyenv.old" \
+#--exclude=".ssr" \
+#--exclude=".terraform.d" \
+#--exclude=".themes" \
+#--exclude=".thunderbird" \
+#--exclude=".unison" \
+#--exclude=".vagrant.d" \
+#--exclude=".vim" \
+#--exclude=".vscode" \
+#--exclude=".w3m" \
+#--exclude=".zoom" \
+#--exclude=".zoom.old" \
+#--exclude=".arcrc" \
+#--exclude=".dmrc" \
+#--exclude=".face" \
+#--exclude=".fehbg" \
+#--exclude=".gitconfig" \
+#--exclude=".gtkrc-2.0" \
+#--exclude=".gtkrc-xfce" \
+#--exclude=".ICEauthority" \
+#--exclude=".lesshst" \
+#--exclude=".profile" \
+#--exclude=".sudo_as_admin_successful" \
+#--exclude=".wget-hsts" \
+#--exclude=".xsession-errors" \
+#--exclude=".xsession-errors.old" \
+#--exclude=".yarnrc" \
+#--exclude=".zcompdump" \
+#--exclude=".zprofile" \
+#--exclude=".config/google-chrome.old" \
+#--exclude=".config/Slack" \
+#--exclude=".config/GIMP" \
+#--exclude=".config/unifi" \
+#/home/erik/ /media/erik/512SD/home/erik ; }
+### Recover from backup
+#function sdbackdown() {rsync -avhut --omit-dir-times --no-perms --update \
+#--exclude="$1" \
+#--exclude="$2" \
+#--exclude='.config' \
+#--exclude='.cache' \
+#/media/erik/512SD/home/erik/ /home/erik ; }
+### Quick backup to file server. Empty all browser cache before running.
+#function optiplex() {rsync -avhut --delete --delete-excluded --update \
+#--exclude="$1" \
+#--exclude="$2" \
+#--exclude='.cache' \
+#/home/erik erik@192.168.1.76:/data/erik ; }
+##==========================================
+## Get claude memory.
+alias claudememory="rsync -avhut --progress --update erik@192.168.1.43:/home/erik/code/claude/MEMORY /home/erik/Projects/ ; rsync -avhut --progress --update erik@192.168.1.43:/home/erik/code/claude/MEMORY.md /home/erik/Projects/MEMORY/ ;rsync -avhut --progress --update erik@192.168.1.43:/home/erik/code/claude/TODO.md /home/erik/Projects/MEMORY/ ; rsync -avhut --progress --update erik@192.168.1.43:/home/erik/code/claude/command_log.md /home/erik/Projects/MEMORY/"
 ##==========================================
 ## env
 #export PYENV_ROOT="$HOME/.pyenv"
@@ -4045,8 +4125,8 @@ function optiplex() {rsync -avhut --delete --delete-excluded --update \
 #alias jirapme="jira issue list --plain -a$(jira me)"
 #alias jirapmer="jira issue list --plain -r$(jira me)"
 ##alias jirapmer="jira issue list -a$(jira me) --status Backlog"
-#alias jiraSW="cp /home/$USER/.config/.jira/.config_SW.yml /home/$USER/.config/.jira/.config.yml"
-#alias jiraHOT="cp /home/$USER/.config/.jira/.config_HOT.yml /home/$USER/.config/.jira/.config.yml"
+#alias jiraSW="cp /home/erik/.config/.jira/.config_SW.yml /home/erik/.config/.jira/.config.yml"
+#alias jiraHOT="cp /home/erik/.config/.jira/.config_HOT.yml /home/erik/.config/.jira/.config.yml"
 ## #################################
 ##==========================================
 ## HTTP
@@ -4059,8 +4139,8 @@ alias https="google-chrome https://"
 alias llmd="cd ~/code/llm_env ; source env/bin/activate ;"
 ## Usage: llmdd "One uplifting sentence"   This does not work for some reason?
 #alias llmdd="cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; "
-function llmddd() {cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; }
-function llmdddd() {cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} ${2}; deactivate ; cd ; }
+function llmddd() { cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; }
+function llmdddd() { cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} ${2}; deactivate ; cd ; }
 ##==========================================
 ## Get project from bucket. Usage: bucketproject <BUCKETNAMEHERE> Example: bucketproject sc-calibration
 function bucketproject() { gcloud projects list | grep $(curl -s -H "Authorization: Bearer `gcloud auth print-access-token`" https://storage.googleapis.com/storage/v1/b/${1}  | jq  -r .projectNumber) ; }
@@ -4073,11 +4153,18 @@ alias hostsoff="sudo cp /etc/hosts.default /etc/hosts"
 alias hostson="sudo cp /etc/hosts.list /etc/hosts"
 ##==========================================
 ## tuios  https://github.com/Gaurav-Gosain/tuios
-alias ttuios="tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position" top
+alias ttuios="tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position top"
 ##==========================================
 ## ###########################################
 ## ##    END Functions and aliases
 ## ###########################################
+## Give correct setting for remote notify-send commands.
+[ -n "$DISPLAY" ] && echo "export DISPLAY=$DISPLAY
+DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" > ~/.session-vars
+##==========================================
+
+##==========================================
 ##==========================================
 ## ########################################
 ## ##    TOKENS SECRETS SENSITIVE
@@ -4112,7 +4199,7 @@ export JIRA_API_TOKEN=YOURKEYHERE
 ## ########################################
 ##==========================================
 ## ###########################################################
-## ##    END .bashrc
+## ##    END .*rc
 ## ###########################################################
 ## #####################################
 ## ##    added by other process
@@ -4299,16 +4386,16 @@ $> function bashrc-reload() { builtin exec bash ; }
 ## Find the package that installed a command
 $> function whatinstalled() { which "$@" | xargs -r readlink -f | xargs -r dpkg -S ;}
 ##==========================================
-$> function phase() { while :; do for n in E4 F#4 B4 C#5 D5 F#4 E4 C#5 B4 F#4 D5 C#5; do /usr/bin/play -qn synth $1 pluck $n; done; echo -n "[$1]"; done; }; phase 0.13 & phase 0.131 &
 ## The Piano Phase piece, by Steve Reich is a minimalist composition which is played on two pianos played at slightly different tempos, a task thats very difficult to accomplish by human players. The auditive effects produced by the cell displacement produce beautiful patterns. See https://en.wikipedia.org/wiki/Piano_Phase . My rendered version: https://ydor.org/SteveReich/piano_phase.mp3
 ## Requires sox to be installed on the system.
 ## There are multiple videos on youtube showing different approaches and experiences to this interpretation. There is also a synthesized version.
 ## Even if Bash can behave as a powerful pianist, a simple threaded version leaves full room to several time glitches and even negative displacements, the same issues that human pianists experience when playing the piece. The older the computer, the better the chaos added to the result due to the CPU load. Apparently thats the reason Steve Reich composes pieces such as this.
 ## Without further ado, please give a warm welcome to the Bash minimalist player on synthesized two-threaded pianos. Please turn off your cellphones.
+$> function phase() { while :; do for n in E4 F#4 B4 C#5 D5 F#4 E4 C#5 B4 F#4 D5 C#5; do /usr/bin/play -qn synth $1 pluck $n; done; echo -n "[$1]"; done; }; phase 0.13 & phase 0.131 &
 ##==========================================
-$> function Zscrypt(){ [ -n "$1" ]&&{ echo '. <(echo "$(tail -n+2 $0|base64 -d|mcrypt -dq)"); exit;'>$1.scrypt;cat $1|mcrypt|base64 >>$1.scrypt;chmod +x $1.scrypt;};}
 ## Bash scripts encryption and passphrase-protection
-## This function will encrypt a bash script and will only execute it after providing the passphrase. Requires mcrypt to be installed on the system.
+## This function will encrypt a bash script and will only execute it after providing the passphrase.
+## Requires mcrypt to be installed on the system.
 ## cat hello
 ## #!/bin/bash
 ## case "$1" in
@@ -4343,12 +4430,13 @@ $> function Zscrypt(){ [ -n "$1" ]&&{ echo '. <(echo "$(tail -n+2 $0|base64 -d|m
 ## ./hello.scrypt world
 ## Enter passphrase:
 ## Hello, world!
+$> function Zscrypt(){ [ -n "$1" ]&&{ echo '. <(echo "$(tail -n+2 $0|base64 -d|mcrypt -dq)"); exit;'>$1.scrypt;cat $1|mcrypt|base64 >>$1.scrypt;chmod +x $1.scrypt;};}
 ##==========================================
 ## Recording SSH sessions in a log file. The -a option appends the output to the end of file instead of writing over it.
 $> ssh -l USER HOST | tee -a /path/to/file
 $> function sshlog () { \ssh $@ 2>&1 | tee -a $(date +%Y%m%d).log; }
 ## You can also create an alias in ~/.bashrc to record your session when using ssh:
-$> alias ssh=sshlog
+#$> alias ssh=sshlog
 ##==========================================
 ## Search through .doc files
 $> function docsearch() { find -name '*.doc' | while read -r file; do catdoc "$file" | grep -l --label="$file" "$1"; done ; }
@@ -4399,10 +4487,10 @@ $>    gpasswd -a $USER www-data
 $>    rm -f latest.tar.gz
 $>    rm -f wp.keys
 $>}
-##==========================================
+##------------------------------------------
 ## Function install WordPress into current folder
 $> function installwordpress() { wget http://wordpress.org/latest.tar.gz; tar xzvf latest.tar.gz; cp -rf wordpress/** ./; rm -R wordpress; cp wp-config-sample.php wp-config.php; wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/; sed -i '/#@-/r wp.keys' wp-config.php; sed -i "/#@+/,/#@-/d" wp-config.php; mkdir wp-content/uploads; find . -type d -exec chmod 755 {} \;; find . -type f -exec chmod 644 {} \;; chown -R :www-data *; chmod 640 wp-config.php; gpasswd -a $USER www-data; rm -f latest.tar.gz; rm -f wp.keys; }
-##========================================
+##------------------------------------------
 ## Function install WordPress into current folder
 $> function installwordpress() { gpasswd -a $USER www-data; wget http://wordpress.org/latest.tar.gz; tar xzvf latest.tar.gz; cp -rf wordpress/** ./; rm -R wordpress; cp wp-config-sample.php wp-config.php; wget -O wp.keys https://api.wordpress.org/secret-key/1.1/salt/; sed -i '/#@-/r wp.keys' wp-config.php; sed -i "/#@+/,/#@-/d" wp-config.php; mkdir wp-content/uploads; find . -type d -exec chmod 755 {} \;; find . -type f -exec chmod 644 {} \;; chown -R :www-data *; chmod 640 wp-config.php; rm -f latest.tar.gz; rm -f wp.keys; }
 ##==========================================
@@ -4835,8 +4923,10 @@ Extra Characters to cut and paste. Some do not work in HTML.
 † ☪ ☯ ☫ ☬ ☭ ✁ ✂ ✃ ✄ ✎ ✏ ✐  ✑ ✒ ✉ ✙ ✚ ✜ ✛ ♰ ♱ ✞ ✟ ✠ ✡ ☸ ✢ ✣ ✤ ✥ ✦ ✧ ✩ ✪ ✫ ✬ ✭ ✮ ✯ ✰ ✲ ✱ ✳ ✴ ✵ ✶ ✷ ✸
 ✹ ✺ ✻ ✼ ✽ ✾ ❀ ✿ ❁ ❃ ❇ ❈ ❉ ❊ ❋ ⁕ ☘ ❦ ❧ ☙ ❢ ❣ ♀ ♂ ⚲ ⚢ ⚣ ⚤ ⚥ ⚦ ⚧ ⚨ ⚩ ☿ ♁ ⚯ ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟ ☖
 ☗ ♠ ♣ ♦ ♥ ❤ ❥ ♡ ♢ ♤ ♧ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ⚇ ⚆ ⚈ ⚉ ♨ ♩ ♪ ♫ ♬ ♭ ♮ ♯ ⌨ ⏏ ⎗ ⎘ ⎙ ⎚ ⌥ ⎇ ⌘ ⌦ ⌫ ⌧ ♲ ♳ ♴ ♵ ♶ ♷ ♸ ♹
-♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇ ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⏚ ⏛
+♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇  ⏚ ⏛
 ┊ ○ ● ⚠ ✡ ° ⁂
+
+♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡
 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚ ⚫ ⚓ 🐰 🕳
  ✦ ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦
@@ -4845,8 +4935,8 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ⌙ ⌢ ⌣ ⌯ ⌬�
 ⍙Δ
 𓆏⚪⚫
-ᛉ卐
-☭💰
+ᛉ卐☭💰
+
 🚺🍤🦐🐠🦀🐙🐡
 ✌😊💚💖😊💜🥀🌭⛺
 😡
@@ -4907,23 +4997,663 @@ COMMENT1
 ## #################################################
 ##==========================================
 ## os. hardware. keyboard. Change keyboard keys.
-## Make PgUP/PgDOWN another Left/Right.
-## cat /usr/share/X11/xkb/symbols/pc
-##     key  <INS> {    [  Insert       ]   };
-##     key <HOME> {    [  Home         ]   };
-##     key <PGUP> {    [  Prior        ]   };
-##     key <DELE> {    [  Delete       ]   };
-##     key  <END> {    [  End          ]   };
-##     key <PGDN> {    [  Next         ]   };
-##
-##     key   <UP> {    [  Up           ]   };
-##     key <LEFT> {    [  Left         ]   };
-##     key <DOWN> {    [  Down         ]   };
-##     key <RGHT> {    [  Right        ]   };
+## System updates will likely overwrite changes.
+## Better to use built in keyboard modifiers in system tools.
+$> cat /usr/share/X11/xkb/symbols/pc
+##           Key   |  What it does
+#>     key  <INS> {  [  Insert ]   };
+#>     key <HOME> {  [  Home   ]   };
+#>     key <PGUP> {  [  Prior  ]   };
+#>     key <DELE> {  [  Delete ]   };
+#>     key  <END> {  [  End    ]   };
+#>     key <PGDN> {  [  Next   ]   };
+#>
+#>     key   <UP> {  [  Up     ]   };
+#>     key <LEFT> {  [  Left   ]   };
+#>     key <DOWN> {  [  Down   ]   };
+#>     key <RGHT> {  [  Right  ]   };
+$> sudo cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
 ## sudo su
-## cp /usr/share/X11/xkb/symbols/pc /usr/share/X11/xkb/symbols/pc.default
-## sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
-## sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
+## Make PgUP/PgDOWN another Left/Right.
+$> sudo sed -i 's/Prior/Left/' /usr/share/X11/xkb/symbols/pc
+$> sudo sed -i 's/Next/Right/' /usr/share/X11/xkb/symbols/pc
+## Cap Lock another Control
+$> sudo sed -i 's/Caps_Lock/Control_L/' /usr/share/X11/xkb/symbols/pc
+##==========================================
+## ############################
+## ##    HTML CSS
+## ############################
+<<COMMENT1
+#####################
+#  HTML Cheetsheet  #
+#####################
+<pre>
+## Basic Tags
+<html></html> Creates an HTML document
+<head></head> Sets off the title and other information that isnâ€™t displayed on the web page itself
+<body></body> Sets off the visible portion of the document
+##-----------------------------
+## Body Attributes
+<body bgcolor="pink"> Sets the background color, using name or hex value
+<body text="black"> Sets the text color, using name or hex value
+<body link="blue"> Sets the color of links, using name or hex value
+<body vlink="#ff0000"> Sets the color of followed links, using name or hex value
+<body alink="#00ff00"> Sets the color of links on click
+<body ondragstart="return false" onselectstart="return false"> Disallows text selection with the mouse and keyboard
+##-----------------------------
+## Text Tags
+<pre></pre> Creates preformatted text
+<hl></hl> Creates the largest headline
+<h6></h6> Creates the smallest headline
+<b></b> Creates bold text
+<i></i> Creates italic text
+<tt></tt> Creates teletype, or typewriter-style text
+<cite></cite> Creates a citation, usually italic
+<em></em> Emphasizes a word (with italic or bold)
+<strong></strong> Emphasizes a word (with italic or bold)
+<font size="3"></font> Sets size of font, from 1 to 7
+<font color="green"></font> Sets font color, using name or hex value
+##-----------------------------
+##  Links
+<a href="URL"></a> Creates a hyperlink
+<a href="mailto:EMAIL"></a> Creates a mailto link
+<a href="URL"><img src="URL"> </a> Creates an image/link
+<a name="NAME"></a> Creates a target location within a document
+<a href="#NAME"></a> Links to that target location from elsewhere in the document
+##-----------------------------
+##  Formatting
+<p></p> Creates a new paragraph
+<p align="left"> Aligns a paragraph to the left (default), right, or center.
+<br> Inserts a line break
+<blockquote></blockquote> Indents text from both sides
+<dl></dl> Creates a definition list
+<dt> Precedes each definition term
+<dd> Precedes each definition
+<ol></ol> Creates a numbered list
+<ul></ul> Creates a bulleted list
+<li></li> Precedes each list item, and adds a number or symbol depending upon the type of list selected
+<div align="left"> A generic tag used to format large blocks of HTML, also used for stylesheets
+<img src="name"> Adds an image
+<img src="name" align="left"> Aligns an image: left, right, center; bottom, top, middle
+<img src="name" border="1"> Sets size of border around an image
+<hr /> Inserts a horizontal rule
+<hr size="3" /> Sets size (height) of rule
+<hr width="80%" /> Sets width of rule, in percentage or absolute value
+<hr noshade /> Creates a rule without a shadow
+##-----------------------------
+## Tables
+<table></table> Creates a table
+<tr></tr> Sets off each row in a table
+<td></td> Sets off each cell in a row
+<th></th> Sets off the table header (a normal cell with bold, centered text)
+##-----------------------------
+## Table Attributes
+<table border="1"> Sets width of border around table cells
+<table cellspacing="1"> Sets amount of space between table cells
+<table cellpadding="1"> Sets amount of space between a cellâ€™s border and its contents
+<table width="500" or "80%"> Sets width of table, in pixels or as a percentage of document width
+<tr align="left"> or <td align="left"> Sets alignment for cell(s) (left, center, or right)
+<tr valign="top"> or <td valign="top"> Sets vertical alignment for cell(s) (top, middle, or bottom)
+<td colspan="2"> Sets number of columns a cell should span (default=1)
+<td rowspan="4"> Sets number of rows a cell should span (default=1)
+<td nowrap> Prevents the lines within a cell from being broken to fit
+##-----------------------------
+## Frames
+<frameset></frameset> Replaces the <body> tag in a frames document; can also be nested in other framesets
+<frameset rows="value,value"> Defines the rows within a frameset, using number in pixels, or percentage of width
+<frameset cols="value,value"> Defines the columns within a frameset, using number in pixels, or percentage of width
+<frame> Defines a single frame â€” or region â€” within a frameset
+<noframes></noframes> Defines what will appear on browsers that donâ€™t support frames
+## Frames Attributes
+<frame src="URL"> Specifies which HTML document should be displayed
+<frame name="name"> Names the frame, or region, so it may be targeted by other frames
+<frame marginwidth="value"> Defines the left and right margins for the frame; must be equal to or greater than 1
+<frame marginheight="value"> Defines the top and bottom margins for the frame; must be equal to or greater than 1
+<frame scrolling="value"> Sets whether the frame has a scrollbar; value may equal â€œyes,â€ â€œno,â€ or â€œauto.â€ The default, as in ordinary documents, is auto.
+<frame noresize="noresize"> Prevents the user from resizing a frame
+##-----------------------------
+##  Forms
+##  For functional forms, youll have to run a script. The HTML just creates the appearance of a form.
+<form></form> Creates all forms
+<select multiple name="NAME" size=?></select> Creates a scrolling menu. Size sets the number of menu items visible before you need to scroll.
+<option> Sets off each menu item
+<select name="NAME"></select> Creates a pulldown menu
+<option> Sets off each menu item
+<textarea name="NAME" cols=40 rows=8></textarea name> Creates a text box area. Columns set the width; rows set the height.
+<input type="checkbox" name="NAME"> Creates a checkbox. Text follows tag.
+<input type="radio" name="NAME" value="x"> Creates a radio button. Text follows tag
+<input type="text" name="NAME" size=20> Creates a one-line text area. Size sets length, in characters.
+<input type="submit" value="NAME"> Creates a Submit button
+<button type="submit">Submit</button> Creates an actual button that is clicked
+<input type="image" border=0 name="NAME" src="name.gif"> Creates a Submit button using an image
+<input type="reset"> Creates a Reset button
+</pre>
+COMMENT1
+##------------------------------------------
+## Create simple html doc with a lot of simple elements
+$> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html
+##==========================================
+## ###############################
+## ##    END HTML CSS
+## ###############################
+##==========================================
+## ########################
+## ##    HTTPS SSL
+## ########################
+## Self signed apache SSL certificate.
+##------------------------------------------
+## enable the SSL module.
+$> sudo a2enmod ssl
+## Generate the CSR. remember passphrase!
+$> sudo openssl req -new > new.ssl.csr
+#> fill out the questions normally have verified by a Certificate Signing Authority:
+## writing new private key to 'privkey.pem'
+## Country(2 letter code)
+## State(full name)
+## Locality(city)
+## Organization(company)
+## Organizational(section)
+## Name(YOUR name)
+## Email
+## create the key.
+$> sudo openssl rsa -in privkey.pem -out new.cert.key
+## create the certificate. -days option sets the length of time before the certificate expires.
+$> sudo openssl x509 -in new.cert.csr -out new.cert.cert -req -signkey new.cert.key -days NNN
+## copy the certificate to /etc/ssl where Apache can find them.
+$> sudo cp new.cert.cert /etc/ssl/certs/server.crt
+$> sudo cp new.cert.key /etc/ssl/private/server.key
+## key (server.key) and PEM certificate (server.crt is a PEM certificate).
+## the certificate is world-readable, the key not world-readable ???correct permissions??
+$> sudo chmod 744 /etc/ssl/certs/server.crt
+$> sudo chmod 770 /etc/ssl/private/server.key
+## Configure Apache, change to match your server setup.    /etc/apache2/sites-available/mydomain.net
+## All on one line
+$> sudo echo -e 'NameVirtualHost *:443\nNameVirtualHost *:80\n\n<VirtualHost *:80>\n    ServerAdmin email address here\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n</VirtualHost>\n\n<VirtualHost *:443>\n    ServerAdmin\n This e-mail address is being protected from spambots.\n\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n\n    SSLEngine on\n    SSLOptions +StrictRequire\n    SSLCertificateFile /etc/ssl/certs/server.crt\n    SSLCertificateKeyFile /etc/ssl/private/server.key\n</VirtualHost>\n' > /etc/apache2/sites-available/mydomain.net
+## or multi line
+$> sudo echo '
+$> NameVirtualHost *:443
+$> NameVirtualHost *:80
+$>
+$> <VirtualHost *:80>
+$>     ServerAdmin email address here
+$>     ServerName mydomain.net
+$>     ServerAlias www.mydomain.net
+$>     DocumentRoot /var/www/mydomain.net/public_html/
+$>     ErrorLog /var/www/mydomain.net/logs/error.log
+$>     CustomLog /var/www/mydomain.net/logs/access.log combined
+$> </VirtualHost>
+$>
+$> <VirtualHost *:443>
+$>     ServerAdmin
+$>  This e-mail address is being protected from spambots.
+$>
+$>     ServerName mydomain.net
+$>     ServerAlias www.mydomain.net
+$>     DocumentRoot /var/www/mydomain.net/public_html/
+$>
+$>     ErrorLog /var/www/mydomain.net/logs/error.log
+$>     CustomLog /var/www/mydomain.net/logs/access.log combined
+$>
+$>     SSLEngine on
+$>     SSLOptions +StrictRequire
+$>     SSLCertificateFile /etc/ssl/certs/server.crt
+$>     SSLCertificateKeyFile /etc/ssl/private/server.key
+$> </VirtualHost>
+$> ' > /etc/apache2/sites-available/mydomain.net
+## Remove leading $> in file
+$> sudo sed -i 's/^$> //g' /etc/apache2/sites-available/mydomain.net
+## for new domain run: sets up a symlink under /etc/apache2/sites-enabled that links to the configuration in /etc/apache2/sites-available
+$> sudo a2ensite mydomain.net
+## make sure your server address is in /etc/hosts with the IP address you're using for the server.
+##==========================================
+## ####################################
+## ##    Markdown
+## ####################################
+## Markdown is a lightweight, easy-to-read markup language for creating formatted text.
+$> firefox https://www.markdownguide.org
+##==========================================
+# Markdown Cheat Sheet
+## Basic Syntax
+### Heading
+# H1
+## H2
+### H3
+### Bold
+$> **bold text**
+## Italic
+$> *italicized text*
+## Blockquote
+$> > blockquote
+## Ordered List
+$> 1. First item
+$> 2. Second item
+$> 3. Third item
+## Unordered List
+$> - First item
+$> - Second item
+$> - Third item
+## Code
+$> `code`
+## Horizontal Rule
+$> ---
+## Link
+$> [Markdown Guide](https://www.markdownguide.org)
+## Image
+$> ![alt text](https://www.markdownguide.org/assets/images/tux.png)
+## Extended Syntax
+## Table
+$> | Syntax | Description | Other |
+$> | ----------- | ----------- | ----------- |
+$> | Header | Title | Thing |
+$> | Paragraph | Text | Letter |
+## Fenced Code Block
+$> ```
+$> {
+$>   "firstName": "John",
+$>   "lastName": "Smith",
+$>   "age": 25
+$> }
+$> ```
+## Footnote
+$> Heres a sentence with a footnote. [^1]
+$> [^1]: This is the footnote.
+## Heading ID
+## My Great Heading {#custom-id}
+## Definition List
+$> term
+$> : definition
+## Strikethrough
+$> ~~The world is flat.~~
+## Task List
+$> - [x] Write the press release
+$> - [ ] Update the website
+$> - [ ] Contact the media
+## Emoji
+$> That is so funny! :joy:
+## Highlight
+$> I need to highlight these ==very important words==.
+## Subscript
+$> H~2~O
+## Superscript
+$> X^2^
+## ###############################
+## ##    Mermaid flow charts
+## ###############################
+## Charts for Markdown files
+$> firefox https://mermaid.ai/open-source/syntax/flowchart.html
+## Examples of each chart type:
+##----------------------
+$> ```mermaid
+$> flowchart TD
+$>     A[Home] -->|Bike| B(Office)
+$>     B --> C{Let me hack}
+$>     C -->|People| D[😊 Community]
+$>     C -->|Electronics| E[🤖 GPU server]
+$>     C -->|Guilds| F[fa:fa-car AI 3D Print ]
+$> ```
+##----------------------
+$> ```mermaid
+$> classDiagram
+$>     Animal <|-- Duck
+$>     Animal <|-- Fish
+$>     Animal <|-- Zebra
+$>     Animal : +int age
+$>     Animal : +String gender
+$>     Animal: +isMammal()
+$>     Animal: +mate()
+$>     class Duck{
+$>       +String beakColor
+$>       +swim()
+$>       +quack()
+$>     }
+$>     class Fish{
+$>       -int sizeInFeet
+$>       -canEat()
+$>     }
+$>     class Zebra{
+$>       +bool is_wild
+$>       +run()
+$>     }
+$> ```
+##----------------------
+$> ```mermaid
+$> sequenceDiagram
+$>     Alice->>+John: Hello John, how are you?
+$>     Alice->>+John: John, can you hear me?
+$>     John-->>-Alice: Hi Alice, I can hear you!
+$>     John-->>-Alice: I feel great!
+$> ```
+##----------------------
+$> ```mermaid
+$> erDiagram
+$>     CUSTOMER ||--o{ ORDER : places
+$>     ORDER ||--|{ ORDER_ITEM : contains
+$>     PRODUCT ||--o{ ORDER_ITEM : includes
+$>     CUSTOMER {
+$>         string id
+$>         string name
+$>         string email
+$>     }
+$>     ORDER {
+$>         string id
+$>         date orderDate
+$>         string status
+$>     }
+$>     PRODUCT {
+$>         string id
+$>         string name
+$>         float price
+$>     }
+$>     ORDER_ITEM {
+$>         int quantity
+$>         float price
+$>     }
+$> ```
+##----------------------
+$> ```mermaid
+$> stateDiagram-v2
+$>     [*] --> Still
+$>     Still --> [*]
+$>     Still --> Moving
+$>     Moving --> Still
+$>     Moving --> Crash
+$>     Crash --> [*]
+$> ```
+##----------------------
+$> ```mermaid
+$> mindmap
+$>   root((mindmap))
+$>     Origins
+$>       Long history
+$>       ::icon(fa fa-book)
+$>       Popularisation
+$>         British popular psychology author Tony Buzan
+$>     Research
+$>       On effectiveness<br/>and features
+$>       On Automatic creation
+$>         Uses
+$>             Creative techniques
+$>             Strategic planning
+$>             Argument mapping
+$>     Tools
+$>       Pen and paper
+$>       Mermaid
+$> ```
+##----------------------
+$> ```mermaid
+$> architecture-beta
+$>     group api(cloud)[API]
+$>     service db(database)[Database] in api
+$>     service disk1(disk)[Storage] in api
+$>     service disk2(disk)[Storage] in api
+$>     service server(server)[Server] in api
+$>     db:L -- R:server
+$>     disk1:T -- B:server
+$>     disk2:T -- B:db
+$> ```
+##----------------------
+$> ```mermaid
+$> block-beta
+$> columns 1
+$>   db(("DB"))
+$>   blockArrowId6<["&nbsp;&nbsp;&nbsp;"]>(down)
+$>   block:ID
+$>     A
+$>     B["A wide one in the middle"]
+$>     C
+$>   end
+$>   space
+$>   D
+$>   ID --> D
+$>   C --> D
+$>   style B fill:#969,stroke:#333,stroke-width:4px
+$> ```
+##----------------------
+$> ```mermaid
+$> C4Context
+$>     title System Context diagram for Internet Banking System
+$>     Enterprise_Boundary(b0, "BankBoundary0") {
+$>         Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+$>         Person(customerB, "Banking Customer B")
+$>         Person_Ext(customerC, "Banking Customer C", "desc")
+$>         Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+$>         System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+$>         Enterprise_Boundary(b1, "BankBoundary") {
+$>             SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+$>             System_Boundary(b2, "BankBoundary2") {
+$>                 System(SystemA, "Banking System A")
+$>                 System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts. next line.")
+$>             }
+$>             System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+$>             SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+$>
+$>             Boundary(b3, "BankBoundary3", "boundary") {
+$>                 SystemQueue(SystemF, "Banking System F Queue", "A system of the bank.")
+$>                 SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+$>             }
+$>         }
+$>     }
+$>     BiRel(customerA, SystemAA, "Uses")
+$>     BiRel(SystemAA, SystemE, "Uses")
+$>     Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+$>     Rel(SystemC, customerA, "Sends e-mails to")
+$> ```
+##----------------------
+$> ```mermaid
+$> gantt
+$>     title A Gantt Diagram
+$>     dateFormat  YYYY-MM-DD
+$>     section Section
+$>     A task           :a1, 2014-01-01, 30d
+$>     Another task     :after a1  , 20d
+$>     section Another
+$>     Task in sec      :2014-01-12  , 12d
+$>     another task      : 24d
+$> ```
+##----------------------
+$> ```mermaid
+$> gitGraph
+$>     commit
+$>     branch develop
+$>     checkout develop
+$>     commit
+$>     commit
+$>     checkout main
+$>     merge develop
+$>     commit
+$>     branch feature
+$>     checkout feature
+$>     commit
+$>     commit
+$>     checkout main
+$>     merge feature
+$> ```
+##----------------------
+$> ```mermaid
+$> ---
+$> config:
+$>   kanban:
+$>     ticketBaseUrl: 'https://github.com/mermaid-js/mermaid/issues/#TICKET#'
+$> ---
+$> kanban
+$>   Todo
+$>     [Create Documentation]
+$>     docs[Create Blog about the new diagram]
+$>   [In progress]
+$>     id6[Create renderer so that it works in all cases. We also add some extra text here for testing purposes. And some more just for the extra flare.]
+$>   id9[Ready for deploy]
+$>     id8[Design grammar]@{ assigned: 'knsv' }
+$>   id10[Ready for test]
+$>     id4[Create parsing tests]@{ ticket: 2038, assigned: 'K.Sveidqvist', priority: 'High' }
+$>     id66[last item]@{ priority: 'Very Low', assigned: 'knsv' }
+$>   id11[Done]
+$>     id5[define getData]
+$>     id2[Title of diagram is more than 100 chars when user duplicates diagram with 100 char]@{ ticket: 2036, priority: 'Very High'}
+$>     id3[Update DB function]@{ ticket: 2037, assigned: knsv, priority: 'High' }
+$>   id12[Can not reproduce]
+$>     id3[Weird flickering in Firefox]
+$> ```
+##----------------------
+$> ```mermaid
+$> ---
+$> title: "TCP Packet"
+$> ---
+$> packet
+$> 0-15: "Source Port"
+$> 16-31: "Destination Port"
+$> 32-63: "Sequence Number"
+$> 64-95: "Acknowledgment Number"
+$> 96-99: "Data Offset"
+$> 100-105: "Reserved"
+$> 106: "URG"
+$> 107: "ACK"
+$> 108: "PSH"
+$> 109: "RST"
+$> 110: "SYN"
+$> 111: "FIN"
+$> 112-127: "Window"
+$> ```
+##----------------------
+$> ```mermaid
+$> pie title Pets adopted by volunteers
+$>     "Dogs" : 386
+$>     "Cats" : 85
+$>     "Rats" : 15
+$> ```
+##----------------------
+$> ```mermaid
+$> quadrantChart
+$>     title Reach and engagement of campaigns
+$>     x-axis Low Reach --> High Reach
+$>     y-axis Low Engagement --> High Engagement
+$>     quadrant-1 We should expand
+$>     quadrant-2 Need to promote
+$>     quadrant-3 Re-evaluate
+$>     quadrant-4 May be improved
+$>     Campaign A: [0.3, 0.6]
+$>     Campaign B: [0.45, 0.23]
+$>     Campaign C: [0.57, 0.69]
+$>     Campaign D: [0.78, 0.34]
+$>     Campaign E: [0.40, 0.34]
+$>     Campaign F: [0.35, 0.78]
+$> ```
+##----------------------
+$> ```mermaid
+$> ---
+$> title: "Grades"
+$> ---
+$> radar-beta
+$>   axis m["Math"], s["Science"], e["English"]
+$>   axis h["History"], g["Geography"], a["Art"]
+$>   curve a["Alice"]{85, 90, 80, 70, 75, 90}
+$>   curve b["Bob"]{70, 75, 85, 80, 90, 85}
+$>   max 100
+$>   min 0
+$> ```
+##----------------------
+$> ```mermaid
+$> requirementDiagram
+$>     requirement test_req {
+$>     id: 1
+$>     text: the test text.
+$>     risk: high
+$>     verifymethod: test
+$>     }
+$>     element test_entity {
+$>     type: simulation
+$>     }
+$>     test_entity - satisfies -> test_req
+$> ```
+##----------------------
+$> ```mermaid
+$> ---
+$> config:
+$>   sankey:
+$>     showValues: false
+$> ---
+$> sankey-beta
+$> Agricultural 'waste',Bio-conversion,124.729
+$> Bio-conversion,Liquid,0.597
+$> Bio-conversion,Losses,26.862
+$> Bio-conversion,Solid,280.322
+$> Bio-conversion,Gas,81.144
+$> Biofuel imports,Liquid,35
+$> Biomass imports,Solid,35
+$> Coal imports,Coal,11.606
+$> Coal reserves,Coal,63.965
+$> Coal,Solid,75.571
+$> ```
+##----------------------
+$> ```mermaid
+$> timeline
+$>     title History of Social Media Platform
+$>     2002 : LinkedIn
+$>     2004 : Facebook
+$>          : Google
+$>     2005 : YouTube
+$>     2006 : Twitter
+$> ```
+##----------------------
+$> ```mermaid
+$> treemap-beta
+$> "Section 1"
+$>     "Leaf 1.1": 12
+$>     "Section 1.2"
+$>       "Leaf 1.2.1": 12
+$> "Section 2"
+$>     "Leaf 2.1": 20
+$>     "Leaf 2.2": 25
+$> ```
+##----------------------
+$> ```mermaid
+$> journey
+$>     title My working day
+$>     section Go to work
+$>       Make tea: 5: Me
+$>       Go upstairs: 3: Me
+$>       Do work: 1: Me, Cat
+$>     section Go home
+$>       Go downstairs: 5: Me
+$>       Sit down: 5: Me
+$> ```
+##----------------------
+$> ```mermaid
+$> xychart-beta
+$>     title "Sales Revenue"
+$>     x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+$>     y-axis "Revenue (in $)" 4000 --> 11000
+$>     bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+$>     line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+$> ```
+##----------------------
+$> ```mermaid
+$> zenuml
+$>     title Order Service
+$>     @Actor Client #FFEBE6
+$>     @Boundary OrderController #0747A6
+$>     @EC2  BFF   OrderService #E3FCEF
+$>     group BusinessService {
+$>       @Lambda PurchaseService
+$>       @AzureFunction InvoiceService
+$>     }
+$>     @Starter(Client)
+$>     // `POST /orders`
+$>     OrderController.post(payload) {
+$>       OrderService.create(payload) {
+$>         order = new Order(payload)
+$>         if(order != null) {
+$>           par {
+$>             PurchaseService.createPO(order)
+$>             InvoiceService.createInvoice(order)
+$>           }
+$>         }
+$>       }
+$>     }
+$> ```
+##----------------------
+## ###############################
+## ##    END Markdown
+## ###############################
 ##==========================================
 ## #################################################
 ## ##    GUI Control
@@ -5123,7 +5853,7 @@ $> function iconcolors () { cp -r /usr/share/icons/Mint-X-Aqua ~/.icons/Mint-X-$
 ##------------------------------------------
 $> function iconcolors () { cp -r /usr/share/icons/Mint-X      ~/.icons/Mint-X-$1-$2 ; cd ~/.icons/Mint-X-$1-$2 ; grep -ri -l "#aacb7d" | xargs sed -i -e 's/"opacity:0/"opacity:1/g' -e "s/5e8048/888889/g" -e "s/aacb7d/$2/g" -e "s/709937/$1/g" ; }
 ##==========================================
-## gui. Resize icons on desktop
+## gui. Resize icons on desktop.
 ## Restore "Resize Icon..." contex menu on desktop Linux Mint. In a terminal, this will restore the legacy desktop behavior, including the ability to resize icons. "Resize Icon..." contex menu. gui changes
 $> gsettings set org.nemo.desktop use-desktop-grid false
 ## Or GUI
@@ -5466,8 +6196,9 @@ $> ssh -o "ProxyCommand ssh user@reachable_host -W %h:%p" user@unreacheable_host
 $> diff a.txt b.txt | grep -E '^(<|>)' | sed 's:^< \(.*\):<del style="color\:red; text-decoration\: none">- \1</del><br>:' | sed 's:^> \(.*\):<ins ## style="color\:green; text-decoration\: none">+ \1</ins><br>:'
 ##==========================================
 ## shell. Fast command-line directory browsing.
-$> cdls() { if [[ $1 != "" ]] ; then cd $1; ls; else ls; fi };
-## Not really alternative, just giving a different behavior listing current directory if no directory given.
+$> function cdls() { if [[ $1 != "" ]] ; then cd $1; ls; else ls; fi };
+## Creates a directory and immediately changes into it
+$> function mkcd() { mkdir -p "$1" && cd "$1" ; }
 ##==========================================
 ## hardware. disk. A sorted summary of disk usage including hidden files and folders.
 $> du -hs .[^.]* * | sort -h
@@ -6116,16 +6847,16 @@ $> listhw () { curl -s -S --data-urlencode "txt=$(sudo lshw -html)" "http://past
 ## Recursive Search and Replace
 $> perl -pi -e 's/<what to find>/<what to replace it with>/g' 'grep -Rl <what to find> /<dir>/*'
 ##==========================================
-# Replace spaces in a filename with hyphens
+## Replace spaces in a filename with hyphens
 $> rename 's/ /-/g' *
 ##==========================================
-# Console clock
+## Console clock
 $> watch -t -n1 'date "+%r %F %A"'
 ##==========================================
-# mix video and audio
+## mix video and audio
 $> ffmpeg -i video.mp4 -i audio.mp3 -vcodec copy -acodec copy -map 0.0:0 -map 1.0:1mix.mp4
 ##==========================================
-# remove newlines from specific lines in a file using sed
+## remove newlines from specific lines in a file using sed
 $> sed -i '/pattern/N; s/\n//' filename
 ##==========================================
 ## NOT WORKING curl: (6) Could not resolve host: weather.yahooapis.com
@@ -6818,197 +7549,6 @@ $> jupyter notebook --no-browser --port=8898
 ## Create a ssh tunnel to another computer on port 8898
 $> ssh -N -L 127.0.0.1:8898:127.0.0.1:8898 username@192.168.1.8
 ##==========================================
-## ############################
-## ##    HTML CSS
-## ############################
-<<COMMENT1
-#####################
-#  HTML Cheetsheet  #
-#####################
-<pre>
-## Basic Tags
-<html></html> Creates an HTML document
-<head></head> Sets off the title and other information that isnâ€™t displayed on the web page itself
-<body></body> Sets off the visible portion of the document
-##-----------------------------
-## Body Attributes
-<body bgcolor="pink"> Sets the background color, using name or hex value
-<body text="black"> Sets the text color, using name or hex value
-<body link="blue"> Sets the color of links, using name or hex value
-<body vlink="#ff0000"> Sets the color of followed links, using name or hex value
-<body alink="#00ff00"> Sets the color of links on click
-<body ondragstart="return false" onselectstart="return false"> Disallows text selection with the mouse and keyboard
-##-----------------------------
-## Text Tags
-<pre></pre> Creates preformatted text
-<hl></hl> Creates the largest headline
-<h6></h6> Creates the smallest headline
-<b></b> Creates bold text
-<i></i> Creates italic text
-<tt></tt> Creates teletype, or typewriter-style text
-<cite></cite> Creates a citation, usually italic
-<em></em> Emphasizes a word (with italic or bold)
-<strong></strong> Emphasizes a word (with italic or bold)
-<font size="3"></font> Sets size of font, from 1 to 7
-<font color="green"></font> Sets font color, using name or hex value
-##-----------------------------
-##  Links
-<a href="URL"></a> Creates a hyperlink
-<a href="mailto:EMAIL"></a> Creates a mailto link
-<a href="URL"><img src="URL"> </a> Creates an image/link
-<a name="NAME"></a> Creates a target location within a document
-<a href="#NAME"></a> Links to that target location from elsewhere in the document
-##-----------------------------
-##  Formatting
-<p></p> Creates a new paragraph
-<p align="left"> Aligns a paragraph to the left (default), right, or center.
-<br> Inserts a line break
-<blockquote></blockquote> Indents text from both sides
-<dl></dl> Creates a definition list
-<dt> Precedes each definition term
-<dd> Precedes each definition
-<ol></ol> Creates a numbered list
-<ul></ul> Creates a bulleted list
-<li></li> Precedes each list item, and adds a number or symbol depending upon the type of list selected
-<div align="left"> A generic tag used to format large blocks of HTML, also used for stylesheets
-<img src="name"> Adds an image
-<img src="name" align="left"> Aligns an image: left, right, center; bottom, top, middle
-<img src="name" border="1"> Sets size of border around an image
-<hr /> Inserts a horizontal rule
-<hr size="3" /> Sets size (height) of rule
-<hr width="80%" /> Sets width of rule, in percentage or absolute value
-<hr noshade /> Creates a rule without a shadow
-##-----------------------------
-## Tables
-<table></table> Creates a table
-<tr></tr> Sets off each row in a table
-<td></td> Sets off each cell in a row
-<th></th> Sets off the table header (a normal cell with bold, centered text)
-##-----------------------------
-## Table Attributes
-<table border="1"> Sets width of border around table cells
-<table cellspacing="1"> Sets amount of space between table cells
-<table cellpadding="1"> Sets amount of space between a cellâ€™s border and its contents
-<table width="500" or "80%"> Sets width of table, in pixels or as a percentage of document width
-<tr align="left"> or <td align="left"> Sets alignment for cell(s) (left, center, or right)
-<tr valign="top"> or <td valign="top"> Sets vertical alignment for cell(s) (top, middle, or bottom)
-<td colspan="2"> Sets number of columns a cell should span (default=1)
-<td rowspan="4"> Sets number of rows a cell should span (default=1)
-<td nowrap> Prevents the lines within a cell from being broken to fit
-##-----------------------------
-## Frames
-<frameset></frameset> Replaces the <body> tag in a frames document; can also be nested in other framesets
-<frameset rows="value,value"> Defines the rows within a frameset, using number in pixels, or percentage of width
-<frameset cols="value,value"> Defines the columns within a frameset, using number in pixels, or percentage of width
-<frame> Defines a single frame â€” or region â€” within a frameset
-<noframes></noframes> Defines what will appear on browsers that donâ€™t support frames
-## Frames Attributes
-<frame src="URL"> Specifies which HTML document should be displayed
-<frame name="name"> Names the frame, or region, so it may be targeted by other frames
-<frame marginwidth="value"> Defines the left and right margins for the frame; must be equal to or greater than 1
-<frame marginheight="value"> Defines the top and bottom margins for the frame; must be equal to or greater than 1
-<frame scrolling="value"> Sets whether the frame has a scrollbar; value may equal â€œyes,â€ â€œno,â€ or â€œauto.â€ The default, as in ordinary documents, is auto.
-<frame noresize="noresize"> Prevents the user from resizing a frame
-##-----------------------------
-##  Forms
-##  For functional forms, youll have to run a script. The HTML just creates the appearance of a form.
-<form></form> Creates all forms
-<select multiple name="NAME" size=?></select> Creates a scrolling menu. Size sets the number of menu items visible before you need to scroll.
-<option> Sets off each menu item
-<select name="NAME"></select> Creates a pulldown menu
-<option> Sets off each menu item
-<textarea name="NAME" cols=40 rows=8></textarea name> Creates a text box area. Columns set the width; rows set the height.
-<input type="checkbox" name="NAME"> Creates a checkbox. Text follows tag.
-<input type="radio" name="NAME" value="x"> Creates a radio button. Text follows tag
-<input type="text" name="NAME" size=20> Creates a one-line text area. Size sets length, in characters.
-<input type="submit" value="NAME"> Creates a Submit button
-<button type="submit">Submit</button> Creates an actual button that is clicked
-<input type="image" border=0 name="NAME" src="name.gif"> Creates a Submit button using an image
-<input type="reset"> Creates a Reset button
-</pre>
-COMMENT1
-##------------------------------------------
-## Create simple html doc with a lot of simple elements
-$> echo -e ' <html>\n    <head></head>\n    <body bgcolor="pink" text="black" link="blue" vlink="#ff0000" alink="#00ff00">\n        <p>Regular text</p><p align="center">\n        <hl>largest headline</hl><br>\n        <h6>smallest headline</h6>\n        <b>bold</b>\n        <i>italic</i>\n        <tt>teletype</tt>\n        <strong>Emphasizes</strong>\n        <font size="1">font1</font>\n        <font size="7">font7</font>\n        <font color="green">green</font>\n        <a href="URL">hyper</a>\n        <a href="URL"><img src="img.jpg"></a>\n        <a name="NAME">target</a>\n        <a href="#NAME">NAME</a></p>\n        <p><ol><li>thing1</li><li>thing2</li></ol></p>\n        <p><ul><li>thing1</li><li>thing2</li></ul></p>\n        <p><div align="right"  >Right</p>\n        <img src="img.jpg" align="left" border="1">\n        <hr size="3" width="80%" noshade />\n        <p><table border="1" cellspacing="1" cellpadding="1" width="50%" align="center">\n            <caption>label</caption>\n            <tr align="left"><th colspan="2">header1</th><th align="center">header2</th><th>header3</th>\n                <tr><td rowspan="2">item1</td><td valign="top">item2</td><td align="right">right 1tem3</td><td nowrap>Prevents the lines within a cell from being broken to fit</td></tr>\n                <tr><td>item1</td><td>item2</td><td>item3</td></tr></tr>\n        </table></p>\n        <p></p>\n    </body>\n</html> ' > index2.html
-##==========================================
-## ###############################
-## ##    END HTML CSS
-## ###############################
-##==========================================
-## ###############################
-## ##    Markdown
-## ###############################
-## Markdown is a lightweight, easy-to-read markup language for creating formatted text.
-$> firefox https://www.markdownguide.org
-##==========================================
-# Markdown Cheat Sheet
-## Basic Syntax
-### Heading
-# H1
-## H2
-### H3
-### Bold
-$> **bold text**
-## Italic
-$> *italicized text*
-## Blockquote
-$> > blockquote
-## Ordered List
-$> 1. First item
-$> 2. Second item
-$> 3. Third item
-## Unordered List
-$> - First item
-$> - Second item
-$> - Third item
-## Code
-$> `code`
-## Horizontal Rule
-$> ---
-## Link
-$> [Markdown Guide](https://www.markdownguide.org)
-## Image
-$> ![alt text](https://www.markdownguide.org/assets/images/tux.png)
-## Extended Syntax
-## Table
-$> | Syntax | Description | Other |
-$> | ----------- | ----------- | ----------- |
-$> | Header | Title | Thing |
-$> | Paragraph | Text | Letter |
-## Fenced Code Block
-$> ```
-$> {
-$>   "firstName": "John",
-$>   "lastName": "Smith",
-$>   "age": 25
-$> }
-$> ```
-## Footnote
-$> Heres a sentence with a footnote. [^1]
-$> [^1]: This is the footnote.
-## Heading ID
-## My Great Heading {#custom-id}
-## Definition List
-$> term
-$> : definition
-## Strikethrough
-$> ~~The world is flat.~~
-## Task List
-$> - [x] Write the press release
-$> - [ ] Update the website
-$> - [ ] Contact the media
-## Emoji
-$> That is so funny! :joy:
-## Highlight
-$> I need to highlight these ==very important words==.
-## Subscript
-$> H~2~O
-## Superscript
-$> X^2^
-## ###############################
-## ##    END Markdown
-## ###############################
-##==========================================
 ## multimedia. image. hardware camera. exif data
 ## Read write exif data
 $> sudo apt-get install libimage-exiftool-perl
@@ -7545,75 +8085,6 @@ $>     "mp                              " ## pick buffer and put
 ## ##    END vim
 ## #########################
 ##==========================================
-## ########################
-## ##    HTTPS SSL
-## ########################
-## Self signed apache SSL certificate.
-##------------------------------------------
-## enable the SSL module.
-$> sudo a2enmod ssl
-## Generate the CSR. remember passphrase!
-$> sudo openssl req -new > new.ssl.csr
-#> fill out the questions normally have verified by a Certificate Signing Authority:
-## writing new private key to 'privkey.pem'
-## Country(2 letter code)
-## State(full name)
-## Locality(city)
-## Organization(company)
-## Organizational(section)
-## Name(YOUR name)
-## Email
-## create the key.
-$> sudo openssl rsa -in privkey.pem -out new.cert.key
-## create the certificate. -days option sets the length of time before the certificate expires.
-$> sudo openssl x509 -in new.cert.csr -out new.cert.cert -req -signkey new.cert.key -days NNN
-## copy the certificate to /etc/ssl where Apache can find them.
-$> sudo cp new.cert.cert /etc/ssl/certs/server.crt
-$> sudo cp new.cert.key /etc/ssl/private/server.key
-## key (server.key) and PEM certificate (server.crt is a PEM certificate).
-## the certificate is world-readable, the key not world-readable ???correct permissions??
-$> sudo chmod 744 /etc/ssl/certs/server.crt
-$> sudo chmod 770 /etc/ssl/private/server.key
-## Configure Apache, change to match your server setup.    /etc/apache2/sites-available/mydomain.net
-## All on one line
-$> sudo echo -e 'NameVirtualHost *:443\nNameVirtualHost *:80\n\n<VirtualHost *:80>\n    ServerAdmin email address here\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n</VirtualHost>\n\n<VirtualHost *:443>\n    ServerAdmin\n This e-mail address is being protected from spambots.\n\n    ServerName mydomain.net\n    ServerAlias www.mydomain.net\n    DocumentRoot /var/www/mydomain.net/public_html/\n\n    ErrorLog /var/www/mydomain.net/logs/error.log\n    CustomLog /var/www/mydomain.net/logs/access.log combined\n\n    SSLEngine on\n    SSLOptions +StrictRequire\n    SSLCertificateFile /etc/ssl/certs/server.crt\n    SSLCertificateKeyFile /etc/ssl/private/server.key\n</VirtualHost>\n' > /etc/apache2/sites-available/mydomain.net
-## or multi line
-$> sudo echo '
-$> NameVirtualHost *:443
-$> NameVirtualHost *:80
-$>
-$> <VirtualHost *:80>
-$>     ServerAdmin email address here
-$>     ServerName mydomain.net
-$>     ServerAlias www.mydomain.net
-$>     DocumentRoot /var/www/mydomain.net/public_html/
-$>     ErrorLog /var/www/mydomain.net/logs/error.log
-$>     CustomLog /var/www/mydomain.net/logs/access.log combined
-$> </VirtualHost>
-$>
-$> <VirtualHost *:443>
-$>     ServerAdmin
-$>  This e-mail address is being protected from spambots.
-$>
-$>     ServerName mydomain.net
-$>     ServerAlias www.mydomain.net
-$>     DocumentRoot /var/www/mydomain.net/public_html/
-$>
-$>     ErrorLog /var/www/mydomain.net/logs/error.log
-$>     CustomLog /var/www/mydomain.net/logs/access.log combined
-$>
-$>     SSLEngine on
-$>     SSLOptions +StrictRequire
-$>     SSLCertificateFile /etc/ssl/certs/server.crt
-$>     SSLCertificateKeyFile /etc/ssl/private/server.key
-$> </VirtualHost>
-$> ' > /etc/apache2/sites-available/mydomain.net
-## Remove leading $> in file
-$> sudo sed -i 's/^$> //g' /etc/apache2/sites-available/mydomain.net
-## for new domain run: sets up a symlink under /etc/apache2/sites-enabled that links to the configuration in /etc/apache2/sites-available
-$> sudo a2ensite mydomain.net
-## make sure your server address is in /etc/hosts with the IP address you're using for the server.
-##==========================================
 ## look through all text files in whole folders and subfolders for a pattern.
 $> grep -HrnF "pattern"
 ##==========================================
@@ -7867,8 +8338,6 @@ $> rsync -Paz --exclude-from 'rsync-exclude.txt' /home/ /path/home
 ##==========================================
 ## Convert .xlsx to a .csv using libre office headless.
 $> libreoffice --headless --convert-to csv links1.xlsx
-##==========================================
-
 ##==========================================
 ## #########################
 ## ##    w3m
@@ -8760,9 +9229,9 @@ $> function mp42mp3() { ffmpeg -i "$1" "${1%%.mp4}.mp3" ; }
 ##
 $> function mp42webm() { ffmpeg -i "$1" -c:v libvpx -b:v 1M -c:a libvorbis "${1%%.mp4}.webm" ; }
 ##
-$> function domino () { ffmpeg -video_size 1064x600 -framerate 25 -f x11grab -i :0.0+428,175 domino00.mp4 ; }
+$> function domino() { ffmpeg -video_size 1064x600 -framerate 25 -f x11grab -i :0.0+428,175 domino00.mp4 ; }
 ##
-$> function syncstats () { watch grep -e Dirty: -e Writeback: /proc/meminfo ; }
+$> function syncstats() { watch grep -e Dirty: -e Writeback: /proc/meminfo ; }
 ##==========================================
 ## Like tree command
 $> find . -print | sed -e 's;[^/]*/;|-- ;g;s;-- |; |;g'
@@ -9128,7 +9597,7 @@ $> done
 $> mkdir out
 $> for f in *.{png,jpg,jpeg}; do ffmpeg -loop 1 -i "$f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "out/${f%.*}.webm"; done
 $> for %%f IN (*.png, *.jpg, *.jpeg) do (
-$> ffmpeg -loop 1 -i "%%f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "%%~nf.webm"
+$> ffmpeg -loop 1 -i "%%f" -g 1 -c:v libvpx -deadline best -cpu-used 0 -qmin 22 -crf 22 -qmax 22 -t 1 -r 1 "%%~nf.webm" ; )
 ## If you want to encode transparent images the only thing that worked for me is deleting
 $> -qmin 22
 ## and replacing it with
@@ -9287,7 +9756,7 @@ $> Ctrl+Alt+Backspace           ## Restart the X server (WARNING: this will clos
 ## 8. Accessibility
 $> Alt+Win+=/- or Alt+Mousewheel        ## Zoom desktop in or out (Note: Zoom must be enabled in Universal Access settings)
 ##==========================================
-$> https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
+$> firefox https://linoxide.com/linux-how-to/command-parallel-pdsh-example/
 ## The pdsh parallel shell tool lets you run a command across multiple nodes in a cluster. pdsh is a variant of the rsh(1) command. Unlike rsh(1), which runs commands on a single remote host, pdsh can run multiple remote commands in parallel. pdsh uses a "sliding window" (or fanout) of threads to conserve resources on the initiating host while allowing some connections to time out.
 ## Make ssh the default protocol by putting this in .bashrc
 $> echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
@@ -9384,7 +9853,7 @@ $> firefox https://superuser.com/questions/199507/how-do-i-ensure-git-doesnt-ask
 ## Print file hightlighted with search terms.
 $> grep -e "^" -e "SEARCHTERM" FILE.txt
 ##==========================================
-## Color for manpages in less makes manpages a little easier to read:
+## Color for manpages in less makes manpages a little easier to read. REALLY COOL!
 $> export LESS_TERMCAP_mb=$'\E[01;31m'
 $> export LESS_TERMCAP_md=$'\E[01;31m'
 $> export LESS_TERMCAP_me=$'\E[0m'
@@ -9552,6 +10021,49 @@ $> apt-cache showpkg chromium-browser
 $> apt-cache madison chromium-browser
 ## Downgrade chromium
 $> sudo apt-get install chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-codecs-ffmpeg=65.0.3325.181-0ubuntu1  chromium-browser=65.0.3325.181-0ubuntu1 -V
+##==========================================
+## Prompt
+## Print out the bash prompt control characters and colors. Some things do not print correctly.
+#function bashprompt() { echo "## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background" ; }
+## Print out the bash prompt control characters and colors.
+#function bashprompt() { echo '## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background' ; }
+$> function bashprompt() { echo "## bash prompt \n  \u    ## current username \n  \h    ## hostname (short, up to first dot) \n  \H    ## full hostname \n  \w    ## current working directory (~ for home) \n  \W    ## basename of current directory only \n  \\$    ## $ for normal users, # for root \n  \d    ## date (e.g., Mon Mar 01) \n  \t    ## current time (24-hour, HH:MM:SS) \n  \T    ## current time (12-hour, HH:MM:SS) \n  \@    ## current time (12-hour, am/pm) \n  \n    ## newline \n  \!    ## history number of this command \n  \#    ## command number of this command \n  \j   ## the number of jobs currently managed by the shell \n ## Text color \n  \e[1;30m   ## grey \n  \e[1;31m   ## red \n  \e[1;32m   ## Green \n  \e[1;33m   ## Yellow \n  \e[1;34m   ## Blue \n  \e[1;35m   ## purple \n  \e[1;36m   ## cyan \n  \e[1;37m   ## White \n ## Text style \n  txtred='\e[0;31m' ## Red- Regular \n  bldred='\e[1;31m' ## Red- Bold \n  undred='\e[4;31m' ## Red- Underline \n  bakred='\e[41m'   ## Red- Background" ; }
+##==========================================
+## Bash prompt
+## text color
+# \e[1;30m   ## grey
+# \e[1;31m   ## red
+# \e[1;32m   ## Green
+# \e[1;33m   ## Yellow
+# \e[1;34m   ## Blue
+# \e[1;35m   ## purple
+# \e[1;36m   ## cyan
+# \e[1;37m   ## White
+## Text style
+# txtred='\e[0;31m' ## Red- Regular
+# bldred='\e[1;31m' ## Red- Bold
+# undred='\e[4;31m' ## Red- Underline
+# bakred='\e[41m'   ## Red- Background
+## bash prompt
+# \u    ## current username
+# \h    ## hostname (short, up to first dot)
+# \H    ## full hostname
+# \w    ## current working directory (~ for home)
+# \W    ## basename of current directory only
+# \$    ## $ for normal users, # for root
+# \d    ## date (e.g., Mon Mar 01)
+# \t    ## current time (24-hour, HH:MM:SS)
+# \T    ## current time (12-hour, HH:MM:SS)
+# \@    ## current time (12-hour, am/pm)
+# \n    ## newline
+# \!    ## history number of this command
+# \#    ## command number of this command
+# \j    ## the number of jobs currently managed by the shell
+##==========================================
+## Print out the zsh prompt control characters.
+$> function zshprompt() { print "## zsh PROMPT \n  %n   ## Username - john_doe \n  %m   ## Hostname (short) - mycomputer \n  %M   ## Hostname (full) - mycomputer.local \n  %~   ## Current working directory (HOME abbreviated with ~) - ~/projects/myproj \n  %1~  ## Basename of current working directory  - myproj \n  %d   ## Current working directory (full path) - /home/john_doe/projects/myproj \n  %*   ## Current time (24-hour HH:MM:SS) - 14:30:45 \n  %@   ## Current time (12-hour am/pm) - 02:30pm \n  %j   ## Number of background jobs - 2 \n  %!   ## Command number in history - 123 \n  %#   ## Prompt character ($ for user, # for root) - $ or # \n ## Text style \n  %B / %b: Start / Stop Bold. \n  %U / %u: Start / Stop Underline. \n  %S / %s: Start / Stop Standout (Highlight). \n  %F{color} / %f: Start / Stop Foreground Color. \n  %K{color} / %k: Start / Stop Background Color. \n ## For colors in zsh use $> colorgrid" ; }
+## Print a grid of colors.
+$> function colorgrid() { iter=16 ; while [ $iter -lt 52 ] ; do second=$[$iter+36] ; third=$[$second+36] ; four=$[$third+36] ; five=$[$four+36] ; six=$[$five+36] ; seven=$[$six+36] ; if [ $seven -gt 250 ];then seven=$[$seven-251]; fi ; echo -en "\033[38;5;$(echo $iter)m█ " ; printf "%03d" $iter ; echo -en "   \033[38;5;$(echo $second)m█ " ; printf "%03d" $second ; echo -en "   \033[38;5;$(echo $third)m█ " ; printf "%03d" $third ; echo -en "   \033[38;5;$(echo $four)m█ " ; printf "%03d" $four ; echo -en "   \033[38;5;$(echo $five)m█ " ; printf "%03d" $five ; echo -en "   \033[38;5;$(echo $six)m█ " ; printf "%03d" $six ; echo -en "   \033[38;5;$(echo $seven)m█ " ; printf "%03d" $seven ; iter=$[$iter+1] ; printf '\r\n' ; done }
 ##==========================================
 ## Prompt
 ## https://wiki.archlinux.org/index.php/Bash/Prompt_customization
@@ -11660,6 +12172,22 @@ $>     /set parameter num_ctx 32768
 ## Modelfile: Add PARAMETER num_ctx 32768 to a custom Modelfile.Environment Variable: Set the default context size using  before launching Ollama.
 $> export OLLAMA_CONTEXT_LENGTH=32768
 ##==========================================
+## Configure to make available over the network.
+$> sudo vim /etc/systemd/system/ollama.service
+## Add:
+$>     Environment="OLLAMA_HOST=0.0.0.0"
+## Restart to make in effect.
+$> sudo systemctl daemon-reload && sudo systemctl restart ollama
+##==========================================
+## Configure to use UUID to control which GPU is used.
+## Get UUIDs, Nvidia GPU UUIDs
+$> nvidia-smi --query-gpu=index,name,uuid --format=csv,noheader
+## Add the ones you want into the service file
+$> sudo vim /etc/systemd/system/ollama.service
+## Add:
+$>     Environment="CUDA_VISIBLE_DEVICES=GPU-224df51c-6513-92c3-426c-ca6872aa2eb3,GPU-89bed385-2191-3219-4f6e-bc9668c5f101"
+## Restart to make in effect.
+$> sudo systemctl daemon-reload && sudo systemctl restart ollama
 ## ##############################################
 ##==========================================
 ## #############################################
@@ -11738,6 +12266,23 @@ $>     ]
 $>   }
 $> }' > ~/code/claude/.claude/settings.local.json
 ##----------------------------
+## This will log all the bash command issued.
+$>   "hooks": {
+$>     "PostToolUse": [
+$>       {
+$>         "matcher": "Bash",
+$>         "hooks": [
+$>           {
+$>             "type": "command",
+$>             "command": "/home/YOURUSERNAMEHERE/code/claude/log-bash-hook.sh"
+$>           }
+$>         ]
+$>       }
+$>     ]
+$>   }
+##----------------------------
+
+
 ## This auto files claude memories.
 $> touch ~/code/claude/append-memory.sh
 $> cat <<'EOF' > ~/code/claude/append-memory.sh
@@ -11775,7 +12320,18 @@ $>
 $> exit 0
 EOF
 ##--------------------------
+## Settings.
+$> ls ~/.claude/
+$> ls ~/code/claude/.claude/
+$> ls ~/code/subagent-dispatch/.claude/
+$> cat ~/code/claude/.claude/settings.local.json
+## The hierarchy is:
+##  ~/.claude/settings.json                    ## global -- all projects (can be empty)
+##  ~/code/claude/.claude/settings.local.json  ## active -- this is what Claude is using now
+##  ~/code/<PROJECT>/.claude/                  ## would apply when working in that project
+##==========================================
 ## Start claude
+$> cd /code/claude
 $> claude
 ## Generate a CLAUDE.md configuration prompt if you do not have on.
 $> /init
@@ -12028,6 +12584,9 @@ $> opencode
 $>     /models
 $>     Big Pickle
 ##===================================
+## Run in untested docker.
+$> docker run -it --rm ghcr.io/anomalyco/opencode
+##===================================
 ## TUI Hints
 ##-----------
 ## The tui does not have easy copy and paste and no middle click paste.
@@ -12054,7 +12613,7 @@ $> ollama show qwen3.5:9b-q8_0 --modelfile > ~/code/opencode/qwen3.5/qwen35-9B-1
 ## Check it.
 $> cat ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
 ## Add these lines. And get rid of license. Edit: No think not obeyed DROP IT.
-$> cat << 'EOF' > ./qwen35-9B-128K.Modelfile
+$> cat << 'EOF' > ./qwen35-9B-q8_0-128K.Modelfile
 $> FROM qwen3.5:9b-q8_0
 $> TEMPLATE {{ .Prompt }}
 $> RENDERER qwen3.5
@@ -12065,10 +12624,10 @@ $> PARAMETER top_k 20
 $> PARAMETER top_p 0.8
 EOF
 ## Create the new tag
-$> ollama create qwen3.5:9b-128K -f ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
+$> ollama create qwen3.5:9b-q8_0-128K -f ~/code/opencode/qwen3.5/qwen35-9B-128K.Modelfile
 ## Test model.
 ## Works
-$> ollama run qwen3.5:9b-128K "What model are you running?"
+$> ollama run qwen3.5:9b-q8_0-128K "What model are you running?"
 ## Add it too OpenCode
 ##-----------------------------------------
 ## Add qwen3.5 9B at 128K context
@@ -12105,6 +12664,8 @@ $>     }
 $>   }
 $> }
 EOF
+## Always validate JSON before writing it to a config file.
+$> python3 -m json.tool
 ##-----------------------------------------
 ## Try in opencode
 $> opencode
@@ -12227,6 +12788,133 @@ $>     /models
 $>     Big Pickle
 ##-----------------------------------------
 ##===================================
+## #############################################
+##===================================
+## #############################################
+## ##    OpenClaw
+## #############################################
+## OpenClaw is a personal AI assistant you run on your own devices
+## configured to use social media Telegram, Discord, etc.
+##===================================
+$> firefox https://github.com/openclaw/openclaw
+$> firefox https://docs.openclaw.ai/start/getting-started
+##===================================
+## OpenClaw requires Node.js 24.
+## Remove old one if it exists first
+$> sudo apt remove nodejs npm -y
+## Add NodeSource setup script
+$> curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
+## Install latest Node JS.
+$> sudo apt install -y nodejs
+## Check the install
+$> node --version
+$> npm --version
+##===================================
+## Install the `openclaw` npm package globally into `~/.npm-global/bin/`
+$> curl -fsSL https://openclaw.ai/install.sh | bash
+## OR
+$> npm install -g openclaw@latest
+## Add to PATH
+$> grep -q "npm-global" ~/.bashrc || echo 'export PATH="~/.npm-global/bin:$PATH"' >> ~/.bashrc
+## Check it
+$> openclaw --version
+## Choose a model provider, setup API key, configure the Gateway.
+$> openclaw onboard --install-daemon
+## Open the Control UI in your browser.
+$> openclaw dashboard
+## For remote
+$> ssh -L 18789:localhost:18789 user@your-server-ip
+$> google-chrome-stable http://localhost:18789/
+## Fastest channel to set up is Telegram (just a bot token).
+##===================================
+## Use a local model
+## Use qwen3.5:9b-q8_0-128K from above if you have 24GB vRAM.
+## Use qwen3.5-4B Q6 64K_L if only 8GB vRAM.
+$> https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/tree/main
+## Download
+$> mkdir -p ~/models && cd ~/models/
+$> wget https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen_Qwen3.5-4B-Q6_K_L.gguf
+## Modelfile that disables "thinking"
+$> cat > Qwen3.5-4B-Q6_Modelfile << EOF
+$> FROM /home/$USER/models/Qwen_Qwen3.5-4B-Q6_K_L.gguf
+$>
+$> PARAMETER num_ctx 65536
+$> PARAMETER repeat_penalty 1
+$> PARAMETER stop "<|im_start|>"
+$> PARAMETER stop "<|im_end|>"
+$> PARAMETER temperature 0.6
+$> PARAMETER top_k 20
+$> PARAMETER top_p 0.95
+$>
+$> TEMPLATE """{{- $lastUserIdx := -1 -}}
+$> {{- range $idx, $msg := .Messages -}}
+$> {{- if eq $msg.Role "user" }}{{ $lastUserIdx = $idx }}{{ end -}}
+$> {{- end }}
+$> {{- if or .System .Tools }}<|im_start|>system
+$> {{ if .System }}{{ .System }}
+$>
+$> {{ end }}
+$> {{- if .Tools }}# Tools
+$>
+$> You may call one or more functions to assist with the user query.
+$>
+$> You are provided with function signatures within <tools></tools> XML tags:
+$> <tools>
+$> {{- range .Tools }}
+$> {"type": "function", "function": {{ .Function }}}
+$> {{- end }}
+$> </tools>
+$>
+$> For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+$> <tool_call>
+$> {"name": <function-name>, "arguments": <args-json-object>}
+$> </tool_call>
+$> {{- end -}}
+$> <|im_end|>
+$> {{ end }}
+$> {{- range $i, $_ := .Messages }}
+$> {{- $last := eq (len (slice $.Messages $i)) 1 -}}
+$> {{- if eq .Role "user" }}<|im_start|>user
+$> {{ .Content }}<|im_end|>
+$> {{ else if eq .Role "assistant" }}<|im_start|>assistant
+$> {{ if (and $.IsThinkSet (and .Thinking (or $last (gt $i $lastUserIdx)))) -}}
+$> <think>{{ .Thinking }}</think>
+$> {{ end -}}
+$> {{ if .Content }}{{ .Content }}{{ end }}
+$> {{- if .ToolCalls }}
+$> {{- range .ToolCalls }}
+$> <tool_call>
+$> {"name": "{{ .Function.Name }}", "arguments": {{ .Function.Arguments }}}
+$> </tool_call>
+$> {{- end }}
+$> {{- end }}{{ if not $last }}<|im_end|>
+$> {{ end }}
+$> {{- else if eq .Role "tool" }}<|im_start|>user
+$> <tool_response>
+$> {{ .Content }}
+$> </tool_response><|im_end|>
+$> {{ end }}
+$> {{- if and (ne .Role "assistant") $last }}<|im_start|>assistant
+$> <think>
+$>
+$> </think>
+$>
+$> {{ end }}
+$> {{- end }}"""
+EOF
+## Create
+$> ollama create qwen3.5:4b-q6kl-64k -f ~/models/Qwen3.5-4B-Q6_Modelfile
+##===============
+## Add to ~/.openclaw/openclaw.json
+
+
+
+
+
+
+
+
+##-----------------------------------------
 ## #############################################
 ##===================================
 ## French AI startup Mistral tweeted
@@ -12354,7 +13042,10 @@ $> ./sd-cli --rng cuda --model ./v1-5-pruned-emaonly.safetensors -p "Woman in a 
 ## ##    Nvidia
 ## #######################
 ##-----------------------------------
-## Install CUDA
+## Install driver.
+$> sudo apt install nvidia-driver-590
+##-----------------------------------
+## Install drivers with CUDA
 $> firefox https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_local
 ##
 $> wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
@@ -12363,29 +13054,32 @@ $> wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installe
 $> sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
 $> sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
 $> sudo apt-get update
+$> sudo apt-get -y install nvidia-driver-590
 $> sudo apt-get -y install cuda-toolkit-13-1
 ##==========================================
 ## Install the NVIDIA Container Toolkit on Ubuntu
 ## NVIDIA GPU drivers and Docker already installed.
 ## Configure the NVIDIA Container Toolkit repository and GPG key:
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-sudo apt-get update
+$> curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+$> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+$> sudo apt-get update
 ## Install the NVIDIA Container Toolkit packages:
-sudo apt-get install -y nvidia-container-toolkit
+$> sudo apt-get install -y nvidia-container-toolkit
 ## Use with docker.
-sudo nvidia-ctk runtime configure --runtime=docker
+$> sudo nvidia-ctk runtime configure --runtime=docker
 ## Restart the Docker daemon for the changes to take effect:
-sudo systemctl restart docker
+$> sudo systemctl restart docker
 ## Test the installation by running a sample CUDA container to ensure that the container can access the GPU:
-sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
-sudo docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
-sudo docker run --rm --gpus all nvidia/cuda:13.0-base nvidia-smi
+$> sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+$> sudo docker run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
+$> sudo docker run --rm --gpus all nvidia/cuda:13.0-base nvidia-smi
 ##==========================================
-
-
+## Nvidia GPU UUIDs
+$> nvidia-smi --query-gpu=index,name,uuid --format=csv,noheader
 ##==========================================
-
+## Check if GPUs are available to torch
+$> python -c "import torch; print(torch.cuda.device_count(), 'GPUs'); print(torch.cuda.get_device_name(0)); print(torch.cuda.get_device_name(1))"
+##==========================================
 
 ##==========================================
 ## ###########################################
@@ -13071,6 +13765,7 @@ $> alias flush='sudo journalctl --vacuum-size=10M'
 $> alias release='cat /etc/*release'
 $> alias anan='journalctl -efu ananicy.service'
 $> alias cache='sync; echo 3 | sudo tee /proc/sys/vm/drop_caches'
+## Dump all the swapfile and start over.
 $> alias swap='sudo swapoff -a && sudo swapon -a'
 $> alias proton='protontricks --gui --no-bwrap'
 $> alias weather='curl wttr.in/'
@@ -13465,6 +14160,53 @@ $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --coo
 ## ############################
 ## ############################
 ##==========================================
+## This tells you if you are logged in and to which account.
+$> gh auth status
+## Authinicate (browser-based OAuth).
+$> gh auth login
+## gh maps to GitHub objects:
+$> gh repo     -- repositories
+$> gh pr       -- pull requests
+$> gh issue    -- issues
+$> gh release  -- releases
+$> gh run      -- GitHub Actions workflow runs
+$> gh api      -- raw GitHub API (escape hatch for anything not covered)
+## Every object has sub-commands: list, view, create, edit, close, merge, etc.
+## Repositories:
+$> gh repo view                    ## view current repo in terminal
+$> gh repo view --web              ## open in browser
+$> gh repo clone user/repo         ## clone a repo
+$> gh repo create myproject        ## create a new repo on GitHub
+## Pull requests:
+$> gh pr list                      ## list open PRs for current repo
+$> gh pr view                      ## view the PR for current branch
+$> gh pr create                    ## create a PR from current branch (interactive)
+$> gh pr checkout 42               ## check out PR #42 locally
+$> gh pr merge 42                  ## merge a PR
+$> gh pr review 42 --approve       ## approve a PR
+$> gh pr review 42 --request-changes --body "fix X first"
+## Issues:
+$> gh issue list                   ## list open issues
+$> gh issue view 12                ## view issue #12
+$> gh issue create                 ## create a new issue (interactive)
+$> gh issue close 12
+## Workflow runs (CI/CD):
+$> gh run list                     ## recent workflow runs
+$> gh run view                     ## view latest run
+$> gh run watch                    ## live-tail a running workflow
+$> gh run view --log               ## show full log output
+## workflow
+$> git push -u origin my-branch    ## push branch to GitHub
+$> gh pr create                    ## opens interactive prompt: title, body, base branch
+## Or non-interactive:
+$> gh pr create --title "Fix timeout" --body "Increase dispatch timeout to 1200s" --base main
+## gh api hits the REST API directly:
+## Get repo metadata
+$> gh api repos/GITHUBUSERNAME/subagent-dispatch
+## List all branches
+$> gh api repos/GITHUBUSERNAME/subagent-dispatch/branches
+## Pipe through jq to filter
+gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 
 
 ##==========================================
@@ -13482,6 +14224,42 @@ $> alias ytdl="yt-dlp -f 'bestvideo+bestaudio/best' -o '%(title)s.%(ext)s' --coo
 ##==========================================
 
 
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## Uses 'at' to run an arbitrary command at a specified time.
+$> echo 'play alarmclock.wav 2>/dev/null' | at 07:30 tomorrow
+##==========================================
+## Recording SSH sessions.
+$> ssh -l USER HOST | tee -a /path/to/file
+##==========================================
+## Print the lines of file2 that exist in file1 .
+$> grep -xFf file1 file2
 ##==========================================
 ## pass -- the standard Unix password manager. GPG-encrypted, command line:
 $> sudo apt install pass
@@ -14264,11 +15042,14 @@ $> fi
 ##==========================================
 ## mount, copy files to partition, unmount
 $> install udisks2
-## mount, notice the sdb1, select the partition
+## mount, notice the sdb1, select the device sdb not the partition.
+## It will output the mountpoint.
 $> udisksctl mount -b /dev/sdb1
 ## copy files to partition
-$> udisksctl unmount -b /dev/sdb1
+$> cp -r ./files /media/$USER/MOUNTPOINT/
 ## unmount, you must enter the device sdb not the partition
+$> udisksctl unmount -b /dev/sdb1
+## Turn off the drive
 $> udisksctl power-off -b /dev/sdb
 ##==========================================
 ## download all images in a thread
