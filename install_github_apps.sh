@@ -1137,7 +1137,6 @@ cd /home/$USER/code/stable-diffusion-cli
 wget https://huggingface.co/Comfy-Org/z_image_turbo/resolve/main/split_files/diffusion_models/z_image_turbo_nvfp4.safetensors
 
 
-
 ##============================
 ## NOPE
 ## Attempt stable-diffusion-webui
@@ -1674,10 +1673,32 @@ LETTA_BASE_URL="http://localhost:8283" EXA_API_KEY="yourkey" letta
 
 
 ##----------------------------
+## PLUGINS
+##----------------------------
+## social-cli - A unified CLI to connect AI agents to the social web. Bluesky, X, Semble, margin annotations, and blog publishing — all through one tool. YAML in, YAML out.
+## Built for Letta agents, works with anything that can shell out.
+https://github.com/letta-ai/social-cli
+##----------------------------
+## letta-oss-ui - An example desktop application for running Letta Code agents with a visual interface.
+https://github.com/letta-ai/letta-oss-ui
 
+##----------------------------
+## Letta External MemFS - Connect Letta Code directly to external git hosts (Gitea, GitLab, GitHub, etc.) for memory persistence — no memfs sidecar required.
+https://github.com/Fimeg/letta-external-memfs
+
+##----------------------------
+## This guide explains how to run Letta's git-backed memory (MemFS / context repositories) on a fully self-hosted OSS Letta server
+https://github.com/Corykidios/local_letta_memfs_magic
 
 ##----------------------------
 
+##----------------------------
+
+##----------------------------
+
+##----------------------------
+
+##----------------------------
 
 ##----------------------------
 ##============================
@@ -2360,13 +2381,160 @@ https://github.com/zmeyer44/Locker
 ## Storage: SQLite backbone + markdown/YAML mirrors. Git-trackable and human-readable.
 https://github.com/kitfunso/hippo-memory
 
+
+# Check Hippo context
+
+$ hippo context --auto --budget 1500
+
+node:internal/errors:496
+    ErrorCaptureStackTrace(err);
+    ^
+
+Error [ERR_UNKNOWN_BUILTIN_MODULE]: No such built-in module: node:sqlite
+    at new NodeError (node:internal/errors:405:5)
+    at Module._load (node:internal/modules/cjs/loader:968:13)
+    at Module.require (node:internal/modules/cjs/loader:1225:19)
+    at require (node:internal/modules/helpers:177:18)
+    at file:///usr/local/lib/node_modules/hippo-memory/dist/db.js:5:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:336:24)
+    at async loadESM (node:internal/process/esm_loader:34:7)
+    at async handleMainPromise (node:internal/modules/run_main:106:12) {
+  code: 'ERR_UNKNOWN_BUILTIN_MODULE'
+}
+
+Node.js v18.19.1
+
+
 ##============================
+## MemPalace - The highest-scoring AI memory system ever benchmarked.
+https://github.com/milla-jovovich/mempalace
 
+##============================
+## freestyle - Sandboxes for Coding Agents
+https://docs.freestyle.sh/v2
 
 
 ##============================
+## NOPE! CPU 100%
+## Little Snitch - Every time an application on your computer opens a network connection, it does so quietly, without asking. Little Snitch for Linux makes that activity visible and gives you the option to do something about it.
+https://obdev.at/products/littlesnitch-linux/index.html
+## Tried it ran the computer ragged.
+
+##============================
+## autoresearch - give an AI agent a small but real LLM training setup and let it experiment autonomously overnight.
+https://github.com/karpathy/autoresearch
+https://www.youtube.com/watch?v=5-ekc3eXNvs
+
+##============================
+## Crush - coding cli Your tools, your code, and your workflows, wired into your LLM of choice.
+https://github.com/charmbracelet/crush
 
 
+##============================
+## Artificial - spawn, manage, and coordinate AI agents as a team. Agents get personas, skills, communication channels, and a shared task board.
+https://github.com/AndreBaltazar8/artificial
+
+##============================
+## Use your Claude subscription as an API. Your Claude Max/Pro subscription becomes a local API endpoint that any tool, SDK, or framework can use
+https://github.com/askalf/dario
+
+##============================
+## tpm chip linux
+https://debugging.works/blog/tpm-explained/
+
+##============================
+## recursive-mode -  for agentic engineeringA structured, file-backed workflow for coding agents. Give your agent audited phases, durable artifacts, and persistent memory — instead of losing everything in chat history.
+https://recursive-mode.dev/installation
+
+##============================
+## FluidCAD - Write CAD models in JavaScript. See the result in real time.
+https://github.com/Fluid-CAD/FluidCAD
+
+##============================
+## vLLM is a fast and easy-to-use library for LLM inference and serving.
+## Originally developed in the Sky Computing Lab at UC Berkeley
+https://github.com/vllm-project/vllm
+
+##============================
+## jCodeMunch indexes a codebase once and lets agents retrieve only the exact code they need: functions, classes, methods, constants, outlines, and tightly scoped context bundles, with byte-level precision
+https://github.com/jgravelle/jcodemunch-mcp
+
+##============================
+## AutoProber is the hardware hacker's flying probe automation stack for giving your agent everything it needs to go from "there's a new target on the plate" to probing individual pins in a safe way.
+https://github.com/gainsec/autoprober?tab=readme-ov-file
+
+##============================
+## AgentFM is a peer-to-peer network that turns everyday computers into a decentralized AI supercomputer.
+https://github.com/Agent-FM/agentfm-core
+
+##============================
+## Open source tools that create, configure, and work with containers.
+## Podman - Drop-in replace docker(alias docker=podman). (the POD MANager) is a tool for managing containers and images, volumes mounted into those containers, and pods made from groups of containers. Podman runs containers
+https://github.com/containers/
+https://github.com/containers/podman
+
+##============================
+## mcptube-vision transforms YouTube videos into a persistent, structured knowledge base using both transcripts and visual frame analysis.
+https://github.com/0xchamin/mcptube
+
+##============================
+## Talos - modern OS for running Kubernetes: secure, immutable, and minimal.
+https://github.com/siderolabs
+## omni - SaaS-simple deployment of Kubernetes - on your own hardware.
+https://github.com/siderolabs/omni
+
+##============================
+## Video wallpaper for Linux.
+https://github.com/jeffshee/hidamari
+
+##============================
+## LitGPT - 20+ high-performance LLMs with recipes to pretrain, finetune, and deploy at scale.
+https://github.com/Lightning-AI/litgpt
+
+##============================
+## Pythonic access to PubMed. - Fetch articles, mine metadata, and build citation tools—without touching Entrez. Citation networks, PDF lookup, MeSH term search—simplified.
+https://metapub.org/
+
+##============================
+## A "polyfill" that standardizes AGENTS.md configuration and Agent Skills support for major AI agents.
+https://agentfill.dev/
+
+
+##============================
+## kagent makes it easy to build, deploy and manage AI agents in Kubernetes.
+https://github.com/kagent-dev/kagent
+
+##============================
+## K8s agentic
+  Sources:
+  - https://github.com/kagent-dev/kagent
+  - https://arxiv.org/html/2509.02449v1
+  - https://dzone.com/articles/gitops-agentic-operator-kubernetes-auto-remediation
+  - https://sedai.io/blog/kubernetes-ai-agent-management-optimization
+  - https://kubernetes.io/blog/2026/03/20/running-agents-on-kubernetes-with-agent-sandbox/
+  - https://github.com/feiskyer/kube-agent
+
+##============================
+## k8sgpt is a tool for scanning your Kubernetes clusters, diagnosing, and triaging issues in simple English.
+https://github.com/k8sgpt-ai/k8sgpt
+
+##============================
+## Image Generators are Generalist Vision Learners
+https://vision-banana.github.io/
+
+##============================
+## DESIGN.md - format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system.
+https://github.com/google-labs-code/design.md
+
+##============================
+## Kasane - Kakoune handles editing. Kasane rebuilds the rendering pipeline — terminal or GPU — and opens the full UI to extension: splits, image display, workspace persistence, and beyond. Extend it yourself with sandboxed WASM plugins
+https://github.com/Yus314/kasane
+
+##============================
+## kubewall is a Open-Source, Single-Binary Kubernetes Dashboard with Multi-Cluster Management & AI Integration.
+https://github.com/kubewall/kubewall
+wget https://github.com/kubewall/kubewall/releases/download/v0.0.18/kubewall_Linux_x86_64.tar.gz
 
 ##============================
 
