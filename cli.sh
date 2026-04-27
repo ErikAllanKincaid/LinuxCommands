@@ -930,7 +930,7 @@ $> nmap -sn 192.168.1.0/24 | grep scan | sed 's/Nmap scan report for //' | colum
 $> hostname
 ##==========================================
 ## Get wifi working
-$> sudo ip dev
+$> sudo ip addr
 $> sudo iw dev
 $> sudo ip link show wlan0
 $> sudo ip link set wlan0 up
@@ -1111,15 +1111,26 @@ $> networkInterface=$(ip -br a | grep 192 | awk '{print $1}')
 ## Capture packets on the network.
 $> sudo termshark -i=$networkInterface
 ##==========================================
-## Force wifi to use a particular BSSID by MAC
-$> sudo nmcli connection modify "Auto YOURSSID" 802-11-wireless.bssid 7E:00:00:00:00:2A
-$> sudo nmcli connection down "Auto YOURSSID" && sudo nmcli connection up "Auto TARDIS"
-##==========================================
 ## Temorarily assign an ip address to a interface
 $> sudo ip addr add 192.168.1.2/24 dev eth0
 ##==========================================
 ## Show your wifi password including a qrcode
 $> nmcli dev wifi show-password
+##==========================================
+## Check wifi network for
+arp -n | grep -v incomplete; echo '---'; nmap -sn 192.168.1.0/24 2>/dev/null | grep -E 'report|MAC' | head -40
+##==========================================
+## Force wifi to use a particular BSSID by MAC
+## Set Wifi to a single AP when multiple are available.
+## Only connect to The AP unit of this MAC
+$> sudo nmcli connection modify "Auto YOURSSID" 802-11-wireless.bssid 7E:8A:20:4D:F1:2A
+$> sudo nmcli connection down "Auto YOURSSID" && nmcli connection up "Auto YOURSSID"
+## To reverse, back to roaming.
+$> sudo nmcli connection modify "Auto YOURSSID" 802-11-wireless.bssid ""
+$> sudo nmcli connection down "Auto YOURSSID" && nmcli connection up "Auto YOURSSID"
+##==========================================
+
+
 ##==========================================
 
 
@@ -1178,7 +1189,22 @@ $> udisksctl unmount -b /dev/sdb1
 ## Turn off the drive
 $> udisksctl power-off -b /dev/sdb
 ##==========================================
-##
+## hardware, system, Bluetooth Diagnostic Commands
+## Check BlueZ version
+$> bluetoothctl -v
+## Check kernel version
+$> uname -a
+## View Bluetooth adapter info
+$> bluetoothctl info
+## Monitor Bluetooth traffic
+$> sudo btmon -w btmon.log
+## Check for power management issues
+$> journalctl -u bluetooth -f
+## Check rfkill status
+$> rfkill list bluetooth
+##==========================================
+
+##==========================================
 ## #######################################################
 ## ##    END System
 ## #######################################################
@@ -1564,6 +1590,9 @@ $> ls -lt --time=atime
 ##==========================================
 ## Find and replace specific characters in a single line in multiple files with sed
 $> for f in 'ls'; do sed -i '/MATCHING STRING/ { s/ORIGINAL/REPLACEMENT/; }' ${f} ; done
+##==========================================
+## Keep doing something until condition met
+$> until kubectl get nodes 2>/dev/null | grep -q "Ready"; do echo "waiting..."; sleep 5; done
 ##==========================================
 ## Create an animation we use the ffmpeg convert command
 $> convert -delay 50 frame1.gif frame2.gif frame3.gif -loop 0 animated.gif
@@ -4811,11 +4840,11 @@ COMMENT1
 ## Extra Characters
 <<COMMENT1
 Extra Characters to cut and paste. Some do not work in HTML.
-✿ ☺ ☻ ☹ ☼ ☂ ☃ ⌇ ⚛ ⌨ ✆ ☎ ⌘ ⌥ ⇧ ↩ ✞ ✡ ☭ ← → ↑ ↓ ➫ ⬇ ⬆ ☜ ☞ ☝ ☟ ✍ ✎ ✌ ☮
+✿ ☺ ☻ ☹ ☼ ☂ ☃ ⌇ ⚛ ⌨ ✆ ☎ ⌘ ⌥ ⇧ ↩ ✞ ✡ ☭ ← → ↑ ↓ ➫ ⬇ ⬆ ☜ ☞ ☟ ✎ ☮
 ✔ ★ ☆ ♺ ⚑ ⚐ ✉ ✄ ⌲ ✈ ♦ ♣ ♠ ♥ ❤ ♡ ♪ ♩ ♫ ♬ ♯ ♀ ♂ ⚤ ⚥ ⚢ ⚣ ❑ ❒ ◈ ◐ ◑ ✖ ∞
 « » ‹ › “ ” ‘ ’ „ ‚ – — | ⁄ \ [ ] { } § ¶ ¡ ¿ ‽ ⁂ ※ ± × ~ ≈ ÷ ≠ π †
 ‡ ¥ € $ ¢ £ ß © ® @ ™ ° ‰ … · • ●
-૱ ꠸ ┯ ┰ ┱ ┲ ❗ ► ◄ Ă ă 0 1 2 3 4 5 6 7 8 9 Ǖ ǖ Ꞁ ¤  Ð ¢ ℥ Ω ℧ K ℶ ℷ ℸ ⅇ ⅊
+૱ ꠸ ┯ ┰ ┱ ┲ ► ◄ Ă ă 0 1 2 3 4 5 6 7 8 9 Ǖ ǖ Ꞁ ¤  Ð ¢ ℥ Ω ℧ K ℶ ℷ ℸ ⅇ ⅊
 ⚌ ⚍ ⚎ ⚏ ⚭ ⚮ ⌀ ⏑ ⏒ ⏓ ⏔ ⏕ ⏖ ⏗ ⏘ ⏙ ⏠ ⏡ ⏦
 ᶀ ᶁ ᶂ ᶃ ᶄ ᶆ ᶇ ᶈ ᶉ ᶊ ᶋ ᶌ ᶍ ᶎ ᶏ ᶐ ᶑ ᶒ ᶓ ᶔ ᶕ ᶖ ᶗ ᶘ ᶙ ᶚ ᶸ ᵯ ᵰ ᵴ ᵶ ᵹ ᵼ ᵽ ᵾ ᵿ ⁁ ⁊⸜ ⸝ ¶ ¥ £
 ⅕ ⅙ ⅛ ⅔ ⅖ ⅗ ⅘ ⅜ ⅚ ⅐ ⅝ ↉ ⅓ ⅑ ⅒ ⅞
@@ -4837,7 +4866,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ⏀ ⏁ ⏂ ⏃ ⏄ ⏅ ⏆ ⏇ ⏈ ⏉ ⏉ ⏋ ⏌ ⏍ ⏐ ⏤ ⏚ ⏛ Ⓝ ℰ ⓦ !  ⌘ « » ‹ ›
 ‘ ’ “ ” „ ‚ ❝ ❞ £ ¥ € $ ¢ ¬ ¶ @ § ® © ™ ° × π ± √ ‰ Ω ∞ ≈ ÷ ~ ≠
 ¹ ² ³ ½ ¼ ¾ ‐ – — | ⁄ \ [ ] { } † ‡ … · • ● ⌥ ⌃ ⇧ ↩ ¡ ¿ ‽ ⁂ ∴ ∵ ◊ ※ ← → ↑ ↓
-☜ ☞ ☝ ☟ ✔ ★ ☆ ♺ ☼ ☂ ☺ ☹ ☃ ✉ ✿ ✄ ✈ ✌ ✎ ♠ ♦ ♣ ♥ ♪ ♫ ♯ ♀ ♂ α ß
+☜ ☞ ☟ ✔ ★ ☆ ♺ ☼ ☂ ☺ ☹ ☃ ✉ ✿ ✄ ✈ ✎ ♠ ♦ ♣ ♥ ♪ ♫ ♯ ♀ ♂ α ß
 Á á À à Å å Ä ä Æ æ Ç ç É é È è Ê ê Í í Ì ì Î î Ñ ñ Ó ó Ò ò Ô ô Ö ö Ø ø Ú ú Ù ù Ü ü Ž ž ₳
 ฿ ￠ € ₡ ¢ ₢ ₵ ₫ ￡ £ ₤ ₣ ƒ ₲ ₭ ₥ ₦ ₱ ＄ $ ₮ ₩ ￦ ¥ ￥ ₴ ₰
 ~ ƻ Ƽ ƽ ¹ ¸ ¬ ¨ ɂ ǁ ¯ Ɂ ǂ ¡ ´ ° ꟾ ¦ } { | . , · ] ) [ / _ \ ¿ º §  * - + (
@@ -4902,7 +4931,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ≪ ≫ ≬ ≭ ≮ ≯ ≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿ ⊀ ⊁ ⊂ ⊃ ⊄ ⊅ ⊆ ⊇ ⊈ ⊉ ⊊ ⊋ ⊌ ⊍ ⊎ ⊏ ⊐ ⊑ ⊒ ⊓ ⊔
 ⊕ ⊖ ⊗ ⊘ ⊙ ⊚ ⊛ ⊜ ⊝ ⊞ ⊟ ⊠ ⊡ ⊢ ⊣ ⊤ ⊥ ⊦ ⊧ ⊨ ⊩ ⊪ ⊫ ⊬ ⊭ ⊮ ⊯ ⊰ ⊱ ⊲ ⊳ ⊴ ⊵ ⊶ ⊷ ⊸ ⊹ ⊺ ⊻ ⊼ ⊽ ⊾ ⊿ ⋀ ⋁ ⋂ ⋃ ⋄
 ⋅ ⋆ ⋇ ⋈ ⋉ ⋊ ⋋ ⋌ ⋍ ⋎ ⋏ ⋐ ⋑ ⋒ ⋓ ⋔ ⋕ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⋜ ⋝ ⋞ ⋟ ⋠ ⋡ ⋢ ⋣ ⋤ ⋥ ⋦ ⋧ ⋨ ⋩ ⋪ ⋫ ⋬ ⋭ ⋮ ⋯ ⋰ ⋱
-⋲ ⋳ ⋴ ⋵ ⋶ ⋷ ⋸ ⋹ ⋺ ⋻ ⋼ ⋽ ⋾ ⋿ ✕ ✖ ✚ ◀ ▶ ❝ ❞ ★ ☆ ☼ ☂ ☺ ☹ ✄ ✈ ✌ ✎ ♪ ♫ ☀ ☁ ☔ ⚡ ❆ ☽ ☾ ✆ ✔ ☯ ☮ ☠ ⚑ ☬
+⋲ ⋳ ⋴ ⋵ ⋶ ⋷ ⋸ ⋹ ⋺ ⋻ ⋼ ⋽ ⋾ ⋿ ✕ ✖ ✚ ◀ ▶ ❝ ❞ ★ ☆ ☼ ☂ ☺ ☹ ✄ ✈ ✎ ♪ ♫ ☀ ☁ ❆ ☽ ☾ ✆ ✔ ☯ ☮ ☠ ⚑ ☬
 ✄ ✏ ♰ ✡ ✰ ✺ ⚤ ⚢ ⚣ ♕ ♛ ♚ ♬ ⓐ ⓑ ⓒ ⓓ ↺ ↻ ⇖ ⇗ ⇘ ⇙ ⟵ ⟷ ⟶ ⤴ ⤵ ⤶ ⤷ ➫ ➬ € ₤ ＄ ₩ ₪ ⟁ ⟐ ◆ ⎔ ░ ▢ ⊡ ▩ ⟡ ◎
 ◵ ⊗ ❖ Ω β Φ Σ Ξ ⟁ ⦻ ⧉ ⧭ ⧴ ∞ ≌ ⊕ ⋍ ⋰ ⋱ ✖ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ᴕ ⸨ ⸩ ❪ ❫ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾
 ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛
@@ -4917,22 +4946,22 @@ Extra Characters to cut and paste. Some do not work in HTML.
 · • ⸰ ° ‣ ⁒ % ‰ ‱ & ⅋ § ÷ + ± = ꞊ ′ ″ ‴ ⁗ ‵ ‶ ‷ ‸ * ⁑ ⁎ ⁕ ※ ⁜ ⁂ ! ‼ ¡ ? ¿ ⸮ ⁇ ⁉ ⁈ ‽ ⸘ ¼ ½ ¾
 ² ³ © ® ™ ℠ ℻ ℅ ℁ ⅍ ℄ ¶ ⁋ ❡ ⁌ ⁍ ⸖ ⸗ ⸚ ⸓
 ( ) [ ] { } ⸨ ⸩ ❨ ❩ ❪ ❫ ⸦ ⸧ ❬ ❭ ❮ ❯ ❰ ❱ ❴ ❵ ❲ ❳ ⦗ ⦘ ⁅ ⁆ 〈 〉 ⏜ ⏝ ⏞ ⏟ ⸡ ⸠ ⸢ ⸣ ⸤ ⸥
-⎡ ⎤ ⎣ ⎦ ⎨ ⎬ ⌠ ⌡ ⎛ ⎠ ⎝ ⎞ ⁀ ⁔ ‿ ⁐ ‾ ⎟ ⎢ ⎥ ⎪ ꞁ ⎮ ⎧ ⎫ ⎩ ⎭ ⎰ ⎱ ✈ ☀ ☼ ☁ ☂ ☔ ⚡ ❄ ❅ ❆ ☃
+⎡ ⎤ ⎣ ⎦ ⎨ ⎬ ⌠ ⌡ ⎛ ⎠ ⎝ ⎞ ⁀ ⁔ ‿ ⁐ ‾ ⎟ ⎢ ⎥ ⎪ ꞁ ⎮ ⎧ ⎫ ⎩ ⎭ ⎰ ⎱ ✈ ☀ ☼ ☁ ☂ ❄ ❅ ❆ ☃
 ☉ ☄ ★ ☆ ☽ ☾  ☇ ☈ ⌂ ⌁ ⏧ ✆ ☎ ☏ ☑ ✓ ✔ ⎷ ⍻
-✖ ✗ ✘ ☒ ✕ ☓  ☚ ☛ ☜  ☞ ☟ ☹ ☺ ☻ ☯ ⚘ ☮ ✝ ⚰ ⚱ ⚠ ☠ ☢ ⚔ ⚓ ⎈ ⚒ ⚑ ⚐ ☡ ❂ ⚕ ⚖ ⚗ ✇ ☣ ⚙ ☤ ⚚ ⚛ ⚜ ☥ ☦ ☧ ☨ ☩
+✖ ✗ ✘ ☒ ✕ ☓  ☚ ☛ ☜  ☞ ☟ ☹ ☺ ☻ ☯ ⚘ ☮ ✝ ⚰ ⚱ ⚠ ☠ ☢ ⚔ ⎈ ⚒ ⚑ ⚐ ☡ ❂ ⚕ ⚖ ⚗ ✇ ☣ ⚙ ☤ ⚚ ⚛ ⚜ ☥ ☦ ☧ ☨ ☩
 † ☪ ☯ ☫ ☬ ☭ ✁ ✂ ✃ ✄ ✎ ✏ ✐  ✑ ✒ ✉ ✙ ✚ ✜ ✛ ♰ ♱ ✞ ✟ ✠ ✡ ☸ ✢ ✣ ✤ ✥ ✦ ✧ ✩ ✪ ✫ ✬ ✭ ✮ ✯ ✰ ✲ ✱ ✳ ✴ ✵ ✶ ✷ ✸
 ✹ ✺ ✻ ✼ ✽ ✾ ❀ ✿ ❁ ❃ ❇ ❈ ❉ ❊ ❋ ⁕ ☘ ❦ ❧ ☙ ❢ ❣ ♀ ♂ ⚲ ⚢ ⚣ ⚤ ⚥ ⚦ ⚧ ⚨ ⚩ ☿ ♁ ⚯ ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟ ☖
 ☗ ♠ ♣ ♦ ♥ ❤ ❥ ♡ ♢ ♤ ♧ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ⚇ ⚆ ⚈ ⚉ ♨ ♩ ♪ ♫ ♬ ♭ ♮ ♯ ⌨ ⏏ ⎗ ⎘ ⎙ ⎚ ⌥ ⎇ ⌘ ⌦ ⌫ ⌧ ♲ ♳ ♴ ♵ ♶ ♷ ♸ ♹
 ♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇  ⏚ ⏛
-┊ ○ ● ⚠ ✡ ° ⁂
+┊ ○ ● ⚠ ✡ ° ⁂⌽⌇ ⌍ ⌎⎌ ⌏ ⌐ ⌑ ⌔
+⌙ ⌢ ⌣ ⌯ ⌬�
 
 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡
 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚ ⚫ ⚓ 🐰 🕳
  ✦ ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦
 ❤️
-⌽⌇ ⌍ ⌎⎌ ⌏ ⌐ ⌑ ⌔
-⌙ ⌢ ⌣ ⌯ ⌬�
+
 ⍙Δ
 𓆏⚪⚫
 ᛉ卐☭💰
@@ -4940,7 +4969,7 @@ Extra Characters to cut and paste. Some do not work in HTML.
 🚺🍤🦐🐠🦀🐙🐡
 ✌😊💚💖😊💜🥀🌭⛺
 😡
-🏴󠁧󠁢󠁳󠁣󠁴󠁿
+🏴󠁧󠁢󠁳󠁣󠁴󠁿 ☔ ⚡
 👹🤢🤮⛺🤣
 🤔🔥
 🦇
@@ -4961,9 +4990,20 @@ _________________¶_______
 (@)@)*************(@)(@)**(@)
 
 
+  ʕ·ᴥ·ʔ
+
+(づ ￣ ³￣)づ
+
+(╯°_°）
+
+(ง •̀_•́)ง
+
+(ʘ‿ʘ)╯
+
 
 Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟̥̤̗͇͂̿̎̂̿̓́̃͜͠͝E̸̢͕̯̞̻̓ ̶̡̫̘̣̼͕̠͙̺͌Ŗ̶̪̖͗̃̈́͗͛̉͑̆͠͠͝I̴̧̡͉̗̠̤̳̼̼͌̂͌̔̑̀̃̒̔͂̈͘ͅT̷̠̫̭̽̇̿̑̉̋̈́͆̔͝Ȕ̶̢̦͉̱̟̳̣̌̄̌͛͒̄ͅA̷̢̺̖͓̟͚̠̻͌̐͑̑̔͋̊̽͌͂͘͝Ļ̷̡̪̼̹͇̫̬͂̓͒́ ̶̞̬̮̰̓͘H̷̢̛̗͇̯̦̘̠̟̳͈͍̗̐̇̚A̵̬̤͐͛̈́͘Ș̶̛͔̞̹͚͚͕̞͆̉̈́̋͌͋̽̓͝͠ ̸͇̪̙̥̯͇̒̆̏̈́͝͝B̶̠̖̟͍̣͙̬͋͗͛̒̇͒̈̕Ḙ̴̡̼͂́͐G̸͔̟͆̏̿͋͆̌̀̚̚͜Ö̶̧̪̮̤̤̀̈̎̀͗̉̏͝Ṇ̷̢̮̦͉̝͖̽̑̏̇̈́̓̕̕͜͝͝Ẻ̶̢͍͇̞̩̆̑̕͘̚͝͝ ̸͇̼̓́̉͂̎͐̿͊͂͝Å̵̙̗̣͍̎̈̚͠͝͝ͅN̷̛͍̞̰͌O̴̩̪̺͍͉͗͆́N̵̮͖̙͓͔̤͉̘̱͈̰̈́͌̄͊͜ ̴͉͓̖̺̬͐̈́̂̒̓̋T̴̤̙̩̳͖̗̗̼̗͎̽̽̾̊̿̄͜͝ͅH̶̨̀͋͋͒͒̐̽̋̀͐̉̀͜Ē̸̢̛̟̤͌͆̊͊̿́̏̍̚͠R̶̮̙͍͔̠͉̟̳̠̫̪̾͆͜͝E̵̞̥̻̹̫̽̀̑̊̿̑̉͝ ̸͔̭̪͙̠͙̹͖͊̐͜I̵̡̧̛̫͍͓͈̻̩͙̳̿̈́̎̾͋̀S̵̩͂͆̈̽̃̆ ̵̧͙̱̼̞̮̩̯̘̞̼͊̄̄̊͐͗͐͛̈́͂Ņ̸̩̝͈͕̯̟̟̰̈́̉̐͑͘͜ͅȌ̶̙̩̀̈̈́̀͐͠ ̸̨̙̞̣̤̥̮̻̌̑̃̃͠͝E̸̤͌̔̔͝S̵̡̫͕͓͕̪̆̃̈̇̔̓C̶̨͍͔̫͔͚̗̈́̎̿̃͘A̶͚̩͉̭͙̘̟̤̙͔̣͂̄͑̊̆͘͝ͅP̷̟͕͉̼̙̻͎̈̓͌͛͜Ē̸͉͔͓̈́̀͂̈́̌͒̑̚͝ ̶̧̛̞̣̤̞͌̐̆͂̎͒̓F̸̨͕̹͔͉̯̜̺͎̱͛̈̃͊͂̀̐̂̍̚͘R̸͙̠̯̈̂͊̃͗̍O̶̪̹̝̭͔̻̣͖̻̗̔̌͠M̴͔̜͓̗̣̞̩͉̮̈́̽͋͗̌̒͘͜͝ͅ ̸̛̬̫̝̻͚̗͉̺̋̀͊̐͆̍̄̉̈́͘͝Y̶͉̊͒̋̈́́́́̃̾Ŏ̸̟̞͖͍̐̓͐͊̿̆̔̓̈̌͠Ǘ̴̱̤͍͙̖̃̃̄̌̊̏͝͠R̷̼̥̳̙̓̈͜͝ ̴̢̺̗̘̪̰͖̜͖͙͙̽̆͜͝Ṡ̷̳͉͖̞̻̑͛̐̃Ỉ̴̡̡̖̦̳̩͈̭̝͖͋̎̑̔Ñ̵̡͎̥̈̌̑̈́̔̇͜͝S̴̢̡̬̝̪̪̪̪͓͇̟̔͂͑̈́͗͑͛͛͊͜͝
-▄█▀ █▬█ █ █ █ █▀█▀
+
+▄█▀ █▬█ █ █ █ █ ▀█▀
 
 ## Programming Languages
 🅒   ## C/C++
@@ -4982,7 +5022,7 @@ Ţ̶̡̺̟̻͊͌͊͌̉̆͊̓͘͘͜͝ͅȞ̸̡̛͎̪̼͓̟͂̿̎̂̿̓́̃͜͠͝
 💻   ## Shell
 
  🍃🌼🌺🍃🌸🍃🤎🙏🏽👵🏽👋🏾🇨🇦❤️🇺🇸🇺❤️🇨🇦
-😳😥🤣🤣🌄
+😳😥🤣🤣🌄 ❗
 
 ## Prompt
 ↳
@@ -6358,6 +6398,9 @@ $> find . -type d -print0 | while read -d $'\0' dir; do cd "$dir"; echo " proces
 ## Convert all flac files in dir to mp3 320kbps using ffmpeg
 $> for FILE in *.flac; do ffmpeg -i "$FILE" -b:a 320k "${FILE[@]/%flac/mp3}"; done;
 ## It loops through all files in current directory that have flac extension and converts them to mp3 files with bitrate of 320kpbs using ffmpeg and default codec.
+##==========================================
+## mulimedia, video. Overlay an image on top of video.
+$> ffmpeg -i input.mp4 -i image.png -filter_complex "overlay=10:10" output.mp4
 ##==========================================
 ##  Ban all IPs that attempted to access phpmyadmin on your site
 $> grep "phpmyadmin" $path_to_access.log | grep -Po "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" | sort | uniq | xargs -I% sudo iptables -A INPUT -s % -j DROP
@@ -9975,6 +10018,9 @@ $> echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~
 ## Then, enable syntax highlighting in the current interactive shell:
 $> source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh=
 ##==========================================
+## ########################################
+## ########################################
+##==========================================
 ## Remove git tags
 $> git tag -d $(git for-each-ref --format='%(refname:short)' 'refs/tags/phabricator')
 ## Or nuke all tags then re-pull.
@@ -12102,10 +12148,12 @@ $> uv run hf download black-forest-labs/.1-schnell
 ## Run models with raw weights via hf:
 #$> hf download Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
 $> hf download unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF --include "*.Q4_K_M*"
+## Better to use wget
+$> wget https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf   -O ~/models/qwen3.6/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf
 ## Then run with llama-cli or llama-server. More control, more setup.
-## Compile llama.cpp
+## Compile llama.cpp See below.
 ## llama-server run Qwen/Qwen3-Coder-30B-A3B-Instruct-GGUF
-$> llama-server -m /path/to/your/model/Qwen3-Coder-30B-A3B-Instruct-GGUF_Q5_K_XL.gguf \
+$> llama-server -m ~/models/qwen3.6/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf \
 $>   --threads 8 \
 $>   --batch-size 512 \
 $>   --ctx-size 65536 \
@@ -12119,6 +12167,32 @@ $>   -a qwen3-coder-30-a3b \
 $>   --host 0.0.0.0 \
 $>   --port 8888
 ##==========================================
+## #############################################
+## ##    llama.cpp AI framework
+## #############################################
+## A server for models. This is the basis for Ollama
+$> firefox https://github.com/ggml-org
+## Build Tools
+$> sudo apt install git cmake build-essential
+## Clone
+$> git clone https://github.com/ggml-org/llama.cpp
+$> cd llama.cpp
+## Build
+$> cmake -B build -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release
+## Make with all the cores
+$> cmake --build build --config Release -j$(nproc)
+## Verify the Build
+$> ~/code/llama.cpp/build/bin/llama-cli --version
+## Start the server
+$> CUDA_VISIBLE_DEVICES=0,1 \
+$>   nohup ~/code/llama.cpp/build/bin/llama-server \
+$>   -m ~/models/qwen3.6/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf \
+$>   --port 18083 --host 0.0.0.0 -ngl 99 \
+$>   -c 131072 -np 1 \
+$>   -ctk q8_0 -ctv q8_0 \
+$>   --jinja \
+$>   > ~/llama-server-18083.log 2>&1 &
+## ==========================================
 ## #############################################
 ## ##    ollama AI framework
 ## #############################################
@@ -12150,18 +12224,82 @@ $> ollama run qwen3-coder:30b-a3b-q4_K_M --verbose
 ## Ollama server typically runs in the background and exposes an API port 11434
 $> http://localhost:11434
 ##==========================================
-## How to Use num_ctx in Ollama.
+## How to Modelfilein Ollama.
 ## num_ctx parameter in Ollama defines the size of the context window (short-term memory) in tokens that a model uses to generate responses, defaulting to 2048 or 4096 tokens
-## Create a custom Modelfile with extended context:
+## Create a customModelfile with extended context Use num_ctx, the amount of context:
 $> cat > /tmp/Modelfile <<'EOF'
 $> FROM qwen3-coder:30b
 $> PARAMETER num_ctx 32768
+EOF
+## Give tool calling ability from a gguf
+## Give it tools
+$> cat > ~/models/qwen3.6/Modelfile_Qwen3.6-35B-A3B-UD-Q4_K_S-128K << EOF
+$> FROM ~/models/qwen3.6/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf
+$>
+$> TEMPLATE """{{- if or .System .Tools }}<|im_start|>system
+$> {{- if .System }}
+$> {{ .System }}
+$> {{- end }}
+$> {{- if .Tools }}
+$>
+$> # Tools
+$>
+$> You may call one or more functions to assist with the user query.
+$>
+$> You are provided with function signatures within <tools></tools> XML tags:
+$>
+$> <tools>
+$> {{- range .Tools }}
+$> {"type": "function", "function": {{ .Function }}}
+$> {{- end }}
+$> </tools>
+$>
+$> For each function call, return a json object with function name and arguments within
+$> <tool_call></tool_call> XML tags:
+$>
+$> <tool_call>
+$> {"name": <function-name>, "arguments": <args-json-object>}
+$> </tool_call>
+$> {{- end }}
+$> <|im_end|>
+$> {{ end }}
+$> {{- range .Messages }}
+$> {{- if eq .Role "user" }}<|im_start|>user
+$> {{ .Content }}<|im_end|>
+$> <|im_start|>assistant
+$> {{- else if eq .Role "assistant" }}
+$> {{- if .ToolCalls }}
+$> {{- range .ToolCalls }}
+$> <tool_call>
+$> {"name": "{{ .Function.Name }}", "arguments": {{ .Function.Arguments }}}
+$> </tool_call>
+$> {{- end }}
+$> {{- else }}
+$> {{ .Content }}
+$> {{- end }}<|im_end|>
+$> {{- else if eq .Role "tool" }}<|im_start|>user
+$> <tool_response>
+$> {{ .Content }}
+$> </tool_response><|im_end|>
+$> <|im_start|>assistant
+$> {{- end }}
+$> {{- end }}"""
+$>
+$> PARAMETER stop "<|im_end|>"
+$> PARAMETER stop "<|endoftext|>"
+$> PARAMETER num_ctx 131072
+$> PARAMETER temperature 0.8
+$> PARAMETER top_p 0.95
+$> PARAMETER top_k 20
+$> PARAMETER repeat_penalty 1.0
+$>
+$> SYSTEM ""
 EOF
 ## Create new model with new context.
 $> ollama create qwen3-coder-32k -f /tmp/Modelfile
 ## Verify it loads on both GPUs:
 $> nvtop
-$> ollama run qwen3-coder-32k "say hello"0
+$> ollama run qwen3-coder-32k "say hello"
 ## OR
 ## Modelfile: Add PARAMETER num_ctx 4096 to a custom Modelfile.
 $> cat > /tmp/Modelfile <<EOF\nFROM qwen3-coder:latest\nPARAMETER num_ctx 32768\nEOF\nollama create qwen3-coder-32k -f /tmp/Modelfile
@@ -12188,6 +12326,129 @@ $> sudo vim /etc/systemd/system/ollama.service
 $>     Environment="CUDA_VISIBLE_DEVICES=GPU-224df51c-6513-92c3-426c-ca6872aa2eb3,GPU-89bed385-2191-3219-4f6e-bc9668c5f101"
 ## Restart to make in effect.
 $> sudo systemctl daemon-reload && sudo systemctl restart ollama
+##==========================================
+## Configure the agents.
+$> cat ~/.config/opencode/opencode.json
+## Serveral different agents, with tools.
+## Three providers, one remote, one local llama.cpp, one local ollama
+$> {
+$>   "$schema": "https://opencode.ai/config.json",
+$>   "agent": {
+$>     "build": {
+$>       "disable": false,
+$>       "mode": "primary",
+$>       "model": "opencode/big-pickle",
+$>       "prompt": "{file:~/code/opencode/AGENTS.md}",
+$>       "tools": {
+$>         "write": true,
+$>         "edit": true,
+$>         "bash": true,
+$>         "read": true,
+$>         "glob": true,
+$>         "grep": true,
+$>         "webfetch": true,
+$>         "websearch": true,
+$>         "codesearch": true,
+$>         "skill": true,
+$>         "todowrite": true,
+$>         "todoread": true,
+$>         "question": true,
+$>         "task": true
+$>       }
+$>     },
+$>     "plan": {
+$>       "disable": false,
+$>       "mode": "primary",
+$>       "model": "opencode/big-pickle",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": false
+$>       }
+$>     },
+$>     "researcher": {
+$>       "disable": false,
+$>       "description": "Web researcher. Use for all web searches, documentation lookups, and internet research. Preferred over searching the web directly to save tokens.",
+$>       "mode": "all",
+$>       "model": "ollama/qwen3.5:9b-q8_0-128K",
+$>       "prompt": "You are a web researcher. Find complete information on the subject. Provide concise distillation of findings. Include URL attribution for every claim.",
+$>       "tools": {
+$>         "write": false,
+$>         "edit": false,
+$>         "bash": true
+$>       }
+$>     }
+$>   },
+$>   "provider": {
+$>     "ollama-X10SRA": {
+$>       "npm": "@ai-sdk/openai-compatible",
+$>       "name": "Ollama (X10SRA)",
+$>       "options": {
+$>         "baseURL": "http://X10SRA.localdomain:11434/v1"
+$>       },
+$>       "models": {
+$>         "qwen3.5:9b-q8_0-128K": {
+$>           "name": "Qwen3.5 9B Q8 128K",
+$>           "tools": true,
+$>           "options": {
+$>             "reasoningEffort": "none"
+$>           }
+$>         }
+$>       }
+$>     },
+$>     "llamaserver": {
+$>       "npm": "@ai-sdk/openai-compatible",
+$>       "name": "llama-server (X10SRA)",
+$>       "options": {
+$>         "baseURL": "http://X10SRA.localdomain:18080/v1"
+$>       },
+$>       "models": {
+$>         "gemma4-31b": {
+$>           "name": "Gemma4 31B Q4 (llama-server)",
+$>           "tools": true,
+$>           "prompt": "You have full vision capabilities. When images are provided, describe and analyze them directly. Do not claim you cannot see images.",
+$>           "attachment": true,
+$>           "modalities": {
+$>             "input": [
+$>               "text",
+$>               "image"
+$>             ],
+$>             "output": [
+$>               "text"
+$>             ]
+$>           }
+$>         }
+$>       }
+$>     },
+$>     "ollama": {
+$>       "npm": "@ai-sdk/openai-compatible",
+$>       "name": "Ollama (local)",
+$>       "options": {
+$>         "baseURL": "http://localhost:11434/v1"
+$>       },
+$>       "models": {
+$>         "qwen3.5:9b-q8_0-64K": {
+$>           "name": "Qwen3.5 9B Q6 64K (local)",
+$>           "tools": true,
+$>           "options": {
+$>             "reasoningEffort": "none"
+$>           }
+$>         }
+$>       }
+$>     }
+$>   }
+$> }
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+
 ## ##############################################
 ##==========================================
 ## #############################################
@@ -12207,13 +12468,14 @@ $> npm install -g @anthropic-ai/claude-code.
 $> anthropic.com
 ##==========================================
 ## Make parameters files.
+## Most use AGENTS.md Claude uses CLUADE.md
 ## Examples:
 ## Specifies how you want the agent to act.
 $> touch CLAUDE.md ## Specifies how you want the agent to act.
 $> echo '# Hooks
-$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs ppend-memory.sh` after every response.
+$> - A `Stop` hook is configured in `.claude/settings.local.json` that runs log-bash-hook.sh` after every response.
 $> - It appends Claude last response (with timestamp) to `MEMORY.md`.
-$> # About Me
+$> ## About Me
 $> - Name: YOURNAMEHERE
 $> - Location: Hawaii
 $> - Occupation: Engineer
@@ -12258,7 +12520,7 @@ $>       {
 $>         "hooks": [
 $>           {
 $>             "type": "command",
-$>             "command": "/home/YOURUSERNAMEHERE/code/claude/append-memory.sh"
+$>             "command": "/home/YOURUSERNAMEHERE/code/claude/log-bash-hook.sh"
 $>           }
 $>         ]
 $>       }
@@ -12281,41 +12543,44 @@ $>       }
 $>     ]
 $>   }
 ##----------------------------
-
-
 ## This auto files claude memories.
+$> touch ~/code/claude/command_log.md
 $> touch ~/code/claude/append-memory.sh
 $> cat <<'EOF' > ~/code/claude/append-memory.sh
 $> #!/bin/bash
-$> ## Hook script: appends Claude's last response summary to MEMORY.md
+$> # log-bash-hook.sh -- PostToolUse hook for Bash tool
+$> # Automatically logs every command Claude runs to command_log.md
+$> #
+$> # Receives JSON on stdin from Claude Code:
+$> #   { "tool_name": "Bash", "tool_input": { "command": "..." }, ... }
+$> #
+$> # Format written to command_log.md:
+$> #   ## YYYY-MM-DD        (date header, written once per day)
+$> #   `command`            (one line per command)
 $>
+$> COMMAND_LOG="/home/$USER/code/claude/command_log.md"
+$>
+$> # Read full JSON from stdin
 $> INPUT=$(cat)
-$> TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty')
-$> PROJECT_DIR="${CLAUDE_PROJECT_DIR:-/home/$USER/code/claude}"
-$> MEMORIES_FILE="$PROJECT_DIR/MEMORY.md"
 $>
-$> if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
-$>   exit 0
+$> # Extract the command string from tool_input.command
+$> COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+$>
+$> # Nothing to log if command is empty
+$> if [ -z "$COMMAND" ]; then
+$>     exit 0
 $> fi
 $>
-$> ## Extract the last assistant message text from the JSONL transcript
-$> LAST_RESPONSE=$(tac "$TRANSCRIPT_PATH" | while IFS= read -r line; do
-$>   ROLE=$(echo "$line" | jq -r '.role // empty' 2>/dev/null)
-$>   if [ "$ROLE" = "assistant" ]; then
-$>     echo "$line" | jq -r '
-$>       [.message.content[] | select(.type == "text") | .text] | join("\n")
-$>     ' 2>/dev/null
-$>     break
-$>   fi
-$> done)
+$> TODAY=$(date '+%Y-%m-%d')
 $>
-$> if [ -z "$LAST_RESPONSE" ]; then
-$>   exit 0
+$> # Add date header if today's date is not already the last header in the file
+$> LAST_HEADER=$(grep "^## [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" "$COMMAND_LOG" 2>/dev/null | tail -1)
+$> if [ "$LAST_HEADER" != "## $TODAY" ]; then
+$>     printf '\n## %s\n' "$TODAY" >> "$COMMAND_LOG"
 $> fi
 $>
-$> TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
-$>
-$> printf '\n## %s\n\n%s\n' "$TIMESTAMP" "$LAST_RESPONSE" >> "$MEMORIES_FILE"
+$> # Append the command
+$> printf '`%s`\n' "$COMMAND" >> "$COMMAND_LOG"
 $>
 $> exit 0
 EOF
@@ -12374,10 +12639,19 @@ $> export ANTHROPIC_AUTH_TOKEN=lmstudio
 ## Example
 $> export ANTHROPIC_BASE_URL="http://192.168.1.64:11434/v1"
 $> export ANTHROPIC_AUTH_TOKEN="sk-not-required"
-$> export ANTHROPIC_MODEL="qwen3-coder-32k"
+$> export ANTHROPIC_MODEL="qwen35-9B-q8_0"
 ## Run with Local Model with parameters.
-$> claude --model ollama/qwen3-coder:30b-a3b-q4_K_M
+$> claude --model ollama/qwen35-9B-q8_0
 ##==========================================
+## Server ollama to the network.
+## Add to service file
+$> cat /etc/systemd/system/ollama.service
+$>     Environment="OLLAMA_HOST=0.0.0.0"
+## Restart ollama
+$> sudo systemctl daemon-reload && sudo systemctl restart ollama
+##==========================================
+
+
 ## #############################################
 ##==========================================
 ## ##############################################
@@ -12543,7 +12817,6 @@ $> cat techContext.md      ## stack, setup, hardware targets
 ##===================================
 ## use qwen note.
 $> export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && cline auth -p ollama -k ollama -m qwen3-coder-32k
-
 ##===================================
 ## Cline sends complex, long prompts that often exceed Ollamas default 4k token limit.
 ## You must create a custom Modelfile to increase the context window.
@@ -12787,6 +13060,29 @@ $> opencode
 $>     /models
 $>     Big Pickle
 ##-----------------------------------------
+## Use models with llama.cpp instead of ollama
+$> firefox https://github.com/ErikAllanKincaid/HOWTO/blob/main/HOWTO_llama_cpp.md
+##    Gemma 4 27B start
+## Launch. Run the llama-server on port 18082
+$> CUDA_VISIBLE_DEVICES=GPU-9xxxxxxxxxxxxx9355cd,GPU-89xxxxxxxxxxxxxxf101 \
+$> nohup ~/code/llama.cpp/build/bin/llama-server \
+$>   -m ~/models/gemma4-26b/gemma-4-26B-A4B-it-UD-Q4_K_M.gguf \
+$>   --mmproj ~/models/gemma4-26b/mmproj-BF16.gguf \
+$>   --host 0.0.0.0 \
+$>   --port 18082 \
+$>   -ngl 99 \
+$>   --jinja \
+$>   -c 65536 \
+$>   -np 1 \
+$>   > ~/llama-server-18082.log 2>&1 &
+## STart up opencode
+$> cd ~/code/opencode
+## Pick Gemma 4
+$> opencode
+$>     /models
+$>     Gemma4 26B MoE Q4 (llama-server)
+##===================================
+
 ##===================================
 ## #############################################
 ##===================================
@@ -13342,11 +13638,11 @@ $>
 ## This removes many hidden Unicode characters.
 ## or
 # Removes Zero-Width Spaces, Joiners, and Common Bidi Controls
-sed 's/[\u200B-\u200D\u202A-\u202E\u2060-\u206F]//g' input.txt > output.txt
+$> sed 's/[\u200B-\u200D\u202A-\u202E\u2060-\u206F]//g' input.txt > output.txt
 ## or
-cat input.txt | tr -cd "[:print:]\n" > output.txt
+$> cat input.txt | tr -cd "[:print:]\n" > output.txt
 ## or
-unicodefix -i input.txt > output.txt
+$> unicodefix -i input.txt > output.txt
 ##==========================================
 ## Mount USB drives in cli.
 ## Install udisks2.
@@ -13516,17 +13812,65 @@ $> catt --help
 ## Cast
 $> catt --device "Upstairs Hackitorium TV"  cast  https://regmedia.co.uk/2017/09/28/trump_shutterstock.jpg
 ##==========================================
+## #########################################
+## ##    Timeshift Backup
+## #########################################
 ## os. files. backup. Timeshift CLI Commands:
 ## Configuration via CLI:
+## timeshift configuration via CLI
+## Check current configs
+$> cat /etc/timeshift/default.json
+$> cat /etc/timeshift/timeshift.json
+$> sudo cp /etc/timeshift/timeshift.json /etc/timeshift/timeshift.json.bak
+## Find the of the backup partition
+$> df -hT
+## Get the UUID
+$> blkid /dev/sda1 -s PARTUUID -o value
+## Write configuration. Change to what drive you want.
+## If you want to use sda1 as backup drive.
+$> sudo tee /etc/timeshift/timeshift.json << EOF
+$> {
+$>   "backup_device_uuid" : "$(blkid /dev/sda1 -s PARTUUID -o value)",
+$>   "parent_device_uuid" : "",
+$>   "do_first_run" : "false",
+$>   "btrfs_mode" : "false",
+$>   "include_btrfs_home_for_backup" : "false",
+$>   "include_btrfs_home_for_restore" : "false",
+$>   "stop_cron_emails" : "true",
+$>   "schedule_monthly" : "false",
+$>   "schedule_weekly" : "false",
+$>   "schedule_daily" : "true",
+$>   "schedule_hourly" : "false",
+$>   "schedule_boot" : "false",
+$>   "count_monthly" : "2",
+$>   "count_weekly" : "3",
+$>   "count_daily" : "5",
+$>   "count_hourly" : "6",
+$>   "count_boot" : "5",
+$>   "snapshot_size" : "0",
+$>   "snapshot_count" : "0",
+$>   "date_format" : "%Y-%m-%d %H:%M:%S",
+$>   "exclude" : [
+$>     "+ /home/$USER/**",
+$>     "+ /root/**"
+$>   ],
+$>   "exclude-apps" : []
+$> }
+EOF
+## Check it.
+$> cat /etc/timeshift/timeshift.json
 ## While the GUI provides direct configuration options, CLI users can manage Timeshift's behavior by editing the configuration files, primarily /etc/timeshift/default.json and /etc/timeshift/timeshift.json. These files define parameters such as snapshot retention policies (e.g., number of daily, weekly, monthly snapshots to keep) and the snapshot storage device.
 ## timeshift: This command launches the Timeshift application in a terminal interface, allowing navigation and interaction with its functions.
-$> sudo timeshift --check ## Initiates a check for scheduled snapshots and creates one if due.
-$> sudo timeshift --create ## Forces the creation of a new snapshot, regardless of the schedule.
+$> sudo timeshift --check    ## Initiates a check for scheduled snapshots and creates one if due.
+$> sudo timeshift --create   ## Forces the creation of a new snapshot, regardless of the schedule.
 $> sudo timeshift --create --comments "My new snapshot" --tags D ## Creates a snapshot with a custom comment and a "Daily" tag.
 $> sudo timeshift --restore  ## Starts the interactive restore process, prompting for snapshot selection.
 $> sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific snapshot using its unique ID.
 ## timeshift --list: Displays a list of existing snapshots.
 $> sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
+##==========================================
+## #########################################
+## #########################################
 ##==========================================
 ## Hardware accelerated images. Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
 $> for %f in (*.png) do ffmpeg -i "%f" -quality 100 "%~nf.webp" & ffmpeg -framerate 1 -stream_loop 1 -i "%~nf.webp" -c:v libvpx-vp9 -quality best -crf 10 -qmin 10 -qmax 10 "%~nf.webm"
@@ -13549,6 +13893,7 @@ $> openssl passwd -5 ubuntu
 
 
 ##==========================================
+## #########################################
 ## #################################
 ## ##    More bash alias
 ## #################################
@@ -13731,6 +14076,7 @@ $> alias remove="docker stack rm"
 ## ls
 $> alias la='ls -Alh' # show hidden files
 $> alias ls='ls -aFh --color=always'
+
 $> alias lx='ls -lXBh' # sort by extension
 $> alias lk='ls -lSrh' # sort by size
 $> alias lc='ls -lcrh' # sort by change time
@@ -13776,8 +14122,11 @@ $> alias rm='rm -iv'
 $> alias c='clear'
 $> alias cpu5='ps auxf | sort -nr -k 3 | head -5'
 $> alias mem5='ps auxf | sort -nr -k 4 | head -5' especially for zsh :
+##-------------------------------
+## alias -g — Global aliases,  Global aliases expand anywhere — mid-pipeline, at the end, wherever.
+## alias -s — Suffix aliases Triggered by file extension, type the filename directly and zsh handles launching the right program
 $> alias -s {txt,yml,yaml,conf,md,list}="nvim"
-$> alias -s htmlf="firefox"
+$> alias -s html="firefox"
 $> alias -s org="firefox"
 $> alias -g C='| wc -l'
 $> alias -g WL='| wc -l'
@@ -13795,6 +14144,7 @@ $> alias -g X0G='| xargs -0 egrep'
 $> alias -g X0='| xargs -0'
 $> alias -g ND='*(/om[1])' # newest directory
 $> alias -g NF='*(.om[1])' # newest file
+##-------------------------------
 $> alias iptl='sudo /sbin/iptables -L -n -v --line-numbers'
 $> alias iptlin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
 $> alias iptlout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
@@ -13851,7 +14201,7 @@ $> alias vi='nvim'
 $> alias edit='nvim'
 $> alias emacs='nvim'
 ## Arch Linux "don't panic" updater
-$> alias         pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── 🔃 yesterday pkgs available at ───${COLOR_GRANADE}
+$> alias pp="echo -en \"\e]2;🔺 paru\a${COLOR_LIGHT_GREY} ─── 🔃 yesterday pkgs available at ───${COLOR_GRANADE}
 #https://archive.archlinux.org/repos/$(date --date=yesterday '+%Y/%m/%d')
 #by name : https://archive.archlinux.org/packages
 #$COLOR_LIGHT_GREY
@@ -13957,6 +14307,7 @@ $> else
 $>     $> alias rm='rm -i'
 $> fi
 ##-------------------------
+## pushd and popd. pushd is like cd only it saves the dirctories it was in so you can popd back.
 ## New cd with functions
 $> function _cd {
 $>     # typing just `_cd` will take you $HOME ;)
@@ -13982,7 +14333,6 @@ $> }
 $> alias cd='_cd'
 $> complete -d cd
 ##-------------------------
-##
 $> alias ..='cd ..' ## go to parent dir.
 $> alias ...='cd ../..' ## go to grandparent dir.
 $> alias .3='cd ../../..'
@@ -14246,11 +14596,65 @@ gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 
 
 ##==========================================
-
-
+## ############################################
+## ##    TPM Trusted Platform Module chip
+## ############################################
+##
+##==============================
+$> firefox https://debugging.works/blog/tpm-explained/
+## Check for TPM chip
+$> cat /sys/class/tpm/tpm*/tpm_version_major 2>/dev/null
+$> ls /dev/tpm* 2>/dev/null
+$> dmesg | grep -i tpm
+## see the major version (2 for TPM 2.0, 1 for TPM 1.2)
+$> cat /sys/class/tpm/tpm*/tpm_version_major
+## Check Device Files
+$> ls /dev/tpm*
+## Kernel Logs
+$> journalctl --no-pager --boot --dmesg --grep=tpm_tis
+$> dmesg | grep -i tpm
+## tpm2-tools
+$> tpm2_getcap vendor
+##--------------------------
+## tpm2-pkcs11 - PKCS #11 is a Public-Key Cryptography Standard that defines a standard method to access cryptographic services from tokens/ devices such as hardware security modules (HSM), smart cards, etc.
+firefox https://github.com/tpm2-software/tpm2-pkcs11
+## Recompile tpm2-tools without fapi
+$> git clone https://github.com/tpm2-software/tpm2-pkcs11.git
+$> cd tpm2-pkcs11
+$> ./bootstrap
+$> ./configure --with-fapi=no
+$> make
+$> make install
+##--------------------------
+## TPM Setup for SSH
+firefox https://raymii.org/s/tutorials/Put_your_SSH_keys_in_your_TPM_chip.html
+## Install TPM tools
+$> apt install tpm2-tools libtpm2-pkcs11-tools libtpm2-pkcs11-1 opensc tpm2-abrmd
+##--------------------------
+## Add user to the tss group:
+sudo usermod -a -G tss "$USER"
+##--------------------------
+## Create a token
+$> mkdir ~/.tpm2_pkcs11
+$> tpm2_ptool init
 ##==========================================
-
-
+## ############################################
+## ############################################
+##==========================================
+## Set the CPU frequency
+$> sudo apt install cpufrequtils
+## Check Current Stats:
+$> cpupower frequency-info
+## Set Performance Mode:
+$> sudo cpupower frequency-set --governor performance
+$> sudo cpupower frequency-set --governor powersave
+## Set Specific Frequency (e.g., 2.5 GHz):
+$> sudo cpupower frequency-set --freq 2.5GHz
+## Set Max/Min Limits:
+$> sudo cpupower frequency-set --max 3.0GHz --min 1.0GHz
+$> sudo cpupower frequency-set --max 3.0GHz --min 800MHz
+## Check
+$> grep "cpu MHz" /proc/cpuinfo
 ##==========================================
 ## Uses 'at' to run an arbitrary command at a specified time.
 $> echo 'play alarmclock.wav 2>/dev/null' | at 07:30 tomorrow
