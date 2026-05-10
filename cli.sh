@@ -5252,14 +5252,17 @@ $> sudo a2ensite mydomain.net
 ## Markdown is a lightweight, easy-to-read markup language for creating formatted text.
 $> firefox https://www.markdownguide.org
 ##==========================================
-# Markdown Cheat Sheet
-## Basic Syntax
-### Heading
-# H1
-## H2
-### H3
-### Bold
+## # Markdown Cheat Sheet
+## ## Basic Syntax
+## ### Heading
+## # H1
+## ## H2
+## ### H3
+## -# Small txt
+## ### Bold
+## #~ small
 $> **bold text**
+$> __bold text__
 ## Italic
 $> *italicized text*
 ## Blockquote
@@ -7549,7 +7552,7 @@ $> cat sample_video.avi | nc -l 2424
 ## On a client host (192.168.40.146):
 $> nc 192.168.40.144 2424 | mplayer -vo x11 -cache 3000 -
 ##==========================================
-## To ssh to the server myserver:
+## To ssh to the server myserver999999999
 $> alias myserver="ssh user@my_server_ip"
 ##==========================================
 ## Batch resize images in folder
@@ -14592,9 +14595,42 @@ gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 ##==========================================
 
 
+##========================================
+## ############################################
+## ##    Podman
+## ############################################
+## Drop-in replcement for docker
+## https://garrido.io/notes/podman-rootless-containers-copy-fail/
+##==============================
+## install Podman
+$> apt install -y podman
+## create the user bar
+$> useradd -m -d /var/lib/bar -s /bin/bash -u 1001 bar
+$> su - bar
+## Build the image using podman build and
+$> cat > Containerfile <<EOF
+$> FROM ubuntu:latest
+$>
+$> RUN apt update && apt install -y python3 && apt clean
+$>
+$> RUN mkdir -p /var/www/html
+$> WORKDIR /var/www/html
+$>
+$> RUN cat > index.html <<HTML
+$> <!DOCTYPE html><html lang="en"></html>
+$> HTML
+$>
+$> EXPOSE 8000
+$> CMD ["python3", "-m", "http.server", "-b", "0.0.0.0", "8000"]
+EOF
+$> podman build -t http-server .
+## run the container using podman run:
+$> podman run --rm -it --name http-server-1 -d -p 127.0.0.1:8000:8000/tcp localhost/http-server:latest
+## The server should now be responding to requests:
+$> curl localhost:8000
+#>    <!DOCTYPE html><html lang="en"></html>
 ##==========================================
-
-
+## ############################################
 ##==========================================
 ## ############################################
 ## ##    TPM Trusted Platform Module chip
@@ -14652,7 +14688,7 @@ $> sudo cpupower frequency-set --governor powersave
 $> sudo cpupower frequency-set --freq 2.5GHz
 ## Set Max/Min Limits:
 $> sudo cpupower frequency-set --max 3.0GHz --min 1.0GHz
-$> sudo cpupower frequency-set --max 3.0GHz --min 800MHz
+$> sudo cpupower frequency-set --max 2.0GHz --min 800MHz
 ## Check
 $> grep "cpu MHz" /proc/cpuinfo
 ##==========================================
