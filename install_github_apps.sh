@@ -2243,6 +2243,7 @@ hf download BestWishYsh/Helios-Distilled
 
 
 
+
 ##============================
 ## Heltec_htit-wb32laf
 https://heltec.org/project/wifi-lora-32-v3/
@@ -2250,7 +2251,6 @@ https://heltec.org/project/wifi-lora-32-v3/
 ##============================
 ## Nvidia Nemotron model
 https://huggingface.co/bartowski/nvidia_Nemotron-Cascade-2-30B-A3B-GGUF/tree/main
-
 
 ##============================
 ## Fyn: An uv fork with new features, bug fixes, stripped telemetry (github.com/duriantaco)
@@ -2532,21 +2532,59 @@ https://github.com/google-labs-code/design.md
 https://github.com/Yus314/kasane
 
 ##============================
+## WORKS
 ## kubewall is a Open-Source, Single-Binary Kubernetes Dashboard with Multi-Cluster Management & AI Integration.
 https://github.com/kubewall/kubewall
 wget https://github.com/kubewall/kubewall/releases/download/v0.0.18/kubewall_Linux_x86_64.tar.gz
-
-##============================
-
-
-
-##============================
+tar --extract --file="kubewall_Linux_x86_64.tar.gz" --gzip --verbose
+chmod +x ./kubewall
+sudo mv ./kubewall /usr/local/bin/
 
 
 
 ##============================
+## CCM is a native desktop app for managing Claude Code — agents, commands, skills, memory, rules, hooks, MCP servers, and more — across every project you touch.
+https://claude.ldlework.com/
 
+##============================
+## Instant, Concurrent, Secure & Lightweight Sandbox Service for AI Agents
+https://github.com/TencentCloud/CubeSandbox
 
+##============================
+## gitgrasp git servers that speak Grasp can be hosted anywhere, seamlessly used by many and don't have to be trusted; repositories can migrate seamlessly; issues and patches can flow freely.
+https://gitgrasp.com/
+
+##============================
+
+https://huggingface.co/bartowski/google_gemma-4-E4B-it-GGUF/tree/main
+
+##============================
+## nano-ffmpeg wraps the full power of ffmpeg in a beautiful, keyboard-driven terminal dashboard.
+https://github.com/dgr8akki/nano-ffmpeg
+
+##============================
+## EasyDocker is a TUI for Docker inspired by lazydocker and k9s while leveraging beautiful graphics
+https://github.com/joao-zanutto/easydocker
+
+##============================
+## Bifrost Bridge files between your computer and phone via QR code. No cloud, no cables, no apps — just scan and go.
+https://github.com/axiom0x0/bifrost
+
+##============================
+## CLI tool for managing and executing SQL queries across multiple databases.
+https://github.com/eduardofuncao/squix
+
+##============================
+## lazyagent is a tui/web app for watching what ai agents are doing. You can inspect projects, sessions, agents, subagents, tools, prompts and outputs in one place.
+https://github.com/chojs23/lazyagent
+
+##============================
+## minvid ffmpeg drag & drop a file/folder into the terminal, pick a preset, and it handles the rest.
+https://github.com/Nunatic02/minvid
+
+##============================
+## agtop, top-style TUI for monitoring coding agents
+https://github.com/ldegio/agtop
 
 ##============================
 https://devin.ai/
@@ -2554,14 +2592,149 @@ https://windsurf.com/
 https://bhoite.com/sculptures/boron-lander/
 https://github.com/mkellyxp/nixbook
 
+##============================
+## ghgrab cherry-picking specific files or folders from any GitHub repository
+https://github.com/abhixdd/ghgrab
+
+##============================
+## Nibble is a CLI tool for local network scanning
+https://github.com/backendsystems/nibble
+
+##============================
+## DARYA Fast and Keyboard-Driven Disk Usage Explorer
+https://github.com/mrkatebzadeh/darya
+
+##============================
+## ght command-line tool that brings GitHub trending page
+https://github.com/kwame-Owusu/ght
+
+##============================
+## KernelESP ESP8266 firmware networked control system UNIX-like serial shell, a password-protected web console, LittleFS storage, relay control, scheduled jobs, sensor rules, scripts, logs, NTP time and a JSON API.
+https://github.com/hery-torrado/KernelESP
+
+##============================
+## kagent makes it easy to build, deploy and manage AI agents in Kubernetes.
+https://github.com/kagent-dev/kagent
+
+##============================
+## Kured (KUbernetes REboot Daemon) is a Kubernetes daemonset that performs safe automatic node reboots when the need to do so is indicated by the package management system of the underlying OS.
+https://github.com/kubereboot/kured
+
+##============================
+## ik_llama.cpp: llama.cpp fork with better CPU performance
+https://github.com/ikawrakow/ik_llama.cpp
+
+##============================
+## A lossless byte-page memory layer for MCP-capable AI coding assistants. Local. No embeddings. No cloud. MIT-licensed. Zero runtime dependencies beyond stdlib.
+https://github.com/Amnibro/amnitex
+
+##============================
+## Cohere-transcribe: state-of-the-art speech recognition
+https://huggingface.co/blog/CohereLabs/cohere-transcribe-03-2026-release
+https://huggingface.co/CohereLabs/cohere-transcribe-03-2026
+
+##============================
+## impala - TUIfor managing wifi
+https://github.com/pythops/impala
+## Conflicts with NetworkManager because iwd is not installed, there is a conflict with another network manager (like ConnMan or NetworkManager)
 
 
+##============================
+## The open-source alternative to Claude Design. Local-first, web-deployable,
+https://github.com/nexu-io/open-design
 
+##============================
+## agent-desktop is a native desktop automation CLI designed for AI agents,
+https://github.com/lahfir/agent-desktop
 
+##============================
+## banger-One-command development sandboxes on Firecracker microVMs.
+https://git.thaloco.com/thaloco/banger
 
+##============================
+## SimpleX Chat - Best chat app for privacy nerds.
+https://simplex.chat/
 
+##============================
+## Conclave – make LLMs debate each other before they respond (adndvlp.github.io)
+https://adndvlp.github.io/conclave/
 
+##============================
+## deepclaude – Use Claude Code's autonomous agent loop with DeepSeek V4 Pro, OpenRouter, or any Anthropic-compatible backend. Same UX, 17x cheaper.
+https://github.com/aattaran/deepclaude
+
+##============================
+## Semble – is a code search library built for agents. It returns the exact code snippets they need instantly,
+https://github.com/MinishLab/semble
+
+##============================
+## acai – Command-line Interface helps you (or your agent, or script) perform common actions related to PRD TRD spec-driven development
+https://github.com/acai-sh/cli
+
+##============================
+## mnemory – Give your AI agents persistent memory. mnemory is a self-hosted MCP server that adds personalization and long-term memory to any AI assistant
+https://github.com/fpytloun/mnemory
+
+##============================
+## The Fullstack TypeScript Framework for MCP and APIs
+## One action class. Five transports. Your API is automatically an MCP server for AI agents, a WebSocket handler, a CLI tool, and a background task runner.
+https://www.keryxjs.com/
+
+##============================
+## Gitvize – Visualize any GitHub repository's architecture, file structure, dependencies, and commit history — instantly.
+https://github.com/Aksh1810/Gitvize
+
+##============================
+## Ink – terminal markdown viewer and distraction-free editor
+https://github.com/inkcheck/ink
+
+##============================
+## workshop where you write every piece of a GPT training pipeline yourself, understanding what each component does and why.
+https://github.com/angelos-p/llm-from-scratch
+
+##============================
+## Pi is a minimal terminal coding harness.
+https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent
+
+##============================
+## CADara is an open-source, browser based CAD application. Everything happens on the browser, you can use it completely offline.
+https://github.com/dzervas/cadara
+
+##============================
+## Gemini CLI is an open-source AI agent that brings the power of Gemini directly into your terminal.
+https://github.com/google-gemini/gemini-cli
+
+##============================
+## lilmd - Markdown as a Database for Agents
+https://github.com/molefrog/lilmd
+
+##============================
+## Ubuntu 26.04 can install APT packages from GitHub Container Registry
+https://medium.com/nttlabs/ubuntu-26-04-can-install-apt-packages-from-github-container-registry-532412990318
+
+##============================
+## Tabby is a self-hosted AI coding assistant, offering an open-source and on-premises alternative to GitHub Copilot.
+https://github.com/TabbyML/tabby
+
+##============================
+## eilmeldung is a TUI RSS reader
+https://github.com/christo-auer/eilmeldung
+
+##============================
 
 
 
 ##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
