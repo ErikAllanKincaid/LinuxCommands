@@ -2419,7 +2419,7 @@ https://docs.freestyle.sh/v2
 ## NOPE! CPU 100%
 ## Little Snitch - Every time an application on your computer opens a network connection, it does so quietly, without asking. Little Snitch for Linux makes that activity visible and gives you the option to do something about it.
 https://obdev.at/products/littlesnitch-linux/index.html
-## Tried it ran the computer ragged.
+## Tried it, ran the computer ragged.
 
 ##============================
 ## autoresearch - give an AI agent a small but real LLM training setup and let it experiment autonomously overnight.
@@ -2444,7 +2444,7 @@ https://github.com/askalf/dario
 https://debugging.works/blog/tpm-explained/
 
 ##============================
-## recursive-mode -  for agentic engineeringA structured, file-backed workflow for coding agents. Give your agent audited phases, durable artifacts, and persistent memory — instead of losing everything in chat history.
+## recursive-mode -  for agentic engineering. A structured, file-backed workflow for coding agents. Give your agent audited phases, durable artifacts, and persistent memory — instead of losing everything in chat history.
 https://recursive-mode.dev/installation
 
 ##============================
@@ -2694,7 +2694,11 @@ https://github.com/angelos-p/llm-from-scratch
 
 ##============================
 ## Pi is a minimal terminal coding harness.
+https://pi.dev/
 https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent
+https://jola.dev/posts/running-local-models-on-m4
+
+
 
 ##============================
 ## CADara is an open-source, browser based CAD application. Everything happens on the browser, you can use it completely offline.
@@ -2719,6 +2723,196 @@ https://github.com/TabbyML/tabby
 ##============================
 ## eilmeldung is a TUI RSS reader
 https://github.com/christo-auer/eilmeldung
+
+##============================
+## fzf - interactive filter program for any kind of list; files, command history, processes, hostnames, bookmarks, git commits, etc. It implements a "fuzzy" matching algorithm, so you can quickly type in patterns with omitted characters and still get the results you want.
+https://github.com/junegunn/fzf
+#wget https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz
+#tar -xzf ./fzf-0.72.0-linux_amd64.tar.gz
+#chmod +x fzf
+#sudo mv ./fzf /usr/local/bin/
+### Set up fzf key bindings and fuzzy completion
+#$> source < (fzf --zsh)
+## Install with git.
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+##    Will ask to install binding etc.
+source < (fzf --zsh)
+
+
+
+##============================
+## Version control for AI agent activity. Track what your agent did, which prompt wrote each line, and rewind when things break.
+https://github.com/regent-vcs/re_gent
+
+##============================
+## ovw - scans the project folders you choose and shows what each project is, how active it is, and where you may want to jump back in.
+https://github.com/roie/ovw
+
+##============================
+## Android and Desktop app for YouTube and YouTube Music.
+https://github.com/nonbili/NouTube-Desktop
+
+##============================
+## ferrotorch PyTorch, rewritten from scratch in pure Rust.  ferrotorch is a deep learning framework with reverse-mode automatic differentiation, neural network modules, optimizers, GPU acceleration, and a JIT compiler
+https://github.com/forecast-bio/ferrotorch
+
+##============================
+## quien A better whois and domain intelligence toolkit. Interactive TUI with tabbed views
+https://github.com/retlehs/quien
+
+##============================
+## jobscout is a terminal job-search tracker. It finds jobs from configured sources, stores them locally, and helps review company fit from the terminal.
+https://github.com/wallentx/jobscout
+
+##============================
+## evtr is a terminal UI for inspecting Linux evdev input devices. Select a device from /dev/input/event*, then watch axes, relative motion, buttons, hats, joysticks, and touch state update live.
+https://github.com/hal3e/evtr
+
+##============================
+## ttymap  Terminal-native scriptable earth globe map. Mapbox Vector Tiles rendered as Unicode Braille with ANSI 256-color,
+https://github.com/Kohei-Wada/ttymap
+
+##============================
+## rkdebian is a build system that produces a complete, bootable Debian 12 Bookworm image for the Doogee U10 Android tablet, powered by the Rockchip RK3562 SoC.
+https://github.com/tech4bot/rk3562deb
+https://www.bestbuy.com/product/doogee-u10-android-13-tablet-10-inch-4gb-ram-128gb-rom-1tb-expand-1280--800-ips-hd-screen-5060mah-battery-green/CZY92Q3SS3
+
+##============================
+## Epiq  Distributed terminal-native issue tracker backed by Git. Issue tracking is a core part of software development
+https://github.com/ljtn/epiq
+
+##============================
+## forge  A reliability layer for self-hosted LLM tool-calling. Forge lifts an 8B local model to the top of its class on multi-step agentic workflows through guardrails
+https://github.com/antoinezambelli/forge
+
+##============================
+## Autonomous Coding Agent-harnesses
+https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding
+
+##============================
+## GenCAD  Image-conditioned Computer-Aided Design Generation with Transformer-based Contrastive Representation and Diffusion Priors
+https://github.com/ferdous-alam/GenCAD
+
+##============================
+## SANA-WM: Efficient Minute-Scale World Modelingwith Hybrid Linear Diffusion Transformer
+## A 2.6B open-source world model that turns one image and a camera trajectory into 720p, minute-long, controllable video on a single GPU.
+https://nvlabs.github.io/Sana/WM/
+
+##============================
+## yt-x: Browse YouTube and other yt-dlp supported sites directly from your terminal.
+https://github.com/Benexl/yt-x
+
+##============================
+## PraisonAI 🦞 — 24/7 AI Workforce. start shipping autonomous, self-improving agents that research, plan, and execute tasks across your apps. From one agent to an entire organization, deployed in 5 lines of code.
+https://github.com/MervinPraison/PraisonAI
+
+##============================
+## deepseek TUI is distributed as Rust binaries: the dispatcher command (deepseek) and the companion TUI runtime (deepseek-tui). Pick whichever install path you already use
+https://github.com/Hmbown/DeepSeek-TUI
+
+##============================
+## sshoosh is a self-hosted SSH/TUI workspace chat for small teams and operators who want real-time collaboration over SSH.
+https://github.com/puemos/sshoosh
+
+##============================
+## Resterm A terminal client for REST, GraphQL, gRPC, WebSocket, and SSE.
+https://github.com/unkn0wn-root/resterm
+
+##============================
+## Ansizalizer  A terminal UI to convert images to ANSI art.
+https://github.com/Zebbeni/ansizalizer
+
+##============================
+## DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — so token costs stay low across long sessions, and you can leave it running.
+https://github.com/esengine/DeepSeek-Reasonix
+
+##============================
+## Chicago95  XFCE / Xubuntu Windows 95 Total Conversion
+## XLibre + XCE + Chicago95 + Wine + Steam. Faster, lighter, and better compatibility with Windows software than Windows 11.
+https://github.com/grassmunk/Chicago95
+
+##============================
+## driftwm is an infinite-canvas compositor: windows live at their native size on an infinite 2D canvas, and your display is a camera viewing it.
+https://github.com/malbiruk/driftwm
+
+##============================
+## Serenity agent memory thinks like a brain, abstracts, generalises, and reasons across every domain — all on your own machine.
+https://github.com/Malicedp/serenity
+
+##============================
+## yt-dlp is a feature-rich command-line audio/video downloader
+https://github.com/yt-dlp/yt-dlp
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod +x yt-dlp
+sudo mv ./yt-dlp /usr/local/bin/
+yt-dlp -U ## update
+
+##============================
+## Parcellite Clipboard manager.
+https://github.com/rickyrockrat/parcellite
+## No longer available in trixie repo
+git clone https://github.com/rickyrockrat/parcellite.git
+cd parcellite
+sudo apt install libgtk2.0-dev pkg-config intltool
+make VERSION=1.2.5
+sudo make install prefix=/usr/local
+echo '[Desktop Entry]
+Type=Application
+Exec=parcellite
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Hidden=false
+Name[en_US]=parcellite
+Comment[en_US]=Clipboard manager
+X-GNOME-Autostart-Delay=35' > ~/.config/autostart/parcellite.desktop
+
+
+##============================
+## Fresh A powerful terminal text editor and IDE.
+https://getfresh.dev/
+## Pretty cool full featured TUI terminal editor. https://getfresh.dev/ and I like the name.
+
+- Mouse driven,
+- IDE,
+- Way more like a GUI editor than most terminal editors,
+- vim mode for... people who like that
+
+$> fresh
+
+
+##============================
+## tiny-vllm high performance LLM inference engine with C++ and CUDA - tiny-vllm, a younger and smaller sibling of vLLM
+https://github.com/jmaczan/tiny-vllm
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
 
 ##============================
 
