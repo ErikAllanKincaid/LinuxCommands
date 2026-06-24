@@ -1118,7 +1118,7 @@ $> sudo ip addr add 192.168.1.2/24 dev eth0
 $> nmcli dev wifi show-password
 ##==========================================
 ## Check wifi network for
-arp -n | grep -v incomplete; echo '---'; nmap -sn 192.168.1.0/24 2>/dev/null | grep -E 'report|MAC' | head -40
+$> arp -n | grep -v incomplete; echo '---'; nmap -sn 192.168.1.0/24 2>/dev/null | grep -E 'report|MAC' | head -40
 ##==========================================
 ## Force wifi to use a particular BSSID by MAC
 ## Set Wifi to a single AP when multiple are available.
@@ -1203,6 +1203,24 @@ $> journalctl -u bluetooth -f
 ## Check rfkill status
 $> rfkill list bluetooth
 ##==========================================
+## zram
+## Enable zram for compressed swap in RAM
+$> firefox https://mutschler.dev/linux/debian-post-install/
+## zram creates compressed swap space in RAM, which is faster than disk-based swap and reduces SSD wear. This is especially beneficial on systems with ample RAM.
+$> apt install zram-tools
+$> systemctl enable --now zramswap
+## To customize size and compression algorithm:General Recommendations
+## 50% of Total RAM: This is a standard recommendation for many users.
+## It provides a balance between available memory for applications and the benefits of using ZRAM.
+$> nano /etc/default/zramswap
+## I usually leave the defaults. After changes, restart the service:
+$> systemctl restart zramswap
+## Verify zram is active:
+$> zramctl
+## or
+$> swapon --show
+##==========================================
+
 
 ##==========================================
 ## #######################################################
@@ -1293,7 +1311,6 @@ $> cntl+d
 ## ##    Git
 ## ###########################################################
 ## Revisioning tool. Keeps all revisions of files
-##-------------------------------------
 ##====================================
 ## TLDR
 ## Install git.
@@ -1333,12 +1350,13 @@ $> git commit -m "Added a line."  ##     │    Commited     │
 $> git status                     ##     │file.txt commited│
 ##                                ##     └─────────────────┘
 ## Now the changes can be found in the commit log.
-$> git log
+$> git log/-;['[']
 ## Do it again.
 $> echo 'This is another new line.' >> file.txt
 $> git status
 $> git diff file.txt
 $> git add file.txt
+$> git diff HEAD
 $> git status
 $> git commit -m "Added another line."
 $> git status
@@ -3257,8 +3275,8 @@ case $- in *i*) ;; *) return;; esac
 #export TERM=xterm-256color
 ## Colored GCC warnings and errors.
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-## Enable color support
-if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)";  fi
+## Enable color support. This in handled by LS_COLORS below
+#if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)";  fi
 ## ~/.bash_aliases, instead of adding them here directly.
 #if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 ## Enable programmable completion features (you do not need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
@@ -3266,7 +3284,15 @@ if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors && eval "$(dircolors -b 
 ##==================================
 ## File types in different colors.
 ## wget https://raw.githubusercontent.com/trapd00r/LS_COLORS/refs/heads/master/lscolors.sh
-source ~/lscolors.sh
+#source ~/lscolors.sh
+##----------------------------------
+## File types in different colors.
+LS_COLORS='*.7z=38;5;40:*.WARC=38;5;40:*.a=38;5;40:*.arj=38;5;40:*.br=38;5;40:*.bz2=38;5;40:*.cpio=38;5;40:*.gz=38;5;40:*.lrz=38;5;40:*.lz=38;5;40:*.lzma=38;5;40:*.lzo=38;5;40:*.rar=38;5;40:*.s7z=38;5;40:*.sz=38;5;40:*.tar=38;5;40:*.tbz=38;5;40:*.tgz=38;5;40:*.warc=38;5;40:*.xz=38;5;40:*.z=38;5;40:*.zip=38;5;40:*.zipx=38;5;40:*.zoo=38;5;40:*.zpaq=38;5;40:*.zst=38;5;40:*.zstd=38;5;40:*.zz=38;5;40:*@.service=38;5;45:*AUTHORS=38;5;220;1:*BUILD=38;5;155:*CHANGELOG=38;5;220;1:*CHANGELOG.md=38;5;220;1:*CHANGES=38;5;220;1:*CODEOWNERS=38;5;220;1:*CONTRIBUTING=38;5;220;1:*CONTRIBUTING.md=38;5;220;1:*CONTRIBUTORS=38;5;220;1:*COPYING=38;5;220;1:*COPYRIGHT=38;5;220;1:*Cargo.lock=38;5;240:*Cargo.toml=38;5;155:*CodeResources=38;5;239:*Containerfile=38;5;155:*Dockerfile=38;5;155:*HISTORY=38;5;220;1:*INSTALL=38;5;220;1:*LICENSE=38;5;220;1:*LICENSE.md=38;5;220;1:*LS_COLORS=48;5;89;38;5;197;1;3;4;7:*MANIFEST=38;5;243:*MODULE.bazel.lock=38;5;240:*Makefile=38;5;155:*NOTICE=38;5;220;1:*PATENTS=38;5;220;1:*PkgInfo=38;5;239:*README=38;5;220;1:*README.md=38;5;220;1:*README.rst=38;5;220;1:*VERSION=38;5;220;1:*WORKSPACE=38;5;155:*authorized_keys=1:*cfg=1:*conf=1:*config=1:*core=38;5;241:*dune=38;5;155:*dune-project=38;5;243:*id_dsa=38;5;192;3:*id_ecdsa=38;5;192;3:*id_ed25519=38;5;192;3:*id_rsa=38;5;192;3:*known_hosts=1:*lock=38;5;248:*lockfile=38;5;248:*pm_to_blib=38;5;240:*rc=1:*.1p=38;5;7:*.32x=38;5;213:*.3g2=38;5;115:*.3ga=38;5;137;1:*.3gp=38;5;115:*.3p=38;5;7:*.82p=38;5;121:*.83p=38;5;121:*.8eu=38;5;121:*.8xe=38;5;121:*.8xp=38;5;121:*.A64=38;5;213:*.BAT=38;5;172:*.BUP=38;5;241:*.C=38;5;81:*.CFUserTextEncoding=38;5;239:*.DS_Store=38;5;239:*.F=38;5;81:*.F03=38;5;81:*.F08=38;5;81:*.F90=38;5;81:*.F95=38;5;81:*.H=38;5;110:*.IFO=38;5;114:*.JPG=38;5;97:*.M=38;5;110:*.MOV=38;5;114:*.PDF=38;5;141:*.PFA=38;5;66:*.PL=38;5;160:*.R=38;5;49:*.RData=38;5;178:*.Rproj=38;5;11:*.S=38;5;110:*.S3M=38;5;137;1:*.SKIP=38;5;244:*.TIFF=38;5;97:*.VOB=38;5;115;1:*.a00=38;5;213:*.a52=38;5;213:*.a64=38;5;213:*.a78=38;5;213:*.aac=38;5;137;1:*.accdb=38;5;60:*.accde=38;5;60:*.accdr=38;5;60:*.accdt=38;5;60:*.adf=38;5;213:*.adoc=38;5;184:*.afm=38;5;66:*.agda=38;5;81:*.agdai=38;5;110:*.ahk=38;5;41:*.ai=38;5;99:*.aiff=38;5;136;1:*.alac=38;5;136;1:*.allow=38;5;112:*.am=38;5;242:*.amr=38;5;137;1:*.ape=38;5;136;1:*.apk=38;5;215:*.application=38;5;116:*.aria2=38;5;241:*.asc=38;5;192;3:*.asciidoc=38;5;184:*.asf=38;5;115:*.asm=38;5;81:*.ass=38;5;117:*.astro=38;5;135;1:*.atr=38;5;213:*.au=38;5;137;1:*.automount=38;5;45:*.avi=38;5;114:*.awk=38;5;172:*.azw=38;5;141:*.azw3=38;5;141:*.bak=38;5;241:*.bash=38;5;172:*.bash_login=1:*.bash_logout=1:*.bash_profile=1:*.bat=38;5;172:*.bazel=38;5;155:*.bazelrc=38;5;155:*.bazelversion=38;5;155:*.bfe=38;5;192;3:*.bib=38;5;178:*.bin=38;5;124:*.bmp=38;5;97:*.bsp=38;5;215:*.bzl=38;5;155:*.c=38;5;81:*.c++=38;5;81:*.cab=38;5;215:*.caf=38;5;137;1:*.cap=38;5;29:*.car=38;5;57:*.cbr=38;5;141:*.cbz=38;5;141:*.cc=38;5;81:*.cda=38;5;136;1:*.cdi=38;5;213:*.cdr=38;5;97:*.chm=38;5;141:*.cjs=38;5;074;1:*.cl=38;5;81:*.clj=38;5;41:*.cljc=38;5;41:*.cljs=38;5;41:*.cljw=38;5;41:*.cnc=38;5;7:*.coffee=38;5;079;1:*.comp=38;5;136:*.containerignore=38;5;240:*.cp=38;5;81:*.cpp=38;5;81:*.cr=38;5;81:*.crx=38;5;215:*.cs=38;5;81:*.css=38;5;105;1:*.csv=38;5;78:*.ctp=38;5;81:*.cue=38;5;116:*.cxx=38;5;81:*.dart=38;5;51:*.dat=38;5;137;1:*.db=38;5;60:*.deb=38;5;215:*.def=38;5;7:*.deny=38;5;196:*.description=38;5;116:*.device=38;5;45:*.dhall=38;5;178:*.dicom=38;5;97:*.diff=48;5;197;38;5;232:*.directory=38;5;116:*.divx=38;5;114:*.djvu=38;5;141:*.dll=38;5;241:*.dmg=38;5;215:*.dmp=38;5;29:*.doc=38;5;111:*.dockerignore=38;5;240:*.docm=38;5;111;4:*.docx=38;5;111:*.drw=38;5;99:*.dtd=38;5;178:*.dts=38;5;137;1:*.dump=38;5;241:*.dwg=38;5;216:*.dylib=38;5;241:*.ear=38;5;215:*.ejs=38;5;135;1:*.el=38;5;81:*.elc=38;5;241:*.eln=38;5;241:*.eml=38;5;90;1:*.enc=38;5;192;3:*.entitlements=1:*.epf=1:*.eps=38;5;99:*.epsf=38;5;99:*.epub=38;5;141:*.err=38;5;160;1:*.error=38;5;160;1:*.etx=38;5;184:*.ex=38;5;7:*.example=38;5;7:*.f=38;5;81:*.f03=38;5;81:*.f08=38;5;81:*.f4v=38;5;115:*.f90=38;5;81:*.f95=38;5;81:*.fb2=38;5;141:*.fcm=38;5;137;1:*.feature=38;5;7:*.fish=38;5;172:*.flac=38;5;136;1:*.flif=38;5;97:*.flv=38;5;115:*.fm2=38;5;213:*.fmp12=38;5;60:*.fnt=38;5;66:*.fon=38;5;66:*.for=38;5;81:*.fp7=38;5;60:*.frag=38;5;136:*.ftn=38;5;81:*.fvd=38;5;124:*.fxml=38;5;178:*.gb=38;5;213:*.gba=38;5;213:*.gbc=38;5;213:*.gbr=38;5;7:*.gel=38;5;213:*.gemspec=38;5;41:*.ger=38;5;7:*.gg=38;5;213:*.ggl=38;5;213:*.gif=38;5;97:*.git=38;5;197:*.gitattributes=38;5;240:*.github=38;5;197:*.gitignore=38;5;240:*.gitmodules=38;5;240:*.go=38;5;81:*.gp3=38;5;115:*.gp4=38;5;115:*.gpg=38;5;192;3:*.gradle=38;5;155:*.gs=38;5;81:*.h=38;5;110:*.h++=38;5;110:*.hi=38;5;110:*.hidden-color-scheme=1:*.hidden-tmTheme=1:*.hin=38;5;242:*.hjson=38;5;178:*.hpp=38;5;110:*.hs=38;5;81:*.htm=38;5;125;1:*.html=38;5;125;1:*.http=38;5;90;1:*.hxx=38;5;110:*.icns=38;5;97:*.ico=38;5;97:*.ics=38;5;7:*.ii=38;5;110:*.img=38;5;124:*.iml=38;5;166:*.in=38;5;242:*.info=38;5;184:*.ini=1:*.ipa=38;5;215:*.ipk=38;5;213:*.ipynb=38;5;41:*.iso=38;5;124:*.j64=38;5;213:*.jad=38;5;215:*.jar=38;5;215:*.java=38;5;079;1:*.jhtm=38;5;125;1:*.jpeg=38;5;97:*.jpg=38;5;97:*.js=38;5;074;1:*.jsm=38;5;079;1:*.json=38;5;178:*.json5=38;5;178:*.jsonc=38;5;178:*.jsonl=38;5;178:*.jsonnet=38;5;178:*.jsp=38;5;079;1:*.jsx=38;5;074;1:*.jxl=38;5;97:*.kak=38;5;172:*.key=38;5;166:*.lagda=38;5;81:*.lagda.md=38;5;81:*.lagda.rst=38;5;81:*.lagda.tex=38;5;81:*.last-run=1:*.less=38;5;105;1:*.lhs=38;5;81:*.libsonnet=38;5;142:*.lisp=38;5;81:*.lnk=38;5;39:*.localized=38;5;239:*.localstorage=38;5;60:*.log=38;5;190:*.lua=38;5;81:*.m=38;5;110:*.m2v=38;5;114:*.m3u=38;5;116:*.m3u8=38;5;116:*.m4=38;5;242:*.m4a=38;5;137;1:*.m4v=38;5;114:*.map=38;5;7:*.markdown=38;5;184:*.md=38;5;184:*.md5=38;5;116:*.mdb=38;5;60:*.mde=38;5;60:*.mdump=38;5;241:*.mdx=38;5;184:*.merged-ca-bundle=1:*.mf=38;5;7:*.mfasl=38;5;7:*.mht=38;5;125;1:*.mi=38;5;7:*.mid=38;5;136;1:*.midi=38;5;136;1:*.mjs=38;5;074;1:*.mkd=38;5;184:*.mkv=38;5;114:*.ml=38;5;81:*.mli=38;5;110:*.mll=38;5;81:*.mly=38;5;81:*.mm=38;5;7:*.mobi=38;5;141:*.mod=38;5;137;1:*.moon=38;5;81:*.mount=38;5;45:*.mov=38;5;114:*.mp3=38;5;137;1:*.mp4=38;5;114:*.mp4a=38;5;137;1:*.mpeg=38;5;114:*.mpg=38;5;114:*.msg=38;5;178:*.msql=38;5;222:*.mtx=38;5;7:*.mustache=38;5;135;1:*.mysql=38;5;222:*.nc=38;5;60:*.ndjson=38;5;178:*.nds=38;5;213:*.nes=38;5;213:*.nfo=38;5;184:*.nib=38;5;57:*.nim=38;5;81:*.nimble=38;5;81:*.nix=38;5;155:*.norg=38;5;184:*.nrg=38;5;124:*.nth=38;5;97:*.nu=38;5;172:*.numbers=38;5;112:*.o=38;5;241:*.odb=38;5;111:*.odp=38;5;166:*.ods=38;5;112:*.odt=38;5;111:*.oga=38;5;137;1:*.ogg=38;5;137;1:*.ogm=38;5;114:*.ogv=38;5;115:*.old=38;5;242:*.opam=38;5;240:*.opus=38;5;137;1:*.org=38;5;184:*.orig=38;5;241:*.otf=38;5;66:*.out=38;5;242:*.p12=38;5;192;3:*.p7s=38;5;192;3:*.pacnew=38;5;33:*.pages=38;5;111:*.pak=38;5;215:*.part=38;5;239:*.patch=48;5;197;38;5;232;1:*.path=38;5;45:*.pbxproj=1:*.pc=38;5;7:*.pcap=38;5;29:*.pcb=38;5;7:*.pcf=1:*.pcm=38;5;136;1:*.pdf=38;5;141:*.pem=38;5;192;3:*.pfa=38;5;66:*.pfb=38;5;66:*.pfm=38;5;66:*.pgn=38;5;178:*.pgp=38;5;192;3:*.pgsql=38;5;222:*.php=38;5;81:*.pi=38;5;7:*.pid=38;5;248:*.pk3=38;5;215:*.pl=38;5;208:*.plist=1:*.plt=38;5;7:*.ply=38;5;216:*.pm=38;5;203:*.png=38;5;97:*.pod=38;5;184:*.pot=38;5;7:*.pps=38;5;166:*.ppt=38;5;166:*.ppts=38;5;166:*.pptsm=38;5;166;4:*.pptx=38;5;166:*.pptxm=38;5;166;4:*.prisma=38;5;222:*.profile=1:*.properties=38;5;116:*.prql=38;5;222:*.ps=38;5;99:*.psd=38;5;97:*.psf=1:*.pug=38;5;135;1:*.pxd=38;5;97:*.pxm=38;5;97:*.py=38;5;41:*.pyc=38;5;240:*.qcow=38;5;124:*.r=38;5;49:*.r[0-9]{0,2}=38;5;239:*.rake=38;5;155:*.rb=38;5;41:*.rdata=38;5;178:*.rdf=38;5;7:*.rego=38;5;178:*.rkt=38;5;81:*.rlib=38;5;241:*.rmvb=38;5;114:*.rnc=38;5;178:*.rng=38;5;178:*.rom=38;5;213:*.rpm=38;5;215:*.rs=38;5;81:*.rss=38;5;178:*.rst=38;5;184:*.rstheme=1:*.rtf=38;5;111:*.ru=38;5;7:*.s=38;5;110:*.s3m=38;5;137;1:*.sample=38;5;114:*.sass=38;5;105;1:*.sassc=38;5;244:*.sav=38;5;213:*.sc=38;5;41:*.scala=38;5;41:*.scan=38;5;242:*.sch=38;5;7:*.scm=38;5;7:*.scpt=38;5;219:*.scss=38;5;105;1:*.sed=38;5;172:*.service=38;5;45:*.sexp=38;5;178:*.sfv=38;5;116:*.sgml=38;5;178:*.sh=38;5;172:*.sid=38;5;137;1:*.sig=38;5;192;3:*.signature=38;5;192;3:*.sis=38;5;7:*.sms=38;5;213:*.snapshot=38;5;45:*.socket=38;5;45:*.sparseimage=38;5;124:*.spl=38;5;7:*.spv=38;5;217:*.sql=38;5;222:*.sqlite=38;5;60:*.srt=38;5;117:*.ssa=38;5;117:*.st=38;5;213:*.stackdump=38;5;241:*.state=38;5;248:*.stderr=38;5;160;1:*.stl=38;5;216:*.storyboard=38;5;196:*.strings=1:*.sty=38;5;7:*.sub=38;5;117:*.sublime-build=1:*.sublime-commands=1:*.sublime-keymap=1:*.sublime-project=1:*.sublime-settings=1:*.sublime-snippet=1:*.sublime-workspace=1:*.sug=38;5;7:*.sup=38;5;117:*.svelte=38;5;135;1:*.svg=38;5;99:*.swap=38;5;45:*.swift=38;5;219:*.swo=38;5;244:*.swp=38;5;244:*.sx=38;5;81:*.t=38;5;114:*.target=38;5;45:*.tcc=38;5;110:*.tcl=38;5;64;1:*.tdy=38;5;7:*.tex=38;5;184:*.textile=38;5;184:*.tf=38;5;168:*.tfm=38;5;7:*.tfnt=38;5;7:*.tfstate=38;5;168:*.tfvars=38;5;168:*.tg=38;5;7:*.theme=38;5;116:*.tif=38;5;97:*.tiff=38;5;97:*.timer=38;5;45:*.tmTheme=1:*.tmp=38;5;244:*.toast=38;5;124:*.toml=38;5;178:*.torrent=38;5;116:*.ts=38;5;074;1:*.tsv=38;5;78:*.tsx=38;5;074;1:*.ttf=38;5;66:*.twig=38;5;81:*.txt=38;5;253:*.typelib=38;5;60:*.un~=38;5;241:*.urlview=38;5;116:*.user-ca-bundle=1:*.v=38;5;81:*.vala=38;5;81:*.vapi=38;5;81:*.vb=38;5;81:*.vba=38;5;81:*.vbs=38;5;81:*.vcard=38;5;7:*.vcd=38;5;124:*.vcf=38;5;7:*.vdf=38;5;215:*.vdi=38;5;124:*.vert=38;5;136:*.vfd=38;5;124:*.vhd=38;5;124:*.vhdx=38;5;124:*.vim=38;5;172:*.viminfo=1:*.vmdk=38;5;124:*.vob=38;5;115;1:*.vpk=38;5;215:*.vtt=38;5;117:*.vue=38;5;135;1:*.war=38;5;215:*.wav=38;5;136;1:*.webloc=38;5;116:*.webm=38;5;115:*.webp=38;5;97:*.wgsl=38;5;97:*.wma=38;5;137;1:*.wmv=38;5;114:*.woff=38;5;66:*.woff2=38;5;66:*.wrl=38;5;216:*.wv=38;5;136;1:*.wvc=38;5;136;1:*.xcconfig=1:*.xcf=38;5;7:*.xcsettings=1:*.xcuserstate=1:*.xcworkspacedata=1:*.xib=38;5;208:*.xla=38;5;76:*.xln=38;5;7:*.xls=38;5;112:*.xlsx=38;5;112:*.xlsxm=38;5;112;4:*.xltm=38;5;73;4:*.xltx=38;5;73:*.xml=38;5;178:*.xpi=38;5;215:*.xpm=38;5;97:*.xsd=38;5;178:*.xsh=38;5;41:*.yaml=38;5;178:*.yml=38;5;178:*.z[0-9]{0,2}=38;5;239:*.zcompdump=38;5;241:*.zig=38;5;81:*.zlogin=1:*.zlogout=1:*.zprofile=1:*.zsh=38;5;172:*.zshenv=1:*.zwc=38;5;241:*.zx[0-9]{0,2}=38;5;239:bd=38;5;68:ca=38;5;17:cd=38;5;113;1:di=38;5;30:do=38;5;127:ex=38;5;208;1:pi=38;5;126:fi=0:ln=target:mh=38;5;222;1:no=0:or=48;5;196;38;5;232;1:ow=38;5;220;1:sg=48;5;3;38;5;0:su=38;5;220;1;3;100;1:so=38;5;197:st=38;5;86;48;5;234:tw=48;5;235;38;5;139;3:';
+export LS_COLORS
+##==================================
+##------------------------------------------
+## Some systems puthon fails due to being upgraded to python3.
+alias python="python3"
 ##==================================
 ## #################################
 ## ##   Keyboard
@@ -3291,7 +3317,7 @@ alias python="python3"
 ## Append to the history file, do not overwrite it.
 #shopt -s histappend
 ## Increase the size of the .bash_history file
-export HISTFILESIZE=1000000000
+export HISTFILESIZE=100000000
 export HISTSIZE=1000000
 #export HISTFILESIZE='10000'
 #export HISTSIZE='5000'
@@ -3310,12 +3336,13 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 ## ##    START Prompt
 ## ####################################################
 ##==========================================
-## Print out the bash prompt control characters and colors. Some things do not print correctly.
+##  CAUSION! Some things do not print correctly.
+## Print out the bash prompt control characters and colors. .
 #function bashprompt() { echo "## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background" ; }
 ## Print out the bash prompt control characters and colors.
 #function bashprompt() { echo '## bash prompt \n  # \u    ## current username \n  # \h    ## hostname (short, up to first dot) \n  # \H    ## full hostname \n  # \w    ## current working directory (~ for home) \n  # \W    ## basename of current directory only \n  # \$    ## $ for normal users, # for root \n  # \d    ## date (e.g., Mon Mar 01) \n  # \t    ## current time (24-hour, HH:MM:SS) \n  # \T    ## current time (12-hour, HH:MM:SS) \n  # \@    ## current time (12-hour, am/pm) \n  # \n    ## newline \n  # \!    ## history number of this command \n  # \#    ## command number of this command \n  # \j   ## the number of jobs currently managed by the shell \n ## Text color \n  # \e[1;30m ## grey \n  # \e[1;31m ## red \n  # \e[1;32m ## Green \n  # \e[1;33m ## Yellow \n  # \e[1;34m ## Blue \n  # \e[1;35m ## purple \n  # \e[1;36m ## cyan \n  # \e[1;37m ## White \n ## Text style \n  # txtred='\e[0;31m' ## Red- Regular \n  # bldred='\e[1;31m' ## Red- Bold \n  # undred='\e[4;31m' ## Red- Underline \n  # bakred='\e[41m'   ## Red- Background' ; }
 function bashprompt() { echo "## bash prompt \n  \u    ## current username \n  \h    ## hostname (short, up to first dot) \n  \H    ## full hostname \n  \w    ## current working directory (~ for home) \n  \W    ## basename of current directory only \n  \\$    ## $ for normal users, # for root \n  \d    ## date (e.g., Mon Mar 01) \n  \t    ## current time (24-hour, HH:MM:SS) \n  \T    ## current time (12-hour, HH:MM:SS) \n  \@    ## current time (12-hour, am/pm) \n  \n    ## newline \n  \!    ## history number of this command \n  \#    ## command number of this command \n  \j   ## the number of jobs currently managed by the shell \n ## Text color \n  \e[1;30m   ## grey \n  \e[1;31m   ## red \n  \e[1;32m   ## Green \n  \e[1;33m   ## Yellow \n  \e[1;34m   ## Blue \n  \e[1;35m   ## purple \n  \e[1;36m   ## cyan \n  \e[1;37m   ## White \n ## Text style \n  txtred='\e[0;31m' ## Red- Regular \n  bldred='\e[1;31m' ## Red- Bold \n  undred='\e[4;31m' ## Red- Underline \n  bakred='\e[41m'   ## Red- Background" ; }
-##==========================================
+##----------------------------------
 ## Bash prompt
 ## text color
 # \e[1;30m   ## grey
@@ -3371,26 +3398,45 @@ function colorgrid() { iter=16 ; while [ $iter -lt 52 ] ; do second=$[$iter+36] 
 ## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
 ## firefox https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 ## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015 blue:021 ltblue:031
+##---------------------------------
+## Multi function git call
+#function exitcode() { echo $? ;  }
+#function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
+#function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
+#function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
+#function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
+#function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
+### BASH
+##PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
+### ZSH
+#PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_branch)%f%F{011}$(parse_git_untracked)%f%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%f%{$reset_color%}%b%f
+#$(exitcode)⚡'
+##---------------------------------
+## Single function git call
 function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
-function parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'; }
-function parse_git_untracked() { git status 2> /dev/null | grep Untracked | head -n1 | sed 's/Untracked files\:/\▲/'; }
-function parse_git_unstaged() { git status 2> /dev/null | grep 'Changes not staged for commit' | head -n1 | sed 's/Changes not staged for commit\:/\◼/'; }
-function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be committed' | head -n1 | sed 's/Changes to be committed\:/\●/'; }
-#function lastcommand() { echo $? : }
-## BASH
-#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
-## ZSH
-PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_branch)%f%F{011}$(parse_git_untracked)%f%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%f%{$reset_color%}%b%f
-%j⚡'
+function parse_git_info() {
+  local branch st out
+  branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  [[ -z $branch ]] && return
+  st=$(git status 2>/dev/null)
+  out=" ($branch)"
+  grep -q 'Untracked files'               <<< "$st" && out+=$'\e[38;5;11m▲\e[0m'
+  grep -q 'Changes not staged for commit'  <<< "$st" && out+=$'\e[38;5;12m◼\e[0m'
+  grep -q 'Changes to be committed'        <<< "$st" && out+=$'\e[38;5;10m●\e[0m'
+  printf '%s' "$out"
+}
+### BASH
+#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w$(parse_git_info)\e[m⚡'
+### ZSH
+#PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B%F{011}$(parse_git_info)%f%{$reset_color%}%b%f
+#$(exitcode)⚡'
+PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_info)%{$reset_color%}%b%f
+⚡'
 ##=========================================
 ##-----------------------------------------
 ## ############################
 ## ##    Other prompt
 ## ############################
-##-----------------------------------------
-## git branch prompt
-#parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' ; }
-#setopt PROMPT_SUBST ; PS1='%F{green}%B%m:%F{blue}%~%f%b$(parse_git_branch)⚡'
 ##-----------------------------------------
 ## Mint Prompt😆
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \😆\[\033[00m\] '
@@ -3407,15 +3453,6 @@ PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_branch)%f%F{
 ##=========================================
 ## https://linux.die.net/man/1/zshoptions
 ##=========================================
-## ##################################
-## ##    zsh other Settings files
-## ##################################
-## Lines configured by zsh-newuser-install
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-# End of lines configured by zsh-newuser-install
-## ###########################################
 ## Add deno completions to search path
 if [[ ":$FPATH:" != *":/home/$USER/.zsh/completions:"* ]]; then export FPATH="/home/$USER/.zsh/completions:$FPATH"; fi
 ##=========================================
@@ -3423,7 +3460,6 @@ if [[ ":$FPATH:" != *":/home/$USER/.zsh/completions:"* ]]; then export FPATH="/h
 ## ##    zsh bind keys
 ## ##########################
 #export ZSH="/home/erik/.zsh/key-bindings.zsh"
-setopt appendhistory autocd extendedglob nomatch zle
 unsetopt beep notify
 bindkey -v
 ## Cntl+r history search
@@ -3436,9 +3472,9 @@ bindkey '^E' end-of-line
 #bindkey "${terminfo[kpp]}" up-line-or-history
 ## [PageDown] - Down a line of history
 #bindkey "${terminfo[knp]}" down-line-or-history
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-autoload -U edit-command-line
+#autoload -U up-line-or-beginning-search
+#autoload -U down-line-or-beginning-search
+#autoload -U edit-command-line
 ## start typing + [Up-Arrow] - fuzzy find history forward. Has to be initialized
 #bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
 ## start typing + [Down-Arrow] - fuzzy find history backward. Has to be initialized
@@ -3487,10 +3523,21 @@ colors
 ## Allow for functions in the prompt is zsh.
 setopt PROMPT_SUBST
 autoload -U add-zsh-hook
-autoload -Uz compinit && compinit
+## -C to skip the audit and use the cached dumpfile.
+autoload -Uz compinit && compinit -C
 ## set a fancy prompt (non-color, unless we know we "want" color)
 #case "$TERM" in xterm|xterm-color|*-256color) color_prompt=yes;; esac
 ##-----------------------------------------
+## zsh zero indexing
+## Note: Enabling KSH_ARRAYS also changes the syntax requirement, forcing you to use curly braces ${my_array[0]}
+setopt KSH_ARRAYS
+## This temporarily disables KSH_ARRAYS while the plugin loads, then re-enables it. The plugin only needs standard zsh array syntax at load time; runtime highlighting is unaffected.
+#unsetopt KSH_ARRAYS
+#source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#setopt KSH_ARRAYS
+## Example:
+#my_array=(apple banana cherry)
+#echo ${my_array[0]}  # Outputs: apple
 ##==========================================
 ## #######################
 ## ##    zsh history
@@ -3502,20 +3549,22 @@ autoload -Uz compinit && compinit
 #setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
 #setopt HIST_REDUCE_BLANKS     # remove superfluous blanks from history items
 setopt INC_APPEND_HISTORY      # save history entries as soon as they are entered
-setopt SHARE_HISTORY           # share history between different instances of the shell
+#setopt SHARE_HISTORY           # share history between different instances of the shell
 #setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_SPACE       # ignore commands that start with space
 setopt HIST_VERIFY             # show command with history expansion to user before running it
 setopt HIST_IGNORE_ALL_DUPS    # remove older duplicate entries from history
 ## zsh
 HISTFILE=~/.zsh_history
+SAVEHIST=10000
 ##=========================================
 ## #############################
 ## ##    zsh git Settings
 ## #############################
-autoload -Uz compaudit compinit
-autoload -U colors
-colors
+## Already loaded above
+#autoload -Uz compaudit compinit
+#autoload -U colors
+#colors
 #compinit
 #compinit
 ## End of lines added by compinstall END OF LINE SUCKS USE IN PROMT parse_git_branch below
@@ -3530,6 +3579,7 @@ colors
 ##-----------------------------------------
 ## Set up fzf key bindings and fuzzy completion. Only need to run once?
 #source < (fzf --zsh)
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ##-----------------------------------------
 ## ######################
 ## ##    zsh plugins
@@ -3565,6 +3615,9 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 ## Suspend to RAM low power
 function suspendnow() { dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend; }
 ##==========================================
+## Dump all the swapfie and start over.
+alias swap='sudo swapoff -a && sudo swapon -a'
+##==========================================
 # Make changes in .bashrc immediately available
 function bashrc-reload() { builtin exec bash ; }
 ##==========================================
@@ -3580,7 +3633,7 @@ function lso() { ls -l ${1} | sed -e 's/--x/1/g' -e 's/-w-/2/g' -e 's/-wx/3/g' -
 ## cd then ls. Also made alias cdd for this function
 function cdls() { cd ${1} && ls -lah --color=always --group-directories-first ; }
 ## Creates a directory and immediately changes into it
-$> function mkcd() { mkdir -p "$1" && cd "$1" ; }
+function mkcd() { mkdir -p "$1" && cd "$1" ; }
 ##==========================================
 ## List contents of directory by size.
 function dusize () { du -sk ./* | sort -n | awk 'BEGIN{ pref[1]="K"; pref[2]="M"; pref[3]="G";} { total = total + $1; x = $1; y = 1; while( x > 1024 ) { x = (x + 1023)/1024; y++; } printf("%g%s\t%s\n",int(x*10)/10,pref[y],$2); } END { y = 1; while( total > 1024 ) { total = (total + 1023)/1024; y++; } printf("Total: %g%s\n",int(total*10)/10,pref[y]); }' ; }
@@ -3739,6 +3792,9 @@ function copy2mp4mp3() { ffmpeg -i  "$1" -c:v copy -c:a mp3 "$1".mp4 ; }
 ## Transcode video files to mp4 by changing container and reencoding. Long process. Useage: transcode2mp4 *.avi
 function transcode2mp4() { ffmpeg -i "$1" -c:v libx264 -c:a mp3 "$1".mp4 ; }
 ##=========================================
+## Find all videos under current directory using MIME a.k.a not using extension
+function findvid() { find ./ -type f -print0 | xargs -0 file -iNf - | grep ": video/" | cut -d: -f1 ; }
+##=========================================
 ## ######################################
 ## ##     Random
 ## ######################################
@@ -3816,7 +3872,7 @@ function resizeimg() { convert "$1" -resize $2 "$1"-sm.jpg ; }
 ## Batch resize images in folder: Usage; batchsizejpg 600
 function batchsizejpg() {  for file in *.jpg; do convert $file -resize $1 sm-$file; done }
 ##==========================================
-## Batch cleanup images in folder: Usage; batchcleanjpg "53%"
+## Batch cleanup images, remove grey background from all documents in folder: Usage; batchcleanjpg "53%"
 function batchcleanjpg() {  for file in *.jpg; do convert $file -threshold $1 Clean-$file ; done }
 ##==========================================
 ## Use imagemagik to batch overlay an image centered over a background image
@@ -3858,6 +3914,8 @@ function aes256decrypt() { echo "Decrypting $1..."; openssl enc -aes-256-cbc -d 
 ## ###########################
 ##------------------------------------------
 alias root='sudo su'
+## gui. Resize icons on desktop.
+alias resizeicons='gsettings set org.nemo.desktop use-desktop-grid false'
 ## Make changes in .bashrc immediately available
 alias bashrc-reload='builtin exec bash'
 ## Install a app
@@ -3883,7 +3941,7 @@ alias showallaliases='compgen -A alias'
 alias showallfunctions='compgen -A function'
 ## Remove and replace /etc/hosts to block and unblock ad websites
 ## Block with host big file
-alias hoston='cat /etc/hosts.list | sudo tee /etc/hosts'
+alias hoston='cat /etc/hosts.adblock | sudo tee /etc/hosts'
 ## Unblock with small hosts file
 alias hostoff='cat /etc/hosts.default | sudo tee /etc/hosts'
 ## show installed but unused linux headers, image, or modules
@@ -3916,6 +3974,8 @@ alias ls='ls -CFh --color=always --group-directories-first '
 #alias ls='ls -h --color=always'
 alias ll='ls -l'
 #alias la='ls -A'
+#alias la="ls -la  | awk '{print $NF}'"
+function la() { ls -la $1 | awk '{print $NF}' ; }
 #alias lssize='stat -c'\%s \%n' **\/* | sort -n'
 alias lst='ls -lt --time=atime'
 ## Use function instead. Converts the symbolic permissions to octal (ie: numbers) when using 'ls -l': Use function instead.
@@ -3952,7 +4012,6 @@ alias copy="cp -piv"
 alias ver="uname -a"
 alias mem="free -h"
 alias move="mv -iv"
-alias rename="mv -iv"
 alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd'"
 ##==========================================
 alias mplayerfb='sudo mplayer -vo fbdev2 -fs -zoom -x 1024 -y 600'
@@ -3975,8 +4034,8 @@ alias netlist='nmap -sn 192.168.1.0/24'
 #alias path='ls -d $PWD/*'
 alias path='realpath ./*'
 ## Make a history viewer.
-alias histz='cat .zsh_history'
-alias histb='cat .bash_history'
+alias histz='cat ~/.zsh_history'
+alias histb='cat ~/.bash_history'
 ##==========================================
 ## ##################################
 ## ##    GIT
@@ -4017,6 +4076,7 @@ alias ter='cd ~/code/infrastructure/terraform'
 alias inf='cd ~/code/infrastructure'
 alias cli='cd ~/code/LinuxCommands'
 alias prj='cd ~/Projects'
+##-----------------------------------------
 ## ##################################
 ## ##    END GIT
 ## ##################################
@@ -4027,7 +4087,7 @@ export PDSH_RCMD_TYPE=ssh
 ## Alias to get rid of old ssh certs
 alias rmcert="rm ~/.ssh/a-*"
 ##==========================================
-## To use with Sc API
+## To use with GCS API
 #alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
 ##==========================================
 ## Brightness OLED
@@ -4182,15 +4242,15 @@ function llmdddd() { cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} 
 ## Get project from bucket. Usage: bucketproject <BUCKETNAMEHERE> Example: bucketproject sc-calibration
 function bucketproject() { gcloud projects list | grep $(curl -s -H "Authorization: Bearer `gcloud auth print-access-token`" https://storage.googleapis.com/storage/v1/b/${1}  | jq  -r .projectNumber) ; }
 ##==========================================
-## some systems puthon fails due to being upgraded to python3.
-alias python="python3"
-##==========================================
 ## Change hosts file to ad block. From 2021, but still useful. https://winhelp2002.mvps.org/hosts.txt
 alias hostsoff="sudo cp /etc/hosts.default /etc/hosts"
 alias hostson="sudo cp /etc/hosts.list /etc/hosts"
 ##==========================================
 ## tuios  https://github.com/Gaurav-Gosain/tuios
 alias ttuios="tuios --dockbar-position top --scrollback-lines 1000000 --window-title-position top"
+##==========================================
+## Add kubeconfig to the cluster
+export KUBECONFIG=~/.kube/kubeconfig
 ##==========================================
 ## ###########################################
 ## ##    END Functions and aliases
@@ -4202,32 +4262,156 @@ XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" > ~/.session-vars
 ##==========================================
 
 ##==========================================
+## ##########################################
+## ##    AI
+## ##########################################
+## Use AI agents.
+##==========================================
+## opencode
+export OPENCODE_ENABLE_EXA=1
+export PATH=/home/erik/.opencode/bin:$PATH
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT=true
+##==========================================
+## Give Claude correct setting for remote notify-send commands.
+#[ -n "$DISPLAY" ] && echo "export DISPLAY=$DISPLAY
+#DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+#XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" > ~/.session-vars
+##==========================================
+## Give claude access
+alias claudeyes="cp /home/erik/.ssh/authorized_keys_claude /home/erik/.ssh/authorized_keys"
+alias claudeno="cp /home/erik/.ssh/authorized_keys_erik /home/erik/.ssh/authorized_keys"
+##==========================================
+## Nodejs
+export NVM_DIR="$HOME/.nvm"
+## This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+## This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+##==========================================
+## ##    fzf Fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##==========================================
+
+##==========================================
+
+##==========================================
+## ##########################################
+## ##########################################
 ##==========================================
 ## ########################################
 ## ##    TOKENS SECRETS SENSITIVE
 ## ########################################
 ## AWS Amazon Web Services specific settings add in the keys
-#export AWS_ACCESS_KEY_ID='YOURKEYHERE'
-#export AWS_SECRET_ACCESS_KEY='YOURKEYHERE'
-#export AWS_SESSION_TOKEN='YOURKEYHERE'
+export AWS_ACCESS_KEY_ID='YOURKEYHERE'
+export AWS_SECRET_ACCESS_KEY='YOURKEYHERE'
+export AWS_DEFAULT_REGION='us-west-1'
+export AAWS_DEFAULT_OUTPUT='table'
 ##=========================================
 ## GIT SECRETS
 ## github.com token PW for my private/public repo. Usage: git push, # will ask for Username for 'https://github.com': and Password for 'https://USERNAME@github.com':
-#export GITPASS=YOURKEYHERE
-## Expires 2023/12/30
-export GIT_TOKEN=YOURKEYHERE
+#export GITPASS='YOURKEYHERE'
+## Expires 2027-04-21
+#export GIT_TOKEN='YOURKEYHERE'
+#export GIT_TOKEN='YOURKEYHERE'
+## Expires 2027-04-21
+export GIT_TOKEN='YOURKEYHERE'
 export GITHUB_TOKEN=$GIT_TOKEN
 ##=========================================
-## huggingface_token
-huggingface_token=YOURKEYHERE
-export HF_TOKEN=YOURKEYHERE
+## huggingface_token PUTDATE HERE
+huggingface_token='YOURKEYHERE'
+export HF_TOKEN='YOURKEYHERE'
+#export HF_TOKEN='YOURKEYHERE'
 ##==========================================
 ## OpenAI
 ## Large Language Model. https://github.com/simonw/llm
-export OPENAI_TOKEN=YOURKEYHERE
+OPENAI_TOKEN='YOURKEYHERE'
 ##==========================================
 ### Jira
-export JIRA_API_TOKEN=YOURKEYHERE
+#export JIRA_API_TOKEN='YOURKEYHERE'
+##==========================================
+## Anthropic
+## THESE ARE COMMENTED IF USING DARIO https://github.com/askalf/dario
+export EXA_API_KEY='YOURKEYHERE'
+export ANTHROPIC_API_KEY='YOURKEYHERE'
+##==========================================
+## Letta
+## https://app.letta.com/projects/default-project
+export LETTA_KEY='YOURKEYHERE'
+##==========================================
+## OpenCode
+## https://opencode.ai/docs
+export OPENCODE_API_KEY='YOURKEYHERE'
+##==========================================
+## OpenClaw
+## https://openclaw.ai/
+## https://github.com/openclaw/openclaw
+#OPENCODE_KEY=
+##==========================================
+## https://z.ai
+## YOUREMAIL@mail.com
+## User ID:40411773902310016
+## https://z.ai/manage-apikey/apikey-list
+## --auth-choice zai-api-key \
+## --zai-api-key 'YOURKEYHERE'
+export ZAI_API_KEY='YOURKEYHERE'
+##==========================================
+## Discord
+## Application ID
+#'YOURKEYHERE'
+## Public Key
+#'YOURKEYHERE'
+## App name
+#erik-openclaw
+## Bot token
+#'YOURKEYHERE'
+## URL
+#https://discord.com/oauth2/authorize?client_id=KEY&permissions=KEY&integration_type=0&scope=bot+applications.commands
+#Permissions Integer:'YOURKEYHERE'
+##Guild server id
+#'YOURKEYHERE'
+## Channel ID
+#'YOURKEYHERE'
+##==========================================
+## Groq API
+## https://groq.com/
+export GROQ_API_KEY="'YOURKEYHERE'
+##==========================================
+## https://openrouter.ai/
+export OPENROUTER_API_KEY='YOURKEYHERE'
+##==========================================
+## Use your Claude subscription as an API.
+## Dario Claude CLI to API proxy
+## https://github.com/askalf/dario
+## MAKE SURE TO COMMENT THE dario ANTHROPIC KEY AFTER USE!
+#export ANTHROPIC_BASE_URL=http://192.168.1.43:3456
+#export ANTHROPIC_API_KEY=dario
+##==========================================
+## Deepseek
+## Terminal coding agent for DeepSeek V4.
+## https://github.com/Hmbown/DeepSeek-TUI
+export DEEPSEEK_API_KEY='YOURKEYHERE'
+## Use your Claude subscription as an API.
+## Deepseek Claude CLI to API proxy
+## claude code cli USE Deepseek V4
+## MAKE SURE TO COMMENT THE deepseek ANTHROPIC KEY AFTER USE to go back to claude!
+export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_AUTH_TOKEN='YOURKEYHERE'
+##==========================================
+## Forces the CLI to use Vertex AI as the provider.
+#export CLAUDE_CODE_USE_VERTEX=1
+## Specifies which GCP project to bill.
+#export ANTHROPIC_VERTEX_PROJECT_ID="YOURNAME-playground"
+## Sets the geographic region for Vertex AI requests (e.g., us-central1, europe-west1)
+#export CLOUD_ML_REGION="us-west2"
+##==========================================
+## Chirpper
+#https://chirpper.com/join
+## Your TrustChain® identity is ready.
+## No emails, no usernames, no phone numbers. This key is the only way to log in.
+#mutual save grow choice chalk visit result suggest power field person muffin increase summer picture angle leopard hundred round enemy act setup company moral
+#https://chirpper.com/status/KEY
 ##==========================================
 
 ##==========================================
@@ -4250,6 +4434,8 @@ COMMENT1
 ## ##    Timestamp git track prompt
 ## ########################################
 ## Timestamped best prompt, git branch with tracking
+##------------------------------------------
+## Multi function git call
 ## Untracked changes: ▲ , Unstaged Changed Files: ◼ , Staged Files: ●
 $> firefox https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 ## grey:008 red:009 green:010 yellow:011 blue:012 magenta:013 cyan:014 white:015 blue:021 ltblue:031
@@ -4262,6 +4448,27 @@ $> function parse_git_tracked() { git status 2> /dev/null | grep 'Changes to be 
 $> PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w\e[1;37m$(parse_git_branch)\e[1;33m$(parse_git_untracked)\e[1;34m$(parse_git_unstaged)\e[1;32m$(parse_git_tracked)\e[m⚡'
 ## ZSH
 $> PS1='%B%F{093}%\NAME:%b%F{154}$(thedate)%F{039}%~%f%B$(parse_git_branch)%F{011}$(parse_git_untracked)%F{012}$(parse_git_unstaged)%F{010}$(parse_git_tracked)%{$reset_color%}%b%f
+$> ⚡'
+##------------------------------------------
+## Single function git call
+$> function thedate() { date --utc +"%Y%m%d_%H:%M:%S" ; }
+$> function parse_git_info() {
+$>   local branch st out
+$>   branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+$>   [[ -z $branch ]] && return
+$>   st=$(git status 2>/dev/null)
+$>   out=" ($branch)"
+$>   grep -q 'Untracked files'               <<< "$st" && out+=$'\e[38;5;11m▲\e[0m'
+$>   grep -q 'Changes not staged for commit'  <<< "$st" && out+=$'\e[38;5;12m◼\e[0m'
+$>   grep -q 'Changes to be committed'        <<< "$st" && out+=$'\e[38;5;10m●\e[0m'
+$>   printf '%s' "$out"
+$> }
+### BASH
+#PS1='\e[1;37m\h:\e[1;32m$(thedate)\e[1;34m\w$(parse_git_info)\e[m⚡'
+### ZSH
+#PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B%F{011}$(parse_git_info)%f%{$reset_color%}%b%f
+#$(exitcode)⚡'
+$> PS1='%B%F{093}%\XPS17:%b%F{154}$(thedate)%f%F{039}%~%f%B$(parse_git_info)%{$reset_color%}%b%f
 $> ⚡'
 ##------------------------------------------
 ## Initialize colors.
