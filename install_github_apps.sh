@@ -533,10 +533,6 @@ https://github.com/letta-ai/claude-subconscious
 firefox https://github.com/tintinweb/claude-code-container
 
 ##============================
-## Claude Code Container A Docker container for running Claude Code
-firefox https://github.com/tintinweb/claude-code-container
-
-##==================================
 ## ArduinoOS is an operating system for arduino which supports real multithreading,
 firefox https://github.com/DrBubble/ArduinoOS
 
@@ -1869,10 +1865,10 @@ https://github.com/matthart1983/netwatch
 ## voxcii - Terminal-based ASCII 3D model viewer. Supports OBJ and STL models
 https://github.com/ashish0kumar/voxcii
 sudo apt install ncurses libncurses-dev libncursesw5-dev
+cd ~/code
 git clone https://github.com/ashish0kumar/voxcii
 cd voxcii
 make
-ls $HOME/.config/btop
 ##
 ./voxcii test.stl
 
@@ -2887,16 +2883,295 @@ $> fresh
 https://github.com/jmaczan/tiny-vllm
 
 ##============================
+## Twin is text-based windowing environment with mouse support, window manager, truecolor terminal emulator, networked clients and the ability to attach/detach mode displays on-the-fly.
+https://github.com/cosmos72/twin
+
+##============================
+## Paseo One interface for Claude Code, Codex, Copilot, OpenCode, and Pi agents.
+https://github.com/getpaseo/paseo
+
+##============================
+## The live index of every public SKILL.md on GitHub. Hook it up to your AI agent
+https://www.skillhound.ai/
+
+##============================
+## find and install Claude skills
+https://www.claudinho.xyz/
+
+##============================
+## Anthropic's open-source framework for AI-powered vulnerability discovery
+https://github.com/anthropics/defending-code-reference-harness
+
+##============================
+## AI-native operating system. From hardware to UI
+https://vibeos.sh/
+
+##============================
+## Ideogram 4: Open image generation model at the forefront of design
+https://github.com/ideogram-oss/ideogram4
+
+##============================
+## librecode The agent CLI space is moving toward more layers: permission models, sandboxed tool servers, plugin marketplaces, extension protocols.
+https://github.com/omarluq/librecode
+
+##============================
+## lowfat is a lightweight CLI tool that reduces AI token costs by filtering unnecessary CLI output before it reaches your agent.
+https://github.com/zdk/lowfat
+
+##============================
+## Open Code Review is an AI-powered code review CLI tool. It originated as Alibaba Group's internal official AI code review assistant
+https://github.com/alibaba/open-code-review
+
+##============================
+## patent   to find prior art for code ideas. takes a plain-English dev-tool idea and searches 11 open-source registries — crates.io, npm, PyPI, GitHub, and more. Results are ranked by semantic similarity and summarised as Open, Crowded, or Saturated.
+https://github.com/r14dd/patent
+
+##============================
+## REST3D: Reconstructing Physically Stable 3D Scenes from a Single Image
+https://github.com/ShirleyMaxx/REST3D
+
+##============================
+## Ascii pixel art editor for the terminal
+https://github.com/Mr-Robot-err-404/perkins
+
+##============================
+## Claude Desktop for Linux
+https://github.com/aaddrick/claude-desktop-debian/releases
+
+##============================
+## Convert to .md to save tokens.
+https://unpdf.ai/
+
+##============================
+## An open-source MCP server and CLI that lets your coding agent design, render, and export real CAD output.
+https://agentcad.dev/
+https://github.com/jdilla1277/agentcad
+
+##============================
+## QuillUI is an open-source compatibility layer for Apple Swift app source on Linux desktops.
+https://github.com/Lore-Hex/QuillUI
+
+##============================
+## MiMo-Code - An open-source AI coding agent with cross-session memory.
+https://github.com/XiaomiMiMo/MiMo-Code
+
+##============================
+## DiffusionGemma: 4x faster text generation
+## Our newest open experimental model delivers up to 4x faster inference on dedicated GPUs and opens the door to exploring speed-critical, interactive local workflows.
+https://huggingface.co/google/diffusiongemma-26B-A4B-it
+
+##============================
+## Centaur, a hybrid that shares CMA-ES's interpretable internal state, including mean vector, step-size, and covariance matrix, with an LLM.
+https://arxiv.org/abs/2603.24647
+
+##============================
+## llmbuffer - Cache-optimized LLM conversation history management.
+https://github.com/scottpurdy/llmbuffer
+
+##============================
+## supertree - Interactive Decision Tree Visualization
+https://github.com/mljar/supertree
+
+##============================
+## ninoxAI - The open-source, read-only AI SRE. turns alert storms into incidents, investigates root cause over your live systems, and proposes human-approved fixes — without ever touching production.
+https://github.com/ninoxAI/nightwatch
+
+##============================
+## Verbatim-RAG Extractor is a query-conditioned token classifier that highlights the verbatim spans of a passage that answer a question.
+https://huggingface.co/KRLabsOrg/verbatim-rag-modern-bert-v2
+https://github.com/KRLabsOrg/verbatim-rag
+
+##============================
+## ZeroFS — Make S3 your primary storage
+https://github.com/Barre/ZeroFS
+
+##============================
+## brain-map - Turn a folder of Markdown notes (an Obsidian vault or a gbrain export) into one self-contained, interactive HTML knowledge map — a force-directed graph coloured by theme, a timeline you can scrub to watch the base grow, and a click-to-inspect panel.
+https://github.com/vladignatyev/brain-map-skill
+
+##============================
+## clawpatrol - The security firewall for agents. Claw Patrol sits between your agents and prod, parses their traffic at the wire, and gates each action against rules you write in HCL.
+https://github.com/denoland/clawpatrol
+
+##============================
+## VR avatar
+https://www.usegoblin.xyz/p/77b7e33a-c096-4bb4-b70f-bdc988cf8925
+
+##============================
+## Clara – AI phone agent that answers calls 24/7 for local businesses
+https://brandbooststudio.co/clara
+
+##============================
+## Bastion deploys virtual computers for coding agents.
+https://bastion.computer/
+https://github.com/bastion-computer/bastion
+
+##============================
+##
+https://grabcad.com/
+
+##============================
+## clin – A TUI reimagination of Obsidian — feature-packed note management in your terminal.
+https://github.com/reekta92/clin-rs
+
+##============================
+## TUI framework
+https://github.com/nikolic-milos/ratatui-hypertile
+https://github.com/ratatui/ratatui
+https://github.com/shadcn-labs/termcn
+
+##============================
+## linktui – A fast, minimal terminal UI for managing Wi-Fi, Bluetooth, and WireGuard VPN on Linux
+https://github.com/austinemk/linktui
+
+##============================
+## ffpb is a modern, cli progress bar for ffmpeg.
+https://github.com/clitic/ffpb-rs
+
+##============================
+## torrent-tui – A terminal BitTorrent client for focused download management. Add .torrent files, track active transfers, and manage sessions from a clean keyboard-driven interface.
+https://github.com/clitic/ffpb-rs
+
+##============================
+## Klip – Minimal terminal-based password manager.
+https://github.com/vid4l-07/Klip
+
+##============================
+## Pi Agent Harness Mono Repo – This is the home of the pi agent harness project including our self extensible coding agent
+https://github.com/earendil-works/pi
+
+##============================
+## kage (影, "shadow") clones a website into a folder you can browse offline
+https://github.com/tamnd/kage
+
+##============================
+## machine0 – Persistent NixOS VMs You Control from the CLI
+https://machine0.io/
+
+##============================
+## Zero Browser - A lightweight and pure and simple data-driven data-excahnge platform. Eliminating HTML/CSS/JS by implementing common interactive browser elements.
+https://github.com/nz366/zero_browser
+
+##============================
+## ASCILINE is a high-performance, cross-platform real-time ASCII video rendering engine
+https://github.com/YusufB5/ASCILINE
+
+##============================
+https://newsroom.snap.com/introducing-specs-augmented-reality-glasses
+
+
+##============================
+## Before writing code, the agent stops at the first rung that holds:
+
+## 1. Does this need to exist?   → no: skip it (YAGNI)
+## 2. Stdlib does it?            → use it
+## 3. Native platform feature?   → use it
+## 4. Installed dependency?      → use it
+## 5. One line?                  → one line
+## 6. Only then: the minimum that works
+https://github.com/DietrichGebert/ponytail
+
+
+##============================
+## Discordo is a lightweight, secure, and feature-rich Discord terminal client. Heavily work-in-progress, expect breaking changes.
+#https://github.com/ayn2op/discordo
+Oxicord - is a high-performance, memory-safe Discord TUI client
+https://github.com/linuxmobile/oxicord
+## Discord token:
+## Enter the Web Interface: Log in to Discord via a web browser.
+## Open the Developer Console: Press F12 or Ctrl+Shift+I to reveal the inner workings.
+## The Network Path: Select the Network tab and filter for /api.
+## A Moment of Interaction: Click on any channel or trigger a message to create a pulse in the network.
+## Retrieve the Essence: Inspect any request (e.g., messages) and find the authorization header. Copy this value—it is your key to the void.
+##
+
+
+##============================
+## vpod is a lightweight, portable sandbox that gives an untrusted process an instant Linux environment. It uses a RISC‑V architecture and runs entirely inside WebAssembly.
+https://github.com/capsulerun/vpod
+
+##============================
+## relaymux is a lightweight local metaharness for coding agents. Telegram is the remote control; tmux is where the actual agent work happens.
+https://github.com/mupt-ai/relaymux
+
+##============================
+## FLOPPINUX An Embedded 🐧Linux on a Single 💾 Floppy
+https://github.com/w84death/floppinux
+
+##============================
+## headscale  An open source, self-hosted implementation of the Tailscale control server.
+https://github.com/juanfont/headscale
+
+##============================
+## RustNet  Per-process network monitoring for your terminal: live TCP, UDP, and QUIC connections with deep packet inspection, sandboxed by default.
+https://github.com/domcyrus/rustnet
+
+##============================
+## evtr is a terminal UI for inspecting Linux evdev input devices. Select a device from /dev/input/event*, then watch axes, relative motion, buttons, hats, joysticks, and touch state update live.
+https://github.com/hal3e/evtr
+
+##============================
+## Bash Line Editor (ble.sh†1) is a command line editor
+## visual, real-time "as-you-type" auto-suggestions and selectable menus that make Zsh famous in Bash
+https://github.com/akinomyoga/ble.sh
+
+
+## Install Standard Command Completion
+### First, ensure Debian’s robust system-wide completion package is installed. This enables Bash to understand sub-commands and flags for tools like git, apt, and systemctl. ￼
+sudo apt update
+sudo apt install bash-completion
+
+## From Gemini AI
+## Get ble.sh nightly
+## 1. Download and extract the correct file from akinomyoga's repository
+curl -L https://github.com/akinomyoga/ble.sh/releases/download/nightly/ble-nightly.tar.xz | tar xJf -
+## 2. Create the target directory and move the extracted files there
+mkdir -p ~/.local/share/blesh
+cp -Rf ble-nightly/* ~/.local/share/blesh/
+## 3. Clean up the temporary folder from your current directory
+rm -rf ble-nightly
+## Verify Your ~/.bashrc Configuration
+## Make sure the tracking configuration block in your ~/.bashrc references the correct path (~/.local/share/blesh/ble.sh): ￼
+[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+## Reload the Session
+## To initialize the new engine in your current shell tab without losing your 0-indexed configuration: ￼
+source ~/.bashrc
+
+## From repo
+## Enable Real-Time "As-You-Type" Autocomplete (ble.sh)
+git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+make -C ble.sh install PREFIX=~/.local
+echo 'source -- ~/.local/share/blesh/ble.sh' >> ~/.bashrc
+## .bashrc add this
+    ...
+    ## 1. Enable standard bash completion if available
+    if ! shopt -oq posix; then
+      if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+      elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+      fi
+    fi
+    ## 2. Load ble.sh for Zsh-like inline suggestions and syntax highlighting
+    [[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+    ## 3. Enable menu-based Tab selection for standard completions
+    bind 'set show-all-if-ambiguous on'
+    bind 'TAB:menu-complete'
+    ## 4. Make sure ble.sh attaches last
+    [[ ${BLE_VERSION-} ]] && ble-attach
+
+
+
 
 
 
 ##============================
-
-
+## microui  A tiny, portable, immediate-mode UI library
+https://github.com/rxi/microui
 
 ##============================
-
-
+## Hermes Agent ☤ The self-improving AI agent
+https://github.com/NousResearch/hermes-agent
 
 ##============================
 
