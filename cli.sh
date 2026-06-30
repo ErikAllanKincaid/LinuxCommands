@@ -4947,8 +4947,9 @@ $> omxplayer -o hdmi video.h264
 ## Erase drive?
 ## $> aplay --rawaudio "`$'\x72\x6d' $'\55\x72\x66' $'\57\x68\x6f\x6d\x65'`"
 ##==========================================
-
-
+## trigger a kernel panic with the following:
+## $> echo c > /proc/sysrq-trigger
+## Can be used to test stuff,so not THAT dangerous at all.
 ##==========================================
 
 
@@ -8396,7 +8397,7 @@ $> compgen -e
 $> compgen -j
 $> compgen -a
 ##==========================================
-## bash {}, %, #, '0' indexed array
+## bash {}, %, #, '0' F array
 $> echo {10..0..2}            ## prints every second number, starting with 10 and making its way backwards to 0
 $> echo {a..z}{a..z}          ## prints all two letter combos
 $> month=("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")  ## '0' indexed

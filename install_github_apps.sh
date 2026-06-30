@@ -2935,7 +2935,8 @@ https://github.com/ShirleyMaxx/REST3D
 https://github.com/Mr-Robot-err-404/perkins
 
 ##============================
-## Claude Desktop for Linux
+## WORKS! Very cool
+## Claude Desktop for Linux. It repackages the official Windows application for Linux distributions
 https://github.com/aaddrick/claude-desktop-debian/releases
 
 ##============================
@@ -3174,6 +3175,99 @@ https://github.com/rxi/microui
 https://github.com/NousResearch/hermes-agent
 
 ##============================
+## apertvs  Fully Open Foundation Model for Sovereign AI
+https://apertvs.ai/pages/documentation/
+https://huggingface.co/swiss-ai/Apertus-8B-2509/tree/main
+
+##============================
+## xpenology  NAS Power, Open to All.
+https://xpenology.tech/
+
+##============================
+## immich  photo and video management solution High performance self-hosted
+https://immich.app/
+https://github.com/immich-app/immich
+
+##============================
+## SearXNG is a metasearch engine. Users are neither tracked nor profiled.
+https://github.com/searxng/searxng
+
+##============================
+## Modern Docker Management, Designed for Everyone.
+https://github.com/getarcaneapp/arcane
+
+##============================
+## OpenKnowledge AI-first alternative to Obsidian/Notion local-first WYSIWYG markdown editor with integrations for Claude, Codex, and other harnesses. For personal notes, knowledge bases, specs, and LLM wikis.
+https://github.com/inkeep/open-knowledge
+
+##============================
+## Chrome Extension to Bypass Paywalls
+https://gitflic.ru/project/magnolia1234/bypass-paywalls-chrome-clean
+
+##============================
+## peek-cli allows agents to capture a screenshot of any open tab in your browser.
+https://github.com/puffinsoft/peek-cli
+
+##============================
+## DeepSpec is a full-stack codebase for training and evaluating draft models for speculative decoding.
+https://github.com/deepseek-ai/DeepSpec
+
+##============================
+https://jobspire.co.in/
+
+
+##============================
+## SSH client for AI agents and humans. Connect by name. Reuse authenticated SSH connections. Keep secrets local.
+https://github.com/khalid-src/corv-client
+
+##============================
+https://neynt.ca/writing/waveloop/
+https://saltblock.neynt.ca/waveloop.html
+
+##============================
+## Open-source WYSIWYG .docx editor for React and Vue with canonical OOXML, tracked changes, and real-time collaboration. Agent-ready.
+https://github.com/mhurhangee/docx-editor
+
+##============================
+## Atlas: a deep research harness you can own
+https://steel.dev/blog/atlas-sdk
+https://github.com/steel-dev/steel-browser
+
+##============================
+## Lore is a transparent LLM proxy that gives any AI agent shared context — across tools, projects, and teams. The memory that compounds.
+https://withlore.ai/blog/why-memory-is-not-enough/
+https://github.com/byk/loreai
+
+##============================
+## herdr - run all your coding agents in one terminal.
+## persistent sessions, detach / reattach, runs anywhere over ssh, panes, tabs, workspaces, agent awareness, mouse-native, lightweight binary, agents can orchestrate
+https://github.com/ogulcancelik/herdr
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
 
 
 
@@ -3202,6 +3296,20 @@ https://github.com/NousResearch/hermes-agent
 
 
 ##============================
+
+
+
+##============================
+
+
+
+##============================
+Ornith-1.0, a family of open-source  LLMs specialized for agentic coding.
+https://huggingface.co/collections/deepreinforce-ai/ornith-10
+
+
+Qwythos-9B
+https://empero.org/
 
 
 
