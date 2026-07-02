@@ -2693,8 +2693,8 @@ https://github.com/angelos-p/llm-from-scratch
 https://pi.dev/
 https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent
 https://jola.dev/posts/running-local-models-on-m4
-
-
+## ovid makes pi verify the features it builds and record a polished terminal + browser videos of each verification onto your PR.
+https://github.com/Srinivasa314/ovid
 
 ##============================
 ## CADara is an open-source, browser based CAD application. Everything happens on the browser, you can use it completely offline.
@@ -3213,6 +3213,7 @@ https://github.com/puffinsoft/peek-cli
 https://github.com/deepseek-ai/DeepSpec
 
 ##============================
+##
 https://jobspire.co.in/
 
 
@@ -3244,36 +3245,36 @@ https://github.com/byk/loreai
 https://github.com/ogulcancelik/herdr
 
 ##============================
-
-
-
-##============================
-
-
+## AI coding assistant into a full video production studio.
+https://github.com/calesthio/OpenMontage
 
 ##============================
-
-
-
-##============================
-
-
+## ovid makes pi verify the features it builds and record a polished terminal + browser videos of each verification onto your PR.
+https://github.com/Srinivasa314/ovid
 
 ##============================
-
-
-
-##============================
-
-
+## AI architectures packaged as Claude Code skills.
+https://github.com/GPire/claude-skills-swarm
 
 ##============================
-
-
+## bb is an agentic IDE that can control itself. You can seamlessly orchestrate all of your favorite coding agents together and have them programmatically use bb too.
+https://github.com/ymichael/bb
 
 ##============================
+## Claude Desktop on Linux (beta)
+https://code.claude.com/docs/en/desktop-linux
 
+##============================
+## Myna is a Claude Code agent with 31 skills for the work that fills your week: it preps your meetings, triages your inbox, keeps every project and person up to date, and drafts your replies and status updates
+https://github.com/agentflock/myna
 
+##============================
+## Headplane - A feature-complete web UI for Headscale
+https://github.com/tale/headplane
+
+##============================
+## Headlamp is an easy-to-use and extensible Kubernetes web UI.
+https://github.com/kubernetes-sigs/headlamp
 
 ##============================
 
