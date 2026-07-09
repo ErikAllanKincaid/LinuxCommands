@@ -987,6 +987,9 @@ $> netstat -s                       ## --statistics, Display summary statistics 
 $> netstat -tunpl                   ## --tcp, --udp, --numeric IP, -p PID/Program name, --listening
 $> netstat -np | grep -v ^unix      ## --numeric IP, -p PID and name of the program
 ##==========================================
+## Check DNS resolution from your router
+$> dig @192.168.1.1 computer2.local
+##==========================================
 ## Determine if a port is open
 $> : </dev/tcp/127.0.0.1/80
 ## For times when netcat isnt available. Will throw a Connection refused message if a port is closed.
@@ -2941,7 +2944,7 @@ $> | sed '/regex/{x;p;x;}'
 # insert a blank line below every line which matches "regex"
 $> | sed '/regex/G'
 ##------------------------------------------
-http://sed.sourceforge.net/sed1line.txt
+$> w3m -dump http://sed.sourceforge.net/sed1line.txt
 ##------------------------------------------
 ## insert a blank line above and below every line which matches "regex"
 $> | sed '/regex/{x;p;x;G;}'
@@ -4986,13 +4989,7 @@ Escape What it does.
 \a ASCII bell (BEL)
 \b ASCII backspace (BS)
 \f ASCII formfeed (FF)
-\n ASCII linefeed (LF)
-\N{name} Character named name in the Unicode database (Unicode only)
-\r ASCII carriage return (CR)
-\t ASCII horizontal tab (TAB)
-\uxxxx Character with 16- bit hex value xxxx (Unicode only)
-\Uxxxxxxxx Character with 32- bit hex value xxxxxxxx (Unicode only)
-\v ASCII vertical tab (VT)
+\n ASCII linefeed (LF) b dxs
 \ooo Character with octal value oo
 \xhh Character with hex value hh
 
@@ -6148,6 +6145,7 @@ $> gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier "'<Super
 $> gsettings set org.cinnamon.desktop.wm.preferences mouse-button-modifier "'<Super>'"
 ## Change the window movement modifier key back to Alt
 $> gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier "'<Alt>'"
+##==========================================
 ##-------------------------
 ## #################################
 
@@ -6203,12 +6201,6 @@ $> sqlite3 ~/.mozilla/firefox/*.[dD]efault/places.sqlite "SELECT strftime('%d.%m
 ##==========================================
 ## Show Firefox Addons
 $> jshon -e addons -a -e defaultLocale -e name -u < ~/.mozilla/firefox/*.[dD]efault/extensions.json
-##==========================================
-## Install dconf-editor, run it, in left column go to path org > nemo > desktop and untick the option "use-desktop-grid" and you can freely resize icons on desktop.
-$> sudo apt-get install dconf-editor
-$> org > nemo > desktop
-## untick the option 
-"use-desktop-grid" 
 ##==========================================
 ## Disable updates for installed Chrome plugins
 ## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
@@ -8129,10 +8121,11 @@ $> # Run app.py when the container launches
 $> CMD ["python", "app.py"]
 $> ' > Dockerfile
 $> touch requirements.txt
+## Add to requirements
 $> echo '
-Flask
-Redis
-' > requirements.txt
+$> Flask
+$> Redis
+$> ' > requirements.txt
 ## Put the python app in this file
 $> touch app.py
 $> echo '
@@ -9413,7 +9406,7 @@ $> sudo mdadm --assemble /dev/md0 /dev/sda /dev/sdb /dev/sdc /dev/sdd && sudo mo
 $> sudo mdadm /dev/md0 --add /dev/sde                  ## Add a device to array
 ##--------------------------------------
 ### lsi RAID pci-e card
-https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-configuration-of-raid-arrays-on-lsi-megaraid-9361-8i-9440-9460-and-9341-raid-controllers?lang=en
+$> firefox https://www.dell.com/support/article/bz/en/bzbsdt1/sln309467/management-and-configuration-of-raid-arrays-on-lsi-megaraid-9361-8i-9440-9460-and-9341-raid-controllers?lang=en
 ## Card has it own bios which configures the raid
 ## Can poss
 ## During post ctl+r
@@ -10784,142 +10777,6 @@ $> yt-dlp --cookies youtube.com_cookies.txt https://youtu.be/abcdefgh
 ## multimedia. Collect audio from youtube
 $> yt-dlp -x --audio-format mp3 --prefer-ffmpeg --batch-file <list to download>
 ##==========================================
-## learn. Tips and tricks from web
-<<Comment5
-I have marked with a * those which I think are absolutely essential
-Items for each section are sorted by oldest to newest. Come back soon for more!
-
-BASH
-* In bash, 'ctrl-r' searches your command history as you type
-- Input from the commandline as if it were a file by replacing
-  'command < file.in' with 'command <<< "some input text"'
-- '^' is a sed-like operator to replace chars from last command
-  'ls docs; ^docs^web^' is equal to 'ls web'. The second argument can be empty.
-* '!!' expands to the last typed command. Useful for root commands:
-  'cat /etc/...' [permission denied] 'sudo !!'
-* '!!:n' selects the nth argument of the last command, and '!$' the last arg
-  'ls file1 file2 file3; cat !!:1-2' shows all files and cats only 1 and 2
-- 'ESC-.' fetches the last parameter of the previous command
-* Related, include 'shopt -s histverify histreedit' on your .bashrc to
-  double-check all expansions before submitting a command
-- 'nohup ./long_script &' to leave stuff in background even if you logout
-- 'cd -' change to the previous directory you were working on
-- 'ctrl-x ctrl-e' opens an editor to work with long or complex command lines
-* Use traps for cleaning up bash scripts on exit
-  http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html
-* 'shopt -s cdspell' automatically fixes your 'cd folder' spelling mistakes
-* Add 'set editing-mode vi' in your ~/.inputrc to use the vi keybindings
-  for bash and all readline-enabled applications (python, mysql, etc)
-- Aggregate history of all terminals in the same .history. On your .bashrc:
-      shopt -s histappend
-      export HISTSIZE=100000
-      export HISTFILESIZE=100000
-      export HISTCONTROL=ignoredups:erasedups
-      export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
-- Pressed 'Ctrl-s' by accident and the terminal is frozen? Unfreeze: 'Ctrl-Q'
-
-PSEUDO ALIASES FOR COMMONLY USED LONG COMMANDS
-- function lt() { ls -ltrsa "$@" | tail; }
-- function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
-- function fname() { find . -iname "*$@*"; }
-- function remove_lines_from() { grep -F -x -v -f $2 $1; }
-  removes lines from $1 if they appear in $2
-- alias pp="ps axuf | pager"
-- alias sum="xargs | tr ' ' '+' | bc" ## Usage: echo 1 2 3 | sum
-- function mcd() { mkdir $1 && cd $1; }
-
-VIM
-- ':set spell' activates vim spellchecker. Use ']s' and '[s' to move between
-  mistakes, 'zg' adds to the dictionary, 'z=' suggests correctly spelled words
-- check my .vimrc https://github.com/cfenollosa/dotfiles/blob/master/.vimrc
-
-TOOLS
-* 'htop' instead of 'top'
-- 'ranger' is a nice console file manager for vi fans
-- Use 'apt-file' to see which package provides that file you're missing
-- 'dict' is a commandline dictionary
-- Learn to use 'find' and 'locate' to look for files
-- Compile your own version of 'screen' from the git sources. Most versions
-  have a slow scrolling on a vertical split or even no vertical split at all.
-  Alternatively, use 'tmux', though it is not as ubiquitous as 'screen'.
-* 'trash-cli' sends files to the trash instead of deleting them forever.
-  Be very careful with 'rm' or maybe make a wrapper to avoid deleting '*' by
-  accident (e.g. you want to type 'rm tmp*' but type 'rm tmp *')
-- 'file' gives information about a file, as image dimensions or text encoding
-- 'sort -u' to check for duplicate lines
-- 'echo start_backup.sh | at midnight' starts a command at the specified time
-- Pipe any command over 'column -t' to nicely align the columns
-* Google 'magic sysrq' to bring a Linux machine back from the dead
-- 'diff --side-by-side fileA.txt fileB.txt | pager' to see a nice diff
-* 'j.py' https://github.com/rupa/j2 remembers your most used folders and is an
-  incredible substitute to browse directories by name instead of 'cd'
-- 'dropbox_uploader.sh' lets you upload by commandline via Dropbox's API
-  without the official client https://github.com/andreafabrizi/Dropbox-Uploader
-- learn to use 'pushd' to save time navigating folders (j.py is better though)
-- if you liked the 'psgrep' alias, check 'pgrep' as it is far more powerful
-* never run 'chmod o+x * -R', capitalize the X to avoid executable files. If
-  you want _only_ executable folders: 'find . -type d -exec chmod g+x {} \;'
-- 'xargs' gets its input from a pipe and runs some command for each argument
-* run jobs in parallel easily: 'ls *.png | parallel -j4 convert {} {.}.jpg'
-- grep has a '-c' switch that counts occurences. Don't pipe grep to 'wc -l'.
-- 'man hier' explains the filesystem folders for new users
-- 'tree' instead of 'ls -R'
-* Recover corrupt zip files: First, make copies and **ALWAYS WORK ON A COPY**
-    First: 'zip -F  corrupt_copy1.zip --out recover1.zip'
-    Then:  'zip -FF corrupt_copy2.zip --out recover2.zip'
-    Last:  'ditto -x -k corrupt_copy3.zip --out out_folder/'
-  Merge the contents of the two recovered zipfiles and the out_folder. You
-  will be able to recover most of the data.
-* Use GNU datamash for basic numerical, textual and statistical operations
-  on text files: 'seq 10 | datamash sum 1 mean 1'
-
-
-NETWORKING
-- Don't know where to start? SMB is usually better than NFS for newbies.
-  If really you know what you are doing, then NFS is the way to go.
-* If you use 'sshfs_mount' and suffer from disconnects, use
-  '-o reconnect,workaround=truncate:rename'
-- 'python -m SimpleHTTPServer 8080' or 'python3 -mhttp.server localhost 8080'
-  shares all the files in the current folder over HTTP.
-* 'ssh -R 12345:localhost:22 -N server.com' forwards server.com's port 12345
-  to your local ssh port, even if you machine is behind a firewall/NAT.
-  'ssh localhost -p 12345' from server.com will get you in your machine.
-* Read on 'ssh-agent' to strenghten your ssh connections using private keys,
-  while avoiding typing passwords every time you ssh.
-- 'socat TCP4-LISTEN:1234,fork TCP4:192.168.1.1:22' forwards your port
-  1234 to another machine's port 22. Very useful for quick NAT redirection.
-- Some tools to monitor network connections and bandwith:
-  'lsof -i' monitors network connections in real time
-  'iftop' shows bandwith usage per *connection*
-  'nethogs' shows the bandwith usage per *process*
-* Use this trick on .ssh/config to directly access 'host2' which is on a private
-  network, and must be accessed by ssh-ing into 'host1' first
-  Host host2
-      ProxyCommand ssh -T host1 'nc %h %p'
-      HostName host2
-* Pipe a compressed file over ssh to avoid creating large temporary .tgz files
-  'tar cz folder/ | ssh server "tar xz"' or even better, use 'rsync'
-* ssmtp can use a Gmail account as SMTP and send emails from the command line.
-  'echo "Hello, User!" | mail user@domain.com' ## Thanks to Adam Ziaja.
-  Configure your /etc/ssmtp/ssmtp.conf:
-      root=***E-MAIL***
-      mailhub=smtp.gmail.com:587
-      rewriteDomain=
-      hostname=smtp.gmail.com:587
-      UseSTARTTLS=YES
-      UseTLS=YES
-      AuthUser=***E-MAIL***
-      AuthPass=***PASSWORD***
-      AuthMethod=LOGIN
-      FromLineOverride=YES
-
-                                     -~-
-
-(CC) by-nc, Carlos Fenollosa <carlos.fenollosa@gmail.com>
-Retrieved from http://cfenollosa.com/misc/tricks.txt
-Last modified: Mon 13 Feb 2017 09:31:38 CET
-Comment5
-##==========================================
 ## learn. BASH tricks
 $> w3m -dump http://cfenollosa.com/misc/tricks.txt
 ##==========================================
@@ -11217,7 +11074,9 @@ $> ffmpeg -i file.png -pix_fmt rgb24 -f rawvideo - | mpv -
 $> find ~/pictures -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -t -P2 -0 -I filename jpegtran -optimize -progressive -copy all -outfile filename filename
 ##==========================================
 ## os. permissions. allows you to run any command without having to sudo
-$> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+#$> sudo sh -c "echo '$(id -un) ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+## Validate the contents of the file before saving and prevent you from making mistakes.
+$> sudo visudo
 ##==========================================
 ## app. appimage is a standalone package format "one app = one file"
 $> https://appimage.github.io/
@@ -12000,7 +11859,7 @@ $> mysqldump -u [uname] -p -h 'localhost' databasename > databasename_backup_201
 $> sed -i "s/table_prefix  = 'wp_'/table_prefix  = 'wp_uniquename_'/"  /var/www/html/wp-config.php
 ## 3. Change table names in mysql
 $> mysql -u root -p
-$@ mysql> USE databasename;
+$> mysql> USE databasename;
 ## Format: RENAME TABLE `oldtablename` TO `newtablename`;
 ## rename all the tables add any additional tables from plugins. Plugins may mess this up of course. Best practice is to remove and do procedure then reinstall reconfigure plugins.
 $> mysql> RENAME TABLE wp_comments                  TO   wp_uniquename_comments                   ;
@@ -13554,7 +13413,7 @@ $> uv pip install pip
 ## Set voice type. There are 10 diff voice available.
 $> export KOKORO_VOICE="af_heart"
 ## Put the below into a file called test_kokoro.sh
-$> cat > test_kokoro.sh << 'ENDSCRIPT'
+$> cat > test_kokoro.sh << 'EOF'
 $> ## Test kokoro TTS with a single voice. Set KOKORO_VOICE to override.
 $> ## Usage: ./test_kokoro.sh ["text to synthesize"]
 $> export KOKORO_VOICE="${KOKORO_VOICE:-af_heart}"
@@ -13562,7 +13421,7 @@ $> export KOKORO_TEXT="${1:-A rusty wheelbarrow sits in a patchy garden, bathed 
 $> light.}"
 $> export KOKORO_OUTFILE="kokoro_$(date +%Y%m%d_%H%M%S).wav"
 $>
-$> uv run python - <<'EOF'
+$> uv run python - <<'ENFOFSCRIPT'
 $> import os
 $> import numpy as np
 $> from kokoro import KPipeline
@@ -13575,8 +13434,8 @@ $> p = KPipeline(lang_code='a')
 $> chunks = [audio for _, _, audio in p(text, voice=voice)]
 $> sf.write(outfile, np.concatenate(chunks), 24000)
 $> print(f'Wrote {outfile} ({len(chunks)} chunks, voice={voice})')
-$> EOF
-ENDSCRIPT
+$> ENFOFSCRIPT
+EOF
 ## Make executable
 $> chmod +x test_kokoro.sh
 ## Run
@@ -14840,7 +14699,7 @@ $> gh api repos/GITHUBUSERNAME/subagent-dispatch
 ## List all branches
 $> gh api repos/GITHUBUSERNAME/subagent-dispatch/branches
 ## Pipe through jq to filter
-gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
+$> gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 
 
 ##==========================================
@@ -14876,6 +14735,31 @@ gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 ##==========================================
 
 
+##==========================================
+
+
+##==========================================
+
+
+##==========================================
+## mulimedia, video. make webms
+for pass in {1..2}; do ffmpeg -i clip-2026-07-09_17.15.47.mkv -g 1200 -c:v libvpx-vp9 -crf 25 -pass $pass -an -y out.webm; done
+##================================
+## root passwordless sudo, disable password it by adding your user to
+$> ls /etc/sudoers
+#$> echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+## or
+$> sudo bash -c "echo '$USER ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+## In the first case, tee -a will append its standard input to the file and we execute this command as root.
+## Validate the contents of the file before saving and prevent you from making mistakes.
+$> sudo visudo
+##========================================
+## Grant passwordless sudo
+printf '%s ALL=(ALL) NOPASSWD: ALL\n' "$USER" | sudo tee /etc/sudoers.d/99-"$USER"-temp >/dev/null
+sudo chmod 0440 /etc/sudoers.d/99-"$USER"-temp
+sudo visudo -c
+## Revoke (reverse when done)
+sudo rm /etc/sudoers.d/99-"$USER"-temp
 ##========================================
 ## ############################################
 ## ##    Podman
@@ -14934,7 +14818,7 @@ $> dmesg | grep -i tpm
 $> tpm2_getcap vendor
 ##--------------------------
 ## tpm2-pkcs11 - PKCS #11 is a Public-Key Cryptography Standard that defines a standard method to access cryptographic services from tokens/ devices such as hardware security modules (HSM), smart cards, etc.
-firefox https://github.com/tpm2-software/tpm2-pkcs11
+$> firefox https://github.com/tpm2-software/tpm2-pkcs11
 ## Recompile tpm2-tools without fapi
 $> git clone https://github.com/tpm2-software/tpm2-pkcs11.git
 $> cd tpm2-pkcs11
@@ -14944,12 +14828,12 @@ $> make
 $> make install
 ##--------------------------
 ## TPM Setup for SSH
-firefox https://raymii.org/s/tutorials/Put_your_SSH_keys_in_your_TPM_chip.html
+$> firefox https://raymii.org/s/tutorials/Put_your_SSH_keys_in_your_TPM_chip.html
 ## Install TPM tools
 $> apt install tpm2-tools libtpm2-pkcs11-tools libtpm2-pkcs11-1 opensc tpm2-abrmd
 ##--------------------------
 ## Add user to the tss group:
-sudo usermod -a -G tss "$USER"
+$> sudo usermod -a -G tss "$USER"
 ##--------------------------
 ## Create a token
 $> mkdir ~/.tpm2_pkcs11
@@ -15099,8 +14983,8 @@ $> sudo tailscale status --json
 ## find your Tailscale IPv4 address by running:
 $> tailscale ip -4
 ##--------------------------------------
-## Auth with key
-sudo tailscale up --authkey=tskey-auth-kzhxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxS3
+## Auth with key. Best way to join tailnet.
+$> sudo tailscale up --authkey=tskey-auth-kzhxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxS3
 ## ###################################################
 
 ##==========================================
@@ -15280,6 +15164,8 @@ $> ffmpeg $(yt-dlp -g 'https://de.pornhub.com/view_video.php?viewkey=ph637366806
 ## Sudoers: bypass all password prompts
 ## If you as the sole user of a computer at home only don’t like needing to repeatedly type a password each time you run a command, using ‘NOPASSWD’ in sudoers for your specific username is for you.
 $> echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+## Validate the contents of the file before saving and prevent you from making mistakes.
+$> sudo visudo
 ##==========================================
 $> firefox https://www.reddit.com/r/linux/comments/15zbs51/bootconfigunamer/
 $> firefox https://darkhz.github.io/bluetuith/
@@ -15573,7 +15459,7 @@ $> cat /etc/tlp.conf
 $> sudo powertop --auto-tune
 ##---------------------------------
 ## Power savings  BAD!!!!!
-sudo apt-get install tlp
+$> sudo apt-get install tlp
 #cat > /etc/tlp.d/00-custom.conf << ENDOFFILE
 #
 #TLP_ENABLE=1
@@ -15616,7 +15502,7 @@ sudo apt-get install tlp
 #turbo = never
 #ENDOFFILE
 ##------------------------------
-https://github.com/AdnanHodzic/auto-cpufreq
+$> firefox https://github.com/AdnanHodzic/auto-cpufreq
 ##------------------------------
 ##==========================================
 ## multimedia. video. hardware. camera. Kill webcam
@@ -15629,31 +15515,31 @@ $> sudo swapoff -a && sudo swapon -a
 $> alias gayscrotum='scrot -u poop.png && convert poop.png \( +clone -background black -shadow 50x50x50x50+10+10+10+10 \) +swap -background none -layers merge +repage poopy.png && rm poop.png'
 ##==========================================
 $> [alias]
-$> a = commit --amend
-$> allfiles = "!f() { git log --name-only --diff-filter=A --pretty=format: | sort -u; }; f"
-$> cfg = config --list
-$> changedfiles = "diff-tree --no-commit-id -r --name-only"
-$> cam = commit -am
-$> cm = commit -m
-$> co = checkout
-$> cob = checkout -b
-$> discard = reset HEAD --hard
-$> discardchunk = checkout -p
-$> ol = "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-$> others = "ls-files --others --ignored --exclude-from=.gitignore"
-$> rmuntracked = clean -df
-$> root = rev-parse --show-toplevel
-$> s = status
-$> searchfiles = "log --name-status --source --all -S"
-$> searchtext = "!f() { git grep \"$*\" $(git rev-list --all); }; f"
-$> uncommit = reset --soft HEAD^
-$> unstage = reset HEAD --
-$> wip = "!f() { git add . && git commit -m 'Work in progress'; }; f"
-$> diff-all = !"for name in $(git diff --name-only $1); do git difftool -y $1 $name & done"
-$> diff-changes = diff --name-status -r
-$> diff-stat = diff --stat --ignore-space-change -r
-$> diff-staged = diff --cached
-$> diff-upstream = !git fetch origin && git diff master origin/master
+$> alias a = commit --amend
+$> alias allfiles = "!f() { git log --name-only --diff-filter=A --pretty=format: | sort -u; }; f"
+$> alias cfg = config --list
+$> alias changedfiles = "diff-tree --no-commit-id -r --name-only"
+$> alias cam = commit -am
+$> alias cm = commit -m
+$> alias co = checkout
+$> alias cob = checkout -b
+$> alias discard = reset HEAD --hard
+$> alias discardchunk = checkout -p
+$> alias ol = "log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+$> alias others = "ls-files --others --ignored --exclude-from=.gitignore"
+$> alias rmuntracked = clean -df
+$> alias root = rev-parse --show-toplevel
+$> alias s = status
+$> alias searchfiles = "log --name-status --source --all -S"
+$> alias searchtext = "!f() { git grep \"$*\" $(git rev-list --all); }; f"
+$> alias uncommit = reset --soft HEAD^
+$> alias unstage = reset HEAD --
+$> alias wip = "!f() { git add . && git commit -m 'Work in progress'; }; f"
+$> alias diff-all = !"for name in $(git diff --name-only $1); do git difftool -y $1 $name & done"
+$> alias diff-changes = diff --name-status -r
+$> alias diff-stat = diff --stat --ignore-space-change -r
+$> alias diff-staged = diff --cached
+$> alias diff-upstream = !git fetch origin && git diff master origin/master
 ##==========================================
 ## Docker
 $> docker run --name some-nginx -d -p 8080:80 -v /some/content:/usr/share/nginx/html:rw -d nginx
@@ -15727,7 +15613,7 @@ $> network={
 $>     ssid="NETWORK-NAME"
 $>     psk="NETWORK-PASSWORD"
 $> }' > mount/path/wpa_supplicant.conf
-## Now availible on network
+## Now available on network
 ## Remove old known hosts
 $> ssh-keygen -R raspberrypi.local
 ## Sign on
@@ -15883,7 +15769,7 @@ $> uv pip install --active opencv-python numpy av
 
 ##==========================================
 ## ###################################################
-## ##    Key words. Use to search dockument
+## ##    Key words. Use to search document
 ## ###################################################
 ##    Information
 ##    info

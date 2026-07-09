@@ -3277,6 +3277,151 @@ https://github.com/tale/headplane
 https://github.com/kubernetes-sigs/headlamp
 
 ##============================
+## tailscale linux-systray - tailscale system tray (systray) application for Linux desktop clients to access some common actions like fast user switching and exit node selection like with other Tailscale GUI clients.
+https://tailscale.com/docs/features/client/linux-systray
+
+##============================
+## claude-real-video  Let Claude — or any LLM — actually watch a video.
+https://github.com/HUANGCHIHHUNGLeo/claude-real-video
+
+##============================
+## ctx is an open-source CLI for fast local search across your past coding agent sessions.
+https://github.com/ctxrs/ctx
+
+##============================
+https://technokick.com/
+
+
+##============================
+## fin  a Jellyfin client for the terminal — powered by mpv and Chromecast
+https://github.com/tsirysndr/fin
+
+##============================
+## Float  Floating window multiplexer for your terminal
+https://github.com/henktorius/float
+
+##============================
+## Tabiew  is a lightweight TUI application that allows users to view and query tabular data files, such as
+https://github.com/shshemi/tabiew
+
+##============================
+## lazycron  A fast, keyboard-driven TUI for managing cron jobs on Linux.
+https://github.com/Domenez-dev/lazycron
+
+##============================
+## SearXNG is a metasearch engine. Users are neither tracked nor profiled.
+https://github.com/searxng/searxng
+
+##============================
+## Rayfish  A peer-to-peer mesh VPN with zero infrastructure. Create a private network, share a code, and your machines reach each other as if they were on the same LAN. No servers to run, no ports to forward, no static IPs to manage.
+https://github.com/rayfish/rayfish
+https://rayfish.xyz/
+single binary with a daemon and a CLI.
+## "No server to trust"
+- no central control plane
+- iroh QUIC stack, with NAT traversal, hole punching, and relay fallback
+- every node has a keypair
+- identity on the network is that public key.
+- From the key derives a stable IPv4 in 100.64.0.0/10 and a stable IPv6 in 200::/7,
+- similar in spirit to yggdrasil.
+- Those addresses are yours for as long as you hold the key
+- they dont change when you move networks or your physical IP changes.
+- You still reach peers by IP or by a name.ray DNS name,
+- the address comes from the identity rather than from where you happen to be.
+- Networks are closed by default.
+- join with a one-time invite, a reusable key for fleets of servers,
+- or live approval from a member already inside.
+- The room id is only for discovery, it is never an admission credential.
+- Any member can be granted the network key and act as a coordinator, so admitting new peers keeps working even if the original creator is offline.
+- There is a per-device firewall, directional and scoped by port and protocol
+- Magic DNS so you can reach nodes at name.ray (or just name, no need for the .ray suffix).
+- A "ray connect" flow links two people directly with no shared room, like a friend request between keys.
+- No ACLs. Networks are logical partitions. Firewall is per-host.
+- You can combine both to have custom ACLs.
+
+https://docs.rs/iroh/latest/iroh/
+https://en.wikipedia.org/wiki/QUIC
+
+## Install
+wget https://github.com/rayfish/rayfish/releases/download/v0.1.5/ray-linux-x86_64
+chmod +x ray-linux-x86_64
+sudo mv ray-linux-x86_64 /usr/local/bin/ray
+##
+ray --help
+ray up
+ray create
+ray join <invite>
+##
+ray create                 ## you're now the coordinator of a private network
+ray invite gaming          ## mint a one-time code to hand out
+ray join <invite-code>     ## a friend joins with the code
+ping alice.gaming.ray      ## reach each other by name
+
+
+## Create a network
+ray create --hostname alice          ## closed by default; add --open for a public network
+    ✓ network created  gentle-amber-fox
+    IPv4  100.64.23.142
+    IPv6  200:ab3f:d92c:1e4a::1
+
+## Invite someone
+ray invite gentle-amber-fox          ## mint a single-use, expiring code
+    ✓ invite ab3f9c01
+    <invite-code>                    ## send to a friend
+    single-use, expires in 7d
+
+## Join from another machine
+ray join <invite-code> --name gaming --hostname bob
+    joined gaming
+    IPv4  100.64.7.201
+    IPv6  200:7c10:5e8b:33a1::1
+
+## Reach each other
+ray status              ## networks, peers, and traffic
+ping alice.gaming.ray   ## by name
+ping bob.ray            ## flat lookup
+ping 100.64.23.142      ## or just the IP
+ray ping alice          ## mesh probe: RTT, loss, and direct-vs-relay path
+ray netcheck            ## your own bound port, relay, and reachability
+
+## Leave or pause
+ray leave gaming         ## leave a network
+ray kick gaming alice    ## coordinator only: remove a member from a closed network (disconnects them mesh-wide)
+ray ephemeral gaming 7d  ## coordinator only: auto-remove members offline longer than 7d (off | show to disable/print)
+ray down                 ## standby: data plane (TUN + DNS) off, still connected to peers
+ray up                   ## reactivate (no root needed, near-instant: connections were kept)
+sudo ray stop            ## fully offline: daemon exits, peer connections close
+sudo ray start           ## back online: daemon restarts with both planes on
+
+
+
+
+
+##============================
+## v86 emulates an x86-compatible CPU and hardware in browser.
+https://github.com/copy/v86/
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
 
 
 
