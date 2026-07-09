@@ -14755,11 +14755,11 @@ $> sudo bash -c "echo '$USER ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 $> sudo visudo
 ##========================================
 ## Grant passwordless sudo
-printf '%s ALL=(ALL) NOPASSWD: ALL\n' "$USER" | sudo tee /etc/sudoers.d/99-"$USER"-temp >/dev/null
-sudo chmod 0440 /etc/sudoers.d/99-"$USER"-temp
-sudo visudo -c
+$> printf '%s ALL=(ALL) NOPASSWD: ALL\n' "$USER" | sudo tee /etc/sudoers.d/99-"$USER"-temp >/dev/null
+$> sudo chmod 0440 /etc/sudoers.d/99-"$USER"-temp
+$> sudo visudo -c
 ## Revoke (reverse when done)
-sudo rm /etc/sudoers.d/99-"$USER"-temp
+$> sudo rm /etc/sudoers.d/99-"$USER"-temp
 ##========================================
 ## ############################################
 ## ##    Podman
