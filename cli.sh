@@ -398,6 +398,8 @@ $> grep ^$USER /etc/passwd
 $> groups
 $> grep $USER /etc/group
 ##==========================================
+## Configure the terminal tty fonts
+$> sudo dpkg-reconfigure console-setup
 ##==========================================
 ## Update ppa repository
 $> sudo add-apt-repository ppa:<repository-name>
@@ -1353,7 +1355,7 @@ $> git commit -m "Added a line."  ##     │    Commited     │
 $> git status                     ##     │file.txt commited│
 ##                                ##     └─────────────────┘
 ## Now the changes can be found in the commit log.
-$> git log/-;['[']
+$> git log
 ## Do it again.
 $> echo 'This is another new line.' >> file.txt
 $> git status
@@ -4100,6 +4102,10 @@ function brt() { xrandr --output eDP-1 --brightness $1 ; }
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 ##==========================================
+## Formats JSON "clipboard" & puts it back in clipboard. Usage: cat file.json | jsontidy
+alias jsontidy="pbpaste | jq '.' | pbcopy"
+alias jsoncopy="xclip -selection clipboard -o | (jq '.' || xclip -selection clipboard -o) | xclip -selection clipboard"
+##==========================================
 ### Function to backup to 512gb sdcard
 ### Quick backup. Avoid dot files, downloaded files, and cache.
 #function sdbackup() { rsync -avhut --delete --delete-excluded --update \
@@ -4857,6 +4863,9 @@ $> omxplayer -o hdmi video.h264
 ##  :()        #defines a function called : (accepts no arguments)
 ##  { :|:& };  #This is the function: It calls the function itself and pipes the output to the same function ":" and puts the process in the background. (Recursive invocation) with ; it ends the function definition
 ##  :          #Calls the function and creates havoc.
+##----------------------
+## fork b2
+## $> f => (x => x(x))(y => f(x => y(y)(x)));
 ##==========================================
 ## DANGER. rm remove delete ALL files
 ## $> rm -fr * # system32
@@ -6146,9 +6155,29 @@ $> gsettings set org.cinnamon.desktop.wm.preferences mouse-button-modifier "'<Su
 ## Change the window movement modifier key back to Alt
 $> gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier "'<Alt>'"
 ##==========================================
+## Install nvidia drivers
+$> wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+$> sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+$> wget https://developer.download.nvidia.com/compute/cuda/13.1.1/local_installers/cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+$> sudo dpkg -i cuda-repo-ubuntu2404-13-1-local_13.1.1-590.48.01-1_amd64.deb
+$> sudo cp /var/cuda-repo-ubuntu2404-13-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+$> sudo apt-get update
+$> sudo apt-get -y install nvidia-driver-590
+$> sudo apt-get -y install cuda-toolkit-13-1
+## Install the NVIDIA Container Toolkit on Ubuntu
+## NVIDIA GPU drivers and Docker already installed.
+## Configure the NVIDIA Container Toolkit repository and GPG key:
+$> curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+$> curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+$> sudo apt-get update
+## Install the NVIDIA Container Toolkit packages:
+$> sudo apt-get install -y nvidia-container-toolkit
+## Use with docker.
+$> sudo nvidia-ctk runtime configure --runtime=docker
+## Restart the Docker daemon for the changes to take effect:
+$> sudo systemctl restart docker
 ##-------------------------
 ## #################################
-
 ##==========================================
 ## gui. Disable updates for installed Chrome plugins
 ## This will allow you to ensure you do not get nagged by updates and also protects you from watering hole attacks! Please be sure to make sure your plugins do not have any security issues! Backups are manifext.jason.bak credit @Jay https://chat.counterpoint.info
@@ -10633,7 +10662,7 @@ $> youtube-dl --extract-audio --audio-format mp3 --batch-file list.txt
 ##    22) recreate the two apps with docker compose and figure out what you need to define
 ##==========================================
 ## ##########################################
-## ##   Screen HOWTO
+## ##    Screen HOWTO
 ## ##########################################
 ## start a screens session
 $> screen -S YOURSESSIONNAME
@@ -10651,7 +10680,18 @@ $> screen -r
 ## and then quit it:(-X = Execute command, -S session PID to execute on)
 $> screen -XS YOURSESSIONNAME quit
 ## ##########################################
-## ##########################################
+##==========================================
+## tmux
+$> firefox https://tmuxcheatsheet.com/
+## ctrl+b then after press; % for vertical split, " for horizontal split, arrows to move curser, x to close
+$> tmux
+## start tmux as default, add the following lines to your ~/.bash_profile shell startup file, just above your aliases section.
+$> prinf 'if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then\ntmux attach -t default || tmux new -s default;\nfi' > ~/.bash_profile
+## when using in tmux.conf, you have to escape % with %, i.e. write %% instead of %
+## Fix problem runnung mc in tmux
+$> TERM=xterm mc
+## To write command on all the panes at once
+$> ctrl+b :setw synchonize-panes
 ##==========================================
 ## Shell script
 ## An if statement in bash just runs some program and checks if the return code was zero. The '!' operator will negate the return code. So when you type something like this
@@ -11146,7 +11186,6 @@ $> vagrant up
 $> vagrant destroy
 ## Or
 $> vagrant -f destroy
-##==========================================
 ##==========================================
 ## web. files. Download Large Google Drive files with Wget in Terminal
 ## Replace FILEID and FILENAME in the command below:
@@ -13841,6 +13880,7 @@ $> echo "ls -l" | at midnight
 ##==========================================
 ## multimedia. video. Encode video with constant framerate
 $> ffmpeg -i input.mp4 -vcodec libx264 -crf 30 output.mp4
+##==========================================
 ## app. office. Convert libreoffice files : .odt .odg and other to .pdf
 ## Find and Convert all libre office files to PDF without libreoffice GUI Show Sample Output
 $> find /home/#USER/Documents/ -type f -iname "*.odt" -exec libreoffice --headless --convert-to pdf '{}' \;
@@ -14012,7 +14052,6 @@ $> sudo timeshift --restore --snapshot <snapshot_ID>  ## Restores a specific sna
 ## timeshift --list: Displays a list of existing snapshots.
 $> sudo timeshift --delete --snapshot <snapshot_ID>  ## Deletes a specific snapshot.
 ##==========================================
-## #########################################
 ## #########################################
 ##==========================================
 ## Hardware accelerated images. Normal images are processed by a CPU but these are processed by your GPU, which is more powerful and more efficient.
@@ -14743,7 +14782,25 @@ $> gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 
 ##==========================================
 ## mulimedia, video. make webms
-for pass in {1..2}; do ffmpeg -i clip-2026-07-09_17.15.47.mkv -g 1200 -c:v libvpx-vp9 -crf 25 -pass $pass -an -y out.webm; done
+$> for pass in {1..2}; do ffmpeg -i clip-2026-07-09_17.15.47.mkv -g 1200 -c:v libvpx-vp9 -crf 25 -pass $pass -an -y out.webm; done
+## for pass in {1..2}; <command>; done
+## this runs the command twice, with the $pass variable set to 1 then 2, for two-pass encoding in one command
+## -i clip-2026-07-09_17.15.47.mkv
+## input filename
+## -g 1200
+## GOP size of 1200, this improves efficiency at the cost of slower seek times (which isn't an issue here since videos are short)
+## -c:v libvpx-vp9
+## use the VP9 codec
+## -crf 25
+## this sets the "quality", lower numbers is higher quality, up to i believe 63
+## -pass $pass
+## how many passes to encode, one pass often results in intraframe refresh artifacts with VPx codecs
+## -an
+## disable audio tracks
+## -y
+## overwrite the output file if it exists
+## out.webm
+## output filename
 ##================================
 ## root passwordless sudo, disable password it by adding your user to
 $> ls /etc/sudoers
@@ -14839,7 +14896,6 @@ $> sudo usermod -a -G tss "$USER"
 $> mkdir ~/.tpm2_pkcs11
 $> tpm2_ptool init
 ##==========================================
-## ############################################
 ## ############################################
 ##==========================================
 ## Set the CPU frequency
@@ -14986,7 +15042,140 @@ $> tailscale ip -4
 ## Auth with key. Best way to join tailnet.
 $> sudo tailscale up --authkey=tskey-auth-kzhxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxS3
 ## ###################################################
-
+## ############################################################
+## ##    tetron zero trust, invite only, mesh vpn
+## ############################################################
+## tetron zero trust invite only mesh vpn
+$> firefox https://github.com/ErikAllanKincaid/tetron
+## Install.
+## Download binary, install.
+$> curl -Lo tetron https://github.com/ErikAllanKincaid/tetron/releases/latest/download/tetron-linux-x86_64
+$> chmod +x tetron
+$> sudo install tetron /usr/local/bin/tetron
+$> sudo tetron install
+## Make a network. --hostname - defaults to your hostname. --subnet - defaults to 10.88.0.0/24
+$> tetron create --network-name tetronet-1 --hostname alice --subnet 10.77.0.0/24
+## Invite some people. Outputs invite key.
+$> tetron invite tetronet-1 create
+$>    join <invite-key>
+## They join Usage: --hostname - defaults to your hostname. --alias - If you want a different network name than the default. --tor - route through tor network
+$> tetron join <invite-key>
+## networks, peers, mesh IPs, hostnames, traffic
+$> tetron status
+$> tetron status --json | jq
+##================================
+## Tetron addons
+$> firefox https://github.com/ErikAllanKincaid/tetron-webui
+$> firefox https://github.com/ErikAllanKincaid/tetron-systray
+## Tetron-webui
+## Primary path: download a pre-built binary.
+## Linux x86_64 -- see the releases page for aarch64 / macOS binaries:
+## https://github.com/ErikAllanKincaid/tetron-webui/releases/latest
+$> curl -Lo tetron-webui https://github.com/ErikAllanKincaid/tetron-webui/releases/latest/download/tetron-webui-linux-x86_64
+$> chmod +x tetron-webui
+$> sudo install tetron-webui /usr/local/bin/tetron-webui
+## sets up + starts a per-user service, no sudo needed for this step
+$> tetron-webui install
+##------------------------------
+## Linux x86_64 -- see the releases page for aarch64 / macOS binaries:
+## https://github.com/ErikAllanKincaid/tetron-systray/releases/latest
+curl -Lo tetron-systray https://github.com/ErikAllanKincaid/tetron-systray/releases/latest/download/tetron-systray-linux-x86_64
+chmod +x tetron-systray
+sudo install tetron-systray /usr/local/bin/tetron-systray
+## sets up + starts a per-user service, no sudo needed
+tetron-systray install
+## Check the system tray for connection.
+##================================
+## ############################################################
+## ##    tetron remote user restricted from local network
+## ############################################################
+## Restrict access with iptables. There is no tetron userspace firewall use iptables other other dedicated firewall.
+## On remote-1
+## Install iptables persistance
+$> sudo apt install iptables-persistent
+## Add a user
+$> sudo useradd -m -s /bin/bash user-1
+$> sudo passwd user-1
+## Put in user-1 key
+$> sudo mkdir -p /home/user-1/.ssh
+$> echo "ssh-ed25519 AAAAC3NzkjjashflkjAWEHFLKJQHWEGKLJHDLJFHQWLJKERHFf user-1@user-1.net" | sudo tee -a /home/user-1/.ssh/authorized_keys
+##-------------------------
+## user-1
+## Block access to your physical LAN subnet (192.168.1.0/24):
+$> sudo iptables -A OUTPUT -p tcp -m owner --uid-owner user-1 -d 192.168.1.0/24 -j REJECT
+## Block all other network protocols to the LAN (UDP/ICMP/Ping):
+$> sudo iptables -A OUTPUT -m owner --uid-owner user-1 -d 192.168.1.0/24 -j REJECT
+## Block access to the rest of the Tetron VPN address space:
+## By default, Tetron networks use the 10.88.0.0/24 range unless you overrode it during creation. To ensure they cannot hop to other Tetron peers from this terminal, block the default Tetron subnet:
+$> sudo iptables -A OUTPUT -m owner --uid-owner user-1 -d 10.88.0.0/24 -j REJECT
+## Force bypass the local router for DNS by blocking them from hitting port 53 on the LAN:
+$> sudo iptables -A OUTPUT -m owner --uid-owner user-1 -d 192.168.1.0/24 -p udp --dport 53 -j REJECT
+$> sudo iptables -A OUTPUT -m owner --uid-owner user-1 -d 192.168.1.0/24 -p tc
+##-------------------------
+## Make the Rules Permanent
+## iptables rules clear out automatically if the machine restarts. Save them to the local disk so they stay active forever:
+$> sudo netfilter-persistent save
+##-------------------------
+## On node-1
+## Invite from node-1. This outputs the invite key hash.
+$> tetron invite tetronet-1 create
+##-------------------------
+## On remote-1
+## Add remote-1 to the tetronet
+$> curl -Lo tetron https://github.com/ErikAllanKincaid/tetron/releases/latest/download/tetron-linux-x86_64
+$> chmod +x tetron
+$> sudo install tetron /usr/local/bin/tetron
+$> sudo tetron install
+## join remote-1
+$> tetron join 77T1TD7kjhlkjhlkjhlkjhlkkjhlkjhlkjhlkhkQk5 --hostname user-1-remote-1
+##-------------------------
+## On remote-1
+## Verify the Rules with Packet Counters
+## iptables automatically tracks how many times a rule has triggered. You can look at these counters to confirm they are actively blocking traffic.
+## View the active rules with counters:
+$> sudo iptables -nvL OUTPUT --line-numbers
+## Re-run the command: If the rule is working, you will see the pkts and bytes numbers increase immediately.
+$> sudo iptables -nvL OUTPUT
+## Temporarly Insert a logging rule for user-1 targeting the LAN:
+$> sudo iptables -I OUTPUT 1 -m owner --uid-owner user-1 -d 192.168.1.0/24 -j LOG --log-prefix "IPTABLES-user-1-LAN: " --log-level 4
+## Insert a logging rule for user-1 targeting the Tetron VPN space:
+$> sudo iptables -I OUTPUT 2 -m owner --uid-owner user-1 -d 10.55.55.0/24 -j LOG --log-prefix "IPTABLES-user-1-VPN: " --log-level 4
+## View the live logs in the system journal
+$> sudo journalctl -kf | grep "IPTABLES-user-1"
+## Clean Up and Remove the Logs Because logging every blocked packet can rapidly fill up your system storage during a network scan, you should delete the logging rules once you finish testing.
+## List the rules with their line numbers again:
+$> sudo iptables -L OUTPUT --line-numbers
+## Delete the logging rules by their line number (assuming they are still at positions 1 and 2):
+$> sudo iptables -D OUTPUT 1
+$> sudo iptables -D OUTPUT 1
+## Revert
+## Delete the Active iptables Rules
+## Run these commands on the target machine to strip away the block rules:
+## Remove the physical LAN block:
+$> sudo iptables -D OUTPUT -m owner --uid-owner user-1 -d 192.168.1.0/24 -j REJECT
+## Remove the TCP-specific LAN block (if you ran that variant earlier):
+$> sudo iptables -D OUTPUT -p tcp -m owner --uid-owner user-1 -d 192.168.1.0/24 -j REJECT
+## Remove the Tetron VPN space block:
+$> sudo iptables -D OUTPUT -m owner --uid-owner user-1 -d 10.55.55.0/24 -j REJECT
+## Confirm the Rules Are Gone
+## Verify that the OUTPUT chain no longer displays any restrictions tied to user user-1:
+$> sudo iptables -nvL OUTPUT
+##==========================================
+## On node-1
+## Stop node-1 from using ssh outbound
+## Allow established and related traffic: This ensures inbound SSH sessions can send return packets.
+$> sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+$> sudo iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+## Allow inbound SSH connections:
+$> sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+## Drop or reject new outbound SSH connection attempts:
+$> sudo iptables -A OUTPUT -p tcp --dport 22 -j REJECT
+##==========================================
+## ############################################################
+##==========================================
+## Remotely open a gui app
+## Instruct the system to use the local monitor (usually :0) and launch the application by running: ￼
+$> DISPLAY=:0 XAUTHORITY=/home/$USER/.Xauthority application_name &
 ##==========================================
 ## multimedia. video. Transcode video and remove audio
 $> ffmpeg -i -an video.mp4 video.webm

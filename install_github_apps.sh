@@ -3189,8 +3189,12 @@ https://immich.app/
 https://github.com/immich-app/immich
 
 ##============================
+## WORKS esp useful for local agents.
 ## SearXNG is a metasearch engine. Users are neither tracked nor profiled.
 https://github.com/searxng/searxng
+
+## SearXNG-style metadata search engine written in Rust. Fans out queries to multiple search engines concurrently, scrapes their HTML results, deduplicates by normalized URL, and ranks using Reciprocal Rank Fusion (RRF).
+https://github.com/MikeLuu99/searxng-rust
 
 ##============================
 ## Modern Docker Management, Designed for Everyone.
@@ -3240,6 +3244,7 @@ https://withlore.ai/blog/why-memory-is-not-enough/
 https://github.com/byk/loreai
 
 ##============================
+## WORKS!!
 ## herdr - run all your coding agents in one terminal.
 ## persistent sessions, detach / reattach, runs anywhere over ssh, panes, tabs, workspaces, agent awareness, mouse-native, lightweight binary, agents can orchestrate
 https://github.com/ogulcancelik/herdr
@@ -3402,8 +3407,291 @@ sudo ray start           ## back online: daemon restarts with both planes on
 https://github.com/copy/v86/
 
 ##============================
+## Rowboat  A desktop AI coworker with a memory of your work and built-in surfaces to act on it.
+https://github.com/rowboatlabs/rowboat
 
+##============================
+## EasyTier A simple, secure, decentralized virtual private network solution VPN
+https://github.com/EasyTier/Easytier
 
+##============================
+## vagrant libvirt
+https://benjamintoll.com/2026/06/29/on-ditching-vagrant/
+https://vagrant-libvirt.github.io/vagrant-libvirt/
+
+##============================
+## Manage multiple agents in one window, see which need your attention and monitor token usage.
+https://abralo.com/
+
+##============================
+## FreeCAD in the Browser (magik.net)
+https://magik.net/freecad/
+
+##============================
+## FableCut A browser video editor that AI agents can drive.
+https://github.com/ronak-create/FableCut
+
+##============================
+## Tenacity. cross-platform audio editor
+https://codeberg.org/tenacityteam/tenacity/releases
+
+##============================
+## Dillo, a multi-platform graphical web browser
+https://git.dillo-browser.org/dillo/
+
+##============================
+## Local Agent Toolkit  Keep frontier-model tokens for frontier-model work.
+https://github.com/tomerzipori/local-agent-toolkit
+
+##============================
+## Telegram client for pi
+http://npmjs.com/package/@atharva-again/pi-tg
+
+##============================
+## peer-to-peer connectivity to your app, agent, or workflow.
+https://www.iroh.computer/blog/mesh-llm
+https://www.iroh.computer/
+
+##============================
+## mindwalk  A visualization tool that replays coding-agent sessions on a 3D map of your codebase.
+https://github.com/cosmtrek/mindwalk
+
+## Quick start
+curl -fsSL https://raw.githubusercontent.com/cosmtrek/mindwalk/master/scripts/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+mindwalk
+
+mindwalk serve [--port N] [--no-open] [--claude-dir DIR] [--codex-dir DIR]
+
+## Start server
+mindwalk serve --port 8383
+## Port forward
+ssh -L 8383:localhost:8383 $USER@192.168.1.120
+## Check it
+http://localhost:8383
+
+##============================
+## summarize,  Turn any video — a lecture, TikTok, or Drive recording — into distilled markdown: Q&A, fact-checks, tutorials, Mermaid diagrams, essays, and more.
+https://github.com/martinopiaggi/summarize
+
+##============================
+## ScreenWall, turn old phones and tablets into a shared display wall
+https://www.screenwall.app/
+
+##============================
+## Automates the entire process of creating a bootable OpenCore hackintosh USB.
+https://github.com/riftaway7-code/hackmate
+
+##============================
+## Harpist records website traffic in Chrome and turns it into agent-usable API documentation, replayable authenticated requests, and oRPC/OpenAPI artifacts. The recorder, bridge, generated contracts, and credentials stay on your machine.
+https://github.com/kenobi-ai/harpist
+
+##============================
+## Juggler – an open-source GUI coding agent,
+https://github.com/juggler-ai/juggler
+
+##============================
+## agent-talk is a plugin for coding agents (e.g., Claude Code). It gives your agent a way to message other agents
+https://github.com/xhluca/agent-talk
+
+##============================
+## Asciiville includes nearly 1,000 works of ASCII and ANSI Art!
+https://github.com/doctorfree/Asciiville
+
+##============================
+## termchat  A distributed LAN chat application in the terminal (without needing a server!). Run the application in your terminal and write into the LAN!
+https://github.com/lemunozm/termchat
+
+##============================
+## uhubctl is utility to control USB power per-port on smart USB hubs.
+https://github.com/mvp/uhubctl
+
+##============================
+## bashumerate — A programmable iterator for your shell
+https://numerlab.org/2026/07/20/bashumerate-enumerator/
+
+##============================
+## RootBadger is a modern Usenet-style discussion platform built around topic-based groups, threaded conversations, readable posts, message headers, signatures, RSS feeds, private messages, and searchable communities.
+https://rootbadger.com/
+
+##============================
+## CVE-Bench: A Benchmark for AI Agents’ Ability to Exploit Real-World Web Application Vulnerabilities
+https://github.com/uiuc-kang-lab/cve-bench
+
+##============================
+## Edky (pronounced ed-key) converts Ed25519 public keys between various encoding formats.
+https://github.com/artob/edky
+
+##============================
+## Drey, open source LSP multiplexer so you have to buy less RAM
+https://github.com/mario/drey
+
+##============================
+## Share your keyboard, mouse, and clipboard seamlessly between Linux and Windows.
+https://github.com/lucky-verma/mwb-linux
+
+##============================
+## A local LLM runtime that boots from USB and runs without a conventional operating system.
+https://github.com/hardrave/NIGHTRUN
+
+##============================
+## jobsearch Unified job search CLI that scrapes job boards, stores results in a local SQLite database, and lets you browse, rate, and semantically search postings via a terminal CLI or a web UI.
+https://github.com/jozefRudy/job_search
+
+##============================
+## Meshdiff – visually compare two STL versions in the browser, client-side
+https://meshdiff.com/
+
+##============================
+## WORKS
+## Free agents with inserted ads.
+https://freebuff.com
+
+##============================
+## WORKS
+## wallfacer A terminal session manager for Claude Code, Cursor CLI, Kiro CLI and Codex — see every AI coding session you've ever started, then name, tag, group, search, resume, or delete them, from a full-screen browser or straight from the command line.
+https://github.com/pradipta/wallfacer
+
+##============================
+## Nuitka is the optimizing Python compiler written in Python that creates executables that run without a separate installer.
+https://nuitka.net/
+
+##============================
+## Starboard  A terminal permanently beside your macOS Dock: on screen, on every desktop, all the time.
+https://github.com/palamim/starboard
+
+##============================
+## childflow is a per-command-tree network sandbox for Linux. Run one command and its child processes in an isolated network context, control DNS / hosts / proxy behavior, apply outbound policy, capture only that tree's traffic, and emit structured flow logs for that tree.
+https://github.com/blacknon/childflow
+
+##============================
+## ttymap Terminal-native scriptable globe.
+https://github.com/Kohei-Wada/ttymap
+
+##============================
+## OnionHop V3 is a modern, cross-platform desktop app (Windows, macOS and Linux) that routes your traffic through Tor.
+https://github.com/center2055/OnionHop
+
+##============================
+## sonic-pi  code-based music creation and performance tool
+https://sonic-pi.net/tutorial.html
+https://sonic-pi.net/#rp
+
+##============================
+## git-knife 🔪 every commit message, author, and dates, edited like a table.
+https://github.com/TheRealYT/git-knife
+
+##============================
+## tmtail - Tail multiple logs with highlighting, search and history
+https://github.com/themadsens/tmtail
+
+##============================
+## syncthingtui  A Syncthing TUI client with nearly-complete feature parity with the Syncthing web GUI.
+https://github.com/evidlo/syncthingtui
+
+##============================
+## Termisprite is a terminal-based pixel art sprite editor written in C++. It allows you to create, edit, and manipulate pixel art directly from your terminal.
+https://github.com/JavierCladellas/termisprite
+
+##============================
+## Tiny, open, native coding agent.
+https://fx.sh/
+
+##============================
+## Visual editor for Mermaid diagrams.
+https://github.com/inkeep/visimer
+
+##============================
+## Unsloth The complete open-source local AI interface to run and train models.
+https://unsloth.ai/download/linux
+
+##============================
+## atuin  Sync, search, and back up your shell history with end-to-end encryption. Ask Atuin AI for help without leaving your prompt.
+https://atuin.sh/
+
+##============================
+## Portato — TUI for managing SSH port forwards
+https://github.com/portuber/portato
+
+##============================
+## onshape-mcp MCP server for programmatic CAD modeling with Onshape.
+https://github.com/hedless/onshape-mcp
+
+##============================
+## rune watch keeps an understanding graph current in the background as you edit. Every new AI session queries that graph over MCP instead of re-reading files cold, and gets an evidence-backed answer cited to file + line.
+https://github.com/thecolourfoundation/rune
+
+##============================
+## SnapplAI — AI-Powered LinkedIn Job Alerts
+https://github.com/TDK-99/SnapplAI
+
+##============================
+## VPN for Internet Freedom
+https://freesocks.org/
+
+##============================
+## Linux build of the Grok Bot desktop app
+https://github.com/jakob-bu/grok-bot-linux-unofficial
+
+##============================
+## Technical_Writing_Style_Guide
+https://pve.proxmox.com/wiki/Technical_Writing_Style_Guide
+
+##============================
+## Experiential is an open source gateway and router for agent workflows:
+https://github.com/experientiallabs/experiential
+
+##============================
+## watermarks-remover Agent skill + stdlib Python service to strip multi-vendor AI provenance marks from text and files — for privacy and hygiene on content you own.
+https://github.com/guillaumemeyer/watermarks-remover
+
+##============================
+## Pi Black is an unofficial Pi package that routes Anthropic OAuth requests through your existing Claude subscription
+https://github.com/paoloanzn/pi-black
+
+##============================
+## improve laptop speaker sound quality
+https://github.com/wwmm/easyeffects
+
+##============================
+## NetSour A packet sniffer that lives in your terminal. It captures traffic, takes it apart down to the application layer, keeps track of every conversation and every device on the network, and shouts when something looks wrong — all in one curses UI you drive from the keyboard. Think Wireshark questions, answered without leaving the shell.
+https://github.com/thegoodduck/NetSour
+
+##============================
+## h5i A Secure, Auditable Browser for AI Agents
+https://github.com/h5i-dev/h5i
+
+##============================
+## Darling is a runtime environment that allows running macOS applications on Linux without a virtual machine.
+https://github.com/darlinghq/darling
+
+##============================
+## discord-delete Bulk-delete your Discord messages and reactions, driven by your GDPR data package.
+https://github.com/DatCodeMania/discord-delete
+
+##============================
+## Syncthing TUI client with nearly-complete feature parity with the Syncthing web GUI.
+https://github.com/evidlo/syncthingtui
+
+##============================
+## somars - A Terminal-Based SomaFM Player
+https://github.com/skammer/somars
+
+##============================
+## Float - Floating window multiplexer for your terminal, written in Rust.
+https://github.com/henktorius/float
+
+##============================
+## xtree – CLI to visualize JSON/YAML/TOML as ASCII tree
+https://github.com/ddddddO/gtree#xtree
+
+##============================
+## RustNet Per-process network monitoring for your terminal: live TCP, UDP, and QUIC connections with deep packet inspection, sandboxed by default.
+https://github.com/domcyrus/rustnet
+
+##============================
+## Aurict  A terminal-native AI coding assistant
+https://github.com/aurict/aurict
 
 ##============================
 
@@ -3447,15 +3735,61 @@ https://github.com/copy/v86/
 
 ##============================
 
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+https://z.ai/blog/glm-5.3-flash
+
+
+##============================
+https://huggingface.co/steadfastgaze/DeepSeek-V4-Flash-0731-Coder-56.8GB-MoEspressoV2
 
 
 ##============================
 Ornith-1.0, a family of open-source  LLMs specialized for agentic coding.
 https://huggingface.co/collections/deepreinforce-ai/ornith-10
 
-
+##============================
 Qwythos-9B
 https://empero.org/
+
+##============================
+https://prismml.com/news/bonsai-27b
+
+##============================
+https://huggingface.co/unsloth/Muse-Glimmer-30B-GGUF/tree/main
+
+
+##============================
+https://huggingface.co/Qwen/Qwen3.8-27B
+
+https://huggingface.co/unsloth/Qwen3.8-27B-GGUF
+
+##============================
+
+
+
+##============================
 
 
 
