@@ -417,7 +417,7 @@ $> sudo apt-get update
 ##==========================================
 ##  Replace /etc/hosts with adblocking hosts file
 $> wget http://ix.io/1K6b
-%> sudo cp /etc/hosts /etc/hosts.default
+$> sudo cp /etc/hosts /etc/hosts.default
 $> sudo cp 1K6b /etc/hosts
 ##==========================================
 ## Software to have fun in command line
@@ -2367,6 +2367,31 @@ $>   $               ## matches end of line/string
 $>   [c1-c2]         ## matches $c_1$ through $c_2$
 ##==========================================
 ## ####################################
+## ##    ! shell exclamation mark
+## ####################################
+## ! shell exclamation mark to reference previous commands.
+$> firefox https://refp.se/articles/your-shell-and-the-lazy-exclamation-mark
+$> /path/to/script.sh "hello world" --enable 1337
+$> !:0   ##  1st word --> "/path/to/script.sh"
+$> !:1   ##  2nd word --> "hello world"
+$> !:$   ## last word --> "1337"
+$> !:1-2 ## 2nd to 3rd   --> "hello world" "--enable"
+$> !:*   ## all args     --> "hello world" "--enable" "1337"
+$> !:1-  ## all but last --> "hello world" "--enable"
+$> !:2*  ## 3rd to last  --> "--enable" "1337"
+## Note: There are several short-form expressions work without a colon.
+$>    !$ being equivalent to !:$
+$>    !* being equivalent to !:*
+## Modifiers extract/modify only certain parts
+$> !:$:h ## strip filename (`dirname`)
+$> !:1:t ## strip leading path (`basename`)
+$> !:1:r ## strip only the extension
+$> !:1:e ## leave only the extension
+$> !:s/hello/bye/ ## replace first 'hello' with 'bye'
+$> !:gs/foo/bar/  ## replace all 'foo' with 'bar'
+$> !ssh:p ## print what would run, without running it
+##==========================================
+## ####################################
 ## ##    Bash Sample Scripts
 ## ####################################
 ## regex
@@ -3644,7 +3669,7 @@ function mkcd() { mkdir -p "$1" && cd "$1" ; }
 function dusize () { du -sk ./* | sort -n | awk 'BEGIN{ pref[1]="K"; pref[2]="M"; pref[3]="G";} { total = total + $1; x = $1; y = 1; while( x > 1024 ) { x = (x + 1023)/1024; y++; } printf("%g%s\t%s\n",int(x*10)/10,pref[y],$2); } END { y = 1; while( total > 1024 ) { total = (total + 1023)/1024; y++; } printf("Total: %g%s\n",int(total*10)/10,pref[y]); }' ; }
 ##==========================================
 ## Get IP address information
-function ipinfo() { echo "InternalIP" ; ifconfig | grep 'inet ' | grep -v 127.0 | awk '{print $2 }' | sed 's/addr://' ; echo "RouterIP" ; ip route show | grep -i 'default via'| awk '{print $3 }' ; echo "ExternalIP" ; curl ifconfig.co ; }
+function ipinfo() { echo "InternalIP" ; ifconfig | grep 'inet ' | grep -v ' 127.0'  | grep -v ' 172.' | awk '{print $2 }' | sed 's/addr://' ; echo "RouterIP" ; ip route show | grep -i 'default via'| awk '{print $3 }' ; echo "ExternalIP" ; curl ifconfig.co ; }
 ##==========================================
 ## Set and unset proxy settings.[<proxy-scheme>://]<proxy-host>[:<proxy-port>] Usage: setproxy 173.255.233.249:8888
 ## Some good proxies https://www.socks-proxy.net/, https://free-proxy-list.net/
@@ -4017,7 +4042,7 @@ alias copy="cp -piv"
 alias ver="uname -a"
 alias mem="free -h"
 alias move="mv -iv"
-alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd'"
+alias C:="echo 'No C drive in Linux. Go to your home directory with the command: cd' && cd"
 ##==========================================
 alias mplayerfb='sudo mplayer -vo fbdev2 -fs -zoom -x 1024 -y 600'
 ## Ascii video
@@ -4239,14 +4264,11 @@ alias claudememory="rsync -avhut --progress --update erik@192.168.1.43:/home/eri
 alias http="google-chrome http://"
 alias https="google-chrome https://"
 ##==========================================
-## Large Language Model. https://github.com/simonw/llm
-## TOKENS AT BOTTOM
-## llm environment. Usage: Start environment: llmd ; Then:  llm "One uplifting sentence" ; To stop: deactivate ; cd
-alias llmd="cd ~/code/llm_env ; source env/bin/activate ;"
-## Usage: llmdd "One uplifting sentence"   This does not work for some reason?
-#alias llmdd="cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; "
-function llmddd() { cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; }
-function llmdddd() { cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} ${2}; deactivate ; cd ; }
+## ##    fzf Fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##==========================================
+## Remove contractions
+function contraction() { sed -i -e "s/can\'t/can not/g" -e "s/I\'ll/I will/g" -e "s/you\'re/you are/g" -e "s/I\'m/I am/g" -e "s/We\'ve/We have/g" -e "s/we\'d/we would/g" -e "s/wasn\'t/was not/g" -e "s/I\'ve/I have/g" $1 ; }
 ##==========================================
 ## Get project from bucket. Usage: bucketproject <BUCKETNAMEHERE> Example: bucketproject sc-calibration
 function bucketproject() { gcloud projects list | grep $(curl -s -H "Authorization: Bearer `gcloud auth print-access-token`" https://storage.googleapis.com/storage/v1/b/${1}  | jq  -r .projectNumber) ; }
@@ -4276,6 +4298,15 @@ XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" > ~/.session-vars
 ## ##########################################
 ## Use AI agents.
 ##==========================================
+## Large Language Model. https://github.com/simonw/llm
+## TOKENS AT BOTTOM
+## llm environment. Usage: Start environment: llmd ; Then:  llm "One uplifting sentence" ; To stop: deactivate ; cd
+alias llmd="cd ~/code/llm_env ; source env/bin/activate ;"
+## Usage: llmdd "One uplifting sentence"   This does not work for some reason?
+#alias llmdd="cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; "
+function llmddd() { cd ~/code/llm_env ; source env/bin/activate && llm ${1} ; deactivate ; cd ; }
+function llmdddd() { cd ~/code/llm_env ; source env/bin/activate && llm -m ${1} ${2}; deactivate ; cd ; }
+##==========================================
 ## opencode
 export OPENCODE_ENABLE_EXA=1
 export PATH=/home/erik/.opencode/bin:$PATH
@@ -4298,9 +4329,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ## This loads nvm bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-##==========================================
-## ##    fzf Fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ##==========================================
 
 ##==========================================
@@ -5177,13 +5205,13 @@ Extra Characters to cut and paste. Some do not work in HTML.
 ♺ ♻ ♼ ♽ ⁌ ⁍ ⎌ ⌇ ⌲ ⍝ ⍟ ⍣ ⍤ ⍥ ⍨ ⍩ ⎋ ♃ ♄ ♅ ♆ ♇  ⏚ ⏛
 ┊ ○ ● ⚠ ✡ ° ⁂⌽⌇ ⌍ ⌎⎌ ⌏ ⌐ ⌑ ⌔
 ⌙ ⌢ ⌣ ⌯ ⌬�
-
+☰ (Heaven), ☱ (Lake), ☲ (Fire), ☳ (Thunder), ☴ (Wind), ☵ (Water), ☶ (Mountain), ☷ (Earth)
 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓
 😎 😘 😂 😆 😈 😱 😭 😅 😗 😜 💰😏 😡
 ✌ ☝ ✍ ☔ ⚡ ☕ ♿ ⌛ ⌚ ⚫ ⚓ 🐰 🕳
  ✦ ⬢ 🌳 💧 🐦 🛠 🐹 🐘 𝗥 ஃ 🐳 ☁️ 🅒 🐍 ☸️ 🛠 📦
 ❤️
-
+🎲
 ⍙Δ
 𓆏⚪⚫
 ᛉ卐☭💰
@@ -14775,11 +14803,21 @@ $> gh api repos/GITHUBUSERNAME/subagent-dispatch | jq '.stargazers_count'
 
 
 ##==========================================
-
-
+## Create a swap file.
+## You can use dd for this too but if your filesystem supports it, fallocate is faster.
+$> fallocate -l 4G /swapfile
+## Only root should be able to write to the swap file.
+$> chmod 0600 /swapfile
+## Format the swap file.
+$> mkswap /swapfile
+## Enable it.
+$> swapon /swapfile
+## Make it persist across boots.
+$> echo "/swapfile none swap defaults 0 0" >> /etc/fstab
+## Make sure to explicitly exclude from backups.
 ##==========================================
-
-
+## Check nvme drive.
+$> sudo nvme smart-log /dev/nvme0 | grep used
 ##==========================================
 ## mulimedia, video. make webms
 $> for pass in {1..2}; do ffmpeg -i clip-2026-07-09_17.15.47.mkv -g 1200 -c:v libvpx-vp9 -crf 25 -pass $pass -an -y out.webm; done

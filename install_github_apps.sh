@@ -318,7 +318,8 @@ erys
 firefox https://github.com/Skardyy/mcat
 wget https://github.com/Skardyy/mcat/releases/download/v0.4.6/mcat-x86_64-unknown-linux-gnu.tar.xz
 unzip mcat-x86_64-unknown-linux-gnu.tar.xz
-sudo cp ./mcat /usr/local/bin/imagecat
+tar --extract --file="basalt-0.11.2-x86_64-unknown-linux-musl.tar.gz" --gzip --verbose
+sudo install ./mcat /usr/local/bin/imagecat
 
 
 ##==================================
@@ -1340,6 +1341,7 @@ https://github.com/basnijholt/agent-cli
 # Human-in-the-Loop: Configure the agent to ask for permission before executing high-risk commands.
 
 ##============================
+## WORKS!!
 ## Carbonyl is a Chromium based browser built to run in a terminal.
 ## AI agents can use it to check code.
 https://fathy.fr/carbonyl
@@ -1857,6 +1859,7 @@ cp /ultralytics/runs/segment/predict/default.jpg /mnt/default-segmented.jpg
 
 
 ##============================
+## WORKS!
 ## NetWatch - Real-time network diagnostics in your terminal — like htop for your network.
 https://github.com/matthart1983/netwatch
 
@@ -3031,7 +3034,7 @@ https://github.com/clitic/ffpb-rs
 
 ##============================
 ## torrent-tui – A terminal BitTorrent client for focused download management. Add .torrent files, track active transfers, and manage sessions from a clean keyboard-driven interface.
-https://github.com/clitic/ffpb-rs
+https://github.com/thijsvos/torrentTUI
 
 ##============================
 ## Klip – Minimal terminal-based password manager.
@@ -3074,6 +3077,7 @@ https://github.com/DietrichGebert/ponytail
 
 
 ##============================
+## WORKS!
 ## Discordo is a lightweight, secure, and feature-rich Discord terminal client. Heavily work-in-progress, expect breaking changes.
 #https://github.com/ayn2op/discordo
 Oxicord - is a high-performance, memory-safe Discord TUI client
@@ -3680,6 +3684,7 @@ https://github.com/skammer/somars
 ##============================
 ## Float - Floating window multiplexer for your terminal, written in Rust.
 https://github.com/henktorius/float
+https://github.com/ErikAllanKincaid/float-mux
 
 ##============================
 ## xtree – CLI to visualize JSON/YAML/TOML as ASCII tree
@@ -3694,8 +3699,305 @@ https://github.com/domcyrus/rustnet
 https://github.com/aurict/aurict
 
 ##============================
+## LlamaRack - A self-hosted control plane and OpenAI-compatible gateway for llama.cpp.
+https://github.com/brantje/LlamaRack
+
+##============================
+https://packagemain.tech/p/gitignore-everything-by-default
+https://huggingface.co/blog/funes
+
+##============================
+## croc is a tool that allows any two computers to simply and securely transfer files and folders
+https://github.com/schollz/croc
+
+##============================
+## Tor VPN Beta: What we've learned building our own VPN for Android from scratch
+https://blog.torproject.org/tor-vpn-beta/
+
+##============================
+## Copperhead is an open-source AI engineering platform that helps hardware teams design, verify and ship circuit boards.
+https://copperhead.sh/
+
+##============================
+## tailveil like Tailscale but using Veilid
+https://gitlab.com/tailveil/tailveil
+
+##============================
+## Veilid is a peer-to-peer network for easily sharing various kinds of data. Free and open source chat for friends, groups, and communities, with text, voice, video, screen sharing, and self-hosting.
+https://veilid.com/
+https://gitlab.com/veilid/veilid
+
+##============================
+## Free and open source chat for friends, groups, and communities, with text, voice, video, screen sharing, and self-hosting.
+https://fluxer.app/
+
+##============================
+## png2jxl converts supported PNG images to pixel-lossless JPEG XL while preserving enough information to reconstruct the original PNG byte-for-byte.
+https://github.com/JiangJQ2000/png2jxl
+
+##============================
+## Fonts derived from the handwriting of @randallmunroe, the xkcd webcomic
+https://github.com/ipython/xkcd-font
+
+##============================
+## Python implementations of modern open-source LLM architectures — written from scratch, one model at a time.
+https://github.com/anuj0456/OpenArch
+
+##============================
+## tor based apps.
+Ricochet, Cwtch, OnionShare
+
+##============================
+## htop-style terminal UI (TUI) that answers the question ss, netstat and lsof only half-answer: not just what is bound to a port, but which process, which systemd unit, which Docker container — and a one-key way to open, inspect or kill it, live.
+https://github.com/padovanl/portop
+
+##============================
+## Peer-to-peer terminal multiplexer for macOS and Linux. Every pane is a real shell on the machine of whoever opened it: their toolchain, their env, their AI subscription. Hop into a teammate's pane
+https://github.com/pelazas/p2pmux
+
+##============================
+## Every terminal can be somewhere else. Open a proxied shell or route one command, then run your terminal workflow normally.
+https://github.com/shellroute/shellroute-cli
+
+##============================
+## spec framework.
+https://github.com/Fission-AI/OpenSpec/
+
+##============================
+## Snapdrop: local file sharing in your browser. Inspired by Apple's Airdrop.
+https://github.com/RobinLinus/snapdrop
+
+##============================
+## The Invisible Internet Project - a fully encrypted, peer-to-peer overlay network designed for anonymous communication.
+https://github.com/i2p/i2p.i2p
+
+##============================
+## Ollaya – Ollama for open-source, Jev-style decision models
+https://ollaya.dev/
+https://github.com/ollaya-dev/ollaya
+
+##============================
+## ReBarUEFIA UEFI DXE driver to enable Resizable BAR on systems which don't support it officially
+## UEFI firmware uses BAR UEFI BAR (Base Address Register) to map the device physical hardware registers and memory directly into the system main memory address space. This mapping allows the CPU to communicate with the device just by reading and writing to specific memory addresses.
+https://github.com/xCuri0/ReBarUEFI
 
 
+##============================
+## speech-to-text application that works completely offline.
+https://github.com/cjpais/Handy
+https://handy.computer/
+
+##============================
+## AWS emulator. LocalStack alterna
+https://github.com/faiscadev/fakecloud
+https://fakecloud.dev/
+
+##============================
+## tailmux joins tailnets and sends each connection to the tailnet that owns it.
+https://github.com/growlyx/tailmux
+
+##============================
+## Darling is a runtime environment that allows running macOS applications on Linux without a virtual machine.
+https://github.com/darlinghq/darling
+
+##============================
+## task LLM to generate correct and efficient CUDA / DSL kernels for PyTorch programs on a target GPU.
+https://github.com/ScalingIntelligence/KernelBench
+
+##============================
+## know what ports are running
+https://whattheport.dev/
+https://github.com/tomjohndesign/what-the-port
+
+##============================
+## Strata runs Qwen3.8-Flash-Next on a normal PC.
+https://github.com/Niko1221/Strata
+
+##============================
+## NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.
+https://github.com/networkx/networkx
+
+##============================
+## lazyjournal  Viewing logs from journald, auditd, file system, Docker and Podman containers
+https://github.com/Lifailon/lazyjournal
+
+##============================
+## PhreshOS runs on the machine you install it on, keeps your Programs running there, and gives you a Desktop in the browser to use them from.
+https://github.com/PhreshOS/system
+
+##============================
+## rpi is a library-first coding-agent runtime written in Rust, plus a terminal agent built on top of it.
+https://github.com/bigfish1913/pi-rust
+
+##============================
+## Cast All The Things allows you to send videos from many, many online sources to your Chromecast.
+https://github.com/skorokithakis/catt
+
+##============================
+## Whistle: Speech to Text in 16.9 MB
+https://cactuscompute.com/blog/whistle
+
+##============================
+## How Create your own DebianLive from netinstall
+https://github.com/DebianDog/MakeLive
+
+##============================
+## Kubernetes terminal UI you can click.
+https://github.com/p10node/k10s
+
+##============================
+## proton-drive-linux-fs  A FUSE virtual filesystem that mounts Proton Drive as a local folder on Linux.
+https://oss.lsantos.dev/proton-drive-linux-fs/
+https://proton.me/drive
+
+##============================
+## The image editor you already know how to use.
+## Layers, masks, adjustment layers, layer styles, type, vectors and brushes
+https://getartcraft.com/apps/photocraft
+
+##============================
+## A terminal-based battery and energy monitor for macOS and Linux.
+https://github.com/jordond/jolt
+https://getjolt.sh/
+
+##============================
+## wlctl  WiFi TUI for NetworkManager.
+https://github.com/aashish-thapa/wlctl
+
+wget https://github.com/aashish-thapa/wlctl/releases/download/v0.1.10/wlctl-x86_64-unknown-linux-musl
+sudo install wlctl-x86_64-unknown-linux-musl /usr/local/bin/wlctl
+sudo chmod +x /usr/local/bin/wlctl
+rm wlctl-x86_64-unknown-linux-musl
+
+
+
+##============================
+## Termium  Browse the web inside your terminal. Real pages. Real tabs. Your keyboard.
+https://github.com/codr1/termium
+https://termium.dev/
+
+
+##============================
+## A TUI bluetooth device manager A terminal gui app for linux Bluez systems, meant to be easier to use than bluetoothctl
+https://github.com/mdlafrance/bluetool
+
+
+##============================
+## bluetuith is a TUI-based bluetooth connection manager
+https://github.com/bluetuith-org/bluetuith
+
+wget https://github.com/bluetuith-org/bluetuith/releases/download/v0.2.7/bluetuith_0.2.7_Linux_x86_64.tar.gz
+#tar --extract
+sudo chmod +x bluetuith
+sudo install bluetuith /usr/local/bin/
+
+
+##============================
+## IDE that lives in your terminal. A TUI that feels like GUI. A real alternative to VS Code, Zed, and Sublime that happens to run in your terminal.
+https://github.com/eugenioenko/ttt
+
+cd ~/code/ && git clone https://github.com/eugenioenko/ttt.git
+
+curl -sSfL https://raw.githubusercontent.com/eugenioenko/ttt/main/install.sh | sh
+
+
+##============================
+## gitoui is a terminal git client. Very graphical Visually oriented.
+https://github.com/NayJi7/gitoui
+
+##============================
+## Wayland desktop for Linux in realistic skeuomorphism
+https://github.com/fyzugx/DEsk
+
+##============================
+## Open-source ESP32 emulator. Run real firmware locally or in your browser
+https://github.com/mikroverk/esp32sim
+
+##============================
+## portop is an htop-style terminal UI for the TCP and UDP sockets on a machine. For every port it shows the process, its systemd unit or Windows service, its Docker, Podman or Kubernetes container, who can reach it and what the firewall does with it, and it lets you inspect or stop the owner from the keyboard.
+https://github.com/padovanl/portop
+
+##============================
+## appimg  Installs, updates and removes AppImages as proper desktop applications, entirely inside $HOME.
+https://github.com/MrGilfy/appimg
+
+##============================
+## CLI-based image to ASCII generator written in Rust.
+https://github.com/Guilherme-Costa-Dev/rusted_ascii_filter
+
+##============================
+## Termium  Browse the web inside your terminal. Real pages. Real tabs. Your keyboard.
+https://github.com/codr1/termium
+
+##============================
+## A terminal UI engine for Go that tests can click, AI agents can drive, and the garbage collector never sees.
+https://github.com/thebanri/limoni
+
+##============================
+## Serverless peer-to-peer voice and text chat for your terminal.
+https://github.com/bilalyazicioglu/tincan-cli
+
+##============================
+## ravioli  An ASCII 3D OBJ viewer. Animations, and RGB-colored shading is supported. The only external dependencies are clap for CLI parsing and terminal_size for live terminal sizing
+https://github.com/artemtsitronov/ravioli
+
+##============================
+## Android file manager for NAS, S3, restic and Git under 10 MB
+https://github.com/dev2ex/twig
+
+##============================
+## WORKS! Great.
+## Snitch is a real-time network traffic visualizer. See every connection your computer makes — who it talks to, where they are, and which app is responsible.
+https://github.com/aixisstudio/Snitch
+
+
+wget https://github.com/aixisstudio/Snitch/releases/download/v1.0.5/snitch-backend-ubuntu-latest.tar.gz
+tar --extract --file="snitch-backend-ubuntu-latest.tar.gz" --gzip --verbose
+
+## Use the container.
+sudo docker run --network host --cap-add NET_ADMIN --cap-add NET_RAW \
+  -v snitch-data:/app/data ghcr.io/aixisstudio/snitch
+## Get the TOKEN from the output.
+## Open
+http://localhost:8000/?token=TOKEN
+
+
+
+##============================
+## HackiOS boots Apple's open-source XNU kernel (xnu-8796.121.2, the kernel of iOS 16.5) on Android phone hardware and runs the unmodified iOS 16.5 user space on top of it
+https://github.com/oosexgang/hackios-xnu-kernel
+
+##============================
+## local home screen, private remote browser, and push-to-talk voice assistant for webOS TVs.
+https://github.com/anubhavmalhotra/r2d2-tv
+
+##============================
+## Sauva  Terminal Unicode Font Explorer, Unicode properties and a glyph preview in a responsive TUI.
+https://github.com/lusingander/sauva
+
+##============================
+## A terminal-based PDF viewer.
+https://github.com/itsjunetime/tdf
+
+##============================
+## Small macOS command-line utility to keep your MacBook awake after you close the lid.
+https://github.com/clashman/caffeinate-plus
+
+##============================
+## agent-usage-guard is a Claude Code mod: it runs inside Claude Code and holds runaway spend before it happens. It reads your plan's live usage, and it holds subagent fan-out, heavy-context churn and retry loops.
+https://github.com/rbartoli/agent-usage-guard
+
+##============================
+## Signal, in your terminal. faro is an unofficial, open-source Signal client for people who live in tmux and SSH. It's keyboard-driven, it looks good, and it never freezes.
+https://github.com/harababurel/faro
+
+##============================
+## Mermaid source into diagrams
+https://github.com/Latias94/merman
+
+##============================
+## tincan  Serverless peer-to-peer voice and text chat for your terminal.
+https://github.com/bilalyazicioglu/tincan-cli
 
 ##============================
 
@@ -3739,22 +4041,19 @@ https://github.com/aurict/aurict
 
 ##============================
 
+https://magazine.sebastianraschka.com/p/building-reasoning-models
 
 
 ##============================
 
-
-
-##============================
-
-
+https://bfl.ai/models/flux-3-image
 
 ##============================
-
-
+Qwen-Image-2.1
+https://qwen.ai/blog?id=qwen-image-2.1
 
 ##============================
-
+https://huggingface.co/byteshape/Qwen3.8-27B-GGUF/tree/main
 
 
 ##============================
@@ -3790,6 +4089,165 @@ https://huggingface.co/unsloth/Qwen3.8-27B-GGUF
 
 
 ##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+
+
+
+##============================
+Apps we need:
+filemanagement
+    browser
+      rovr
+      mc
+    tree
+    https://github.com/imsnif/diskonaut
+
+
+system
+    sysmonitor
+    logviewer
+    visualize JSON/YAML/TOML
+    network monitoring
+    cron
+    network utilization
+    dotfile management
+    backup
+    oom management
+    systemd-manager-tui
+    Fonts
+    Cockpit
+    nvtop
+    pstree
+    fetch
+    calculator mathypad
+    partitioning https://www.rodsbooks.com/gdisk/cgdisk-walkthrough.html
+
+containers
+    Podman
+    Kubernetes
+
+Office
+    spreadsheet
+    editor
+        https://github.com/eugenioenko/ttt
+        fresh
+    markdown
+    Mermaid diagrams
+    Obsidian
+    logseq
+
+web
+    browser
+    torrent
+      btfs
+    discord
+    Telegram
+    wget
+    curl
+    cloud storage
+    cloud cli
+    yt-dlp
+    yt-x
+    http://xowa.org/
+
+chromecast casttui
+TerminalPhone
+syncthingtui
+earth globe map
+3D model viewer
+Pasword keeper KeepassCX kptui
+
+Network
+    Termshark
+    ssh
+    network monitor
+    mesh vpn
+    netwatch
+    https://github.com/PabloLec/neoss
+
+Art
+    ascii art
+      kakikun
+    imagemagic
+    asciiflow
+    Color Picker
+    Image viewer
+
+
+Programming
+    git
+    ide
+    vm vagrant, qemu
+    Jupyter notebook
+    uv
+    jq
+
+
+Media
+    cvlc
+    mpv
+    cmus
+    ffmpeg
+    lazycut
+    video-to-ascii
+
+AI
+    harness
+    Video Generation
+    image Generation
+    llm
+    tts
+    stt
+    image
+    2d-3d
+    object detection, segmentation
+    freebuff
+
+
+
+games
+    tetro-tui
+
+Apps
+    ripgrep
+
+
+
 
 
 
